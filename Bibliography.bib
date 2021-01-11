@@ -1,228 +1,156 @@
-% Encoding: windows-1252
+% Encoding: UTF-8
 
-@Book{bentley:1999,
-  title     = {{P}rogramming {P}earls},
-  publisher = {Ad\-dison--Wesley},
-  year      = {1999},
-  author    = {Jon Bentley},
-  address   = {Boston, MA, USA},
-  edition   = {2},
+@InProceedings{HE,
+  author    = {S. {He} and J. {Zhu} and P. {He} and M. R. {Lyu}},
+  title     = {Experience Report: System Log Analysis for Anomaly Detection},
+  booktitle = {2016 IEEE 27th International Symposium on Software Reliability Engineering (ISSRE)},
+  year      = {2016},
+  pages     = {207-218},
+  doi       = {10.1109/ISSRE.2016.21},
 }
 
-@BOOK{bringhurst:2002,
-    title = {{T}he {E}lements of {T}ypographic {S}tyle},
-    publisher = {Hartley \& Marks Publishers},
-    year = {2013},
-    author = {Robert Bringhurst},
-    series = {Version 4.0: 20th Anniversary Edition},
-    address = {Point Roberts, WA, USA}
+@Misc{SYSDIG,
+  title = {Seeing is Securing For containers, Kubernetes and cloud services},
+  url   = {https://sysdig.com/},
+}
+@Misc{LID-DS,
+  title = {Leipzig Intrusion Detection Data Set},
+  url   = {https://www.exploids.de/lid-ds/},
 }
 
-@BOOK{cormen:2001,
-    title = {{I}ntroduction to {A}lgorithms},
-    publisher = {The MIT Press},
-    year = {2009},
-    author = {Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L.
-    and Clifford Stein},
-    address = {Cambridge, MA, USA},
-    edition = 3
+@Article{MAGGI,
+  author  = {F. {Maggi} and M. {Matteucci} and S. {Zanero}},
+  title   = {Detecting Intrusions through System Call Sequence and Argument Analysis},
+  journal = {IEEE Transactions on Dependable and Secure Computing},
+  year    = {2010},
+  volume  = {7},
+  number  = {4},
+  pages   = {381-395},
+  doi     = {10.1109/TDSC.2008.69},
 }
 
-@BOOK{dueck:trio,
-    title = {{D}ueck's {T}rilogie 2.1: {O}mnisophie -- {S}upramanie -- {T}opothesie},
-    publisher = {Springer},
-	address = {Berlin, Germany},
-    year = {2013},
-    author = {Gunter Dueck}
+@InProceedings{FORREST,
+  author    = {S. {Forrest} and S. A. {Hofmeyr} and A. {Somayaji} and T. A. {Longstaff}},
+  title     = {A sense of self for Unix processes},
+  booktitle = {Proceedings 1996 IEEE Symposium on Security and Privacy},
+  year      = {1996},
+  pages     = {120-128},
+  doi       = {10.1109/SECPRI.1996.502675},
 }
 
-@ARTICLE{knuth:1976,
-    author = {Knuth, Donald E.},
-    title = {{B}ig {O}micron and {B}ig {O}mega and {B}ig {T}heta},
-    journal = {SIGACT News},
-    year = {1976},
-    volume = {8},
-    pages = {18--24},
-    number = {2},
-    address = {New York, NY, USA},
-    publisher = {ACM Press}
+@InProceedings{HOCHREITER,
+  author    = {Hochreiter, Sepp and Schmidhuber, J\"{u}rgen},
+  title     = {LSTM Can Solve Hard Long Time Lag Problems},
+  booktitle = {Proceedings of the 9th International Conference on Neural Information Processing Systems},
+  year      = {1996},
+  series    = {NIPS'96},
+  publisher = {MIT Press},
+  abstract  = {Standard recurrent nets cannot deal with long minimal time lags between relevant signals. Several recent NIPS papers propose alternative methods. We first show: problems used to promote various previous algorithms can be solved more quickly by random weight guessing than by the proposed algorithms. We then use LSTM, our own recent algorithm, to solve a hard problem that can neither be quickly solved by random search nor by any other recurrent net algorithm we are aware of.},
 }
 
-@ARTICLE{knuth:1974,
-    author = {Knuth, Donald E.},
-    title = {{C}omputer {P}rogramming as an {A}rt},
-    journal = {Communications of the ACM},
-    year = {1974},
-    volume = {17},
-    pages = {667--673},
-    number = {12},
-    address = {New York, NY, USA},
-    publisher = {ACM Press}
+@Article{SMAGULOVA,
+  author  = {Kamilya {Smagulova}, Alex Pappachen {James}},
+  title   = {A survey on LSTM memristive neural network architectures and applications},
+  journal = {The European Physical Journal Special Topics},
+  year    = {2019},
+  volume  = {228},
+  pages   = {2313–2324},
+  month   = {Oktober},
+}
+@InProceedings{LI,
+    author="Li, Dan
+    and Chen, Dacheng
+    and Jin, Baihong
+    and Shi, Lei
+    and Goh, Jonathan
+    and Ng, See-Kiong",
+    editor="Tetko, Igor V.
+    and K{\r{u}}rkov{\'a}, V{\v{e}}ra
+    and Karpov, Pavel
+    and Theis, Fabian",
+    title="MAD-GAN: Multivariate Anomaly Detection for Time Series Data with Generative Adversarial Networks",
+    booktitle="Artificial Neural Networks and Machine Learning -- ICANN 2019: Text and Time Series",
+    year="2019",
+    publisher="Springer International Publishing",
+    address="Cham",
+    pages="703--716",
+    abstract="Many real-world cyber-physical systems (CPSs) are engineered for mission-critical tasks and usually are prime targets for cyber-attacks. The rich sensor data in CPSs can be continuously monitored for intrusion events through anomaly detection. On one hand, conventional supervised anomaly detection methods are unable to exploit the large amounts of data due to the lack of labelled data. On the other hand, current unsupervised machine learning approaches have not fully exploited the spatial-temporal correlation and other dependencies amongst the multiple variables (sensors/actuators) in the system when detecting anomalies. In this work, we propose an unsupervised multivariate anomaly detection method based on Generative Adversarial Networks (GANs), using the Long-Short-Term-Memory Recurrent Neural Networks (LSTM-RNN) as the base models (namely, the generator and discriminator) in the GAN framework to capture the temporal correlation of time series distributions. Instead of treating each data stream independently, our proposed Multivariate Anomaly Detection with GAN (MAD-GAN) framework considers the entire variable set concurrently to capture the latent interactions amongst the variables. We also fully exploit both the generator and discriminator produced by the GAN, using a novel anomaly score called DR-score to detect anomalies through discrimination and reconstruction. We have tested our proposed MAD-GAN using two recent datasets collected from real-world CPSs: the Secure Water Treatment (SWaT) and the Water Distribution (WADI) datasets. Our experimental results show that the proposed MAD-GAN is effective in reporting anomalies caused by various cyber-attacks inserted in these complex real-world systems.",
+    isbn="978-3-030-30490-4"
 }
 
-@BOOK{sommerville:1992,
-    title = {{S}oftware {E}ngineering},
-    publisher = {Addison-Wesley},
-    year = {2015},
-    author = {Ian Sommerville},
-    address = {Boston, MA, USA},
-    edition = 10
+@article{NIU,
+    title={LSTM-Based VAE-GAN for Time-Series Anomaly Detection},
+    volume={20},
+    ISSN={1424-8220},
+    url={http://dx.doi.org/10.3390/s20133738},
+    DOI={10.3390/s20133738},
+    number={13},
+    journal={Sensors},
+    publisher={MDPI AG},
+    author={Niu, Zijian and Yu, Ke and Wu, Xiaofei},
+    year={2020},
+    month={Jul},
+    pages={3738}}
+
+@Article{HOCHREITER1997,
+  author     = {Hochreiter, Sepp and Schmidhuber, J\"{u}rgen},
+  title      = {Long Short-Term Memory},
+  journal    = {Neural Comput.},
+  year       = {1997},
+  volume     = {9},
+  number     = {8},
+  pages      = {1735--1780},
+  month      = nov,
+  issn       = {0899-7667},
+  acmid      = {1246450},
+  address    = {Cambridge, MA, USA},
+  doi        = {10.1162/neco.1997.9.8.1735},
+  issue_date = {November 15, 1997},
+  numpages   = {46},
+  publisher  = {MIT Press},
+  url        = {http://dx.doi.org/10.1162/neco.1997.9.8.1735},
 }
 
-@Book{taleb:2018,
-  title     = {Skin in the Game: Hidden Asymmetries in Daily Life},
-  publisher = {Random House},
-  year      = {2018},
-  author    = {Taleb, Nassim Nicholas},
-  address   = {New York, NY, USA},
+@Article{GERS2000,
+  author     = {Gers, Felix A. and Schmidhuber, J\"{u}rgen A. and Cummins, Fred A.},
+  title      = {Learning to Forget: Continual Prediction with LSTM},
+  journal    = {Neural Comput.},
+  year       = {2000},
+  volume     = {12},
+  number     = {10},
+  pages      = {2451--2471},
+  month      = oct,
+  issn       = {0899-7667},
+  acmid      = {1121915},
+  address    = {Cambridge, MA, USA},
+  doi        = {10.1162/089976600300015015},
+  issue_date = {October 2000},
+  numpages   = {21},
+  publisher  = {MIT Press},
+  url        = {http://dx.doi.org/10.1162/089976600-300015015},
 }
 
-@Book{taleb:2010,
- title = {The Black Swan: The Impact of the Highly Improbable},
- publisher = {Random House},
- year = {2010},
- author = {Taleb, Nassim Nicholas},
- address = {New York, NY, USA}
- }
- 
-
-@BOOK{ferriss:2016,
-title={Tools of Titans: The Tactics, Routines, and Habits of Billionaires, Icons, and World-Class Performers},
-author={Timothy Ferriss},
-publisher={Houghton Mifflin Harcourt},
-year={2016},
-address = {Boston, MA, USA},
+@Article{HOCHREITER1991,
+  author = {Hochreiter, Sepp},
+  title  = {Untersuchungen zu dynamischen neuronalen Netzen},
+  year   = {1991},
+  month  = {04},
 }
 
-@Book{adams:1996,
- author = {Adams, Scott},
- title = {The Dilbert Principle},
- publisher = {Harper Business},
- year = {1996},
- address = {New York, NY, USA}
- }
-
-@Book{adams:2013,
- author = {Adams, Scott},
- title = {How to Fail at Almost Everything and Still Win Big: Kind of the Story of My Life},
- publisher = {Portfolio Penguin},
- year = {2013},
- address = {London, United Kingdom},
- }
-
-@Book{aurelius:2002,
- author = {Aurelius, Marcus},
- title = {Meditations (A New Translation)},
- publisher = {Modern Library},
- year = {2002},
- address = {New York, NY, USA},
- }
-
-@Book{cialdini:1984,
- author = {Cialdini, Robert B.},
- title = {Influence: The Psychology of Persuasion},
- publisher = {Harper Business},
- year = {1984},
- address = {New York, NY, USA}
- }
-
-@Book{feynman:1985,
-  title     = {{S}urely {Y}ou're {J}oking, {M}r. {F}eynman: {A}dventures of a {C}urious {C}haracter},
-  publisher = {W. W. Norton},
-  year      = {1985},
-  author    = {Feynman, Richard P.},
-  address   = {New York, NY, USA},
+@Online{GOH2016,
+  author    = {Goh, Jonathan and Adepu, Sridhar and Junejo, Khurum Nazir and Mathur Aditya},
+  title     = {A Dataset to Support Research in the Design of Secure Water Treatment Systems},
+  month     = oct,
+  year      = {2016},
+  timestamp = {2020-06-01},
+  url       = {https://pdfs.semanticscholar.org/26f0/58a2aedf8bd24ad5cb97170173b5124dbbf8.pdf},
 }
 
-@Book{greenwald:2014,
-  title     = {{N}o {P}lace to {H}ide: {E}dward {S}nowden, the {NSA}, and the {S}urveillance {S}tate},
-  publisher = {Metropolitan Books},
-  year      = {2014},
-  author    = {Greenwald, Glenn},
-  address   = {New York, NY, USA},
+@Online{OLAH2015,
+  author    = {Christopher Olah},
+  title     = {Understanding LSTM Networks},
+  month     = aug,
+  year      = {2015},
+  timestamp = {2019-12-12},
+  url       = {https://colah.github.io/posts/2015-08-Understanding-LSTMs/},
 }
-
-@Book{orwell:1949,
- author = {Orwell, George},
- title = {Nineteen Eighty-Four},
- publisher = {Secker \& Warburg},
- year = {1949},
- address = {London, United Kingdom}
- }
-
-@Book{pausch:2008,
-  title     = {The Last Lecture},
-  publisher = {Hodder \& Stoughton},
-  year      = {2008},
-  author    = {Pausch, Randy},
-  editor    = {Zaslow, Jeffrey},
-  address   = {London, United Kingdom},
-}
-
-@Book{seneca,
- author = {Seneca, Lucius},
- title = {Letters from a Stoic: Epistulae Morales ad Lucilium},
- publisher = {Penguin},
- year = {1969},
- address = {Harmondsworth, United Kingdom}
- }
-
-@Book{trump:1987,
- author = {Trump, Donald J. and Schwartz, Tony},
- title = {Trump: The Art of the Deal},
- publisher = {Random House},
- year = {1987},
- address = {New York, NY, USA}
- }
-
- @Book{frankl:1959,
-  author = {Frankl, Viktor E.},
- title = {Man's Search for Meaning},
- publisher = {Beacon Press},
- year = {1959},
- address = {Boston, MA, USA}
-  }
-
-@Book{munger:2008,
-  title     = {Poor Charlie's Almanack: The Wit and Wisdom of Charles T. Munger},
-  publisher = {Donning Company},
-  year      = {2008},
-  author    = {Munger, Charles T.},
-  editor    = {Kaufman, Peter D.},
-  address   = {Virginia Beach, VA, USA},
-  edition   = {3},
-}
- 
- @Book{postman:2005,
- author = {Postman, Neil},
- title = {Amusing Ourselves to Death: Public Discourse in the Age of Show Business (20th Anniversary Edition)},
- publisher = {Penguin Books},
- year = {2005},
- address = {New York, NY, USA}
- }
-
-@Book{taleb:2012,
-  title     = {{A}ntifragile: {T}hings {T}hat {G}ain from {D}isorder},
-  publisher = {Random House},
-  year      = {2012},
-  author    = {Taleb, Nassim Nicholas},
-  address   = {New York, NY, USA},
-}
-
-@Book{peterson:2018,
-  title     = {12 Rules for Life: An Antidote to Chaos},
-  publisher = {Random House Canada},
-  year      = {2018},
-  author    = {Peterson, Jordan B.},
-  address   = {Toronto, ON, Canada},
-}
-
-@Book{harari:2014,
-  title     = {Sapiens: A Brief History of Humankind},
-  publisher = {Random House},
-  year      = {2014},
-  author    = {Harari, Yuval Noah},
-  address   = {New York, NY, USA},
-}
-
-@Comment{jabref-meta: databaseType:bibtex;}
