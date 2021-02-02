@@ -10,6 +10,7 @@
 Notes :
 
 \begin{itemize}
+    \item solarwinds as introduction
     \item use advances of sequence detection from NLP
     \item NIDS vs. HIDS
     \item signature vs. anomaly based
@@ -35,38 +36,42 @@ Die Probleme in der Verarbeitung von sehr großen Datenmengen konnten unter ande
 Im realen Einsatz solcher Verteidigungsmechanismen besteht eine weitere Schwierigkeit darin, dass das IDS Zugriff auf den Kernel des zu überwachenden Systems benötigt.
 Diese wird in dieser Arbeit allerdings nicht behandelt, da lediglich die Algorithmen selbst, jedoch nicht die praktische Umsetzung in einem potentiellen Betrieb betrachtet wird.
 
-In verschiedenen Arbeiten wurden bereits die Abfolge von System-Calls betrachtet, doch nur in wenigen Arbeiten werden auch die Parameter zur Anomalieerkennung verwendet. Eine der ersten Arbeiten von Forrest et. al \cite{FORREST} betrachtet lediglich die Sequenzen der System-Calls. Maggi et al. verwenden zusätzlich auch Parameter und verweisen in ihrer Arbeit \cite{MAGGI} auf diverse verschieden Ansätze.
+In verschiedenen Arbeiten wurden bereits die Abfolge von System-Calls betrachtet, doch nur in wenigen Arbeiten werden auch die Parameter zur Anomalieerkennung verwendet. Eine der ersten Arbeiten von Forrest et. al \cite{FORREST} betrachtet lediglich die Sequenzen der System-Calls. Maggi et al. verwenden zusätzlich auch Parameter und verweisen in ihrer Arbeit \cite{MAGGI} auf diverse verschiedene Ansätze.
 In dieser Arbeit soll versucht werden die Hinzunahme eines Parameters, wie zum Beispiel den Dateipfad (sofern vorhanden) bei schreibenden und lesenden Befehlen, mit Hinblick auf die Erkennungsquote des IDS zu untersuchen.
 
 Nachdem definiert wurde welche Information untersucht wird, stellt sich zu Beginn der Entwicklung einer Anomalieerkennung die Frage, wie das Normalverhalten der Systeme erfasst werden soll.
-Abstrakt betrachtet werden bei der Untersuchung von System-Calls zeitvariante und potentiell multivariate Datenstreams betrachtet.
-Besonders erfolgreich haben sich dabei Long-Short-Term-Memory (LSTM) Netzwerke gezeigt. Sie haben den Vorteil auch Zusammenhänge mit größerer zeitlicher Verzögerung noch zu erkennen \cite{HOCHREITER} und können in unterschiedlichsten Architekturen einen Nutzen bringen. %\cite{SMAGULOVA}.
+Abstrakt betrachtet werden bei der Untersuchung von System-Calls zeitvariante und potentiell multivariate Datenstreams betrachtet, sofern neben der eigentlichen Sequenz noch weitere Parameter betrachtet werden.
+Besonders erfolgreich haben sich dabei Long-Short-Term-Memory (LSTM) Netzwerke gezeigt.
+Sie haben den Vorteil auch Zusammenhänge mit größerer zeitlicher Verzögerung noch zu erkennen \cite{HOCHREITER} und können in unterschiedlichsten Architekturen einen Nutzen bringen. %\cite{SMAGULOVA}.
+
+\section{Zielsetzung}
 
 In dieser Arbeit sollen zwei Forschungsfragen verfolgt werden.
 \begin{itemize}
-    \item Ist die Zunahme von Parametern bei der Anomalieerkennung mittels System-Calls eine Verbesserung?
+    \item Kann der Erfolg von LSTM-Netzwerken in verschiedenen Bereichen auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen werden?
+    \item Kann die Zunahme von Parametern bei der Anomalieerkennung mittels System-Calls eine Verbesserung bringen?
         \subitem Welche Parameter kommen in Frage?
-    \item Kann der Erfolg von LSTM-Netzwerken auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen werden?
 \end{itemize}
-Des Weiteren wird, je nach Erfolg der ersteren Fragen noch optional folgendes untersucht:
-\begin{itemize}
-    \item Können aktuelle Verbesserungen des Lernverhaltens durch GAN auch hier Anwendung finden?
-    \begin{itemize}
-        \item MAD-GAN \cite{LI}
-        \item VAE-MAD-GAN \cite{NIU}
-    \end{itemize}
-\end{itemize}
+%Des Weiteren wird, je nach Erfolg der ersteren Fragen noch optional folgendes untersucht:
+%\begin{itemize}
+%    \item Können aktuelle Verbesserungen des Lernverhaltens durch GAN auch hier Anwendung finden?
+%    \begin{itemize}
+%        \item MAD-GAN \cite{LI}
+%        \item VAE-MAD-GAN \cite{NIU}
+%    \end{itemize}
+%\end{itemize}
 
 Um diese Forschungsfragen angemessen behandeln zu können müssen zunächst Grundlagen aus verschiedenen Bereichen gelegt werden.
 Zum einen werden unterschiedliche Herangehensweisen zur Überwachung von Systemen betrachtet und erläutert wieso es für diese Anwendung sinnvoll ist eine Host-Based Intrusion Detection zu wählen.
+Speziell soll auch beschrieben werden, warum sich System-Calls zur Überwachung von Computersystemen eignen kann.
 Zum anderen müssen die Grundlagen für den verwendeten Algorithmus gelegt werden.
-Dazu gehören Grundlagen zu neuronalen Netzen sowie die Erweiterungen der LSTM Netzwerke.
+Dazu gehören Grundlagen zu rekurrenten neuronalen Netzen (RNN) sowie die Erweiterungen der LSTM Netzwerke.
 
 Ein großer Teil der Implementierungsarbeit wird die Vorverarbeitung der Daten darstellen.
 Diese soll mit der genaueren Untersuchung des gesamten Algorithmus in einem weiteren Kapitel dargestellt werden.
 Nachdem die verwendete Software analysiert wurde, wird eine Auswertung auf dem LID-DS \cite{LID-DS} Datensatz durchgeführt.
 Dieser bietet den Vorteil, dass in einer reproduzierbaren Art System Calls aufgenommen wurden.
-Des Weiteren werden zusätzlich die System Call Parameter zur Verfügung gestellt.
+Des Weiteren werden zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID} zur Verfügung gestellt.
 
 Im letzten Teil der Arbeit soll dann eine Schlussfolgerung aus den zuvor gewonnenen Ergebnissen gezogen werden. 
 Hauptsächlich sollen die gestellten Forschungsfragen untersucht werden.

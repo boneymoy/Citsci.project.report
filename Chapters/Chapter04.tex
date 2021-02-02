@@ -2,9 +2,115 @@
 %*****************************************
 \chapter{Realisierung}\label{ch:realisierung}
 %*****************************************
+    \section{Verwendete Tools}
+        Tensorflow Keras
+        Rechencluster clara
+        sysdig
+
 \section{Vorverarbeitung}
+
+Gegeben 10 szenarios mit ca. 1000 files durschnittlich 45sec
+in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
+falls kein exploit dann exploit start time -1
+keine dauer des exploits also ende nicht bekannt 
+nicht systemcall genau start des angriffs angegeben 
+führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
+alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
+Ungenauigkeiten auf die in der Auswertung der Daten noch einmal genauer eingegangen wird
+filtern von switch statements weil keine system calls
+nur öffnende syscalls keine schließenden
+
+Neuronale netze benötigen numerische werte deswegen umwandlung
+sys to int unbrauchbar für netz auf Grund aktivierungsfunktion --> 2>1 3>1 mittelwert 2
+\begin{itemize}
+    \item syscall to int: Wandle Syscall name in Integer um
+    \subitem ohe of sysint: use ohe for every syscall 
+     n * (distinct calls + 1) eingabeneuronen 
+    \subitem w2v von syscall
+     weniger neuronen und nähe von syscall!!!
+    \item ngram bilden: Bilde entsprechend angegebnes n ngramme 
+\end{itemize}
+
+syscalls welche nicht in trainingsdaten bekommen eine 0
+ngramme thread aware bilden
+
+Threadid kodieren: 
+\begin{itemize}
+    \item use entity embedding for ThreadID \cite{GUO2016} 
+    \item relationship between threads and reduce size (possible 1000 different threads)
+    \item choose size of embedding -thumbrule sqrt(unique value) 
+\end{itemize}
+zeit kodieren
+\begin{itemize}
+    \item use time delta of two different syscalls as new input
+\end{itemize}
+parameterlänge kodieren
+
+\subsection{Parameterwahl}
+\paragraph
+    ngram länge
+    lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info
+    -> finden von sweet spot
+    generell großes n viele alarme
+    kleines n weniger alarme -----> vorteil LSTM?
+    wichtiger Parameter den es zu ermitteln gilt
+\paragraph
+    word embedding parameterwahl wichtig sqrt(distinct)
 
 \section{Algorithmus}
 
+    aktivierungsfunktion üblich für Zeitreihendaten bei lstm
+    cateforical cross entropy?
+    ausgabe ebene wahrscheinlichkeit für jeden möglichen system call
+
 \section{Anomalieerkennung}
+    vorhersage des nächsten system calls nach sehen von ngram
+    ausgabe wahrscheinlichkeit für jeden syscall, vgl nächsten tatsächlich gesehenen syscall mit vorhersage
+    liefert prediction wahrscheinlichkeit 
+    anomalie score = 1-prediction wahrscheinlichkeit
+    überschreitet dieser wert threshold --> anomalie
+    \subsection{Threshold}
+        betrachte validation daten und mache predicion
+        höchster wert in validation set ist threshold
+        falls darunter haben wir in val bereits mind ein fehlalarm, die es zu verhindern gilt
+        trainingsdaten für berechnung von threshold kann bei overfitting zu unpassenden werten führen
+\section{Strukturierung der Experimente}
+
+Hypothese:
+Threadinfos bringen was
+
+LSTM ohne Threadinfos mit OHE
+LSTM mit W2V ohne Threadinfos (ngram)
+LSTM mit W2V mit Threadinfos (ngram)
+LSTM mit W2V threadaware mit Threadinfos (ngram)
+LSTM mit W2V threadaware mit Threadinfos (ngram) und threadchangeflag
+LSTM mit W2Vthreadaware mit Threadinfos (ngram) und threadchangeflag, spezialtraining
+--> LSTM final
+
+Manche angriffe verändern Sequenz von syscalls nicht
+Hypothese:
+verwende Parameter um erg zu verb
+
+LSTM final + strlen
+LSTM final + time delta
+LSTM final + strlen + time delta
+
+
+\section{Metriken}
+
+Wahl von Metriken in NN
+Precision, Recall, f-score, TNR, FNR, FPR
+
+problematisch:
+nicht auf systemcall genau gelabelt
+recall precision usw nur auf file ebene:
+alarm nach exploitstarttime wird immer als hit gewertet -> aber evtl angriff noch nicht begonnen
+oder angriff bereits vorbei
+ebenso umgekehrt, eig muss jeder nicht alarm nach exploitstart als FN gewertet werden
+weswegen filegenau geschaut wird
+vorteil des Datensatzes gegenüber anderen, immerhin exploitstart time
+
+alarm in quadrant ---> image
+
+
 
