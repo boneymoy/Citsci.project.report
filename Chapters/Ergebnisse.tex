@@ -1,0 +1,102 @@
+
+\chapter{Ergebnisse}
+\label{ch:erg}
+    \subsection{Optimale Parameter}
+
+        \paragraph{Architektur}
+            versch architekturen:
+            Single Small 50 neuronen eine schicht
+            Single Big 250 neuronen eine schicht
+            multi small 20 neuronen 3 schichten
+            multi big 50 neuronrn 3 schichten
+            deep erste 50 sonst 20 6 schichten
+
+            singlesmall 43\% von Deep
+            insgesamt am schnellsten single small
+            wie zu erwarten,  deep am langsamsten
+
+        \paragraph{Hyperparameter}<++>
+            aktivierungs funktion
+            -> dense layer with softmax or tanh
+            batch size
+            learning rate
+            optimizer
+
+        \paragraph{Ngram Größe}
+            ngram größer -> langsamer
+
+        \paragraph{Embedding}
+
+            overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+            zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+            embedding größer -> langsamer
+
+            vergleich ngram
+            im schnitt mit ngram gr 2 84\% von ngr 3 und 
+
+            w2v bringt entscheidenden Vorteil gegenüber ohe:
+            Jeweils vergleich der selben parameter außer w2v vs ohe:
+            Single small w2v nur 30\% der zeit gegenüber single small ohe
+            bei mulit w2v sogar nur 13\%
+            im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+
+        \paragraph{Architektur}
+            teste eine schicht viele neuronen 
+            eine schicht wenige neuronen
+            mehrere schichten mehrere neuronen / mit dropout dazwischen
+            viele schichten wenige neuronen /mit dropout dazwischen
+
+            auf Grund des zeitlichen Faktors fallen Deep und multibig weg
+            Also zu testen:
+            Single Small
+            Single 
+            Multi Small
+            Multi 
+
+        \paragraph{Embedding}
+
+            w2v bringt verbesserung:
+            alles ohne thread nur w2v!!
+
+        \paragraph{Threadinfo}
+            Hypothese:
+            Threadinfos bringen was
+
+            Einbinden von thread information auf verschiedenen wegen:
+            Thread aware ngrams (tan)
+            Thread aware ngrams for w2v (tanw2v)
+            Thread change flag (tcf)
+
+            varianten:
+            tan
+            tanw2v
+            tcf
+            tan tcf
+            tan tanw2v
+            tcf tanw2v
+            tan tanw2v tcf
+
+            ---> welcher dieser varianten am besten?
+
+        \paragraph{Parameter}
+            args
+            time
+
+            LSTM ohne Threadinfos mit OHE
+            LSTM mit W2V ohne Threadinfos (ngram)
+            LSTM mit W2V mit Threadinfos (ngram)
+            LSTM mit W2V threadaware mit Threadinfos (ngram)
+            LSTM mit W2V threadaware mit Threadinfos (ngram) und threadchangeflag
+            LSTM mit W2Vthreadaware mit Threadinfos (ngram) und threadchangeflag, spezialtraining
+            --> LSTM final
+
+            Manche angriffe verändern Sequenz von syscalls nicht
+            Hypothese:
+            verwende Parameter um erg zu verb
+
+            LSTM final + strlen
+            LSTM final + time delta
+            LSTM final + strlen + time delta
+
+
+

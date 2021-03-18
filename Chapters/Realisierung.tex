@@ -1,0 +1,282 @@
+
+%*****************************************
+\chapter{Realisierung}\label{ch:realisierung}
+%*****************************************
+
+\section{Verwendete Tools}
+    Tensorflow Keras
+    Rechencluster clara
+    sysdig
+
+\section{Vorverarbeitung}
+
+    Gegeben 10 szenarios mit ca. 1000 files durschnittlich 45sec
+    in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
+    falls kein exploit dann exploit start time -1
+    keine dauer des exploits also ende nicht bekannt 
+    nicht systemcall genau start des angriffs angegeben 
+    führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
+    alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
+    Ungenauigkeiten auf die in der Auswertung der Daten noch einmal genauer eingegangen wird
+    filtern von switch statements in Datensatz weil keine system calls
+    nur öffnende syscalls keine schließenden
+
+    Neuronale netze benötigen numerische werte deswegen umwandlung
+    sys to int unbrauchbar für netz auf Grund aktivierungsfunktion --> 2>1 3>1 mittelwert 2
+    \begin{itemize}
+        \item syscall to int: Wandle Syscall name in Integer um
+        \subitem ohe of sysint: use ohe for every syscall 
+         n * (distinct calls + 1) eingabeneuronen 
+        \subitem w2v von syscall
+         weniger neuronen und nähe von syscall!!!
+        \item ngram bilden: Bilde entsprechend angegebenes n ngramm
+    \end{itemize}
+
+
+
+    %%%%NOTES
+    % iterate syscalls 
+    % Filter switch
+    % Thread awareness ngrams
+    % create embedding of syscall
+    % append extra parameters
+    %
+    %
+    %
+    %
+    %
+
+    \subsection{Thread Awareness}
+        syscalls welche nicht in trainingsdaten bekommen eine 0
+        ngramme thread aware bilden
+
+    \subsection{Embedding}
+    \label{sec:embedding}
+        ohe und w2v
+        word embedding parameterwahl wichtig sqrt(distinct)
+
+        Threadid kodieren: 
+        \begin{itemize}
+            \item use entity embedding for ThreadID \cite{GUO2016} 
+            \item relationship between threads and reduce size (possible 1000 different threads)
+            \item choose size of embedding -thumbrule sqrt(unique value) 
+        \end{itemize}
+        zeit kodieren
+        \begin{itemize}
+            \item use time delta of two different syscalls as new input
+        \end{itemize}
+        parameterlänge kodieren
+
+    \subsection{System Call Argumente}
+    \label{sec:args}
+            \paragraph{String Length}
+            \paragraph{String Character Distribution}
+            \paragraph{Structural Inference}
+            \paragraph{Token Finder}
+
+\subsection{Parameterwahl}
+    \paragraph
+        ngram länge
+        lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info
+        -> finden von sweet spot
+        generell großes n viele alarme
+        kleines n weniger alarme -----> vorteil LSTM?
+        wichtiger Parameter den es zu ermitteln gilt
+
+\section{Algorithmus}
+\label{sec:Algorithmus}
+
+    LSTM Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.
+    Gab es in den Trainingsdaten die feste Menge $S = {1,\dots,N}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
+    Jeder dieser System Calls bekommt im ersten Schritt einen Integerwert zwischen 1 und $N$.
+    Taucht in den Testdaten nun ein noch nicht bekannter System Call $x_i$ auf, also $x_i \notin S$, so erhält dieser den vorläufigen Wert 0.
+    Zu jedem Zeitpunkt wird $x_i$ der Input Layer übergeben.
+    Dabei wird ein Embedding aus Abschnitt \ref{sec:embedding} verwendet. 
+    Mit den gegebenen Trainingsdaten kann nun das LSTM mittels des \textit{back-propagation through time} (BPTT) trainiert werden.
+    % Im ersten Schritt besteht dieses Embedding aus dem \textit{One hot encoding} (OHE).
+    % In weiterer Ausführung werden dann zwei W2V Verfahren verwendet.
+    % Wie in Kapitel \ref{Grundlagen:LSTM} bereits beschrieben wird, soll das LSTM mit den kodierten system calls aus dem Trainingsdatensatz trainiert werden.
+    An der Ausgangs Layer befindet sich eine Softmax Aktivierungsfunktion.
+    Diese wird verwendet um die Ausgabe zu normalisieren und damit die Wahrscheinlichkeitsverteilung des nächsten System Calls zu erhalten.
+    Also $P\left(x_i|x_{1:i-1}\right)$ für alle $i$. 
+    
+\section{Anomalieerkennung}
+    Es kann also bei Auftreten des System Calls $x_i$ überprüft werden mit welcher Wahrscheinlichkeit $p$ dieser vorhergesagt wurde.
+    Der eigentliche Anomalie-Score wird dann folgenderweise berechnet:
+    \begin{equation}
+        ascore = 1 - p
+    \end{equation}
+    Unterschreitet dieser einen Schwellwert so wird dies als eine Anomalie gewertet und ein Alarm angezeigt.
+    \subsection{Schwellwertbestimmung}
+        Um den zuvor erwähnten Schwellwert automatisch zu bestimmen, wird der Algorithmus auf die Validierungsdaten angewendet. 
+        Dabei dient der höchste Wert dieser Daten dann als Schwellwert, da angenommen wird, dass mindestens alle Daten aus den Validierungsdaten harmlos sind und damit unter dem Schwellwert liegen sollten.
+        Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen könnte. 
+        Das würde bedeuten, dass nur sehr geringe Anomaliewerte auftreten und der Schwellwert sehr gering ist und damit die Gefahr für viele Fehlalarme besteht.
+
+        Alternativ betrachte die x wahrscheinlichsten vorhergesagten system calls, falls tatsächlicher system call nicht dabei --> alarm
+        x ermitteln, betrachte validierungsdaten und schaue ob schlechtestes x aussehen würde
+        tatsächlich oft einmal schlechteste platzierung und automatische erkennung von x schwer.
+
+        
+
+\section{Strukturierung der Experimente}
+    Um aussagekräftige Experimente zu entwickeln müssen zuerst 
+    überlegungen zur praktischen umsetzung gemacht werden
+    dabei wird in ersten Tests klar, dass zeit hierbei eine große rolle spielen wird
+
+    erste Tests also ausgelegt um Faktoren zu ermitteln, welche die auswertungen stark verlangsamen
+    und diese ausschließen.
+
+    \subsection{Faktor Zeit}
+
+    zeit/dr als groesse und farbe von scatter plot
+    batch size test und train x/y achse
+
+
+    eingrenzen von moeglichen konfigurationen
+
+    Berechnungszeiten aus verschiedenen Perspektiven relevant:
+    soll live system werden
+    begrenzte rechenleistung und viele Tests zur auswertung von parametern architektur etc
+    erster test zur abschätzung diverser zeitl. faktoren:
+
+    Faktoren:
+    \begin{itemize}
+        \item Architektur
+        \item Verarbeitung Stream
+            \subitem ngram größe
+        \item embedding
+    \end{itemize}
+
+    ngram größe, architektur und verwendung w2v statt ohe
+    Grobe Abschätzung der Zeit, da Berechnungen auf Clustern ausgeführt werden von Auslastung beeinflusst werden.
+    Klare Erkenntnisse:
+
+        Single Small 50 neuronen eine schicht :
+        Single Big 250 neuronen eine schicht
+        multi 50 neuronrn 3 schichten
+
+    erste Abschätzung von Nutzen von Thread 
+    einführen von stateful sowie Batch Normalization
+
+        
+
+
+    \subsection{Optimale Parameter}
+
+        \paragraph{Architektur}
+        versch architekturen:
+        Single Small 50 neuronen eine schicht
+        Single Big 250 neuronen eine schicht
+        multi small 20 neuronen 3 schichten
+        multi big 50 neuronrn 3 schichten
+        deep erste 50 sonst 20 6 schichten
+
+        singlesmall 43\% von Deep
+        insgesamt am schnellsten single small
+        wie zu erwarten,  deep am langsamsten
+
+\paragraph{Hyperparameter}<++>
+    aktivierungs funktion
+    -> dense layer with softmax or tanh
+    batch size
+    learning rate
+    optimizer
+
+\paragraph{Ngram Größe}
+    ngram größer -> langsamer
+
+\paragraph{Embedding}
+
+    overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+    zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+    embedding größer -> langsamer
+
+vergleich ngram
+im schnitt mit ngram gr 2 84\% von ngr 3 und 
+
+w2v bringt entscheidenden Vorteil gegenüber ohe:
+Jeweils vergleich der selben parameter außer w2v vs ohe:
+Single small w2v nur 30\% der zeit gegenüber single small ohe
+bei mulit w2v sogar nur 13\%
+im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+
+\paragraph{Architektur}
+teste eine schicht viele neuronen 
+eine schicht wenige neuronen
+mehrere schichten mehrere neuronen / mit dropout dazwischen
+viele schichten wenige neuronen /mit dropout dazwischen
+
+auf Grund des zeitlichen Faktors fallen Deep und multibig weg
+Also zu testen:
+Single Small
+Single 
+Multi Small
+Multi 
+
+\paragraph{Embedding}
+
+w2v bringt verbesserung:
+alles ohne thread nur w2v!!
+
+\paragraph{Threadinfo}
+Hypothese:
+Threadinfos bringen was
+
+Einbinden von thread information auf verschiedenen wegen:
+Thread aware ngrams (tan)
+Thread aware ngrams for w2v (tanw2v)
+Thread change flag (tcf)
+
+varianten:
+tan
+tanw2v
+tcf
+tan tcf
+tan tanw2v
+tcf tanw2v
+tan tanw2v tcf
+
+---> welcher dieser varianten am besten?
+
+\paragraph{Parameter}
+args
+time
+
+LSTM ohne Threadinfos mit OHE
+LSTM mit W2V ohne Threadinfos (ngram)
+LSTM mit W2V mit Threadinfos (ngram)
+LSTM mit W2V threadaware mit Threadinfos (ngram)
+LSTM mit W2V threadaware mit Threadinfos (ngram) und threadchangeflag
+LSTM mit W2Vthreadaware mit Threadinfos (ngram) und threadchangeflag, spezialtraining
+--> LSTM final
+
+Manche angriffe verändern Sequenz von syscalls nicht
+Hypothese:
+verwende Parameter um erg zu verb
+
+LSTM final + strlen
+LSTM final + time delta
+LSTM final + strlen + time delta
+
+
+
+\section{Metriken}
+
+Wahl von Metriken in NN
+Precision, Recall, f-score, TNR, FNR, FPR
+
+problematisch:
+nicht auf systemcall genau gelabelt
+recall precision usw nur auf file ebene:
+alarm nach exploitstarttime wird immer als hit gewertet -> aber evtl angriff noch nicht begonnen
+oder angriff bereits vorbei
+ebenso umgekehrt, eig muss jeder nicht alarm nach exploitstart als FN gewertet werden
+weswegen filegenau geschaut wird
+vorteil des Datensatzes gegenüber anderen, immerhin exploitstart time
+
+alarm in quadrant ---> image
+
+
+
+
