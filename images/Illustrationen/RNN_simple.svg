@@ -668,11 +668,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313709"
-     inkscape:cx="256.67941"
-     inkscape:cy="982.22404"
+     inkscape:zoom="5.6568545"
+     inkscape:cx="210.49245"
+     inkscape:cy="958.27708"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1177"
@@ -700,6 +700,11 @@
        position="65.66812,276.938"
        orientation="1,0"
        id="guide6975"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="43.077471,261.70599"
+       orientation="1,0"
+       id="guide2052"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
@@ -818,18 +823,19 @@
        style="opacity:1;fill:#e3c117;fill-opacity:0;stroke:#23373b;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.85263157"
        id="path14292"
        sodipodi:type="arc"
-       sodipodi:cx="48.933956"
-       sodipodi:cy="42.749615"
+       sodipodi:cx="-43.080051"
+       sodipodi:cy="-36.710705"
        sodipodi:rx="0.71828687"
        sodipodi:ry="0.71828687"
        sodipodi:start="3.1415927"
        sodipodi:end="0"
-       d="m 48.215669,42.749615 a 0.71828687,0.71828687 0 0 1 0.718287,-0.718287 0.71828687,0.71828687 0 0 1 0.718287,0.718287 h -0.718287 z"
+       d="m -43.798338,-36.710705 a 0.71828687,0.71828687 0 0 1 0.718287,-0.718287 0.71828687,0.71828687 0 0 1 0.718286,0.718287 h -0.718286 z"
        inkscape:export-xdpi="225.2"
-       inkscape:export-ydpi="225.2" />
+       inkscape:export-ydpi="225.2"
+       transform="scale(-1)" />
     <path
        style="fill:none;stroke:#23373b;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.1, 0.1;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker14312)"
-       d="M 48.933957,42.011967 V 41.032822"
+       d="m 43.080052,37.448356 v 0.979145"
        id="path14302"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"

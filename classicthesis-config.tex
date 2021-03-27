@@ -113,6 +113,10 @@
   %\def\bflabel#1{{#1\hfill}}
   \def\bflabel#1{{\acsfont{#1}\hfill}}
   \def\aclabelfont#1{\acsfont{#1}}
+
+%\begin{arconym}
+    %\acro{ids}[IDS]{\textit{Intrusion Detection System}}
+%\end{arconym}
 % ****************************************************************************************************
 %\usepackage{pgfplots} % External TikZ/PGF support (thanks to Andreas Nautsch)
 %\usetikzlibrary{external}
@@ -123,6 +127,9 @@
 % ****************************************************************************************************
 % 4. Setup floats: tables, (sub)figures, and captions
 % ****************************************************************************************************
+\usepackage{makecell}
+%\usepackage{xcolor}
+%\usepackage[table]{xcolor}
 \usepackage{tabularx} % better tables
   \setlength{\extrarowheight}{3pt} % increase table row height
 \newcommand{\tableheadline}[1]{\multicolumn{1}{l}{\spacedlowsmallcaps{#1}}}
@@ -157,7 +164,9 @@
 % ****************************************************************************************************
 
 
-
+% ****************************************************************************************************
+% X. define colors
+% ****************************************************************************************************
 
 % ****************************************************************************************************
 % 6. Last calls before the bar closes

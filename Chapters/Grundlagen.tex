@@ -7,11 +7,11 @@
     Dabei wird auf den im praktischen Teil verwendeten Ansatz der \textit{Host-Based Intrusion Detection Systems} (HIDS) genauer eingegangen.
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des verwendeten Algorithmus untersucht werden.
-    Dazu gehören rekurrenten neuronalen Netzen (RNN), sowie die Erweiterung der RNNs die \textit{Long Short-Term Memory} neuronale Netze (LSTM)\@.
+    Dazu gehören rekurrente neuronale Netze (RNN), sowie die Erweiterung der RNNs die \textit{Long Short-Term Memory} neuronalen Netzen (LSTM)\@.
 
-    \section{Anomalieerkennung}
+    \section{Anomalien und Anomalieerkennung}
     \label{sec:Anomalieerkennung}
-        Muster in einem Datensatz welche nicht einem wohldefinierten Normalverhalten entsprechen, werden Anomalien genannt.
+        Muster in einem Datensatz welche nicht einem wohldefinierten Normalverhalten entsprechen werden Anomalien genannt.
         Ziel einer Anomalieerkennung ist es folglich Muster in Daten wiederzuerkennen welche von einem definierten Normalverhalten abweichen~\cite{ANOMALYSURVEY}.
         Die Bedeutung der Anomalieerkennung liegt in der Tatsache begründet, dass Anomalien in Daten zu signifikanten und oft kritischen Veränderungen eines System führen können. 
         So kann eine Anomalie in Netzwerkdaten dafür stehen, dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
@@ -20,12 +20,15 @@
         Doch alle Anomalien haben gemein, dass sie ein Abweichen eines definierten Normalverhalten zeigen und damit interessant für Analysen sind.
         Generell kann die Anomalieerkennung in zwei Phasen aufgeteilt werden, die \textit{Trainingsphase} sowie die \textit{Testphase}.
         In der ersten Phase wird versucht ein Modell des Programmverhaltens zu ermitteln und in der zweiten soll dieses Modell dann überprüft werden.
+        Speziell soll dabei mit noch nicht betrachteten Daten die Generalisierung des Modells getestet werden. 
+        Dabei liefert der Algorithmus für jede Eingabe einen Anomaliescore.
+        Liegt dieser über einem festgelegten Schwellwert so gilt die Eingabe als \glqq anormal\grqq \ ansonsten als \glqq normal\grqq.
         Die Trainingsphase wird von Chandola et al.~\cite{ANOMALYSURVEY} weiter unterteilt in \textit{Supervised}, \textit{Semisupervised} sowie \textit{Unsupervised Anomaly Detection}.
         Diese unterscheiden sich hauptsächlich in der Anforderung an den Datensatz. 
         Bei einer \textit{Supervised} Anomalieerkennung werden Trainingsdaten benötigt in welchen Anomalien sowie auch Normalverhalten gelabelt sind.
         Hingegen wird beim \textit{Semisupervised} Verfahren lediglich ein Datensatz benötigt, welcher das Normalverhalten kennzeichnet.
         Bei der \textit{Unsupervised Anomaly Detection} werden Daten verwendet welche keine Labels beinhalten.
-        Dabei wird davon ausgegangen, dass Normaldaten sehr viel umfangreicher in den Daten vertreten sind als Anomalien, da es sonst häufig zu Fehlalarmen kommen kann.~\cite{ANOMALYSURVEY2}.
+        Dabei wird davon ausgegangen, dass Normaldaten sehr viel umfangreicher in den Daten vertreten sind als Anomalien, da es sonst häufig zu Fehlalarmen kommen kann~\cite{ANOMALYSURVEY2}.
         Bei der Umsetzung der Anomaliedetektion ergeben sich allerdings einige Schwierigkeiten:
         
         \begin{itemize}
@@ -37,8 +40,11 @@
                 Normalverhalten kann sich über die Zeit verändern und somit vom Algorithmus Gelerntes unbrauchbar machen~\cite{ANOMALYSURVEY}.
 
             \item \textit{Datensätze}:
-                Gelabelte Daten zur Erfassung des Normalverhaltens sind oft veraltet oder nicht sehr Detailreich. 
+                Gelabelte Daten zur Erfassung des Normalverhaltens sind oft veraltet oder nicht sehr detailreich. 
                 \marginpar{Mehr dazu in Abschnitt~\ref{sec:Datensatz}}
+
+            \item \textit{Schwellwert}:
+                Festlegung eines Schwellwertes, welcher die eigentliche Unterscheidung zwischen Normalverhalten und Angriffsverhalten umsetzt.
         \end{itemize}
 
 
@@ -65,20 +71,19 @@
         Um solche unautorisierte Aktivitäten erkennen zu können müssen zunächst Daten erfasst werden und diese dann analysiert werden.
         In den folgenden beiden Abschnitten sollen diesen beiden Schritte genauer untersucht werden.
 
-        \subsection{Datenanalysetechniken}
+        \subsection{Datenanalyse}
         \label{sec:Datenanalyse}
             Das Erkennen von Angriffen auf Computersystemen mittels IDS wird meist, wie auch in~\cite{IDSreview} und~\cite{IDSsurvey}, in drei Kategorien eingeteilt.
             Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird,
             sowie die \textit{Stateful Protocol Analysis} \marginpar{zu dt. Zustandsorientierte Protokoll Analyse}.
             \paragraph{Signaturbasiert} 
-                Signaturbasierte IDS versuchen ihnen bekannte Muster von Angriffen in den zu überwachenden Systemen wiederzuerkennen.
+            Signaturbasierte IDS (SIDS) versuchen ihnen bekannte Muster von Angriffen in den zu überwachenden Systemen wiederzuerkennen.
                 Dies basiert darauf eine ausgeprägte Datenbank an bekannten Signaturen von Angriffen zu besitzen.
                 Verschiedene Methoden vergleichen dann aktuelle Signaturen des Systems mit der Datenbank.
                 Es gibt auch hier diverse Methoden wie diese Signaturen erstellt werden. 
                 Dazu zählen zum Beispiel das Betrachten von \textit{Host-Logs}, oder ein wenig ausgefeilter das Erstellen von \textit{State Machines}~\cite{SIDSstate}
                 Doch ein wesentlicher Nachteil der signaturbasierten IDS liegt in der Tatsache, dass keinerlei neuartigen Angriffe, sowie viele Abwandlungen von Angriffen nicht erkannt werden,
                 da diese noch nicht in der Datenbank vorhanden sind.~\cite{IDSsurvey}
-
             \paragraph{Anomaliebasiert}
                 Im ersten Schritt der anomaliebasierten IDS (AIDS) wird ein Modell des Normalverhaltens erstellt.
                 Dabei können ML-basierte, Statistik-basierte oder auch \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
@@ -86,23 +91,26 @@
                 Jeder signifikante Unterschied des aktuellen Systemzustand zu dem entworfenen Modell zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
                 Jede Anomalie gilt dann wiederrum als Intrusion.
                 Grundannahme dieser Methode liegt darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
-
                 %TODO wird bereits im vorigen Kapitel beschrieben
-                Im Allgemeinen besitzen AIDS zwei Phasen, der Trainingsphase und der Testphase.
-                In der Trainingsphase wird ein Modell erstellt welches das Normalverhalten abbilden soll.
-                In der Folgephase muss dann das gelernte Modell mit bisher noch nicht betrachteten Daten überprüft werden.
-                Dabei soll vor allem die Generalisierung des Modells getestet werden. 
-                Auch wenn sich die verschiedenen Teilbereiche der AIDS stark unterscheiden, haben sie einen wesentlichen Vorteil gegenüber den signaturbasierten IDS\@.
-                Denn ihnen ist es nicht generell verwehrt Zero-day Angriffe zu erkennen, also Angriffe die in dieser Form noch nicht bekannt waren. 
+                %Im Allgemeinen besitzen AIDS zwei Phasen, der Trainingsphase und der Testphase.
+                %In der Trainingsphase wird ein Modell erstellt welches das Normalverhalten abbilden soll.
+                %In der Folgephase muss dann das gelernte Modell mit bisher noch nicht betrachteten Daten überprüft werden.
+                %Dabei soll vor allem die Generalisierung des Modells getestet werden. 
+                Die generelle Vorgehensweise und Problematiken wurden bereits in Abschnitt~\ref{sec:Anomalieerkennung} besprochen.
+                Auch wenn sich die verschiedenen Teilbereiche der AIDS stark unterscheiden, haben sie einen wesentlichen Vorteil gegenüber den SIDS\@.
+                Denn ihnen ist es nicht generell verwehrt Zero-Day Angriffe zu erkennen, also Angriffe die in dieser Form noch nicht bekannt waren. 
                 Zusätzlich ist es für Angreifende schwer zu ermitteln wie das AIDS Normalverhalten definiert und diese Definitionsgrenzen auszunutzen um unerkannte Angriffe durchzuführen.
-                Die größten Schwierigkeiten bei AIDS liegen in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
+                Jedoch ergibt sich im Vergleich zu den SIDS eine andere Problematik.
+                Denn die AIDS müssen einen Schwellwert festlegen ab welchem ein Vorkommnis als Anomalie erkannt wird.
+                Dieser Wert entscheidet über die Ergebnisqualität der AIDS und sollte daher sorgfältig und am besten automatisch ermittelt werden. \marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
+                Eine weitere Schwierigkeit bei AIDS liegen wie in Abschnitt~\ref{sec:Anomalieerkennung} erwähnt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
                 dass bei nicht kompletten Erfassen des Normalverhalten viele Fehlalarme enstehen können.
 
                 Daher ist eine entscheidende Frage bei Verwendung von AIDS\@: Woher kommen die für das Lernen des Normalverhalten benötigten Daten?
                 %Viele verschiedene Ansätze, unter anderem zusammengefasst in~\cite{IDSsurvey}.
 
-        \subsection{Datenerfassungstechniken}
-        \label{sec:Datentechnik}
+        \subsection{Datenerfassung}
+        \label{sec:Datenerfassung}
 
             Die Datenerhebung wird in verschiedener Literatur in zwei Kategorien unterteilt~\cite{IDSsurvey},~\cite{IDSreview}.
             Zum einen die \textit{Host Based Intrusion Detection} (HIDS) und zum anderen die \textit{Network Based Intrusion Detection} (NIDS).
@@ -142,7 +150,7 @@
         \begin{figure}[ht]
             \centering
             \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
-            \caption{Einordnung des verwendeten IDS}
+            \caption{Einordnung des verwendeten IDS (breiter markiert).}
             \label{fig:IDSOverview}
         \end{figure}
 
@@ -153,6 +161,7 @@
         Zu ihnen gehören zum Beispiel die folgenden System Calls:
 
         \begin{table}[ht]
+            \small
             \label{tab:syscall}
             \centering
             \begin{tabular}{c||p{6cm}|p{3cm}}
@@ -161,6 +170,7 @@
                 \multicolumn{3}{c}{System Calls}\\
                 \hline
                 Name & Beschreibung & Argumente \\
+                \hline
                 \hline
                 \rowcolor{Gray!16}
                 %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
@@ -185,8 +195,111 @@
         Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
         Doch diese Beispiele zeigen auch, dass wenigstens ein Faktor, also Sequenz oder Argumente, verändert werden muss, um das Systemverhalten abzuwandeln.
         Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in Kapitel~\ref{sec:args} untersucht werden.
+        Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
 
-        
+    \section{Datensatz}
+    \label{sec:Datensatz}
+        Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
+        kamen verschiedene Datensätze hinzu.
+        Auf diese wird in den kommenden Abschnitten kurz eingegangen.
+        Dabei soll auch auf die Nutzbarkeit und die entsehenden Problematiken dieser für die HIDS über System Calls eingegangen werden.
+
+        \paragraph{KDD}
+            Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
+            steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.
+            Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
+        \paragraph{UNM}
+            Auch dieser Datensatz~\cite{UNM} ist veraltet (1999) und kommt für eine weitere Betrachtung nicht in Frage,
+            da zusätzlich auch weitere Kontextinformationen wie Thread IDs fehlen~\cite{UNMcritic}
+        \paragraph{ADFA-LD}
+            Der ADFA-LD Datensatz wurde von Hu et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
+            Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein bearbeiten erschwert~\cite{ADFA-LDcritic}.
+            Erschwerend kommt hinzu, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten beinhalten.
+        \paragraph{NIGDS-DS}
+            Der 2017 erstellte Datensatz NIGDS-DS beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
+            Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind.
+            Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln.
+        \paragraph{LID-DS}
+            2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
+            Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
+            Im folgenden soll eine Beispieldatei betrachtet werden.
+
+            \begin{table}[ht]
+                \tiny
+                \centering
+                \begin{tabular}{p{1.1cm}|p{1.1cm}|p{0.3cm}|p{0.4cm}|p{0.6cm}|p{0.6cm}|p{0.8cm}|p{0.6cm}|p{1cm}}
+                    \rowcolor{Gray!36}
+                    \hline
+                    \multicolumn{9}{c}{System Call}\\
+                    \hline
+                    event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
+                    \hline
+                    \hline
+                    \rowcolor{Gray!16}
+                    4012 & $10:18:20.1231231231$ & 0 & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)size=2392$ \\
+                \end{tabular}
+                \caption{Ausschnitt aus LID-DS~\cite{LIDDS}}
+                \label{tab:syscallfile}
+            \end{table}
+
+            \begin{table}[ht]
+                \small
+                \centering
+                \begin{tabular}{p{3cm}|p{6.5cm}}
+                    \rowcolor{Gray!36}
+                    \hline
+                    \multicolumn{2}{c}{Scenarien}\\
+                    \hline
+                    Name & Beschreibung \\
+                    \rowcolor{Gray!16}
+                    \hline
+                    \hline
+                    Bruteforce\_CWE-307 & Ungeeignete Einschränkung von übermäßigen Authentifizierungs Versuche \\
+                    \hline
+                    CVE-2012-2122 & Umgehung von MySQL Authentifizierung\\
+                    \rowcolor{Gray!16}
+                    \hline
+                    CVE-2014-0160 & Heartbleed: Schwachstelle in OpenSSL\\
+                    \hline
+                    CVE-2017-7529 & Nginx Integer Overflow \\
+                    \rowcolor{Gray!16}
+                    \hline
+                    CVE-2018-3760 & Sprockets Datenleck Schwachstelle \\
+                    \hline
+                    CVE-2019-5418 & Rails Fileinhalt Offenlegung \\
+                    \rowcolor{Gray!16}
+                    \hline
+                    EPS\_CWE-434 & EPS file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
+                    \hline
+                    PHP\_CWE-434 & PHP file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
+                    \rowcolor{Gray!16}
+                    \hline
+                    SQL Injection & SQL Injection mit sqlmap\\
+                    \hline
+                    ZipSlip & blablabla \\
+                \end{tabular}
+                \caption{Ausschnitt aus LID-DS~\cite{LIDDS}}
+                \label{tab:scenarien}
+            \end{table}
+            Der Datensatz umfasst zehn verschiedene Angriffsscenarien, dargestellt in Tabelle~\ref{tab:scenarien}.
+            Jede Aufzeichnung eines Scenarios enthält ca. 1000 Files welche jeweils ca. 60sec Aufnahmen beinhalten.
+            Dies führt zu insgesamt ungefähr 10h Trainingsdaten pro Scenario.
+
+            In den Testdaten sind \textit{malicious} \marginpar{zu dt.\ schädlich} Files beinhaltet, welche eine Information über den Angriffszeitpunkt liefert. 
+            Jedoch gibt es bei einer malicious File im Gegensatz zu den normalen Files  vier mögliche Zuordnungen.
+            Befindet sich der Anomaliescore unter dem Schwellwert kann von einem \textit{True Negative} eingestuft werden.
+            Also es wurde korrekter weise kein Alarm vorhergesagt.
+            Befindet sich der Anomaliescore vor dem Angriffszeitpunkt über dem Schwellwert liegt ein \textit{False Positive} vor.
+            Es wurde ein Alarm gemeldet an einer Stelle an dem kein Angriff stattfand.
+            Nach dem angegebenen Angriffszeitpunkt wird es allerdings schwieriger.
+            Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
+            Jedoch könnte da der Angriff schon vorbei sein, oder gar noch nicht gestartet sein.
+            Es können nach dem Angriffszeitpunkt auch \textit{False Positive} oder \textit{False Negative} geben, welche allerdings nicht als solche erkannt werden können.
+            Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in Kapitel~\ref{sec:metrik} beleuchtet.
+
+            Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
+            soll im Folgenden die Frage geklärt werden, wie Muster mit Hilfe von künstlichen neuronalen Netzen in einem Datensatz erkannt werden können.
+
     \section{Künstliche neuronale Netze}
     \label{sec:KNN}        
         Das Nutzen von bestehenden und in der Natur vorkommenden Strukturen und Prozessen kommt in verschiedenen Forschungsbereichen zum Einsatz.
@@ -194,17 +307,17 @@
         Auch Prozesse welche in der Natur beobachtbar sind werden verucht zu adaptieren, dazu zählen zum Beispiel Ameisenalgorithmen~\cite{ANT}.
         Ein in den letzten Jahren immer weiter verbreiteter Ansatz in der elektronischen Datenverarbeitung ist die Verwendung von künstlichen neuronalen Netzen.
         Dieser versucht sich die Struktur von Gehirnen anzueignen.
-        Man verspricht sich mit dem Einsatz von künstlichen neuronale Netzen, welche eine Varietät an verschiedenen Architekturen beinhalten, diverse Optimierungsprobleme zu lösen.
+        Man verspricht sich mit dem Einsatz von künstlichen neuronalen Netzen, welche eine Varietät an verschiedenen Architekturen beinhalten, diverse Optimierungsprobleme zu lösen.
         %In dieser Arbeit wird der Einsatz von neuronalen Netzen zur \textit{Time Series Prediction} (zu dt. Vorhersagen von Zeitreihen) untersucht.
         Zu aktuellen Beispielen zählen dabei auch Vorhersagen die im Zusammenhang mit der Verbreitung des COVID-19 Virus stehen~\cite{COVID1}~\cite{COVID2}~\cite{COVID3}.
         %Für die \textit{Time Series Prediction} sind verschieden Architekturen von neuronalen Netzen weit verbreitet \cite{BENIDIS2020}.
         
-        Algorithmen in welchen neuronale Netze zum Einsatz kommen bestehen aus zwei Phasen. 
+        Algorithmen in welchen neuronale Netze zum Einsatz kommen bestehen generell aus zwei Phasen. 
         In der ersten Phase, der Trainingsphase, werden vordefinierte Trainingsdaten in das Netz gegeben.
-        Dieses versucht Merkmale in den Daten zu ermitteln, mit welchen dann in der Testphase Vorraussagen gemacht werden können.
+        Dieses versucht Merkmale in den Daten zu ermitteln, mit welchen dann in der Testphase Voraussagen gemacht werden können.
         Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \textit{Convolutional Neural Nets} (CNN) für die Bilderkennung. 
-        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist eignen sich vor allem die \textit{Recurrent Neural Nets} (RNN).
-        Da in dieser Arbeit sequentielle Daten betrachtet werden, soll im Folgenden nur auf die RNNs und besondere Abwandlungen dieser eingegangen werden.
+        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \textit{Recurrent Neural Nets} (RNN).
+        Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, soll im Folgenden nur auf die RNNs und besondere Abwandlungen dieser eingegangen werden.
         
         % überarbeiten
         %unterteilung verschiedener Netze und einordnung von rnns und lstmnn
@@ -215,8 +328,8 @@
 %
         \subsection{Rekurrente neuronale Netze}
         \label{sec:RNN}
-
-            Der entscheidende Unterschied von RNNs zu herkömmlichen neuronalen Netzen ist, dass der Ausgang eines Knotens auf einer Layer mit einer vorherigen oder derselben Layer verbunden ist.
+            Der entscheidende Unterschied von RNNs zu herkömmlichen neuronalen Netzen ist,
+            dass der Ausgang eines Knotens auf einer \textit{Layer} \marginpar{zu dt. Ebene} mit einer vorherigen oder derselben Layer verbunden ist.
             Ist dies der Fall spricht man von einem \textit{Feedback} oder \textit{Recurrent Neural Network}, sonst von einem \textit{Feedforward Neural Network}. 
             Mit Knoten, die eine extra Verbindung zu sich selbst haben, können frühere Eingaben Einfluss auf die Behandlung der nächsten Eingabe haben.
             Der einzelne Knoten merkt sich seine Ausgabe, welche im nächsten Zeitschritt als weiteres Eingabesignal dient.
@@ -231,12 +344,12 @@
             \end{equation}
             Dabei beschreiben $x_t$, $h_t$ und $y_t$ den Eingang des Neurons, die rekurrente Information und den Ausgang des RNN\@.
             $W_h$ und  $W_x$ beschreiben die Gewichte und $b$ den Bias.
-            Eine einzelner Knoten wird ohne die Gewichte in Abbildung~\ref{fig:RNN} dargestellt,
-            sowie in Abbildung~\ref{fig:RNN_enroled} eine alternative Darstellung, wie sich dieser Knoten über $t$ Zeitpunkte verhält.
+            Ein einzelner Knoten wird ohne die Gewichte in Abbildung~\ref{fig:RNN} dargestellt,
+            sowie in Abbildung~\ref{fig:RNN_enroled} in einer alternativen Darstellung, wie sich dieser Knoten über $t$ Zeitpunkte verhält.
             Dabei werden für die Übersichtlichkeit Gewichte sowie der Bias nicht dargestellt.
                 \begin{figure}[ht]
                     \centering
-                    \includegraphics[width=0.8\textwidth]{images/Illustrationen/RNN_simple.pdf}
+                    \includegraphics[width=0.8\textwidth]{images/Illustrationen/RNN_simple}
                     \caption{Darstellung einer RNN Zelle}
                     \label{fig:RNN}
                 \end{figure}
@@ -257,149 +370,105 @@
             Diese Sonderform der RNNs, die auch in dieser Arbeit verwendet werden, sollen deshalb genauer untersucht werden.
             %% TODO Batch Normalisation \cite{LSTMbatchnorm}
    	
-            \paragraph{Long Short-Term Memory} 
-        
-                Hauptziel der LSTMs ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
-                Entscheident dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant sein könnten.
-                
+        \subsection{Long Short-Term Memory} 
+            Hauptziel der LSTMs ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
+            Entscheident dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant sein könnten.
+            
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=0.8\textwidth]{images/Illustrationen/LSTM}
+                \caption{Schematische Darstellung eines Knotens in einem LSTM NN, mit Input, Output und Forget Gate (inspiriert von \cite{OLAH2015}).}
+                \label{fig:LSTM}
+            \end{figure}
+
+            Und um zu erlernen welche früheren Ausgaben für die Ermittlung nächster Datenpunkte entscheident sind, wird an jedem Knoten eine \textit{Memory Cell} \marginpar{zu dt. Gedächtniszelle} angebracht, zu sehen ist diese Erweiterung in Abbildung~\ref{fig:LSTM}.
+            Sie ist mit sich selbst verbunden, kennt also die vorherigen Ausgaben und gibt den Zellstatus an.
+            Mit Hilfe dieser Information soll eine Abhängigkeit auch über einen längeren Zeitraum gefunden werden.
+            Der Zellstatus $C_{t-1}$ zum Zeitpunkt $t-1$ hat im nächsten Zeitschritt $t$ einen Einfluss auf den Zellstatus $C_{t}$ und somit auch auf die Ausgabe $y_t$.
+            Die Weitergabe des Status wird in Abbildung~\ref{fig:LSTM_Status} dargestellt.
+
                 \begin{figure}[ht]
                     \centering
-                    \includegraphics[width=0.8\textwidth]{images/Illustrationen/LSTM}
-                    \caption{Schematische Darstellung eines Knotens in einem LSTM NN, mit Input, Output und Forget Gate (inspiriert von \cite{OLAH2015}).}
-                    \label{fig:LSTM}
+                    \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_MC}
+                    \caption{Weitergabe des Zellstatus innerhalb eines Knotens (inspiriert von \cite{OLAH2015}).}
+                    \label{fig:LSTM_Status}
                 \end{figure}
-
-                Und um zu erlenen welche früheren Ausgaben für die Ermittlung nächster Datenpunkte entscheident sind, wird an jedem Knoten eine \textit{Memory Cell} \marginpar{zu dt. Gedächtniszelle} angebracht, zu sehen ist diese Erweiterung in Abbildung~\ref{fig:LSTM}.
-                Sie ist mit sich selbst verbunden, kennt also die voherigen Ausgaben und gibt den Zellstatus an.
-                Mit Hilfe dieser Information soll eine Abhängigkeit auch über einen längeren Zeitraum gefunden werden.
-                Der Zellstatus $C_{t-1}$ zum Zeitpunkt $t-1$ hat im nächsten Zeitschritt $t$ einen Einfluss auf den Zellstatus $C_{t}$ und somit auch auf die Ausgabe $y_t$.
-                Die Weitergabe des Status wird in Abbildung~\ref{fig:LSTM_Status} dargestellt.
-
-                    \begin{figure}[ht]
-                        \centering
-                        \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_MC}
-                        \caption{Weitergabe des Zellstatus innerhalb eines Knotens (inspiriert von \cite{OLAH2015}).}
-                        \label{fig:LSTM_Status}
-                    \end{figure}
-                    
-                    Einfluss auf den Zellstatus haben zwei verschiedene \textit{Gates} \marginpar{zu dt. Gatter/Tore}.
-                Im ersten Schritt wird entschieden, welche Information aus dem vorherigen Zeitschritt keinen Einfluss mehr auf den Zellstatus haben sollen.
-                Dies wird mit dem \textit{Forget Gate} umgesetzt und ist in Abbildung~\ref{fig:LSTM_Forget} zu sehen und kann analog zur RNN Zelle folgendermaßen hergeleitet werden.
-
-                \begin{equation}
-                    f_t = \sigma\left(W_{fh}h_{t-1} + W_{fx}x_t + b_f\right)
-                \end{equation}
-
-                $W_{fh}$ und $W_{fx}$ beschreiben die Gewichte $b_f$ den Bias des \textit{Forget Gate}.
-                Es wird also die vorherige Eingabe $h_{t-1}$ sowie die aktuelle Eingabe $x_t$ gewichtet und mit Bias an die Aktivierungsfunktion $\sigma$ übergeben.
-                Damit sollen Informationen aus dem Speicher, die keinen Einfluss mehr haben sollen, entfernt werden.
-                In dem Sprachbeispiel könnte das Genus (\textit{grammatikalisches Geschlecht}) gespeichert werden, um so eine grammatikalisch korrekte Vorhersage zu machen.
-                Kommt nun allerdings ein neues Pronomen in der Eingabe $x_t$, sollte das bisher gespeicherte Genus keinen Einfluss mehr haben.
                 
-                    \begin{figure}[ht]
-                        \centering
-                        \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_FG}
-                        \caption{Einfluss des Forget Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
-                        \label{fig:LSTM_Forget}
-                    \end{figure}
-                    
-                Das \textit{Input Gate} soll im nächsten Schritt angeben, welche neuen Informationen in den Zellstatus $C_t$ aufgenommen werden.
-                Dies erfolgt in zwei Schritten, zunächst wird mit $i_t$ ermittelt, welche Information geupdated werden soll.
+                Einfluss auf den Zellstatus haben zwei verschiedene \textit{Gates} \marginpar{zu dt. Gatter/Tore}.
+            Im ersten Schritt wird entschieden, welche Information aus dem vorherigen Zeitschritt keinen Einfluss mehr auf den Zellstatus haben sollen.
+            Dies wird mit dem \textit{Forget Gate} umgesetzt und ist in Abbildung~\ref{fig:LSTM_Forget} zu sehen und kann analog zur RNN Zelle folgendermaßen hergeleitet werden.
 
-                \begin{equation}
-                    \begin{split}
-                        i_t &= \sigma\left(W_{ih}h_{t-1} + W_{ix}x_t + b_i\right), \\
-                        \tilde{C}_t &= tanh\left(W_{\tilde{C}h}h_{t-1} + W_{\tilde{C}x}x_t + b_{\tilde{C}}\right),\\
-                    \end{split}
-                \end{equation}
+            \begin{equation}
+                f_t = \sigma\left(W_{fh}h_{t-1} + W_{fx}x_t + b_f\right)
+            \end{equation}
 
-                Im Vektor $\tilde{C}$ sind mögliche Kandidaten enthalten (wie z.B. das Genus), welcher den zuvor vergessenen Wert ersetzen soll (vgl. Abbildung~\ref{fig:LSTM_Input}).
-                Der gesamte Zellstatus $C_t$ wird dann zusammen mit Werten aus dem \textit{Forget Get} verrechnet.
-
-                \begin{equation}
-                    \begin{split}
-                        C_t &=f_t\times C_{t-1} + i_t\times \tilde{C}_t, \\
-                    \end{split}
-                \end{equation}
-
-                    \begin{figure}[ht]
-                        \centering
-                        \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_IG}
-                        \caption{Einfluss des Input Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
-                        \label{fig:LSTM_Input}
-                    \end{figure}
+            $W_{fh}$ und $W_{fx}$ beschreiben die Gewichte $b_f$ den Bias des \textit{Forget Gate}.
+            Es wird also die vorherige Eingabe $h_{t-1}$ sowie die aktuelle Eingabe $x_t$ gewichtet und mit Bias an die Aktivierungsfunktion $\sigma$ übergeben.
+            Damit sollen Informationen aus dem Speicher, die keinen Einfluss mehr haben sollen, entfernt werden.
+            In dem Sprachbeispiel könnte das Genus (\textit{grammatikalisches Geschlecht}) gespeichert werden, um so eine grammatikalisch korrekte Vorhersage zu machen.
+            Kommt nun allerdings ein neues Pronomen in der Eingabe $x_t$, sollte das bisher gespeicherte Genus keinen Einfluss mehr haben.
+            
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_FG}
+                    \caption{Einfluss des Forget Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
+                    \label{fig:LSTM_Forget}
+                \end{figure}
                 
-                Wie der Zellstatus $C_t$ nun die Ausgabe beeinflusst, wird über das \textit{Output Gate} geregelt (siehe Abbildung~\ref{fig:LSTM_Output}).
-                \begin{equation}
-                    \begin{split}
-                        o_t &= \sigma\left(W_{oh}h_{t-1} + W_{ox}x_t + b_o \right), \\
-                        h_t &= o_ttanh\left(c_t\right)
-                    \end{split}
-                \end{equation}
-                Dies soll in unserem Sprachbeispiel entscheiden, ob die Information des Genus für die Vorhersage des nächsten Wortes eine Rolle spielt. \cite{GERS2000} \cite{OLAH2015}
+            Das \textit{Input Gate} soll im nächsten Schritt angeben, welche neuen Informationen in den Zellstatus $C_t$ aufgenommen werden.
+            Dies erfolgt in zwei Schritten, zunächst wird mit $i_t$ ermittelt, welche Information geupdated werden soll.
 
-                    \begin{figure}[ht]
-                        \centering
-                        \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_OG}
-                        \caption{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (inspiriert von \cite{OLAH2015}).}
-                        \label{fig:LSTM_Output}
-                    \end{figure}
-                
-                Die verschiedenen Gates können so als ein weiteres kleines NN in jedem Knoten der LSTM Netze betrachtet werden, welche einen zeitlichen Zusammenhang besser erkennen sollen.
-                Gesamt lässt sich eine LSTM Zelle mit den folgenden Formeln beschreiben:
-                \begin{equation}
-                    \begin{split}
-                        f_t &= \sigma\left(W_{fh}h_{t-1} + W_{fx}x_t + b_f\right) \\
-                        i_t &= \sigma\left(W_{ih}h_{t-1} + W_{ix}x_t + b_i\right), \\
-                        \tilde{C}_t &= tanh\left(W_{\tilde{C}h}h_{t-1} + W_{\tilde{C}x}x_t + b_{\tilde{C}}\right),\\
-                        C_t &=f_t\times C_{t-1} + i_t\times \tilde{C}_t, \\
-                        o_t &= \sigma\left(W_{oh}h_{t-1} + W_{ox}x_t + b_o \right), \\
-                        h_t &= o_ttanh\left(c_t\right) \\
-                        y_t &= h_t
-                    \end{split}
-                \end{equation}
-    
-    \section{Datensatz}
-    \label{sec:Datensatz}
-        Datensätze in HIDS Forschungen: KDD99 UNM ADFA-LD NGIDDS LID-DS
+            \begin{equation}
+                \begin{split}
+                    i_t &= \sigma\left(W_{ih}h_{t-1} + W_{ix}x_t + b_i\right), \\
+                    \tilde{C}_t &= tanh\left(W_{\tilde{C}h}h_{t-1} + W_{\tilde{C}x}x_t + b_{\tilde{C}}\right),\\
+                \end{split}
+            \end{equation}
 
-        KDD 
-        erste Datensätze Aufgenommen auf Solaris, viele Metadaten
-        keine Thread information und Engen et al\. sagen nicht repräsentativ für Systemverhalten \cite{KDD}
+            Im Vektor $\tilde{C}$ sind mögliche Kandidaten enthalten (wie z.B. das Genus), welcher den zuvor vergessenen Wert ersetzen soll (vgl. Abbildung~\ref{fig:LSTM_Input}).
+            Der gesamte Zellstatus $C_t$ wird dann zusammen mit Werten aus dem \textit{Forget Get} verrechnet.
 
-        UNM
-        Enthält keine weiteren Kontextinformationen wie Threads
+            \begin{equation}
+                \begin{split}
+                    C_t &=f_t\times C_{t-1} + i_t\times \tilde{C}_t, \\
+                \end{split}
+            \end{equation}
 
-        ADFA-LD
-        keine Kontextinfo wie threads
-        
-        NIGDS-DS
-        von 2017 mehr Metadaten, allerdings fehlende Argumente und bei genauerer Betrachtung ungenauigkeiten bei Zeitstempeln.
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_IG}
+                    \caption{Einfluss des Input Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
+                    \label{fig:LSTM_Input}
+                \end{figure}
+            
+            Wie der Zellstatus $C_t$ nun die Ausgabe beeinflusst, wird über das \textit{Output Gate} geregelt (siehe Abbildung~\ref{fig:LSTM_Output}).
+            \begin{equation}
+                \begin{split}
+                    o_t &= \sigma\left(W_{oh}h_{t-1} + W_{ox}x_t + b_o \right), \\
+                    h_t &= o_ttanh\left(c_t\right)
+                \end{split}
+            \end{equation}
+            Dies soll in unserem Sprachbeispiel entscheiden, ob die Information des Genus für die Vorhersage des nächsten Wortes eine Rolle spielt. \cite{GERS2000} \cite{OLAH2015}
 
-        LID-DS
-        2019 veröffentlich weil zuvor alles unvollständig
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_OG}
+                    \caption{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (inspiriert von \cite{OLAH2015}).}
+                    \label{fig:LSTM_Output}
+                \end{figure}
+            
+            Die verschiedenen Gates können so als ein weiteres kleines NN in jedem Knoten der LSTM Netze betrachtet werden, welche einen zeitlichen Zusammenhang besser erkennen sollen.
+            Gesamt lässt sich eine LSTM Zelle mit den folgenden Formeln beschreiben:
+            \begin{equation}
+                \begin{split}
+                    f_t &= \sigma\left(W_{fh}h_{t-1} + W_{fx}x_t + b_f\right) \\
+                    i_t &= \sigma\left(W_{ih}h_{t-1} + W_{ix}x_t + b_i\right), \\
+                    \tilde{C}_t &= tanh\left(W_{\tilde{C}h}h_{t-1} + W_{\tilde{C}x}x_t + b_{\tilde{C}}\right),\\
+                    C_t &=f_t\times C_{t-1} + i_t\times \tilde{C}_t, \\
+                    o_t &= \sigma\left(W_{oh}h_{t-1} + W_{ox}x_t + b_o \right), \\
+                    h_t &= o_ttanh\left(c_t\right) \\
+                    y_t &= h_t
+                \end{split}
+            \end{equation}
 
 
-        Struktur einer File eines Scenarios
-
-        \begin{center}
-        \begin{tabular}{||c c c c c c c c c||}
-            \hline
-            event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
-            \hline\hline
-            4012 & 10:18:20.1231231231 & 0 & 33 & apache2 & 1425 & > & writev & fd=12(<4t>172.131.12.1:123->172.13.231.2:123)size=2392 \\
-            \hline
-        \end{tabular}
-        \end{center}
-
-        pro scenario ca. 1000 files welche jeweils ca 60sec aufnahmen beinhalten, insgesamt ca 10h trainingsdaten pro scenario
-
-        Malicious File beinhaltet information über angriffszeitpunkt. Dieser scheinbar nicht sehr genau, deshalb puffer
-        
-        4 Mögliche zuordnungen bei malicious file: vor angriffszeitpunkt unter threshold true negative
-        vor angriffszeitpunkt über threshold false positive nach Angriffszeitpunkt schwerer,
-        über threshold wird als true positive angesehen, obwohl angriff evtl noch nicht gestartet wurde, oder schon wieder vorbei ist.
-        Es könnte also auch false positive oder false negative geben, welche allerdings nicht gezählt werden können.
-        Auf grund dessen Metrik False Alarm/ consecutive false alarm und Detection rate falls einmal pro malicious file in quadrant 4 -> HIT
-
-        Trainiere mit 200 nicht malicious files, 50 validation data und rest Testdaten.

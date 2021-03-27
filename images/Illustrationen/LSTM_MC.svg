@@ -519,8 +519,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="396.12328"
-     inkscape:cy="698.8532"
+     inkscape:cx="298.92886"
+     inkscape:cy="669.0831"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -538,8 +538,18 @@
        inkscape:locked="false" />
     <sodipodi:guide
        position="89.735742,184.75007"
-       orientation="0,1"
+       orientation="1.2246468e-16,-1"
        id="guide8009"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="70.30357,184.75007"
+       orientation="1,0"
+       id="guide8655"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="129.64583,178.68824"
+       orientation="1,0"
+       id="guide8657"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
@@ -753,7 +763,7 @@
          style="stroke-width:0.10381994">tanh</tspan></text>
     <g
        id="surface1"
-       transform="matrix(0.35277778,0,0,0.35277778,101.5031,137.28587)">
+       transform="matrix(0.35277778,0,0,0.35277778,103.72371,137.28587)">
       <g
          id="g7690"
          style="fill:#000000;fill-opacity:1" />
@@ -860,7 +870,7 @@
            xlink:href="#glyph0-2"
            width="100%"
            height="100%"
-           transform="translate(-43.373425,-78.805152)" />
+           transform="translate(-50.092494,-78.805152)" />
       </g>
       <g
          id="g7774"
@@ -872,7 +882,7 @@
            xlink:href="#glyph1-0"
            width="100%"
            height="100%"
-           transform="translate(-43.373425,-78.805152)" />
+           transform="translate(-50.092494,-78.805152)" />
       </g>
       <g
          id="g7778"

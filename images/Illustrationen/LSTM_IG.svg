@@ -565,8 +565,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="405.60859"
-     inkscape:cy="655.90675"
+     inkscape:cx="342.2438"
+     inkscape:cy="670.17536"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -596,6 +596,11 @@
        position="129.29163,190.02864"
        orientation="1,0"
        id="guide1171"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="71.224886,187.75684"
+       orientation="1,0"
+       id="guide7350"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
@@ -926,7 +931,7 @@
        height="100%" />
     <g
        id="surface1"
-       transform="matrix(0.35277777,0,0,0.35277777,69.077034,126.29234)">
+       transform="matrix(0.35277777,0,0,0.35277777,71.015424,126.29234)">
       <g
          id="g1095"
          style="fill:#000000;fill-opacity:1">

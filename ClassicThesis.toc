@@ -1,0 +1,145 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {american}{}
+\defcounter {refsection}{0}\relax 
+\vspace {-\cftbeforepartskip }
+\babel@toc {american}{}
+\babel@toc {ngerman}{}
+\babel@toc {american}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}{Exposee}}{3}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.1}{Einleitung}}{3}{section.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.2}{Zielsetzung}}{4}{section.1.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}{Grundlagen}}{7}{chapter.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.1}{Anomalien und Anomalieerkennung}}{7}{section.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.2}{Intrusion Detection System}}{8}{section.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.1}{Datenanalyse}}{8}{subsection.2.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Signaturbasiert}}{8}{paragraph*.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Anomaliebasiert}}{9}{paragraph*.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.2}{Datenerfassung}}{9}{subsection.2.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Network Based Intrusion Detection}}{10}{paragraph*.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Host Based Intrusion Detection}}{10}{paragraph*.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}{System Calls}}{10}{section.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.4}{Datensatz}}{12}{section.2.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{KDD}}{12}{paragraph*.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{UNM}}{12}{paragraph*.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{ADFA-LD}}{12}{paragraph*.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{NIGDS-DS}}{12}{paragraph*.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{LID-DS}}{12}{paragraph*.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.5}{Künstliche neuronale Netze}}{14}{section.2.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5.1}{Rekurrente neuronale Netze}}{14}{subsection.2.5.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5.2}{Long Short-Term Memory}}{16}{subsection.2.5.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}{Verwandte Arbeiten}}{21}{chapter.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}{Anomaliedetektion mit System Calls}}{21}{section.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.2}{Untersuchen von Zeitreihen mit LSTM}}{21}{section.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}{Realisierung}}{23}{chapter.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}{Verwendete Tools}}{23}{section.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}{Vorverarbeitung}}{23}{section.4.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.1}{Thread Awareness}}{23}{subsection.4.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.2}{Embedding}}{23}{subsection.4.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.3}{System Call Argumente}}{24}{subsection.4.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{String Length}}{24}{paragraph*.21}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{String Character Distribution}}{24}{paragraph*.22}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Structural Inference}}{24}{paragraph*.23}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Token Finder}}{24}{paragraph*.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.4}{Parameterwahl}}{24}{subsection.4.2.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{n}}{24}{paragraph*.25}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}{Algorithmus}}{24}{section.4.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.4}{Anomalieerkennung}}{25}{section.4.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4.1}{Schwellwertbestimmung}}{25}{subsection.4.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.5}{Strukturierung der Experimente}}{25}{section.4.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.1}{Faktor Zeit}}{25}{subsection.4.5.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.2}{Optimale Parameter}}{26}{subsection.4.5.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Architektur}}{26}{paragraph*.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Hyperparameter}}{26}{paragraph*.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Ngram Größe}}{26}{paragraph*.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Embedding}}{26}{paragraph*.29}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Architektur}}{26}{paragraph*.30}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Embedding}}{26}{paragraph*.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Threadinfo}}{27}{paragraph*.32}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Parameter}}{27}{paragraph*.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.6}{Metriken}}{27}{section.4.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}{Implementierung}}{29}{chapter.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {5.1}{Erstellen der Trainingsdaten}}{29}{section.5.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.1.1}{w2v}}{29}{subsection.5.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.1.2}{Parameterinfo}}{29}{subsection.5.1.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}{Ergebnisse}}{31}{chapter.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.0.1}{Optimale Parameter}}{31}{subsection.6.0.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Architektur}}{31}{paragraph*.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Hyperparameter}}{31}{paragraph*.35}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Ngram Größe}}{31}{paragraph*.36}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Embedding}}{31}{paragraph*.37}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Architektur}}{31}{paragraph*.38}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Embedding}}{31}{paragraph*.39}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Threadinfo}}{31}{paragraph*.40}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Parameter}}{32}{paragraph*.41}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {7}{Folgerungen}}{33}{chapter.7}%
+\defcounter {refsection}{0}\relax 
+\vspace {\beforebibskip }
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {}{Bibliography}}{34}{section*.42}%
