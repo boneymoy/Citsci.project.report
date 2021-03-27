@@ -1,0 +1,61 @@
+% Encoding: UTF-8
+
+@InProceedings{HE,
+  author    = {S. {He} and J. {Zhu} and P. {He} and M. R. {Lyu}},
+  title     = {Experience Report: System Log Analysis for Anomaly Detection},
+  booktitle = {2016 IEEE 27th International Symposium on Software Reliability Engineering (ISSRE)},
+  year      = {2016},
+  pages     = {207-218},
+  doi       = {10.1109/ISSRE.2016.21},
+}
+
+@Misc{SYSDIG,
+  title = {Seeing is Securing For containers, Kubernetes and cloud services},
+  url   = {https://sysdig.com/},
+}
+
+@Article{MAGGI,
+  author  = {F. {Maggi} and M. {Matteucci} and S. {Zanero}},
+  title   = {Detecting Intrusions through System Call Sequence and Argument Analysis},
+  journal = {IEEE Transactions on Dependable and Secure Computing},
+  year    = {2010},
+  volume  = {7},
+  number  = {4},
+  pages   = {381-395},
+  doi     = {10.1109/TDSC.2008.69},
+}
+
+@InProceedings{FORREST,
+  author    = {S. {Forrest} and S. A. {Hofmeyr} and A. {Somayaji} and T. A. {Longstaff}},
+  title     = {A sense of self for Unix processes},
+  booktitle = {Proceedings 1996 IEEE Symposium on Security and Privacy},
+  year      = {1996},
+  pages     = {120-128},
+  doi       = {10.1109/SECPRI.1996.502675},
+}
+
+@InProceedings{HOCHREITER,
+  author    = {Hochreiter, Sepp and Schmidhuber, J\"{u}rgen},
+  title     = {LSTM Can Solve Hard Long Time Lag Problems},
+  booktitle = {Proceedings of the 9th International Conference on Neural Information Processing Systems},
+  year      = {1996},
+  series    = {NIPS'96},
+  pages     = {473–479},
+  address   = {Cambridge, MA, USA},
+  publisher = {MIT Press},
+  abstract  = {Standard recurrent nets cannot deal with long minimal time lags between relevant signals. Several recent NIPS papers propose alternative methods. We first show: problems used to promote various previous algorithms can be solved more quickly by random weight guessing than by the proposed algorithms. We then use LSTM, our own recent algorithm, to solve a hard problem that can neither be quickly solved by random search nor by any other recurrent net algorithm we are aware of.},
+  location  = {Denver, Colorado},
+  numpages  = {7},
+}
+
+@Article{,
+  author  = {Kamilya {Smagulova}, Alex Pappachen {James}},
+  title   = {A survey on LSTM memristive neural network architectures and applications},
+  journal = {The European Physical Journal Special Topics},
+  year    = {2019},
+  volume  = {228},
+  pages   = {2313–2324},
+  month   = {Oktober},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
