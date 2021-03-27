@@ -78,43 +78,43 @@
             zip - futex, write, getpid,protect,open
             2019- statat,write, futex, stat, getpid
             2014- writev,read,  nmap,  close,poll
-            2017- l_wait,close,oll_ctl,write,writev
+            2017- lwait,close,ollctl,write,writev
             2018- statat,write, futex, getpid, stat
 
 
             unique:
                 vfrom, fcntl, lstat, nmap???, poll, writev, read, close, open, fstat, mmap, brk
-                futex, write, getpid, protect, statat, stat, l_wait, oll_ctl
+                futex, write, getpid, protect, statat, stat, lwait, ollctl
 
             
-        \begin{table}[ht]
-            \small
-            \label{tab:syscall}
-            \centering
-            \begin{tabular}{c||p{6cm}|p{3cm}}
-                \hline
-                \rowcolor{Gray!36}
-                \multicolumn{3}{c}{System Calls}\\
-                \hline
-                Name & Beschreibung & Interessante Argumente & return\\
-                \hline
-                \hline
-                \rowcolor{Gray!16}
-                fcntl & manipulate current fd & None & 
-                \hline
-                lstat & file status & path & 
-                \rowcolor{Gray!16}
-                mmap & map or unmap files or devices into memory & addr, length, fd,... & pointer to maped area
-                poll & wait for event on fd & fds (fd, events, revents), timeout
-                \rowcolor{Gray!16}
+        %\begin{table}[ht]
+            %\small
+            %\label{tab:syscall}
+            %\centering
+            %\begin{tabular}{c||p{6cm}|p{3cm}|p{3cm}}
+                %\hline
+                %\rowcolor{Gray!36}
+                %\multicolumn{3}{c}{System Calls}\\
+                %\hline
+                %Name & Beschreibung & Interessante Argumente & return\\
+                %\hline
+                %\hline
+                %\rowcolor{Gray!16}
+                %fcntl & manipulate current fd & None & None
+                %\hline
+                %lstat & file status & path & 
+                %\rowcolor{Gray!16}
+                %mmap & map or unmap files or devices into memory & addr, length, fd,... & pointer to maped area
+                %poll & wait for event on fd & fds (fd, events, revents), timeout
+                %\rowcolor{Gray!16}
 
 
-                open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} \\
-                write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} \\
-                \hline
-            \end{tabular}
-            \caption{Beschreibung ausgewählter System Calls}
-        \end{table}
+                %open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} \\
+                %write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} \\
+                %\hline
+            %\end{tabular}
+            %\caption{Beschreibung ausgewählter System Calls}
+        %\end{table}
 
             interesting arguments:
                  

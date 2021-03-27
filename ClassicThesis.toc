@@ -56,6 +56,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.2}{Untersuchen von Zeitreihen mit LSTM}}{21}{section.3.2}%
 \defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.3}{System Call mit LSTM}}{21}{section.3.3}%
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}{Realisierung}}{23}{chapter.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.1}{Verwendete Tools}}{23}{section.4.1}%
@@ -68,17 +70,19 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.3}{System Call Argumente}}{24}{subsection.4.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{String Length}}{24}{paragraph*.21}%
+\contentsline {paragraph}{{System Call Analysis}}{24}{paragraph*.21}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{String Character Distribution}}{24}{paragraph*.22}%
+\contentsline {paragraph}{{String Length}}{24}{paragraph*.22}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Structural Inference}}{24}{paragraph*.23}%
+\contentsline {paragraph}{{String Character Distribution}}{24}{paragraph*.23}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Token Finder}}{24}{paragraph*.24}%
+\contentsline {paragraph}{{Structural Inference}}{24}{paragraph*.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{{Token Finder}}{24}{paragraph*.25}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.4}{Parameterwahl}}{24}{subsection.4.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{n}}{24}{paragraph*.25}%
+\contentsline {paragraph}{{n}}{24}{paragraph*.26}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.3}{Algorithmus}}{24}{section.4.3}%
 \defcounter {refsection}{0}\relax 
@@ -88,25 +92,25 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.5}{Strukturierung der Experimente}}{25}{section.4.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.1}{Faktor Zeit}}{25}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.1}{Faktor Zeit}}{26}{subsection.4.5.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.5.2}{Optimale Parameter}}{26}{subsection.4.5.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{26}{paragraph*.26}%
+\contentsline {paragraph}{{Architektur}}{26}{paragraph*.27}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Hyperparameter}}{26}{paragraph*.27}%
+\contentsline {paragraph}{{Hyperparameter}}{26}{paragraph*.28}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Ngram Größe}}{26}{paragraph*.28}%
+\contentsline {paragraph}{{Ngram Größe}}{26}{paragraph*.29}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{26}{paragraph*.29}%
+\contentsline {paragraph}{{Embedding}}{26}{paragraph*.30}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{26}{paragraph*.30}%
+\contentsline {paragraph}{{Architektur}}{27}{paragraph*.31}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{26}{paragraph*.31}%
+\contentsline {paragraph}{{Embedding}}{27}{paragraph*.32}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Threadinfo}}{27}{paragraph*.32}%
+\contentsline {paragraph}{{Threadinfo}}{27}{paragraph*.33}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Parameter}}{27}{paragraph*.33}%
+\contentsline {paragraph}{{Parameter}}{27}{paragraph*.34}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.6}{Metriken}}{27}{section.4.6}%
 \defcounter {refsection}{0}\relax 
@@ -122,24 +126,24 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {6.0.1}{Optimale Parameter}}{31}{subsection.6.0.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{31}{paragraph*.34}%
+\contentsline {paragraph}{{Architektur}}{31}{paragraph*.35}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Hyperparameter}}{31}{paragraph*.35}%
+\contentsline {paragraph}{{Hyperparameter}}{31}{paragraph*.36}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Ngram Größe}}{31}{paragraph*.36}%
+\contentsline {paragraph}{{Ngram Größe}}{31}{paragraph*.37}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{31}{paragraph*.37}%
+\contentsline {paragraph}{{Embedding}}{31}{paragraph*.38}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{31}{paragraph*.38}%
+\contentsline {paragraph}{{Architektur}}{31}{paragraph*.39}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{31}{paragraph*.39}%
+\contentsline {paragraph}{{Embedding}}{31}{paragraph*.40}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Threadinfo}}{31}{paragraph*.40}%
+\contentsline {paragraph}{{Threadinfo}}{31}{paragraph*.41}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Parameter}}{32}{paragraph*.41}%
+\contentsline {paragraph}{{Parameter}}{32}{paragraph*.42}%
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {7}{Folgerungen}}{33}{chapter.7}%
 \defcounter {refsection}{0}\relax 
 \vspace {\beforebibskip }
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {}{Bibliography}}{34}{section*.42}%
+\contentsline {chapter}{\numberline {}{Bibliography}}{34}{section*.43}%
