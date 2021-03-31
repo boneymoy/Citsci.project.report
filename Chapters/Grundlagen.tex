@@ -1,7 +1,7 @@
 %*****************************************
 \chapter{Grundlagen}\label{ch:grundlagen}
 %*****************************************
-    In den folgenden Kapiteln sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des IDS nötig sind.
+    In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des IDS nötig sind.
     Essentiell dabei sind zum einen die Definition von Anomalien und der Anomaliedetektion (siehe Kapitel~\ref{sec:Anomalieerkennung})
     und eine allgemeine Einführung in den Bereich der IDS (siehe Kapitel~\ref{sec:IDS}).
     Dabei wird auf den im praktischen Teil verwendeten Ansatz der \textit{Host-Based Intrusion Detection Systems} (HIDS) genauer eingegangen.
@@ -113,7 +113,7 @@
         \label{sec:Datenerfassung}
 
             Die Datenerhebung wird in verschiedener Literatur in zwei Kategorien unterteilt~\cite{IDSsurvey},~\cite{IDSreview}.
-            Zum einen die \textit{Host Based Intrusion Detection} (HIDS) und zum anderen die \textit{Network Based Intrusion Detection} (NIDS).
+            Zum einen die \textit{Host Based Intrusion Detection Systems} (HIDS) und zum anderen die \textit{Network Based Intrusion Detection Systems} (NIDS).
             In den folgenden Abschnitten werden diese beiden Ansätze genauer untersucht.
 
             \paragraph{Network Based Intrusion Detection}
@@ -147,7 +147,7 @@
         Die erste Frage soll in dem folgenden Kapitel mit der Betrachtung von System Calls zur Beschreibung des Systemverhaltens angegangen werden.
         Die letztere soll dann speziell in Kapitel~\ref{sec:Algorithmus} beleuchtet werden.
 
-        \begin{figure}[ht]
+        \begin{figure}[h]
             \centering
             \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
             \caption{Einordnung des verwendeten IDS (breiter markiert).}
@@ -158,28 +158,35 @@
     \label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
         Diese Interaktion findet in Form von \textit{System Calls} \marginpar{zu dt. Systemaufrufe} statt.
-        Zu ihnen gehören zum Beispiel die folgenden System Calls:
+        Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschiebenen System Calls.
 
-        \begin{table}[ht]
+        \begin{table}[H]
             \small
             \label{tab:syscall}
             \centering
-            \begin{tabular}{c||p{6cm}|p{3cm}}
+            \begin{tabular}{c||p{6cm}|p{3cm}|p{3cm}}
                 \hline
                 \rowcolor{Gray!36}
-                \multicolumn{3}{c}{System Calls}\\
+                \multicolumn{4}{c}{System Calls}\\
                 \hline
-                Name & Beschreibung & Argumente \\
+                Name & Beschreibung & Argumente & Rückgabewerte\\
                 \hline
                 \hline
                 \rowcolor{Gray!16}
                 %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
-                open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} \\
-                write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} \\
+                open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} & kp\\
+                write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} & kp\\
                 \hline
             \end{tabular}
             \caption{Beschreibung ausgewählter System Calls}
         \end{table}
+
+        Generell werden System Calls verwendet um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
+        Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit welche von Programmen genutzt werden können. 
+        Die System Calls stellen dabei die Kommunikation zwischen Kernel und Programmen dar.
+        Mögliche Services sind unter anderem Zugriffe auf Hardware aber auch das Erstellen und Ausführen von Prozessen.
+        Üblicherweise können System Calls nur von Nutzerprozessen ausgelöst werden, welche eine eingeschränkte Berechtigung besitzen.
+        Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können sowie einen Rückgabewert.
 
         Auch ein möglicher Angreifer muss um Schaden anzurichten also an den System Calls in irgendeiner Form eine Veränderung vornehmen.
         Entweder kann die Abfolge, also die Sequenz von System Calls verändert werden, z.B. es werden neue Funktionen aufgerufen, welche wiederum andere System Calls aufrufen,
@@ -202,7 +209,7 @@
         Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
         kamen verschiedene Datensätze hinzu.
         Auf diese wird in den kommenden Abschnitten kurz eingegangen.
-        Dabei soll auch auf die Nutzbarkeit und die entsehenden Problematiken dieser für die HIDS über System Calls eingegangen werden.
+        Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die HIDS über System Calls eingegangen werden.
 
         \paragraph{KDD}
             Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
@@ -224,7 +231,7 @@
             Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
             Im folgenden soll eine Beispieldatei betrachtet werden.
 
-            \begin{table}[ht]
+            \begin{table}[h]
                 \tiny
                 \centering
                 \begin{tabular}{p{1.1cm}|p{1.1cm}|p{0.3cm}|p{0.4cm}|p{0.6cm}|p{0.6cm}|p{0.8cm}|p{0.6cm}|p{1cm}}
@@ -242,7 +249,7 @@
                 \label{tab:syscallfile}
             \end{table}
 
-            \begin{table}[ht]
+            \begin{table}[h]
                 \small
                 \centering
                 \begin{tabular}{p{3cm}|p{6.5cm}}
@@ -347,13 +354,13 @@
             Ein einzelner Knoten wird ohne die Gewichte in Abbildung~\ref{fig:RNN} dargestellt,
             sowie in Abbildung~\ref{fig:RNN_enroled} in einer alternativen Darstellung, wie sich dieser Knoten über $t$ Zeitpunkte verhält.
             Dabei werden für die Übersichtlichkeit Gewichte sowie der Bias nicht dargestellt.
-                \begin{figure}[ht]
+                \begin{figure}[h]
                     \centering
                     \includegraphics[width=0.8\textwidth]{images/Illustrationen/RNN_simple}
                     \caption{Darstellung einer RNN Zelle}
                     \label{fig:RNN}
                 \end{figure}
-                \begin{figure}[ht]
+                \begin{figure}[h]
                     \centering
                     \includegraphics[width=1\textwidth]{images/Illustrationen/RNN_enrolled}
                     \caption{Darstellung einer \glqq ausgerollten\grqq \ und vereinfachten RNN Zelle}
@@ -374,7 +381,7 @@
             Hauptziel der LSTMs ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
             Entscheident dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant sein könnten.
             
-            \begin{figure}[ht]
+            \begin{figure}[h]
                 \centering
                 \includegraphics[width=0.8\textwidth]{images/Illustrationen/LSTM}
                 \caption{Schematische Darstellung eines Knotens in einem LSTM NN, mit Input, Output und Forget Gate (inspiriert von \cite{OLAH2015}).}
@@ -387,7 +394,7 @@
             Der Zellstatus $C_{t-1}$ zum Zeitpunkt $t-1$ hat im nächsten Zeitschritt $t$ einen Einfluss auf den Zellstatus $C_{t}$ und somit auch auf die Ausgabe $y_t$.
             Die Weitergabe des Status wird in Abbildung~\ref{fig:LSTM_Status} dargestellt.
 
-                \begin{figure}[ht]
+                \begin{figure}[h]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_MC}
                     \caption{Weitergabe des Zellstatus innerhalb eines Knotens (inspiriert von \cite{OLAH2015}).}
@@ -408,7 +415,7 @@
             In dem Sprachbeispiel könnte das Genus (\textit{grammatikalisches Geschlecht}) gespeichert werden, um so eine grammatikalisch korrekte Vorhersage zu machen.
             Kommt nun allerdings ein neues Pronomen in der Eingabe $x_t$, sollte das bisher gespeicherte Genus keinen Einfluss mehr haben.
             
-                \begin{figure}[ht]
+                \begin{figure}[h]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_FG}
                     \caption{Einfluss des Forget Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
@@ -434,7 +441,7 @@
                 \end{split}
             \end{equation}
 
-                \begin{figure}[ht]
+                \begin{figure}[h]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_IG}
                     \caption{Einfluss des Input Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
@@ -450,7 +457,7 @@
             \end{equation}
             Dies soll in unserem Sprachbeispiel entscheiden, ob die Information des Genus für die Vorhersage des nächsten Wortes eine Rolle spielt. \cite{GERS2000} \cite{OLAH2015}
 
-                \begin{figure}[ht]
+                \begin{figure}[h]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_OG}
                     \caption{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (inspiriert von \cite{OLAH2015}).}
