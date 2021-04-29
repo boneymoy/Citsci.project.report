@@ -9,16 +9,14 @@
     soll im Anschluss die Grundlagen des verwendeten Algorithmus untersucht werden.
     Dazu gehören rekurrente neuronale Netze (RNN), sowie die Erweiterung der RNNs die \textit{Long Short-Term Memory} neuronalen Netzen (LSTM)\@.
 
-    \section{Intrusion Detection System}
-    \label{sec:IDS}
+    \section{Intrusion Detection System}\label{sec:IDS}
         Eine \textit{Intrusion} \marginpar{zu dt. Eindringung} ist eine unauthorisierte Aktivität, welche einem System Schaden zufügen kann.
         Eine \textit{Intrusion Detection} Software/Hardware versucht automatisch diese 
         unauthorisierten Aktivitäten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSreview}
         Um solche unautorisierte Aktivitäten erkennen zu können müssen zunächst Daten erfasst werden und diese dann analysiert werden.
         In den folgenden beiden Abschnitten sollen diesen beiden Schritte genauer untersucht werden.
 
-        \subsection{Datenanalyse}
-        \label{sec:Datenanalyse}
+        \subsection{Datenanalyse}\label{sec:Datenanalyse}
             Das Erkennen von Angriffen auf Computersystemen mittels IDS wird meist, wie auch in~\cite{IDSreview} und~\cite{IDSsurvey}, in drei Kategorien eingeteilt.
             Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird,
             sowie die \textit{Stateful Protocol Analysis} \marginpar{zu dt. Zustandsorientierte Protokoll Analyse}.
@@ -36,7 +34,7 @@
                 da diese noch nicht in der Datenbank vorhanden sind.~\cite{IDSsurvey}
 
             \paragraph{Anomaliebasiert}
-            Ziel einer anomaliebasierten IDS (AIDS) ist es Muster in Daten wiederzuerkennen 
+                Ziel einer anomaliebasierten IDS (AIDS) ist es Muster in Daten wiederzuerkennen 
                 welche von einem definierten Normalverhalten abweichen~\cite{ANOMALYSURVEY}.
                 Die Bedeutung der Anomalieerkennung liegt in der Tatsache begründet,
                 dass Anomalien in Daten zu signifikanten und oft kritischen Veränderungen eines System führen können. 
@@ -55,7 +53,7 @@
                 Im ersten Schritt der AIDS wird ein Modell des Normalverhaltens erstellt.
                 Dabei können ML-basierte, Statistik-basierte oder auch 
                 \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
-                Weiter kann die anomaliebasierte \texit{Intrusion Detection} in zwei Phasen aufgeteilt werden,
+                Weiter kann die anomaliebasierte \textit{Intrusion Detection} in zwei Phasen aufgeteilt werden,
                 die \textit{Trainingsphase} sowie die \textit{Testphase}.
                 In der ersten Phase wird versucht ein Modell des Programmverhaltens zu ermitteln,
                 beziehungsweise zu trainieren.
@@ -110,17 +108,14 @@
                 Denn die AIDS müssen einen Schwellwert festlegen ab welchem ein Vorkommnis als Anomalie erkannt wird.
                 Dieser Wert entscheidet über die Ergebnisqualität der AIDS 
                 und sollte daher sorgfältig und am besten automatisch ermittelt werden,
-                um Anwendungsspezifische Justierungen zu vermeiden. \marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
+                um anwendungsspezifische Justierungen zu vermeiden. \marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
                 Eine weitere Schwierigkeit bei AIDS liegt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
                 dass bei nicht kompletten Erfassen des Normalverhalten viele Fehlalarme enstehen können.
                 Daher ist eine entscheidende Frage bei Verwendung von AIDS\@: Woher kommen die für das Lernen des Normalverhalten benötigten Daten?
                 %Viele verschiedene Ansätze, unter anderem zusammengefasst in~\cite{IDSsurvey}.
 
-        \subsection{Datenerfassung}
-        \label{sec:Datenerfassung}
-
-            Die Datenerhebung wird in verschiedenen Arbeiten in zwei Kategorien unterteilt~\cite{IDSsurvey},
-            ~\cite{IDSreview}.
+        \subsection{Datenerfassung}\label{sec:Datenerfassung}
+            Die Datenerhebung wird in verschiedenen Arbeiten in zwei Kategorien unterteilt~\cite{IDSsurvey},~\cite{IDSreview}.
             Zum einen die \textit{Host Based Intrusion Detection Systems} (HIDS) 
             und zum anderen die \textit{Network Based Intrusion Detection Systems} (NIDS).
             In den folgenden Abschnitten werden diese beiden Ansätze genauer untersucht.
@@ -130,9 +125,8 @@
                 Ein großer Vorteil daran ist, dass viele Computer in einem Netzwerk überwacht werden.
                 Ziel ist es dabei Angriffe möglichst früh zu erkennen und zu verhindern,
                 dass sich die Gefahr weiter ausbreiten kann.
-                Doch der erwähnte Vorteil kann schnell zu einem Nachteil werden,
-                da bei besonders großen Netzen der hohe Datendurchsatz dafür sorgen kann,
-                dass Angriffe übersehen werden können.~\cite{NIDS}
+                Doch der erwähnte Vorteil kann schnell zu Schwierigkeiten führen,
+                da bei besonders großen Netzen der hohe Datendurchsatz das Erkennen von Angriffen erschwert.~\cite{NIDS}
                 Ein weiterer Nachteil bei der Untersuchung von Netzwerkpaketen oder ähnlichem besteht darin,
                 dass der Netzwerkverkehr meist verschlüsselt ist
                 und somit nicht auf den Inhalt der Pakete eingegangen werden kann.
@@ -149,6 +143,9 @@
                 da die interne Kommunikation unverschlüsselt stattfindet. 
 
         Abbildung~\ref{fig:IDSOverview} soll einen Überblick über die in den vorigen Abschnitten gemachte Einstufung geben.
+        Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
+        in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
+        in die anomaliebasierten und signaturbasierten Verfahren sowie die \textit{Stateful Protocol Analysis} eingeteilt wird.
         Die dicker umrandeten Verfahren werden in dieser Arbeit verwendet.
         Also zur Datenerfassung werden nur Informationen welche auf dem Host zugänglich sind verwendet 
         und die so erhaltenen Daten werden anomaliebasiert untersucht.
@@ -160,19 +157,14 @@
                 \end{itemize}
             \item Wie wird die eigentliche Anomalie in den Daten erkannt?
         \end{itemize}
-        Die erste Frage soll in dem folgenden Kapitel mit der Betrachtung von System Calls zur Beschreibung des Systemverhaltens angegangen werden.
+        Die erste Frage soll in dem folgenden Abschnitt mit der Betrachtung von System Calls zur Beschreibung des Systemverhaltens angegangen werden.
         Die letztere soll dann speziell in Kapitel~\ref{sec:Algorithmus} beleuchtet werden.
 
         \begin{figure}[h]
             \centering
             \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
-            \caption{Einordnung des verwendeten IDS (breiter markiert).}
-            \label{fig:IDSOverview}
+            \caption{Einordnung des verwendeten IDS (breiter markiert).}\label{fig:IDSOverview}
         \end{figure}
-
-    \section{Anomalien und Anomalieerkennung}
-    \label{sec:Anomalieerkennung}
-
 
         %TODO Punktanomalie,  Kontextanomalie, Kollektivanomalie
 
@@ -189,13 +181,12 @@
         %wird dieser überschritten Alarm
         %Es gibt verschiedene Arten von anomalien
 
-    \section{System Calls}
-    \label{sec:syscalls}
+    \section{System Calls}\label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
         Diese Interaktion findet in Form von \textit{System Calls} \marginpar{zu dt. Systemaufrufe} statt.
-        Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschiebenen System Calls.
+        Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschriebenen System Calls.
 
-        \begin{table}[H]
+        \begin{table}[h]
             \small
             \label{tab:syscall}
             \centering
@@ -223,33 +214,36 @@
         Üblicherweise können System Calls nur von Nutzerprozessen ausgelöst werden, welche eine eingeschränkte Berechtigung besitzen.
         Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können sowie einen Rückgabewert.
 
-        Auch ein möglicher Angreifer muss um Schaden anzurichten also an den System Calls in irgendeiner Form eine Veränderung vornehmen.
+        Auch ein möglicher Angreifer muss um Schaden anzurichten also an der Art der System Calls eine Veränderung vornehmen.
         Entweder kann die Abfolge, also die Sequenz von System Calls verändert werden, z.B. es werden neue Funktionen aufgerufen, welche wiederum andere System Calls aufrufen,
         oder es werden die Argumente der System Calls verändert.
         So könnte zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
-        Viele verschiedene IDS Ansätze betrachten lediglich die Sequenz von System Calls und missachten die in den Argumenten enthaltene Informationen.
-        Auch wenn diese Ansätze teilweise sehr erfolgreich sind, lassen sie den Angreifenden einen Spielraum.
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
-        Verschiedene Arbeiten~\cite{Syscallseqexploit1},~\cite{Syscallseqexploit2},~\cite{Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
-        Tan et al. \cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von der IDS erkannten Angriffes.
-        Sie beschreiben, wie dem IDS fremde System Call Sequenzen derart Verändert werden können, dass sie als normal eingestuft werden.
-        Dabei werden die fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
-        Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
-        Doch diese Beispiele zeigen auch, dass wenigstens ein Faktor, also Sequenz oder Argumente, verändert werden muss, um das Systemverhalten abzuwandeln.
-        Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in Kapitel~\ref{sec:args} untersucht werden.
-        Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
 
-    \section{Datensatz}
-    \label{sec:Datensatz}
+        \subsection{System Calls für IDS}
+            %TODO richtige Stelle für den Abschnitt finden
+            Viele verschiedene IDS Ansätze betrachten lediglich die Sequenz von System Calls und missachten die in den Argumenten enthaltene Informationen.
+            Auch wenn diese Ansätze teilweise sehr erfolgreich sind, lassen sie den Angreifenden einen Spielraum.
+            Verschiedene Arbeiten~\cite{Syscallseqexploit1},~\cite{Syscallseqexploit2},~\cite{Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
+            Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von der IDS erkannten Angriffes.
+            Sie beschreiben, wie dem IDS fremde System Call Sequenzen derart Verändert werden können, dass sie als normal eingestuft werden.
+            Dabei werden die fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
+            Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
+            Doch diese Beispiele zeigen auch, dass wenigstens ein Faktor, also Sequenz oder Argumente, verändert werden muss, um das Systemverhalten abzuwandeln.
+            Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in Kapitel~\ref{sec:args} untersucht werden.
+            Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
+
+    \section{Datensatz}\label{sec:Datensatz}
         Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
         kamen verschiedene Datensätze hinzu.
         Auf diese wird in den kommenden Abschnitten kurz eingegangen.
         Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die HIDS über System Calls eingegangen werden.
-
         \paragraph{KDD}
             Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
-            steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.
-            Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
+            simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services. 
+            Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher sieben Wochen über TCP-Dump aufgezeichnet.
+            Dabei werden verschiedene Angriffe ausgeführt, darunter sind \textit{Denial of Service} und \textit{User to Root} \marginpar{Auch als \textit{Priviledge Escalation} bezeichnet}.
+            Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.  Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
         \paragraph{UNM}
             Auch dieser Datensatz~\cite{UNM} ist veraltet (1999) und kommt für eine weitere Betrachtung nicht in Frage,
             da zusätzlich auch weitere Kontextinformationen wie Thread IDs fehlen~\cite{UNMcritic}
@@ -342,8 +336,7 @@
             Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
             soll im Folgenden die Frage geklärt werden, wie Muster mit Hilfe von künstlichen neuronalen Netzen in einem Datensatz erkannt werden können.
 
-    \section{Künstliche neuronale Netze}
-    \label{sec:KNN}        
+    \section{Künstliche neuronale Netze}\label{sec:KNN}        
         Das Nutzen von bestehenden und in der Natur vorkommenden Strukturen und Prozessen kommt in verschiedenen Forschungsbereichen zum Einsatz.
         In direkter Umsetzung von zum Beispiel der Struktur von Geckofüßen unter anderem für die Raumfahrt~\cite{GECKO}.%, oder auch zur Verringerung des Luftwiderstandes mit der Adaption von Placoidschuppen der Haie \cite{SHARK}.
         Auch Prozesse welche in der Natur beobachtbar sind werden verucht zu adaptieren, dazu zählen zum Beispiel Ameisenalgorithmen~\cite{ANT}.
@@ -360,16 +353,12 @@
         Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \textit{Convolutional Neural Nets} (CNN) für die Bilderkennung. 
         Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \textit{Recurrent Neural Nets} (RNN).
         Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, soll im Folgenden nur auf die RNNs und besondere Abwandlungen dieser eingegangen werden.
-        
         % überarbeiten
         %unterteilung verschiedener Netze und einordnung von rnns und lstmnn
-        
         %Neuronale Netze bestehen aus verschiedenen Ebenen von Knoten (auch Neuronen genannt), die miteinander verbunden sind.
         %Die Neuronen erhalten Eingangssignale und falls diese eine bestimmte Bedingung erfüllen (z.B. Schwellwertüberschreitung) wird das Ausgangssignal des Neurons verändert.
         %Wird die Bedingung nicht erfüllt, sendet das Neuron ein Signal, welches die nachfolgenden Neuronen nicht beeinflusst. Der schematische Aufbau wird in Abbildung \ref{fig:Neuron} gezeigt.
-%
-        \subsection{Rekurrente neuronale Netze}
-        \label{sec:RNN}
+        \subsection{Rekurrente neuronale Netze}\label{sec:RNN}
             Der entscheidende Unterschied von RNNs zu herkömmlichen neuronalen Netzen ist,
             dass der Ausgang eines Knotens auf einer \textit{Layer} \marginpar{zu dt. Ebene} mit einer vorherigen oder derselben Layer verbunden ist.
             Ist dies der Fall spricht man von einem \textit{Feedback} oder \textit{Recurrent Neural Network}, sonst von einem \textit{Feedforward Neural Network}. 
@@ -512,5 +501,3 @@
                     y_t &= h_t
                 \end{split}
             \end{equation}
-
-
