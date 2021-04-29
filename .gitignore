@@ -1,4 +1,5 @@
 *.aux
+Chapters/*.aux
 *.bbl
 *.blg
 *.fls
