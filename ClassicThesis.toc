@@ -14,41 +14,41 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {2}{Grundlagen}}{7}{chapter.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.1}{Anomalien und Anomalieerkennung}}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.1}{Intrusion Detection System}}{7}{section.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}{Intrusion Detection System}}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.1.1}{Datenanalyse}}{7}{subsection.2.1.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.1}{Datenanalyse}}{8}{subsection.2.2.1}%
+\contentsline {paragraph}{{Signaturbasiert}}{7}{paragraph*.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Signaturbasiert}}{8}{paragraph*.1}%
+\contentsline {paragraph}{{Anomaliebasiert}}{8}{paragraph*.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Anomaliebasiert}}{9}{paragraph*.2}%
+\contentsline {subsection}{\numberline {2.1.2}{Datenerfassung}}{9}{subsection.2.1.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.2}{Datenerfassung}}{9}{subsection.2.2.2}%
-\defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Network Based Intrusion Detection}}{10}{paragraph*.3}%
+\contentsline {paragraph}{{Network Based Intrusion Detection}}{9}{paragraph*.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{{Host Based Intrusion Detection}}{10}{paragraph*.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.3}{System Calls}}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.2}{System Calls}}{10}{section.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.4}{Datensatz}}{12}{section.2.4}%
+\contentsline {subsection}{\numberline {2.2.1}{System Calls für IDS}}{11}{subsection.2.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}{Datensätze}}{12}{section.2.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{{KDD}}{12}{paragraph*.7}%
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{{UNM}}{12}{paragraph*.8}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{ADFA-LD}}{12}{paragraph*.9}%
+\contentsline {paragraph}{{ADFA-LD}}{13}{paragraph*.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{NIGDS-DS}}{12}{paragraph*.10}%
+\contentsline {paragraph}{{NGIDS-DS}}{13}{paragraph*.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{LID-DS}}{12}{paragraph*.11}%
+\contentsline {paragraph}{{LID-DS}}{13}{paragraph*.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.5}{Künstliche neuronale Netze}}{14}{section.2.5}%
+\contentsline {section}{\numberline {2.4}{Künstliche neuronale Netze}}{14}{section.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.5.1}{Rekurrente neuronale Netze}}{14}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.4.1}{Rekurrente neuronale Netze}}{15}{subsection.2.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.5.2}{Long Short-Term Memory}}{16}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.4.2}{Long Short-Term Memory}}{17}{subsection.2.4.2}%
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}{Verwandte Arbeiten}}{21}{chapter.3}%
 \defcounter {refsection}{0}\relax 
@@ -64,86 +64,84 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.2}{Vorverarbeitung}}{23}{section.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}{Thread Awareness}}{23}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.1}{Vorverarbeitung des Datensatzes}}{24}{subsection.4.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.2}{Embedding}}{23}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.2}{Wie wird ein System Call dargestellt?}}{24}{subsection.4.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.3}{System Call Argumente}}{24}{subsection.4.2.3}%
+\contentsline {paragraph}{{One-Hot-Encoding}}{24}{paragraph*.22}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{System Call Analysis}}{24}{paragraph*.21}%
+\contentsline {paragraph}{{Word-To-Vector}}{24}{paragraph*.23}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{String Length}}{24}{paragraph*.22}%
+\contentsline {subsection}{\numberline {4.2.3}{Wie wird ein Datenstream dargestellt}}{24}{subsection.4.2.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{String Character Distribution}}{24}{paragraph*.23}%
+\contentsline {subsection}{\numberline {4.2.4}{Wie können weitere System Call Informationen dargestellt werden?}}{25}{subsection.4.2.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Structural Inference}}{24}{paragraph*.24}%
+\contentsline {paragraph}{{System Call Argumente}}{25}{paragraph*.24}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Token Finder}}{24}{paragraph*.25}%
+\contentsline {paragraph}{{Thread Awareness}}{25}{paragraph*.25}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.4}{Parameterwahl}}{24}{subsection.4.2.4}%
+\contentsline {paragraph}{{Zeitliche Abstände von System Calls}}{25}{paragraph*.26}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{n}}{24}{paragraph*.26}%
+\contentsline {paragraph}{{Return Werte}}{25}{paragraph*.27}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}{Algorithmus}}{24}{section.4.3}%
+\contentsline {section}{\numberline {4.3}{Algorithmus}}{27}{section.4.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}{Anomalieerkennung}}{25}{section.4.4}%
+\contentsline {subsection}{\numberline {4.3.1}{Anomalieerkennung}}{28}{subsection.4.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4.1}{Schwellwertbestimmung}}{25}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.3.2}{Schwellwertbestimmung}}{28}{subsection.4.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.5}{Strukturierung der Experimente}}{25}{section.4.5}%
+\contentsline {paragraph}{{Problem des Datensatz}}{28}{paragraph*.28}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.1}{Faktor Zeit}}{26}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.3.3}{Parameterwahl}}{29}{subsection.4.3.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.2}{Optimale Parameter}}{26}{subsection.4.5.2}%
+\contentsline {section}{\numberline {4.4}{Strukturierung der Experimente}}{29}{section.4.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{26}{paragraph*.27}%
+\contentsline {subsection}{\numberline {4.4.1}{Faktor Zeit}}{29}{subsection.4.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Hyperparameter}}{26}{paragraph*.28}%
+\contentsline {subsection}{\numberline {4.4.2}{Optimale Parameter}}{29}{subsection.4.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Ngram Größe}}{26}{paragraph*.29}%
+\contentsline {paragraph}{{Architektur}}{29}{paragraph*.29}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{26}{paragraph*.30}%
+\contentsline {paragraph}{{Hyperparameter}}{30}{paragraph*.30}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{27}{paragraph*.31}%
+\contentsline {paragraph}{{Ngram Größe}}{30}{paragraph*.31}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{27}{paragraph*.32}%
+\contentsline {paragraph}{{Threadinfo}}{30}{paragraph*.32}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Threadinfo}}{27}{paragraph*.33}%
+\contentsline {paragraph}{{Parameter}}{30}{paragraph*.33}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Parameter}}{27}{paragraph*.34}%
+\contentsline {section}{\numberline {4.5}{Metriken}}{30}{section.4.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.6}{Metriken}}{27}{section.4.6}%
+\contentsline {chapter}{\numberline {5}{Implementierung}}{31}{chapter.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}{Implementierung}}{29}{chapter.5}%
+\contentsline {section}{\numberline {5.1}{Erstellen der Trainingsdaten}}{31}{section.5.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}{Erstellen der Trainingsdaten}}{29}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}{w2v}}{31}{subsection.5.1.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.1}{w2v}}{29}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}{Parameterinfo}}{31}{subsection.5.1.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1.2}{Parameterinfo}}{29}{subsection.5.1.2}%
+\contentsline {chapter}{\numberline {6}{Ergebnisse}}{33}{chapter.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}{Ergebnisse}}{31}{chapter.6}%
+\contentsline {subsection}{\numberline {6.0.1}{Optimale Parameter}}{33}{subsection.6.0.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {6.0.1}{Optimale Parameter}}{31}{subsection.6.0.1}%
+\contentsline {paragraph}{{Architektur}}{33}{paragraph*.34}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{31}{paragraph*.35}%
+\contentsline {paragraph}{{Hyperparameter}}{33}{paragraph*.35}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Hyperparameter}}{31}{paragraph*.36}%
+\contentsline {paragraph}{{Ngram Größe}}{33}{paragraph*.36}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Ngram Größe}}{31}{paragraph*.37}%
+\contentsline {paragraph}{{Embedding}}{33}{paragraph*.37}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{31}{paragraph*.38}%
+\contentsline {paragraph}{{Architektur}}{33}{paragraph*.38}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Architektur}}{31}{paragraph*.39}%
+\contentsline {paragraph}{{Embedding}}{33}{paragraph*.39}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Embedding}}{31}{paragraph*.40}%
+\contentsline {paragraph}{{Threadinfo}}{33}{paragraph*.40}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Threadinfo}}{31}{paragraph*.41}%
+\contentsline {paragraph}{{Parameter}}{34}{paragraph*.41}%
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{{Parameter}}{32}{paragraph*.42}%
-\defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}{Folgerungen}}{33}{chapter.7}%
+\contentsline {chapter}{\numberline {7}{Folgerungen}}{35}{chapter.7}%
 \defcounter {refsection}{0}\relax 
 \vspace {\beforebibskip }
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {}{Bibliography}}{34}{section*.43}%
+\contentsline {chapter}{\numberline {}{Bibliography}}{36}{section*.42}%

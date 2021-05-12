@@ -393,6 +393,56 @@
     \field{year}{2016}
   \endentry
 
+  \entry{NGIDS}{article}{}
+    \name{author}{5}{}{%
+      {{hash=HW}{%
+         family={Haider},
+         familyi={H\bibinitperiod},
+         given={Waqas},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=HJ}{%
+         family={Hu},
+         familyi={H\bibinitperiod},
+         given={Jiankun},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Slay},
+         familyi={S\bibinitperiod},
+         given={Jill},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=TBP}{%
+         family={Turnbull},
+         familyi={T\bibinitperiod},
+         given={Benjamin\bibnamedelima P},
+         giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+      {{hash=XY}{%
+         family={Xie},
+         familyi={X\bibinitperiod},
+         given={Yi},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier}%
+    }
+    \strng{namehash}{HW+1}
+    \strng{fullhash}{HWHJSJTBPXY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{pages}{185\bibrangedash 192}
+    \field{title}{Generating realistic intrusion detection system dataset based
+  on fuzzy qualitative modeling}
+    \field{volume}{87}
+    \field{journaltitle}{Journal of Network and Computer Applications}
+    \field{year}{2017}
+  \endentry
+
   \entry{HE}{inproceedings}{}
     \name{author}{4}{}{%
       {{hash=HS}{%
@@ -547,6 +597,51 @@
     \field{volume}{2}
     \field{journaltitle}{Cybersecurity}
     \field{year}{2019}
+  \endentry
+
+  \entry{LSTMsys}{article}{}
+    \name{author}{5}{}{%
+      {{hash=KG}{%
+         family={Kim},
+         familyi={K\bibinitperiod},
+         given={Gyuwan},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=YH}{%
+         family={Yi},
+         familyi={Y\bibinitperiod},
+         given={Hayoon},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=LJ}{%
+         family={Lee},
+         familyi={L\bibinitperiod},
+         given={Jangho},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=PY}{%
+         family={Paek},
+         familyi={P\bibinitperiod},
+         given={Yunheung},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=YS}{%
+         family={Yoon},
+         familyi={Y\bibinitperiod},
+         given={Sungroh},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KG+1}
+    \strng{fullhash}{KGYHLJPYYS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{K}
+    \field{sortinithash}{K}
+    \field{title}{LSTM-based system-call language modeling and robust ensemble
+  method for designing host-based intrusion detection systems}
+    \field{journaltitle}{arXiv preprint arXiv:1611.01726}
+    \field{year}{2016}
   \endentry
 
   \entry{ANOMALYEXAMPLE}{article}{}

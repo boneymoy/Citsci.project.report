@@ -475,6 +475,7 @@ INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmr7m.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmr7y.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmr7v.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/zplmr7t.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/adobe/palatino/pplr9t.vf
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/adobe/palatino/pplr9d.vf
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/adobe/palatino/pplr8r.tfm
 INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/fplmr.tfm
@@ -534,7 +535,11 @@ INPUT ./images/Illustrationen/LSTM_MC.eps
 INPUT ./images/Illustrationen/LSTM_MC-eps-converted-to.pdf
 INPUT ./images/Illustrationen/LSTM_MC-eps-converted-to.pdf
 INPUT ./images/Illustrationen/LSTM_MC-eps-converted-to.pdf
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/adobe/palatino/pplr9t.vf
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/public/mathpazo/zplmr7v.vf
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/fplmr.tfm
 INPUT images/Illustrationen/LSTM_FG.eps
 INPUT ./images/Illustrationen/LSTM_FG.eps
 INPUT ./images/Illustrationen/LSTM_FG.eps
@@ -544,13 +549,6 @@ INPUT ./images/Illustrationen/LSTM_FG.eps
 INPUT ./images/Illustrationen/LSTM_FG-eps-converted-to.pdf
 INPUT ./images/Illustrationen/LSTM_FG-eps-converted-to.pdf
 INPUT ./images/Illustrationen/LSTM_FG-eps-converted-to.pdf
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/public/mathpazo/zplmr7v.vf
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/mathpazo/fplmr.tfm
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/public/mathpazo/zplmr7t.vf
-INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT images/Illustrationen/LSTM_IG.eps
 INPUT ./images/Illustrationen/LSTM_IG.eps
 INPUT ./images/Illustrationen/LSTM_IG.eps
@@ -560,6 +558,8 @@ INPUT ./images/Illustrationen/LSTM_IG.eps
 INPUT ./images/Illustrationen/LSTM_IG-eps-converted-to.pdf
 INPUT ./images/Illustrationen/LSTM_IG-eps-converted-to.pdf
 INPUT ./images/Illustrationen/LSTM_IG-eps-converted-to.pdf
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/vf/public/mathpazo/zplmr7t.vf
+INPUT /usr/local/texlive/2019/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT images/Illustrationen/LSTM_OG.eps
 INPUT ./images/Illustrationen/LSTM_OG.eps
 INPUT ./images/Illustrationen/LSTM_OG.eps

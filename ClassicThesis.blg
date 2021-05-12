@@ -28,50 +28,53 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated field_info (elt_size=4) to 10004 items from 5000.
 Database file #1: ClassicThesis-blx.bib
 Database file #2: Bibliography.bib
 Database file #3: AMiede_Publications.bib
+Warning--I didn't find a database entry for "Grimmer"
 Biblatex version: 3.13
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-You've used 33 entries,
+You've used 35 entries,
             6365 wiz_defined-function locations,
-            1441 strings with 17336 characters,
-and the built_in function-call counts, 224028 in all, are:
-= -- 16088
-> -- 4044
-< -- 1210
-+ -- 5224
-- -- 1648
-* -- 17702
-:= -- 23751
+            1455 strings with 17790 characters,
+and the built_in function-call counts, 241952 in all, are:
+= -- 17408
+> -- 4369
+< -- 1296
++ -- 5776
+- -- 1800
+* -- 19161
+:= -- 25887
 add.period$ -- 0
-call.type$ -- 33
-change.case$ -- 32
+call.type$ -- 35
+change.case$ -- 34
 chr.to.int$ -- 62
-cite$ -- 64
-duplicate$ -- 22172
-empty$ -- 20195
-format.name$ -- 2377
-if$ -- 46616
+cite$ -- 68
+duplicate$ -- 24170
+empty$ -- 21624
+format.name$ -- 2592
+if$ -- 50173
 int.to.chr$ -- 0
-int.to.str$ -- 83
+int.to.str$ -- 88
 missing$ -- 0
-newline$ -- 1150
-num.names$ -- 1518
-pop$ -- 11331
+newline$ -- 1243
+num.names$ -- 1611
+pop$ -- 12115
 preamble$ -- 1
-purify$ -- 731
+purify$ -- 779
 quote$ -- 0
-skip$ -- 6971
+skip$ -- 7431
 stack$ -- 0
-substring$ -- 29355
-swap$ -- 5291
-text.length$ -- 1053
-text.prefix$ -- 33
+substring$ -- 31605
+swap$ -- 5683
+text.length$ -- 1139
+text.prefix$ -- 35
 top$ -- 1
-type$ -- 1109
+type$ -- 1177
 warning$ -- 0
-while$ -- 3065
+while$ -- 3380
 width$ -- 0
-write$ -- 1118
+write$ -- 1209
+(There was 1 warning)
