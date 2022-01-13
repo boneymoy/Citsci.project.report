@@ -1,9 +1,9 @@
 %*****************************************
 \chapter{Grundlagen}\label{ch:grundlagen}
 %*****************************************
-    In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des IDS nötig sind.
+In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des \ac{IDS} nötig sind.
     Essentiell dabei sind zum einen die Definition von Anomalien und der Anomaliedetektion (siehe Kapitel~\ref{sec:Anomalieerkennung})
-    und eine allgemeine Einführung in den Bereich der IDS (siehe Kapitel~\ref{sec:IDS}).
+    und eine allgemeine Einführung in den Bereich der \ac{IDS} (siehe Kapitel~\ref{sec:IDS}).
     Dabei wird auf den im praktischen Teil verwendeten Ansatz der \textit{Host-Based Intrusion Detection Systems} (HIDS) genauer eingegangen.
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des verwendeten Algorithmus untersucht werden.
@@ -13,18 +13,18 @@
         Eine \textit{Intrusion} \marginpar{zu dt. Eindringung} ist eine unauthorisierte Aktivität, welche einem System Schaden zufügen kann.
         Eine \textit{Intrusion Detection} Software/Hardware versucht automatisch diese 
         unauthorisierten Aktivitäten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSreview}
-        Um solche unautorisierte Aktivitäten erkennen zu können müssen zunächst Daten erfasst werden und diese dann analysiert werden.
-        In den folgenden beiden Abschnitten sollen diesen beiden Schritte genauer untersucht werden.
+        Um solche unautorisierte Aktivitäten erkennen zu können müssen zunächst Daten erfasst und anschliessend analysiert werden.
+        In den folgenden beiden Abschnitten werden diese Schritte genauer untersucht.
 
         \subsection{Datenanalyse}\label{sec:Datenanalyse}
-            Das Erkennen von Angriffen auf Computersystemen mittels IDS wird meist, wie auch in~\cite{IDSreview} und~\cite{IDSsurvey}, in drei Kategorien eingeteilt.
+        Das Erkennen von Angriffen auf Computersystemen mittels \ac{IDS} wird meist, wie auch in~\cite{IDSreview} und~\cite{IDSsurvey}, in drei Kategorien eingeteilt.
             Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird,
             sowie die \textit{Stateful Protocol Analysis} \marginpar{zu dt. Zustandsorientierte Protokoll Analyse}.
 
             \paragraph{Signaturbasiert} 
-                Signaturbasierte IDS (SIDS) versuchen ihnen bekannte Muster von Angriffen 
+                \ac{SIDS} versuchen Muster von bekannten Angriffen 
                 in den zu überwachenden Systemen wiederzuerkennen.
-                Dies basiert darauf eine ausgeprägte Datenbank an bekannten Signaturen von Angriffen zu besitzen.
+                Dies basiert darauf, eine ausgeprägte Datenbank an Signaturen von bekannten Angriffen zu besitzen.
                 Verschiedene Methoden vergleichen dann aktuelle Signaturen des Systems mit der Datenbank.
                 Es gibt auch hier diverse Methoden wie diese Signaturen erstellt werden. 
                 Dazu zählen zum Beispiel das Betrachten von \textit{Host-Logs},
@@ -34,7 +34,7 @@
                 da diese noch nicht in der Datenbank vorhanden sind.~\cite{IDSsurvey}
 
             \paragraph{Anomaliebasiert}
-                Ziel einer anomaliebasierten IDS (AIDS) ist es Muster in Daten wiederzuerkennen 
+                Ziel einer \ac{AIDS} ist es Muster in Daten wiederzuerkennen 
                 welche von einem definierten Normalverhalten abweichen~\cite{ANOMALYSURVEY}.
                 Die Bedeutung der Anomalieerkennung liegt in der Tatsache begründet,
                 dass Anomalien in Daten zu signifikanten und oft kritischen Veränderungen eines System führen können. 
@@ -50,7 +50,7 @@
                 Jede Anomalie gilt dann wiederrum als Intrusion.
                 Grundannahme dieser Methode liegt darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
 
-                Im ersten Schritt der AIDS wird ein Modell des Normalverhaltens erstellt.
+                Im ersten Schritt der \ac{AIDS} wird ein Modell des Normalverhaltens erstellt.
                 Dabei können ML-basierte, Statistik-basierte oder auch 
                 \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
                 Weiter kann die anomaliebasierte \textit{Intrusion Detection} in zwei Phasen aufgeteilt werden,
@@ -98,26 +98,26 @@
                 %In der Trainingsphase wird ein Modell erstellt welches das Normalverhalten abbilden soll.
                 %In der Folgephase muss dann das gelernte Modell mit bisher noch nicht betrachteten Daten überprüft werden.
                 %Dabei soll vor allem die Generalisierung des Modells getestet werden. 
-                Auch wenn sich die verschiedenen Teilbereiche der AIDS stark unterscheiden,
-                haben sie einen wesentlichen Vorteil gegenüber den SIDS\@.
+                Auch wenn sich die verschiedenen Teilbereiche der \ac{AIDS }stark unterscheiden,
+                haben sie einen wesentlichen Vorteil gegenüber den \ac{SIDS}\@.
                 Denn ihnen ist es nicht generell verwehrt Zero-Day Angriffe zu erkennen,
                 also Angriffe die in dieser Form noch nicht bekannt waren. 
                 %Zusätzlich ist es für Angreifende schwer zu ermitteln wie das 
                 %AIDS Normalverhalten definiert und diese Definitionsgrenzen auszunutzen um unerkannte Angriffe durchzuführen.
-                Jedoch ergibt sich im Vergleich zu den SIDS eine andere Problematik.
-                Denn die AIDS müssen einen Schwellwert festlegen ab welchem ein Vorkommnis als Anomalie erkannt wird.
-                Dieser Wert entscheidet über die Ergebnisqualität der AIDS 
+                Jedoch ergibt sich im Vergleich zu den \ac{SIDS} eine andere Problematik.
+                Denn die \ac{AIDS} müssen einen Schwellwert festlegen ab welchem ein Vorkommnis als Anomalie erkannt wird.
+                Dieser Wert entscheidet über die Ergebnisqualität der \ac{AIDS}
                 und sollte daher sorgfältig und am besten automatisch ermittelt werden,
                 um anwendungsspezifische Justierungen zu vermeiden. \marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
-                Eine weitere Schwierigkeit bei AIDS liegt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
+                Eine weitere Schwierigkeit bei \ac{AIDS} liegt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
                 dass bei nicht kompletten Erfassen des Normalverhalten viele Fehlalarme enstehen können.
-                Daher ist eine entscheidende Frage bei Verwendung von AIDS\@: Woher kommen die für das Lernen des Normalverhalten benötigten Daten?
+                Daher ist eine entscheidende Frage bei Verwendung von \ac{AIDS}\@: Woher kommen die für das Lernen des Normalverhalten benötigten Daten?
                 %Viele verschiedene Ansätze, unter anderem zusammengefasst in~\cite{IDSsurvey}.
 
         \subsection{Datenerfassung}\label{sec:Datenerfassung}
             Die Datenerhebung wird in verschiedenen Arbeiten in zwei Kategorien unterteilt~\cite{IDSsurvey},~\cite{IDSreview}.
-            Zum einen die \textit{Host Based Intrusion Detection Systems} (HIDS) 
-            und zum anderen die \textit{Network Based Intrusion Detection Systems} (NIDS).
+            Zum einen die \ac{HIDS}
+            und zum anderen die \ac{NIDS}
             In den folgenden Abschnitten werden diese beiden Ansätze genauer untersucht.
 
             \paragraph{Network Based Intrusion Detection}
@@ -132,14 +132,14 @@
                 und somit nicht auf den Inhalt der Pakete eingegangen werden kann.
 
             \paragraph{Host Based Intrusion Detection}
-                Wie der Name bereits impliziert konzentriert sich HIDS auf die Untersuchung 
+            Wie der Name bereits impliziert konzentriert sich \ac{HIDS} auf die Untersuchung 
                 von Daten welche auf dem Host basieren.
                 Es wird versucht das dynamische Verhalten sowie den Zustand des Systems zu überwachen 
                 und dies nur mit Informationen die auf dem Host zugänglich sind.
                 In der Literatur werden hierfür verschiedene Informationsquellen genutzt.
                 Dazu gehören verschiedene Logs, z.B Firewall und Database Logs~\cite{IDSsurvey},
                 oder aber auch Daten aus dem Kernel wie z.B. System Calls~\cite{MAGGI}.
-                Im Gegensatz zur NIDS kann hier auf den Inhalt von jeder Information eingegangen werden,
+                Im Gegensatz zur \ac{NIDS} kann hier auf den Inhalt von jeder Information eingegangen werden,
                 da die interne Kommunikation unverschlüsselt stattfindet. 
 
         Abbildung~\ref{fig:IDSOverview} soll einen Überblick über die in den vorigen Abschnitten gemachte Einstufung geben.
@@ -149,7 +149,7 @@
         Die dicker umrandeten Verfahren werden in dieser Arbeit verwendet.
         Also zur Datenerfassung werden nur Informationen welche auf dem Host zugänglich sind verwendet 
         und die so erhaltenen Daten werden anomaliebasiert untersucht.
-        Es stellen sich beim designen von anomaliebasierten HIDS zwei Hauptfragen:
+        Es stellen sich beim designen von anomaliebasierten \ac{HIDS} zwei Hauptfragen:
         \begin{itemize}
             \item Mit welchen Daten kann das Systemverhalten möglichst präzise dargestellt werden?
                 \begin{itemize}
@@ -207,11 +207,11 @@
 
         \subsection{System Calls für IDS}
             %TODO richtige Stelle für den Abschnitt finden
-            Viele verschiedene IDS Ansätze betrachten lediglich die Sequenz von System Calls und missachten die in den Argumenten enthaltene Informationen.
+        Viele verschiedene \ac{IDS} Ansätze betrachten lediglich die Sequenz von System Calls und missachten die in den Argumenten enthaltene Informationen.
             Auch wenn diese Ansätze teilweise sehr erfolgreich sind, lassen sie den Angreifenden einen Spielraum.
             Verschiedene Arbeiten~\cite{Syscallseqexploit1},~\cite{Syscallseqexploit2},~\cite{Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
-            Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von der IDS erkannten Angriffes.
-            Sie beschreiben, wie dem IDS fremde System Call Sequenzen derart Verändert werden können, dass sie als normal eingestuft werden.
+            Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von \ac{der }IDS erkannten Angriffes.
+            Sie beschreiben, wie \ac{dem }IDS fremde System Call Sequenzen derart Verändert werden können, dass sie als normal eingestuft werden.
             Dabei werden die fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
             Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
             Doch diese Beispiele zeigen auch, dass wenigstens ein Faktor, also Sequenz oder Argumente, verändert werden muss, um das Systemverhalten abzuwandeln.
@@ -219,10 +219,10 @@
             Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
 
     \section{Datensatz}\label{sec:Datensatz}
-        Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
+    Seit 1998 einer der ersten System Call Datensätze für \ac{HIDS} veröffentlicht wurde~\cite{DARPA},
         kamen verschiedene Datensätze hinzu.
         Auf diese wird in den kommenden Abschnitten kurz eingegangen.
-        Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die HIDS über System Calls eingegangen werden.
+        Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
         \paragraph{KDD}
             Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
             simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services. 
@@ -242,7 +242,7 @@
             Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln.
         \paragraph{LID-DS}
             2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
-            Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
+            Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \cite{IDS} zu verwenden.
             Im folgenden soll eine Beispieldatei betrachtet werden.
 
             \begin{table}[h]

@@ -181,20 +181,20 @@
                     got hex value
 
             Systemcalls welche Rückgabewerte haben:
-                Bruteforce: {'select': 11012, 
-                             'poll': 64443,
-                             'close': 80535,
-                             'read': 92587,
-                             'epoll_wait': 13746,
-                             'semop': 27435,
-                             'mmap': 45437,
-                             'fcntl': 35722,
-        'brk': 30372, 'writev': 126627, 'stat': 28356, 'fstat': 12950, 'getcwd': 4616, 'lstat': 8060, 'write': 39703, 'chdir': 4616, 'munmap': 90757, 'rename': 2308, 'shutdown': 11127, 'connect': 4106, 'getdents': 40, 'clone': 1409, 'setgid': 705, 'lseek': 1410, 'setuid': 705}
-                2012: {'futex': 149729, 'select': 7846, 'poll': 1262, 'fcntl': 147382, 'setsockopt': 148874, 'mmap': 1723, 'clone': 2523, 'munmap': 464, 'write': 71308, 'read': 209140, 'access': 3337, 'pwrite': 25132, 'stat': 960, 'shutdown': 959, 'close': 959}
-                2014: {'poll': 62797, 'writev': 122406, 'shutdown': 11112, 'select': 11094, 'read': 90368, 'close': 79167, 'epoll_wait': 13629, 'semop': 27166, 'mmap': 44653, 'fcntl': 35692, 'brk': 28193, 'stat': 26827, 'munmap': 90471, 'write': 38219, 'connect': 4231, 'fstat': 12290, 'getcwd': 4324, 'lstat': 7826, 'chdir': 4324, 'rename': 2162, 'clone': 1480, 'setgid': 740, 'lseek': 1480, 'setuid': 740, 'getdents': 34} 
-                2017: {'epoll_wait': 53355, 'recvfrom': 26108, 'fstat': 26385, 'pread': 26109, 'writev': 26110, 'sendfile': 26110, 'write': 26109, 'close': 52823, 'getdents': 552, 'stat': 276, 'brk': 368, 'futex': 92, 'sendmsg': 166, 'recvmsg': 330} 
-                2018: {'select': 56420, 'fcntl': 27396, 'fstat': 82226, 'futex': 262846, 'recvfrom': 27403, 'getsockopt': 27405, 'stat': 252081, 'write': 576100, 'ioctl': 54824, 'lseek': 54824, 'read': 119433, 'close': 82304, 'setsockopt': 54836, 'poll': 4654, 'lstat': 3, 'pread': 3} 
-                2019: {'select': 75772, 'fcntl': 27245, 'fstat': 81543, 'futex': 359158, 'recvfrom': 27145, 'getsockopt': 27129, 'stat': 307293, 'write': 542742, 'ioctl': 54282, 'lseek': 54250, 'read': 136356, 'close': 81599, 'setsockopt': 54269, 'poll': 9050, 'lstat': 245, 'pread': 21, 'unlink': 21, 'rename': 32, 'getdents': 32}
+                %Bruteforce: {'select': 11012, 
+                             %'poll': 64443,
+                             %'close': 80535,
+                             %'read': 92587,
+                             %'epoll_wait': 13746,
+                             %'semop': 27435,
+                             %'mmap': 45437,
+                             %'fcntl': 35722,
+        %'brk': 30372, 'writev': 126627, 'stat': 28356, 'fstat': 12950, 'getcwd': 4616, 'lstat': 8060, 'write': 39703, 'chdir': 4616, 'munmap': 90757, 'rename': 2308, 'shutdown': 11127, 'connect': 4106, 'getdents': 40, 'clone': 1409, 'setgid': 705, 'lseek': 1410, 'setuid': 705}
+                %2012: {'futex': 149729, 'select': 7846, 'poll': 1262, 'fcntl': 147382, 'setsockopt': 148874, 'mmap': 1723, 'clone': 2523, 'munmap': 464, 'write': 71308, 'read': 209140, 'access': 3337, 'pwrite': 25132, 'stat': 960, 'shutdown': 959, 'close': 959}
+                %2014: {'poll': 62797, 'writev': 122406, 'shutdown': 11112, 'select': 11094, 'read': 90368, 'close': 79167, 'epoll_wait': 13629, 'semop': 27166, 'mmap': 44653, 'fcntl': 35692, 'brk': 28193, 'stat': 26827, 'munmap': 90471, 'write': 38219, 'connect': 4231, 'fstat': 12290, 'getcwd': 4324, 'lstat': 7826, 'chdir': 4324, 'rename': 2162, 'clone': 1480, 'setgid': 740, 'lseek': 1480, 'setuid': 740, 'getdents': 34} 
+                %2017: {'epoll_wait': 53355, 'recvfrom': 26108, 'fstat': 26385, 'pread': 26109, 'writev': 26110, 'sendfile': 26110, 'write': 26109, 'close': 52823, 'getdents': 552, 'stat': 276, 'brk': 368, 'futex': 92, 'sendmsg': 166, 'recvmsg': 330} 
+                %2018: {'select': 56420, 'fcntl': 27396, 'fstat': 82226, 'futex': 262846, 'recvfrom': 27403, 'getsockopt': 27405, 'stat': 252081, 'write': 576100, 'ioctl': 54824, 'lseek': 54824, 'read': 119433, 'close': 82304, 'setsockopt': 54836, 'poll': 4654, 'lstat': 3, 'pread': 3} 
+                %2019: {'select': 75772, 'fcntl': 27245, 'fstat': 81543, 'futex': 359158, 'recvfrom': 27145, 'getsockopt': 27129, 'stat': 307293, 'write': 542742, 'ioctl': 54282, 'lseek': 54250, 'read': 136356, 'close': 81599, 'setsockopt': 54269, 'poll': 9050, 'lstat': 245, 'pread': 21, 'unlink': 21, 'rename': 32, 'getdents': 32}
 \subsection{Parameterwahl}
         ngram länge
         lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info
