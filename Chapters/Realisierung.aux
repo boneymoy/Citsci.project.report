@@ -3,47 +3,56 @@
 \mph@setcol{ii:22}{\mph@nr}
 \@writefile{lof}{\defcounter {refsection}{0}\relax }\@writefile{lof}{\ttl@tocsep }
 \@writefile{lot}{\defcounter {refsection}{0}\relax }\@writefile{lot}{\ttl@tocsep }
-\def\mph@nr{15}
+\def\mph@nr{18}
 \@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {chapter}{\numberline {4}{Realisierung}}{23}{chapter.4}\protected@file@percent }
-\newlabel{ch:realisierung}{{4}{23}{System Call mit LSTM}{chapter.4}{}}
+\newlabel{ch:Realisierung}{{4}{23}{System Call mit LSTM}{chapter.4}{}}
 \@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.1}{Verwendete Tools}}{23}{section.4.1}\protected@file@percent }
+\newlabel{sec:Tools}{{4.1}{23}{Verwendete Tools}{section.4.1}{}}
 \@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.2}{Vorverarbeitung}}{23}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}{Thread Awareness}}{23}{subsection.4.2.1}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}{Embedding}}{23}{subsection.4.2.2}\protected@file@percent }
-\newlabel{sec:embedding}{{4.2.2}{23}{Embedding}{subsection.4.2.2}{}}
+\newlabel{sec:Preprocessing}{{4.2}{23}{Vorverarbeitung}{section.4.2}{}}
 \mph@setcol{ii:23}{\mph@nr}
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}{System Call Argumente}}{24}{subsection.4.2.3}\protected@file@percent }
-\newlabel{sec:args}{{4.2.3}{24}{System Call Argumente}{subsection.4.2.3}{}}
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{System Call Analysis}}{24}{paragraph*.21}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{String Length}}{24}{paragraph*.22}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{String Character Distribution}}{24}{paragraph*.23}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Structural Inference}}{24}{paragraph*.24}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Token Finder}}{24}{paragraph*.25}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}{Parameterwahl}}{24}{subsection.4.2.4}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{n}}{24}{paragraph*.26}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.3}{Algorithmus}}{24}{section.4.3}\protected@file@percent }
-\newlabel{sec:Algorithmus}{{4.3}{24}{Algorithmus}{section.4.3}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}{Vorverarbeitung des Datensatzes}}{24}{subsection.4.2.1}\protected@file@percent }
+\newlabel{sec:struktur}{{4.2.1}{24}{Vorverarbeitung des Datensatzes}{subsection.4.2.1}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}{Wie wird ein System Call dargestellt?}}{24}{subsection.4.2.2}\protected@file@percent }
+\newlabel{sec:syscalldarstellung}{{4.2.2}{24}{Wie wird ein System Call dargestellt?}{subsection.4.2.2}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{One-Hot-Encoding}}{24}{paragraph*.22}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Word-To-Vector}}{24}{paragraph*.23}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}{Wie wird ein Datenstream dargestellt}}{24}{subsection.4.2.3}\protected@file@percent }
+\newlabel{sec:streamdarstellung}{{4.2.3}{24}{Wie wird ein Datenstream dargestellt}{subsection.4.2.3}{}}
 \mph@setcol{ii:24}{\mph@nr}
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.4}{Anomalieerkennung}}{25}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}{Schwellwertbestimmung}}{25}{subsection.4.4.1}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.5}{Strukturierung der Experimente}}{25}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}{Wie können weitere System Call Informationen dargestellt werden?}}{25}{subsection.4.2.4}\protected@file@percent }
+\newlabel{sec:Meta}{{4.2.4}{25}{Wie können weitere System Call Informationen dargestellt werden?}{subsection.4.2.4}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{System Call Argumente}}{25}{paragraph*.24}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Thread Awareness}}{25}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Zeitliche Abstände von System Calls}}{25}{paragraph*.26}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Return Werte}}{25}{paragraph*.27}\protected@file@percent }
 \mph@setcol{ii:25}{\mph@nr}
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}{Faktor Zeit}}{26}{subsection.4.5.1}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}{Optimale Parameter}}{26}{subsection.4.5.2}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Architektur}}{26}{paragraph*.27}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Hyperparameter}}{26}{paragraph*.28}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Ngram Größe}}{26}{paragraph*.29}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Embedding}}{26}{paragraph*.30}\protected@file@percent }
 \mph@setcol{ii:26}{\mph@nr}
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Architektur}}{27}{paragraph*.31}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Embedding}}{27}{paragraph*.32}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Threadinfo}}{27}{paragraph*.33}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Parameter}}{27}{paragraph*.34}\protected@file@percent }
-\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.6}{Metriken}}{27}{section.4.6}\protected@file@percent }
-\newlabel{sec:metrik}{{4.6}{27}{Metriken}{section.4.6}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.3}{Algorithmus}}{27}{section.4.3}\protected@file@percent }
+\newlabel{sec:Algorithmus}{{4.3}{27}{Algorithmus}{section.4.3}{}}
 \mph@setcol{ii:27}{\mph@nr}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}{Anomalieerkennung}}{28}{subsection.4.3.1}\protected@file@percent }
+\newlabel{sec:Anomalieerkennung}{{4.3.1}{28}{Anomalieerkennung}{subsection.4.3.1}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}{Schwellwertbestimmung}}{28}{subsection.4.3.2}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Problem des Datensatz}}{28}{paragraph*.28}\protected@file@percent }
+\def\mph@nr{19}
+\mph@setcol{ii:28}{\mph@nr}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}{Parameterwahl}}{29}{subsection.4.3.3}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.4}{Strukturierung der Experimente}}{29}{section.4.4}\protected@file@percent }
+\newlabel{sec:StrukExp}{{4.4}{29}{Strukturierung der Experimente}{section.4.4}{}}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}{Faktor Zeit}}{29}{subsection.4.4.1}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}{Optimale Parameter}}{29}{subsection.4.4.2}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Architektur}}{29}{paragraph*.29}\protected@file@percent }
+\mph@setcol{ii:29}{\mph@nr}
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Hyperparameter}}{30}{paragraph*.30}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Ngram Größe}}{30}{paragraph*.31}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Threadinfo}}{30}{paragraph*.32}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {paragraph}{{Parameter}}{30}{paragraph*.33}\protected@file@percent }
+\@writefile{toc}{\defcounter {refsection}{0}\relax }\@writefile{toc}{\contentsline {section}{\numberline {4.5}{Metriken}}{30}{section.4.5}\protected@file@percent }
+\newlabel{sec:Metriken}{{4.5}{30}{Metriken}{section.4.5}{}}
+\mph@setcol{ii:30}{\mph@nr}
 \@setckpt{Chapters/Realisierung}{
-\setcounter{page}{28}
+\setcounter{page}{31}
 \setcounter{equation}{1}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}
@@ -53,7 +62,7 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{4}
-\setcounter{section}{6}
+\setcounter{section}{5}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
@@ -69,7 +78,7 @@
 \setcounter{citetotal}{0}
 \setcounter{multicitecount}{0}
 \setcounter{multicitetotal}{0}
-\setcounter{instcount}{62}
+\setcounter{instcount}{68}
 \setcounter{maxnames}{3}
 \setcounter{minnames}{1}
 \setcounter{maxitems}{3}

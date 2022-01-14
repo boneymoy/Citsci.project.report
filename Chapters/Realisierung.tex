@@ -1,70 +1,369 @@
 
 %*****************************************
-\chapter{Realisierung}\label{ch:realisierung}
+\chapter{Realisierung}\label{ch:Realisierung}
 %*****************************************
-    Gegeben 10 szenarien mit ca. 1000 files durschnittlich 45sec
-    in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
-    falls kein exploit dann exploit start time -1
-    keine dauer des exploits also ende nicht bekannt 
-    nicht systemcall genau start des angriffs angegeben 
-    führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
-    alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
-    Ungenauigkeiten auf die in der Auswertung der Daten noch einmal genauer eingegangen wird
-    filtern von switch statements in Datensatz weil keine system calls
-    nur öffnende syscalls keine schließenden
+    Bei der Realisierung einer AIDS müssen wie im Grundlagenkapitel~\ref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
+    Die Trainingsphase und die Testphase.
+    Diesen beiden Phasen liegt allerdings schon ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des LSTMs zu Grunde. 
+    Welche Datensätze überhaupt in Frage kommen wurde bereits in Abschnitt~\ref{sec:Datensatz} untersucht.
+    Wie dieser weiterverarbeitet, für das LSTM vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden könnte, 
+    soll in Abschnitt~\ref{sec:Preprocessing} betrachtet werden.
+    Zuvor in Abschnitt~\ref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
+    Der eigentliche Algorithmus, also das finden von Anomalien in den Daten wird dann im Abschnitt~\ref{sec:Algorithmus} beschrieben.
+    Nachdem so also der verarbeitende Teil betrachtet wurde, soll in Abschnitt~\ref{sec:StrukExp} die Strukturierung der Experimente präsentiert werden.
+    Diese Strukturierung hat zum Ziel früh wenig vielversprechende Konfigurationen auszuschließen um ressourcenschonend Auswertungen durchzuführen.
+    Speziell die Ressource Zeit, wie sich später zeigen wird, ist dabei im Rahmen dieser Arbeit eine mit entscheidende.
+    Abschließen soll dieses Kapitel dann in Abschnitt~\ref{sec:Metriken} die Untersuchung von Metriken, welche dann für die Auswertung der Experimente benötigt wird.
 
-    Eingehen auf verwendete Tools 
 
-\section{Verwendete Tools}
-    Tensorflow Keras
-    Rechencluster clara
-    sysdig
 
-\section{Vorverarbeitung}
+    \section{Verwendete Tools}\label{sec:Tools}
+        Tensorflow Keras
+        Rechencluster clara
+        sysdig
 
-    Vorverarbeitung besteht aus vier Teilbereichen 
-    wie wird ein System Call dargestellt nur namen für sequenz
-    wie wird stream von daten in diesem Fall system calls abgebildet
-    wie werden die Parameter wie return value oder argumente präpariert?
-    wie können extrainformationen wie z.B thread awareness dargestellt werden
-    Diese werden in den folgenden Abschnitten beschrieben
+    \section{Vorverarbeitung}\label{sec:Preprocessing}
+        In dem kommenden Abschnitt~\ref{sec:struktur} soll zunächst auf die Vorverarbeitung des Datensatzes eingegangen werden.
+        Anschließend soll in Abschnitt~\ref{sec:syscalldarstellung} untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
+        Da, wie zuvor beschrieben, in dieser Arbeit ein Datenstream betrachtet werden soll, wird in Abschnitt~\ref{sec:streamdarstellung} die Frage wie dieser für das LSTM dargestellt geprüft.
+        Ein weiterer wichtiger Teil der Arbeit, neben dem Untersuchen ob sich LSTMs für die Anomalieerkennung bei System Calls eignen, besteht darin,
+        welche Metadaten neben dem Namen des System Calls noch verwendet werden können um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
+        Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in Abschnitt~\ref{sec:Meta}
 
-    \subsection{Wie wird ein System Call dargestellt?}
+        \subsection{Vorverarbeitung des Datensatzes}\label{sec:struktur}
+            Gegeben 10 szenarien die aus bekannten CVEs bestehen.\
+            mit ca. 1000 files durschnittlich 45sec
+            in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
+            falls kein exploit dann exploit start time -1
+            keine dauer des exploits also ende nicht bekannt 
+            nicht systemcall genau start des angriffs angegeben 
+            führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
+            alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
+            %TODO Quadranten
+            filtern von switch statements in Datensatz weil keine system calls
+            nur schließende syscalls keine öffnenden.
+            Muss wie in~\ref{sec:syscalls} beschrieben immer beide geben.
+            Schließende interessant, da auch Rückgabewerte betrachtet werden können
 
-        Neuronale netze benötigen numerische werte deswegen umwandlung von stringnamen 
-        sys to int unbrauchbar für netz auf Grund aktivierungsfunktion --> 2>1 3>1 mittelwert 2
-        Darstellung von kategorischen Daten für neuronale Netze bekanntes Problem,
-        Auch in der Spracherkennung, hier ist allerdings auch ein ohe vorstellbar, da begrenzte Anzahl an versch
-        System calls.
-        %TODO Abschnitt ohe
-        Eine weitere Möglichkeit System Calls darzustellen wird ebenfalls in der Spracherkennung verwendent.
-        Durch \textit{Word embeddings} kann zusätzlich zu der Kategorie auch versucht noch der Konext des Wortes im in der Repräsentation einzubinden.
-        %TODO Abschnitt w2v
+        \subsection{Wie wird ein System Call dargestellt?}\label{sec:syscalldarstellung}
+            Neuronale netze benötigen numerische werte deswegen umwandlung von stringnamen 
+            sys to int nur bedingt brauchbar für netz auf Grund aktivierungsfunktion --> 2>1 3>1 mittelwert 2
+            Darstellung von kategorischen Daten für neuronale Netze bekanntes Problem,
+            Auch in der Spracherkennung, hier ist allerdings auch ein ohe vorstellbar, da begrenzte Anzahl an versch
+            System calls.
+            \paragraph{One-Hot-Encoding}
+                Beschreibung OHE
+            Eine weitere Möglichkeit System Calls darzustellen wird ebenfalls in der Spracherkennung verwendet.
+            Durch \textit{Word embeddings} kann zusätzlich zu der Kategorie auch noch der Kontext des Wortes in der Repräsentation eingebunden werden.
+            \paragraph{Word-To-Vector}
+                Beschreibung W2v
 
-        \paragraph{Embedding}
-            ohe und w2v
-            word embedding parameterwahl wichtig $sqrt(distinct)$
-            Threadid kodieren: 
+            Nachdem nun eine Darstellung eines System Calls besprochen wurde muss auch noch auf die Streamverarbeitung eingegangen werden.
+
+        \subsection{Wie wird ein Datenstream dargestellt}\label{sec:streamdarstellung}
+            Erstellung von ngrammen bekannte Vorgehensweise.
+            Aufteilen von Datenstream unbekannter Länge in feste Größe.
+            Wird oft als \textit{Streaming Window} oder \textit{Ngram} bezeichnet.
+            Nötig da LSTM Eingaben fester Größe benötigen.
+            %%%%NOTES
+            % iterate syscalls 
+            % Filter switch
+            % Thread awareness ngrams
+            % create embedding of syscall
+            % append extra parameters
+
+        \subsection{Wie können weitere System Call Informationen dargestellt werden?}\label{sec:Meta}
+            \paragraph{System Call Argumente}  
+                most frequent calls
+                Sql: vfrom, fcntl, lstat, nmap, poll
+                php: vfrom, fcntl, lstat, nmap, poll
+                bru: writev,read,  close, nmap, poll
+                eps: open,  read,  fstat, mmap, brk
+                zip: futex, write, getpid,protect,open
+                2019: statat,write, futex, stat, getpid
+                2014: writev,read,  nmap,  close,poll
+                2017: lwait,close,ollctl,write,writev
+                2018: statat,write, futex, getpid, stat
+
+
+                unique:
+                    vfrom, fcntl, lstat, nmap, poll, writev, read, close, open, fstat, mmap, brk
+                    futex, write, getpid, protect, statat, stat, lwait, ollctl
+
+            %\begin{table}[ht]
+                %\small
+                %\label{tab:syscall}
+                %\centering
+                %\begin{tabular}{c||p{6cm}|p{3cm}|p{3cm}}
+                    %\hline
+                    %\rowcolor{Gray!36}
+                    %\multicolumn{3}{c}{System Calls}\\
+                    %\hline
+                    %Name & Beschreibung & Interessante Argumente & return\\
+                    %\hline
+                    %\hline
+                    %\rowcolor{Gray!16}
+                    %fcntl & manipulate current fd & None & None
+                    %\hline
+                    %lstat & file status & path & 
+                    %\rowcolor{Gray!16}
+                    %mmap & map or unmap files or devices into memory & addr, length, fd,... & pointer to maped area
+                    %poll & wait for event on fd & fds (fd, events, revents), timeout
+                    %\rowcolor{Gray!16}
+                    %open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} \\
+                    %write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} \\
+                    %\hline
+                %\end{tabular}
+                %\caption{Beschreibung ausgewählter System Calls}
+            %\end{table}
+            interesting arguments:
+            
+            \paragraph{Thread Awareness}
+                \textit{Thread aware ngrams}
+                    syscalls welche nicht in trainingsdaten bekommen eine 0
+                    ngramme thread aware bilden unbrauchbar bei ngram länge von 1
+                \textit{Thread change flag}
+                    oder thread change flag
+
+            \paragraph{Zeitliche Abstände von System Calls}
+                Berechne größten Abstand zwischen zwei aufeinanderfolgende System Calls in den Trainingsdaten.
+                Normiere folgende System Call Abstände mit diesem Maximum.
+
+            \paragraph{Return Werte}
+                Anzahl unique return Werte, nur numerische Werte betrachtet, 
+                res=-11(<f>/path/to/some/file) wird als -11 interpretiert
+                Bruteforce: 17192 2851 int, 14333 hex, 8 else
+                2012:       1897 193 int, 1698 hex, 6
+                2014:       16736 2706, 14022, 8
+                2017:       381 26, 354, 1 
+                2018:       110 106, 0, 4 
+                2019:       125 119 int werte und 6 else
+                SQL
+                EPS
+                PHP
+                Zipslip
+
+                Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
+                Mögliche Bedeutungen bei else:
+                    Meist Fehlermeldungen!!!
+                    stat:
+                        file status, 
+                        sollte 0 bei success und -1 bei error, gefunden auch -2 
+                    ioctl:
+                        manipulate underlying device, 
+                        normalerweise 0 bei success manchmal negative werte
+                        -1 bei error
+                        manchmal return als ausgabe parameter
+                    Kategorische Betrachtung sinnvoll
+                HEX:\@
+                    mmap:
+                        map or unmap files into memory
+                        return pointer to mapped area
+                    brk:
+                        change data segment size
+                        return 0 on success -1 on error
+                        got hex value
+
+                Systemcalls welche Rückgabewerte haben:
+                    %Bruteforce: {'select': 11012, 
+                                 %'poll': 64443,
+                                 %'close': 80535,
+                                 %'read': 92587,
+                                 %'epoll_wait': 13746,
+                                 %'semop': 27435,
+                                 %'mmap': 45437,
+                                 %'fcntl': 35722,
+            %'brk': 30372, 'writev': 126627, 'stat': 28356, 'fstat': 12950, 'getcwd': 4616, 'lstat': 8060, 'write': 39703, 'chdir': 4616, 'munmap': 90757, 'rename': 2308, 'shutdown': 11127, 'connect': 4106, 'getdents': 40, 'clone': 1409, 'setgid': 705, 'lseek': 1410, 'setuid': 705}
+                    %2012: {'futex': 149729, 'select': 7846, 'poll': 1262, 'fcntl': 147382, 'setsockopt': 148874, 'mmap': 1723, 'clone': 2523, 'munmap': 464, 'write': 71308, 'read': 209140, 'access': 3337, 'pwrite': 25132, 'stat': 960, 'shutdown': 959, 'close': 959}
+                    %2014: {'poll': 62797, 'writev': 122406, 'shutdown': 11112, 'select': 11094, 'read': 90368, 'close': 79167, 'epoll_wait': 13629, 'semop': 27166, 'mmap': 44653, 'fcntl': 35692, 'brk': 28193, 'stat': 26827, 'munmap': 90471, 'write': 38219, 'connect': 4231, 'fstat': 12290, 'getcwd': 4324, 'lstat': 7826, 'chdir': 4324, 'rename': 2162, 'clone': 1480, 'setgid': 740, 'lseek': 1480, 'setuid': 740, 'getdents': 34} 
+                    %2017: {'epoll_wait': 53355, 'recvfrom': 26108, 'fstat': 26385, 'pread': 26109, 'writev': 26110, 'sendfile': 26110, 'write': 26109, 'close': 52823, 'getdents': 552, 'stat': 276, 'brk': 368, 'futex': 92, 'sendmsg': 166, 'recvmsg': 330} 
+                    %2018: {'select': 56420, 'fcntl': 27396, 'fstat': 82226, 'futex': 262846, 'recvfrom': 27403, 'getsockopt': 27405, 'stat': 252081, 'write': 576100, 'ioctl': 54824, 'lseek': 54824, 'read': 119433, 'close': 82304, 'setsockopt': 54836, 'poll': 4654, 'lstat': 3, 'pread': 3} 
+                    %2019: {'select': 75772, 'fcntl': 27245, 'fstat': 81543, 'futex': 359158, 'recvfrom': 27145, 'getsockopt': 27129, 'stat': 307293, 'write': 542742, 'ioctl': 54282, 'lseek': 54250, 'read': 136356, 'close': 81599, 'setsockopt': 54269, 'poll': 9050, 'lstat': 245, 'pread': 21, 'unlink': 21, 'rename': 32, 'getdents': 32}
+
+                ohe und w2v
+                word embedding parameterwahl wichtig $sqrt(distinct)$
+                Threadid kodieren: 
+                \begin{itemize}
+                    \item use entity embedding for ThreadID~\cite{GUO2016} 
+                    \item relationship between threads and reduce size (possible 1000 different threads)
+                    \item choose size of embedding -thumbrule $sqrt(unique value)$
+                \end{itemize}
+                zeit kodieren
+                \begin{itemize}
+                    \item use time delta of two different syscalls as new input
+                ohe und w2v
+                word embedding parameterwahl wichtig $sqrt(distinct)$
+                Threadid kodieren: 
+                \begin{itemize}
+                    \item use entity embedding for ThreadID~\cite{GUO2016} 
+                    \item relationship between threads and reduce size (possible 1000 different threads)
+                    \item choose size of embedding -thumbrule $sqrt(unique value)$
+                \end{itemize}
+                zeit kodieren
+                \begin{itemize}
+                    \item use time delta of two different syscalls as new input
+                \end{itemize}
+                parameterlänge kodieren
+                \begin{itemize}
+                    \item syscall to int: Wandle Syscall name in Integer um
+
+                     ohe of sysint: use ohe for every syscall 
+                     n * (distinct calls + 1) eingabeneuronen 
+
+                     w2v von syscall
+                     weniger neuronen und nähe von syscall!!!
+                    \item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                \end{itemize}
+                overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                embedding größer -> langsamer
+                vergleich ngram
+                im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                w2v bringt entscheidenden Vorteil gegenüber ohe:
+                Jeweils vergleich der selben parameter außer w2v vs ohe:
+                Single small w2v nur 30\% der zeit gegenüber single small ohe
+                bei mulit w2v sogar nur 13\%
+                im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+                ohe und w2v
+                word embedding parameterwahl wichtig $sqrt(distinct)$
+                Threadid kodieren: 
+                \begin{itemize}
+                    \item use entity embedding for ThreadID~\cite{GUO2016} 
+                    \item relationship between threads and reduce size (possible 1000 different threads)
+                    \item choose size of embedding -thumbrule $sqrt(unique value)$
+                \end{itemize}
+                zeit kodieren
+                \begin{itemize}
+                    \item use time delta of two different syscalls as new input
+                \end{itemize}
+                parameterlänge kodieren
+                \begin{itemize}
+                    \item syscall to int: Wandle Syscall name in Integer um
+
+                     ohe of sysint: use ohe for every syscall 
+                     n * (distinct calls + 1) eingabeneuronen 
+
+                     w2v von syscall
+                     weniger neuronen und nähe von syscall!!!
+                    \item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                \end{itemize}
+                overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                embedding größer -> langsamer
+                vergleich ngram
+                im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                w2v bringt entscheidenden Vorteil gegenüber ohe:
+                Jeweils vergleich der selben parameter außer w2v vs ohe:
+                Single small w2v nur 30\% der zeit gegenüber single small ohe
+                bei mulit w2v sogar nur 13\%
+                im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+                \end{itemize}
+                parameterlänge kodieren
+                \begin{itemize}
+                    \item syscall to int: Wandle Syscall name in Integer um
+
+                     ohe of sysint: use ohe for every syscall 
+                     n * (distinct calls + 1) eingabeneuronen 
+
+                     w2v von syscall
+                     weniger neuronen und nähe von syscall!!!
+                    \item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                \end{itemize}
+                overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                embedding größer -> langsamer
+                vergleich ngram
+                im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                w2v bringt entscheidenden Vorteil gegenüber ohe:
+                Jeweils vergleich der selben parameter außer w2v vs ohe:
+                Single small w2v nur 30\% der zeit gegenüber single small ohe
+                bei mulit w2v sogar nur 13\%
+                im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+
+    \section{Algorithmus}\label{sec:Algorithmus}
+        LSTM Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.
+        Gab es in den Trainingsdaten die feste Menge $S = {1,\dots,N}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
+        Jeder dieser System Calls bekommt im ersten Schritt einen Integerwert zwischen 1 und $N$.
+        Taucht in den Testdaten nun ein noch nicht bekannter System Call $x_i$ auf, also $x_i \notin S$, so erhält dieser den vorläufigen Wert 0.
+        Zu jedem Zeitpunkt wird $x_i$ der Input Layer übergeben.
+        Dabei wird ein Embedding aus Abschnitt~\ref{sec:embedding} verwendet. 
+        Mit den gegebenen Trainingsdaten kann nun das LSTM mittels des \textit{back-propagation through time} (BPTT) trainiert werden.
+        % Im ersten Schritt besteht dieses Embedding aus dem \textit{One hot encoding} (OHE).
+        % In weiterer Ausführung werden dann zwei W2V Verfahren verwendet.
+        % Wie in Kapitel \ref{Grundlagen:LSTM} bereits beschrieben wird, soll das LSTM mit den kodierten system calls aus dem Trainingsdatensatz trainiert werden.
+        An der Ausgangs Layer befindet sich eine Softmax Aktivierungsfunktion.
+        Diese wird verwendet um die Ausgabe zu normalisieren und damit die Wahrscheinlichkeitsverteilung des nächsten System Calls zu erhalten.
+        Also $P\left(x_i|x_{1:i-1}\right)$ für alle $i$. 
+        
+        \subsection{Anomalieerkennung}\label{sec:Anomalieerkennung}
+            Es kann also bei Auftreten des System Calls $x_i$ überprüft werden mit welcher Wahrscheinlichkeit $p$ dieser vorhergesagt wurde.
+            Der eigentliche Anomalie-Score wird dann folgenderweise berechnet:
+            \begin{equation}
+                ascore = 1 - p
+            \end{equation}
+            Unterschreitet dieser einen Schwellwert so wird dies als eine Anomalie gewertet und ein Alarm angezeigt.
+            \subsection{Schwellwertbestimmung}
+            Um den zuvor erwähnten Schwellwert automatisch zu bestimmen, wird der Algorithmus auf die Validierungsdaten angewendet. 
+            Dabei dient der höchste Wert dieser Daten dann als Schwellwert, da angenommen wird, dass mindestens alle Daten aus den Validierungsdaten harmlos sind und damit unter dem Schwellwert liegen sollten.
+            Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen könnte. 
+            Das würde bedeuten, dass nur sehr geringe Anomaliewerte auftreten und der Schwellwert sehr gering ist und damit die Gefahr für viele Fehlalarme besteht.
+
+            Alternativ betrachte die x wahrscheinlichsten vorhergesagten system calls, falls tatsächlicher system call nicht dabei --> alarm
+            x ermitteln, betrachte validierungsdaten und schaue ob schlechtestes x aussehen würde
+            tatsächlich oft einmal schlechteste platzierung und automatische erkennung von x schwer.
+
+            \paragraph{Problem des Datensatz}
+
+                In den Testdaten sind \textit{malicious} \marginpar{zu dt.\ schädlich} Files beinhaltet, welche eine Information über den Angriffszeitpunkt liefert. 
+                Jedoch gibt es bei einer malicious File im Gegensatz zu den normalen Files  vier mögliche Zuordnungen.
+                %TODO Bild einfügen von Quadranten 
+                Befindet sich der Anomaliescore unter dem Schwellwert kann von einem \textit{True Negative} eingestuft werden.
+                Also es wurde korrekter weise kein Alarm vorhergesagt.
+                Befindet sich der Anomaliescore vor dem Angriffszeitpunkt über dem Schwellwert liegt ein \textit{False Positive} vor.
+                Es wurde ein Alarm gemeldet an einer Stelle an dem kein Angriff stattfand.
+                Nach dem angegebenen Angriffszeitpunkt wird es allerdings schwieriger.
+                Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
+                Jedoch könnte da der Angriff schon vorbei sein, oder gar noch nicht gestartet sein.
+                Es können nach dem Angriffszeitpunkt auch \textit{False Positive} oder \textit{False Negative} geben, welche allerdings nicht als solche erkannt werden können.
+                Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in Kapitel~\ref{sec:metrik} beleuchtet.
+
+        \subsection{Parameterwahl}
+            ngram länge
+            lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info
+            -> finden von sweet spot
+            generell großes n viele alarme
+            kleines n weniger alarme  vorteil LSTM\@?
+            wichtiger Parameter den es zu ermitteln gilt
+
+    \section{Strukturierung der Experimente}\label{sec:StrukExp}
+        Um aussagekräftige Experimente zu entwickeln müssen zuerst 
+        überlegungen zur praktischen umsetzung gemacht werden
+        dabei wird in ersten Tests klar, dass zeit hierbei eine große rolle spielen wird
+
+        erste Tests also ausgelegt um Faktoren zu ermitteln, welche die auswertungen stark verlangsamen
+        und diese ausschließen.
+
+        \subsection{Faktor Zeit}
+
+            zeit/dr als groesse und farbe von scatter plot
+            batch size test und train x/y achse
+
+            eingrenzen von moeglichen konfigurationen
+
+            Berechnungszeiten aus verschiedenen Perspektiven relevant:
+            soll live system werden
+            begrenzte rechenleistung und viele Tests zur auswertung von parametern architektur etc
+            erster test zur abschätzung diverser zeitl.\ faktoren:
+
+            Faktoren:
             \begin{itemize}
-                \item use entity embedding for ThreadID~\cite{GUO2016} 
-                \item relationship between threads and reduce size (possible 1000 different threads)
-                \item choose size of embedding -thumbrule $sqrt(unique value)$
-            \end{itemize}
-            zeit kodieren
-            \begin{itemize}
-                \item use time delta of two different syscalls as new input
-            \end{itemize}
-            parameterlänge kodieren
-            \begin{itemize}
-                \item syscall to int: Wandle Syscall name in Integer um
+                \item Architektur
+                \item Verarbeitung Stream
 
-                 ohe of sysint: use ohe for every syscall 
-                 n * (distinct calls + 1) eingabeneuronen 
-
-                 w2v von syscall
-                 weniger neuronen und nähe von syscall!!!
-                \item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                     ngram größe
+                \item embedding
             \end{itemize}
+<<<<<<< HEAD
             overhead berechnung embedding, muss allerdings nur einmal berechnet werden
             zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
             embedding größer -> langsamer
@@ -369,7 +668,3 @@
     vorteil des Datensatzes gegenüber anderen, immerhin exploitstart time
 
     alarm in quadrant ---> image
-
-
-
-

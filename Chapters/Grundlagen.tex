@@ -1,5 +1,5 @@
 %*****************************************
-\chapter{Grundlagen}\label{ch:grundlagen}
+\chapter{Grundlagen}\label{ch:Grundlagen}
 %*****************************************
 In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des \ac{IDS} nötig sind.
     Essentiell dabei sind zum einen die Definition von Anomalien und der Anomaliedetektion (siehe Kapitel~\ref{sec:Anomalieerkennung})
@@ -160,7 +160,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         Die erste Frage soll in dem folgenden Abschnitt mit der Betrachtung von System Calls zur Beschreibung des Systemverhaltens angegangen werden.
         Die letztere soll dann speziell in Kapitel~\ref{sec:Algorithmus} beleuchtet werden.
 
-        \begin{figure}[h]
+        \begin{figure}[ht]
             \centering
             \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
             \caption{Einordnung des verwendeten IDS (breiter markiert).}\label{fig:IDSOverview}
@@ -171,11 +171,11 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         Diese Interaktion findet in Form von \textit{System Calls} \marginpar{zu dt. Systemaufrufe} statt.
         Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschriebenen System Calls.
 
-        \begin{table}[h]
+        \begin{table}[ht]
             \small
             \label{tab:syscall}
             \centering
-            \begin{tabular}{c||p{6cm}|p{3cm}|p{3cm}}
+            \begin{tabular}{cp{6cm}p{3cm}p{3cm}}
                 \hline
                 \rowcolor{Gray!36}
                 \multicolumn{4}{c}{System Calls}\\
@@ -198,6 +198,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         Mögliche Services sind unter anderem Zugriffe auf Hardware aber auch das Erstellen und Ausführen von Prozessen.
         Üblicherweise können System Calls nur von Nutzerprozessen ausgelöst werden, welche eine eingeschränkte Berechtigung besitzen.
         Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können sowie einen Rückgabewert.
+        %TODO zu jedem öffnenden System Call gibt es schließenden
 
         Auch ein möglicher Angreifer muss um Schaden anzurichten also an der Art der System Calls eine Veränderung vornehmen.
         Entweder kann die Abfolge, also die Sequenz von System Calls verändert werden, z.B. es werden neue Funktionen aufgerufen, welche wiederum andere System Calls aufrufen,
@@ -218,64 +219,64 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in Kapitel~\ref{sec:args} untersucht werden.
             Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
 
-    \section{Datensatz}\label{sec:Datensatz}
-    Seit 1998 einer der ersten System Call Datensätze für \ac{HIDS} veröffentlicht wurde~\cite{DARPA},
+    \section{Datensätze}\label{sec:Datensatz}
+        Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
         kamen verschiedene Datensätze hinzu.
         Auf diese wird in den kommenden Abschnitten kurz eingegangen.
         Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
         \paragraph{KDD}
             Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
             simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services. 
-            Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher sieben Wochen über TCP-Dump aufgezeichnet.
-            Dabei werden verschiedene Angriffe ausgeführt, darunter sind \textit{Denial of Service} und \textit{User to Root} \marginpar{Auch als \textit{Priviledge Escalation} bezeichnet}.
-            Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.  Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
+            Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher sieben Wochen über TCP-Dump aufgezeichnet wurde.
+            Dabei werden verschiedene Angriffe ausgeführt, darunter sind \textit{Denial of Service} und \textit{User to Root}\marginpar{Auch als \textit{Priviledge Escalation} bezeichnet}.
+            Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.
+            Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
         \paragraph{UNM}
-            Auch dieser Datensatz~\cite{UNM} ist veraltet (1999) und kommt für eine weitere Betrachtung nicht in Frage,
-            da zusätzlich auch weitere Kontextinformationen wie Thread IDs fehlen~\cite{UNMcritic}
+            Der \textit{University of New Mexico} Datensatz beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
+            Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  overflows} ausgeführt.
+            Auch dieser Datensatz~\cite{UNM} ist veraltet (2004) und kommt für eine weitere Betrachtung nicht in Frage,
+            da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
         \paragraph{ADFA-LD}
-            Der ADFA-LD Datensatz wurde von Hu et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
-            Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein bearbeiten erschwert~\cite{ADFA-LDcritic}.
-            Erschwerend kommt hinzu, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten beinhalten.
-        \paragraph{NIGDS-DS}
-            Der 2017 erstellte Datensatz NIGDS-DS beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
+            Der \textit{ADFA Linux Dataset} (ADFA-LD) wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
+            Dieser wurde auf einem Linuxsystem aufgezeichnet, dessen Schwachstellen von verschiedenen \textit{Penetration Testing} Tools ausgenutzt werden.
+            Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein Bearbeiten erschwert~\cite{ADFA-LDcritic}.
+            Hinzu kommt, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten im Datensatz enthalten sind.
+        \paragraph{NGIDS-DS}
+            Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
+            Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
             Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind.
-            Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln.
+            Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln~\cite{Grimmer}.
         \paragraph{LID-DS}
             2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
-            Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \cite{IDS} zu verwenden.
-            Im folgenden soll eine Beispieldatei betrachtet werden.
+            Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
+            Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien.
+            Jedes Szenario repräsentiert dabei eine bekannte Schwachstelle eines Systems.
+            In Tabelle~\ref{tab:scenarien} werden die verschiedenen Schwachstellen als \textit{Common Vulnerabilities and Exposures} (CVE)
+            \marginpar{zu dt. Allgemeine Schwachstellen und Gefährdungen} oder \textit{Common Weakness Enumeration} (CWE) \marginpar{zu dt. Aufzählung gemeinsamer Schwachstellen} bezeichnet.
+            CVE ist ein Industriestandard der für eine einheitliche Namenskonvention für Sicherheitslücken verwendet wird.
+            Bei den CWEs handelt es sich um eine von der Community gepflegte und von der MITRE Corporation veröffentlichte Auflistung verschiedener Typen von Schwachstellen in Soft- und Hardware.
+            Aufgezeichnet werden für jedes Szenario neben den System Calls Namen auch deren Metadaten.
+            Dazu zählen unter anderem die Parameter, Rückgabewerte, Zeitstempel sowie User-, Prozess- und Thread-IDs.
+            Jedes Szenario beinhaltet insgesamt ca. 1000 30-60 Sekunden lange Aufzeichnungen.
+            Die ersten 200 Aufzeichnungen dienen als Trainingsdaten die darauffolgenden 50 als Validierungsdaten und die restlichen als Testdaten. 
+            Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
+            Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben werden.
+             
+            In Tabelle~\ref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in Tabelle~\ref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
 
-            \begin{table}[h]
-                \tiny
-                \centering
-                \begin{tabular}{p{1.1cm}|p{1.1cm}|p{0.3cm}|p{0.4cm}|p{0.6cm}|p{0.6cm}|p{0.8cm}|p{0.6cm}|p{1cm}}
-                    \rowcolor{Gray!36}
-                    \hline
-                    \multicolumn{9}{c}{System Call}\\
-                    \hline
-                    event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
-                    \hline
-                    \hline
-                    \rowcolor{Gray!16}
-                    4012 & $10:18:20.1231231231$ & 0 & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)size=2392$ \\
-                \end{tabular}
-                \caption{Ausschnitt aus LID-DS~\cite{LIDDS}}
-                \label{tab:syscallfile}
-            \end{table}
-
-            \begin{table}[h]
+            \begin{table}[ht]\label{tab:scenarien}
                 \small
                 \centering
-                \begin{tabular}{p{3cm}|p{6.5cm}}
+                \begin{tabular}{p{3cm}p{6.5cm}}
                     \rowcolor{Gray!36}
                     \hline
-                    \multicolumn{2}{c}{Scenarien}\\
+                    \multicolumn{2}{c}{Szenarien}\\
                     \hline
                     Name & Beschreibung \\
                     \rowcolor{Gray!16}
                     \hline
                     \hline
-                    Bruteforce\_CWE-307 & Ungeeignete Einschränkung von übermäßigen Authentifizierungs Versuche \\
+                    Bruteforce-CWE-307 & Ungeeignete Einschränkung von übermäßigen Authentifizierungsversuchen \\
                     \hline
                     CVE-2012-2122 & Umgehung von MySQL Authentifizierung\\
                     \rowcolor{Gray!16}
@@ -298,35 +299,63 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                     SQL Injection & SQL Injection mit sqlmap\\
                     \hline
                     ZipSlip & blablabla \\
+                    \hline
                 \end{tabular}
-                \caption{Ausschnitt aus LID-DS~\cite{LIDDS}}
-                \label{tab:scenarien}
+                \caption{Kurzbeschreibung der in dem Datensatz vorkommenden Sicherheitslücken~\cite{LIDDS}}
             \end{table}
-            Der Datensatz umfasst zehn verschiedene Angriffsscenarien, dargestellt in Tabelle~\ref{tab:scenarien}.
-            Jede Aufzeichnung eines Scenarios enthält ca. 1000 Files welche jeweils ca. 60sec Aufnahmen beinhalten.
-            Dies führt zu insgesamt ungefähr 10h Trainingsdaten pro Scenario.
 
-            In den Testdaten sind \textit{malicious} \marginpar{zu dt.\ schädlich} Files beinhaltet, welche eine Information über den Angriffszeitpunkt liefert. 
-            Jedoch gibt es bei einer malicious File im Gegensatz zu den normalen Files  vier mögliche Zuordnungen.
-            Befindet sich der Anomaliescore unter dem Schwellwert kann von einem \textit{True Negative} eingestuft werden.
-            Also es wurde korrekter weise kein Alarm vorhergesagt.
-            Befindet sich der Anomaliescore vor dem Angriffszeitpunkt über dem Schwellwert liegt ein \textit{False Positive} vor.
-            Es wurde ein Alarm gemeldet an einer Stelle an dem kein Angriff stattfand.
-            Nach dem angegebenen Angriffszeitpunkt wird es allerdings schwieriger.
-            Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
-            Jedoch könnte da der Angriff schon vorbei sein, oder gar noch nicht gestartet sein.
-            Es können nach dem Angriffszeitpunkt auch \textit{False Positive} oder \textit{False Negative} geben, welche allerdings nicht als solche erkannt werden können.
-            Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in Kapitel~\ref{sec:metrik} beleuchtet.
+            \begin{table}[ht]\label{tab:runsfile}
+                \tiny
+                \centering
+                \begin{tabular}{cccccc}
+                    \rowcolor{Gray!36}
+                    \hline
+                    \multicolumn{6}{c}{runs.csv}\\
+                    \hline
+                    image\_name& scenario\_name& is\_executing\_exploit& warmup\_time& recording\_time& exploit\_start\_time \\
+                    \hline
+                    \hline
+                    \rowcolor{Gray!16}
+                    actual\_name& file\_name\_0001& False& 10& 35& -1 \\
+                    \hline
+                    actual\_name& file\_name\_0002& True& 10& 40& 15 \\
+                    \hline
+                \end{tabular}
+                \caption{Ausschnitt der runs.csv des LID-DS~\cite{LIDDS}}
+            \end{table}
+
+            \begin{table}[ht]\label{tab:syscallfile}
+                \tiny
+                \centering
+                \begin{tabular}{p{1.1cm}p{1.1cm}p{0.3cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
+                    \rowcolor{Gray!36}
+                    \hline
+                    \multicolumn{9}{c}{System Call}\\
+                    \hline
+                    event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
+                    \hline
+                    \hline
+                    \rowcolor{Gray!16}
+                    4012 & $10:18:20.1231231231$ & 0 & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)size=2392$ \\
+                    \hline
+                \end{tabular}
+                \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
+            \end{table}
+
+
 
             Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
-            soll im Folgenden die Frage geklärt werden, wie Muster mit Hilfe von künstlichen neuronalen Netzen in einem Datensatz erkannt werden können.
+            soll im Folgenden die Frage geklärt werden, wie mit Hilfe von künstlichen neuronalen Netzen Muster in einem Datensatz erkannt werden können.
 
     \section{Künstliche neuronale Netze}\label{sec:KNN}        
         Das Nutzen von bestehenden und in der Natur vorkommenden Strukturen und Prozessen kommt in verschiedenen Forschungsbereichen zum Einsatz.
-        In direkter Umsetzung von zum Beispiel der Struktur von Geckofüßen unter anderem für die Raumfahrt~\cite{GECKO}.%, oder auch zur Verringerung des Luftwiderstandes mit der Adaption von Placoidschuppen der Haie \cite{SHARK}.
-        Auch Prozesse welche in der Natur beobachtbar sind werden verucht zu adaptieren, dazu zählen zum Beispiel Ameisenalgorithmen~\cite{ANT}.
+        In direkter Umsetzung von zum Beispiel der Struktur von Geckofüßen für Oberflächenstrukturen welche häufig in der Raumfahrt eingesetzt werden~\cite{GECKO}.
+        %, oder auch zur Verringerung des Luftwiderstandes mit der Adaption von Placoidschuppen der Haie \cite{SHARK}.
+        Auch Prozesse welche in der Natur beobachtbar sind werden versucht zu adaptieren, dazu zählen zum Beispiel Ameisenalgorithmen~\cite{ANT}.
+        Dabei wird versucht das Verhalten von realen Ameisen zu modellieren um verschiedene Optimierungsprobleme zu lösen.
         Ein in den letzten Jahren immer weiter verbreiteter Ansatz in der elektronischen Datenverarbeitung ist die Verwendung von künstlichen neuronalen Netzen.
-        Dieser versucht sich die Struktur von Gehirnen anzueignen.
+        Diese haben Neuronen und neuronale Netze als biologisches Vorbild.
+        Dabei ist allerdings die abstrakte Modellierung der Informationsverarbeitung im Vordergrund und nicht das Nachbilden der biologischen neuronalen Netze.
         Man verspricht sich mit dem Einsatz von künstlichen neuronalen Netzen, welche eine Varietät an verschiedenen Architekturen beinhalten, diverse Optimierungsprobleme zu lösen.
         %In dieser Arbeit wird der Einsatz von neuronalen Netzen zur \textit{Time Series Prediction} (zu dt. Vorhersagen von Zeitreihen) untersucht.
         Zu aktuellen Beispielen zählen dabei auch Vorhersagen die im Zusammenhang mit der Verbreitung des COVID-19 Virus stehen~\cite{COVID1}~\cite{COVID2}~\cite{COVID3}.
@@ -361,24 +390,24 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             Dabei beschreiben $x_t$, $h_t$ und $y_t$ den Eingang des Neurons, die rekurrente Information und den Ausgang des RNN\@.
             $W_h$ und  $W_x$ beschreiben die Gewichte und $b$ den Bias.
             Ein einzelner Knoten wird ohne die Gewichte in Abbildung~\ref{fig:RNN} dargestellt,
-            sowie in Abbildung~\ref{fig:RNN_enroled} in einer alternativen Darstellung, wie sich dieser Knoten über $t$ Zeitpunkte verhält.
+            sowie in Abbildung~\ref{fig:RNN_enroled} in einer alternativen Darstellung, wie sich dieser Knoten $A$ über $t$ Zeitpunkte verhält.
             Dabei werden für die Übersichtlichkeit Gewichte sowie der Bias nicht dargestellt.
-                \begin{figure}[h]
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.8\textwidth]{images/Illustrationen/RNN_simple}
                     \caption{Darstellung einer RNN Zelle}
                     \label{fig:RNN}
                 \end{figure}
-                \begin{figure}[h]
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=1\textwidth]{images/Illustrationen/RNN_enrolled}
                     \caption{Darstellung einer \glqq ausgerollten\grqq \ und vereinfachten RNN Zelle}
                     \label{fig:RNN_enroled}
                 \end{figure}
             Doch auch die RNNs haben ein Problem bei Merkmalen, die sich über einen längeren Zeitraum strecken.
-            Denn dabei kommt es häufig vor, dass durch die Back Propagation die berechneten Gradienten entweder verschwindend klein, oder sehr groß werden.
+            Denn dabei kommt es häufig vor, dass durch die \textit{Backpropagation} die berechneten Gradienten entweder verschwindend klein, oder sehr groß werden.
             Gerade bei Abhängigkeiten über einen größeren zeitlichen Abstand tendieren die Fehlersignale,
-            die durch die Back Propagation durch das Netz gegeben werden, zu geringe Gewichtsänderungen auszulösen.
+            die durch die Backpropagation durch das Netz gegeben werden, zu geringe Gewichtsänderungen auszulösen.
             Traditionelle Aktivierungsfunktionen wie die hyperbolische Tangensfunktion haben Gradienten im Bereich $(-1,1)$ oder $[0,1)$ und Backpropagation berechnet Gradienten durch die Kettenregel.
             Dies hat den Effekt, dass n dieser kleinen Zahlen multipliziert werden, um die Gradienten der \glqq vorderen\grqq \ Schichten in einem n-Schichten-Netzwerk zu berechnen, was bedeutet, dass der Gradient (Fehlersignal) exponentiell mit n abnimmt und die vorderen Schichten sehr langsam trainieren.
             Die von Sepp Hochreiter erstmals erwähnte \textit{Long Short-Term Memory} (LSTM) Zellen ermöglichen durch verbesserte Fehlerkorrektur stabilere Lernergebnisse sowie auch das Lernen von Mustern mit noch größeren zeitlichen Abständen.~\cite{HOCHREITER1998}
@@ -388,22 +417,22 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
    	
         \subsection{Long Short-Term Memory} 
             Hauptziel der LSTMs ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
-            Entscheident dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant sein könnten.
+            Entscheidend dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant sein könnten.
             
-            \begin{figure}[h]
+            \begin{figure}[ht]\label{fig:LSTM}
                 \centering
-                \includegraphics[width=0.8\textwidth]{images/Illustrationen/LSTM}
-                \caption{Schematische Darstellung eines Knotens in einem LSTM NN, mit Input, Output und Forget Gate (inspiriert von \cite{OLAH2015}).}
-                \label{fig:LSTM}
+                \includegraphics[width=1\textwidth]{images/Illustrationen/LSTM}
+                \caption{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (inspiriert von \cite{OLAH2015}).}
             \end{figure}
 
-            Und um zu erlernen welche früheren Ausgaben für die Ermittlung nächster Datenpunkte entscheident sind, wird an jedem Knoten eine \textit{Memory Cell} \marginpar{zu dt. Gedächtniszelle} angebracht, zu sehen ist diese Erweiterung in Abbildung~\ref{fig:LSTM}.
+            Und um zu erlernen welche früheren Ausgaben für die Ermittlung nächster Datenpunkte entscheidend sind,
+            wird an jedem Knoten eine mit $A$ in der Abbildung~\ref{fig:LSTM} gekennzeichnete \textit{Memory Cell} \marginpar{zu dt. Gedächtniszelle} angebracht.
             Sie ist mit sich selbst verbunden, kennt also die vorherigen Ausgaben und gibt den Zellstatus an.
             Mit Hilfe dieser Information soll eine Abhängigkeit auch über einen längeren Zeitraum gefunden werden.
             Der Zellstatus $C_{t-1}$ zum Zeitpunkt $t-1$ hat im nächsten Zeitschritt $t$ einen Einfluss auf den Zellstatus $C_{t}$ und somit auch auf die Ausgabe $y_t$.
             Die Weitergabe des Status wird in Abbildung~\ref{fig:LSTM_Status} dargestellt.
 
-                \begin{figure}[h]
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_MC}
                     \caption{Weitergabe des Zellstatus innerhalb eines Knotens (inspiriert von \cite{OLAH2015}).}
@@ -424,7 +453,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             In dem Sprachbeispiel könnte das Genus (\textit{grammatikalisches Geschlecht}) gespeichert werden, um so eine grammatikalisch korrekte Vorhersage zu machen.
             Kommt nun allerdings ein neues Pronomen in der Eingabe $x_t$, sollte das bisher gespeicherte Genus keinen Einfluss mehr haben.
             
-                \begin{figure}[h]
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_FG}
                     \caption{Einfluss des Forget Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
@@ -450,7 +479,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 \end{split}
             \end{equation}
 
-                \begin{figure}[h]
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_IG}
                     \caption{Einfluss des Input Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
@@ -466,7 +495,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             \end{equation}
             Dies soll in unserem Sprachbeispiel entscheiden, ob die Information des Genus für die Vorhersage des nächsten Wortes eine Rolle spielt. \cite{GERS2000} \cite{OLAH2015}
 
-                \begin{figure}[h]
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_OG}
                     \caption{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (inspiriert von \cite{OLAH2015}).}
