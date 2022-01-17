@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.1 $
+% $ biblatex bbl format version 3.0 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -16,194 +16,55 @@
   {}
 \endgroup
 
-\datalist[entry]{nyt/global//global/global}
-  \entry{ADFA-LDcritic}{article}{}
+\datalist[entry]{nty/global//global/global}
+  \entry{HE}{inproceedings}{}
     \name{author}{4}{}{%
-      {{hash=AAI}{%
-         family={Abubakar},
-         familyi={A\bibinitperiod},
-         given={Adamu\bibnamedelima I},
-         giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod},
-      }}%
-      {{hash=CH}{%
-         family={Chiroma},
-         familyi={C\bibinitperiod},
-         given={Haruna},
-         giveni={H\bibinitperiod},
-      }}%
-      {{hash=MSA}{%
-         family={Muaz},
-         familyi={M\bibinitperiod},
-         given={Sanah\bibnamedelima Abdullahi},
-         giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
-      }}%
-      {{hash=ILB}{%
-         family={Ila},
-         familyi={I\bibinitperiod},
-         given={Libabatu\bibnamedelima Baballe},
-         giveni={L\bibinitperiod\bibinitdelim B\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Elsevier}%
-    }
-    \strng{namehash}{AAI+1}
-    \strng{fullhash}{AAICHMSAILB1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{A}
-    \field{sortinithash}{A}
-    \field{pages}{221\bibrangedash 227}
-    \field{title}{A review of the advances in cyber security benchmark datasets
-  for evaluating data-driven based intrusion detection systems}
-    \field{volume}{62}
-    \field{journaltitle}{Procedia Computer Science}
-    \field{year}{2015}
-  \endentry
-
-  \entry{NIDS}{article}{}
-    \name{author}{3}{}{%
-      {{hash=BMH}{%
-         family={{Bhuyan}},
-         familyi={B\bibinitperiod},
-         given={M.\bibnamedelima H.},
-         giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
-      }}%
-      {{hash=BDK}{%
-         family={{Bhattacharyya}},
-         familyi={B\bibinitperiod},
-         given={D.\bibnamedelima K.},
-         giveni={D\bibinitperiod\bibinitdelim K\bibinitperiod},
-      }}%
-      {{hash=KJK}{%
-         family={{Kalita}},
-         familyi={K\bibinitperiod},
-         given={J.\bibnamedelima K.},
-         giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{BMHBDKKJK1}
-    \strng{fullhash}{BMHBDKKJK1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{B}
-    \field{sortinithash}{B}
-    \verb{doi}
-    \verb 10.1109/SURV.2013.052213.00046
-    \endverb
-    \field{number}{1}
-    \field{pages}{303\bibrangedash 336}
-    \field{title}{Network Anomaly Detection: Methods, Systems and Tools}
-    \field{volume}{16}
-    \field{journaltitle}{IEEE Communications Surveys Tutorials}
-    \field{year}{2014}
-  \endentry
-
-  \entry{ANOMALYSURVEY}{article}{}
-    \name{author}{3}{}{%
-      {{hash=CV}{%
-         family={Chandola},
-         familyi={C\bibinitperiod},
-         given={Varun},
-         giveni={V\bibinitperiod},
-      }}%
-      {{hash=BA}{%
-         family={Banerjee},
-         familyi={B\bibinitperiod},
-         given={Arindam},
-         giveni={A\bibinitperiod},
-      }}%
-      {{hash=KV}{%
-         family={Kumar},
-         familyi={K\bibinitperiod},
-         given={Vipin},
-         giveni={V\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Association for Computing Machinery}%
-    }
-    \keyw{outlier detection, Anomaly detection}
-    \strng{namehash}{CVBAKV1}
-    \strng{fullhash}{CVBAKV1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{C}
-    \field{sortinithash}{C}
-    \verb{doi}
-    \verb 10.1145/1541880.1541882
-    \endverb
-    \field{issn}{0360-0300}
-    \field{number}{3}
-    \field{title}{Anomaly Detection: A Survey}
-    \verb{url}
-    \verb https://doi.org/10.1145/1541880.1541882
-    \endverb
-    \field{volume}{41}
-    \list{location}{1}{%
-      {New York, NY, USA}%
-    }
-    \field{journaltitle}{ACM Comput. Surv.}
-    \field{month}{07}
-    \field{year}{2009}
-  \endentry
-
-  \entry{UNMcritic}{inproceedings}{}
-    \name{author}{2}{}{%
-      {{hash=CG}{%
-         family={Creech},
-         familyi={C\bibinitperiod},
-         given={Gideon},
-         giveni={G\bibinitperiod},
-      }}%
-      {{hash=HJ}{%
-         family={Hu},
+      {{hash=HS}{%
+         family={{He}},
          familyi={H\bibinitperiod},
-         given={Jiankun},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=ZJ}{%
+         family={{Zhu}},
+         familyi={Z\bibinitperiod},
+         given={J.},
          giveni={J\bibinitperiod},
       }}%
-    }
-    \list{organization}{1}{%
-      {IEEE}%
-    }
-    \strng{namehash}{CGHJ1}
-    \strng{fullhash}{CGHJ1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{C}
-    \field{sortinithash}{C}
-    \field{booktitle}{2013 IEEE Wireless Communications and Networking
-  Conference (WCNC)}
-    \field{pages}{4487\bibrangedash 4492}
-    \field{title}{Generation of a new IDS test dataset: Time to retire the KDD
-  collection}
-    \field{year}{2013}
-  \endentry
-
-  \entry{KDD}{thesis}{}
-    \name{author}{1}{}{%
-      {{hash=EV}{%
-         family={Engen},
-         familyi={E\bibinitperiod},
-         given={Vegard},
-         giveni={V\bibinitperiod},
+      {{hash=HP}{%
+         family={{He}},
+         familyi={H\bibinitperiod},
+         given={P.},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=LMR}{%
+         family={{Lyu}},
+         familyi={L\bibinitperiod},
+         given={M.\bibnamedelima R.},
+         giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
       }}%
     }
-    \strng{namehash}{EV1}
-    \strng{fullhash}{EV1}
+    \strng{namehash}{HSZJHPLMR1}
+    \strng{fullhash}{HSZJHPLMR1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{E}
-    \field{sortinithash}{E}
-    \field{title}{Machine learning for network based intrusion detection: an
-  investigation into discrepancies in findings with the KDD cup'99 data set and
-  multi-objective evolution of neural network classifier ensembles from
-  imbalanced data.}
-    \list{institution}{1}{%
-      {Bournemouth University}%
-    }
-    \field{type}{phdthesis}
-    \field{year}{2010}
+    \field{booktitle}{2016 IEEE 27th International Symposium on Software
+  Reliability Engineering (ISSRE)}
+    \verb{doi}
+    \verb 10.1109/ISSRE.2016.21
+    \endverb
+    \field{pages}{207\bibrangedash 218}
+    \field{title}{Experience Report: System Log Analysis for Anomaly Detection}
+    \field{year}{2016}
+  \endentry
+
+  \entry{SYSDIG}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{Seeing is Securing For containers, Kubernetes and cloud
+  services}
+    \verb{url}
+    \verb https://sysdig.com/
+    \endverb
   \endentry
 
   \entry{FORREST}{inproceedings}{}
@@ -233,12 +94,10 @@
          giveni={T\bibinitperiod\bibinitdelim A\bibinitperiod},
       }}%
     }
-    \strng{namehash}{FS+1}
+    \strng{namehash}{FSHSASALTA1}
     \strng{fullhash}{FSHSASALTA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{F}
-    \field{sortinithash}{F}
     \field{booktitle}{Proceedings 1996 IEEE Symposium on Security and Privacy}
     \verb{doi}
     \verb 10.1109/SECPRI.1996.502675
@@ -248,270 +107,41 @@
     \field{year}{1996}
   \endentry
 
-  \entry{UNM}{online}{}
-    \name{author}{2}{}{%
-      {{hash=FS}{%
-         family={Forrest},
-         familyi={F\bibinitperiod},
-         given={S.},
-         giveni={S\bibinitperiod},
-      }}%
-      {{hash=oNMU}{%
-         prefix={of},
-         prefixi={o\bibinitperiod},
-         family={New\bibnamedelima Mexico},
-         familyi={N\bibinitperiod\bibinitdelim M\bibinitperiod},
-         given={University},
-         giveni={U\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{FSNMUo1}
-    \strng{fullhash}{FSNMUo1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{F}
-    \field{sortinithash}{F}
-    \field{title}{University of New Mexico (UNM) Intrusion Detection Dataset}
-    \verb{url}
-    \verb https://www.cs.unm.edu/~immsec/systemcalls.htm
-    \endverb
-  \endentry
-
-  \entry{GERS2000}{article}{}
+  \entry{MAGGI}{article}{}
     \name{author}{3}{}{%
-      {{hash=GFA}{%
-         family={Gers},
-         familyi={G\bibinitperiod},
-         given={Felix\bibnamedelima A.},
-         giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod},
-      }}%
-      {{hash=SJA}{%
-         family={Schmidhuber},
-         familyi={S\bibinitperiod},
-         given={J\"{u}rgen\bibnamedelima A.},
-         giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
-      }}%
-      {{hash=CFA}{%
-         family={Cummins},
-         familyi={C\bibinitperiod},
-         given={Fred\bibnamedelima A.},
-         giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {MIT Press}%
-    }
-    \strng{namehash}{GFASJACFA1}
-    \strng{fullhash}{GFASJACFA1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \verb{doi}
-    \verb 10.1162/089976600300015015
-    \endverb
-    \field{issn}{0899-7667}
-    \field{number}{10}
-    \field{pages}{2451\bibrangedash 2471}
-    \field{title}{Learning to Forget: Continual Prediction with LSTM}
-    \verb{url}
-    \verb http://dx.doi.org/10.1162/089976600-300015015
-    \endverb
-    \field{volume}{12}
-    \list{location}{1}{%
-      {Cambridge, MA, USA}%
-    }
-    \field{journaltitle}{Neural Comput.}
-    \field{month}{10}
-    \field{year}{2000}
-  \endentry
-
-  \entry{LIDDS}{article}{}
-    \name{author}{4}{}{%
-      {{hash=GM}{%
-         family={Grimmer},
-         familyi={G\bibinitperiod},
-         given={Martin},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=RMM}{%
-         family={R{\"o}hling},
-         familyi={R\bibinitperiod},
-         given={Martin\bibnamedelima Max},
-         giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
-      }}%
-      {{hash=KD}{%
-         family={Kreusel},
-         familyi={K\bibinitperiod},
-         given={D},
-         giveni={D},
-      }}%
-      {{hash=GS}{%
-         family={Ganz},
-         familyi={G\bibinitperiod},
-         given={Simon},
-         giveni={S\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{GM+1}
-    \strng{fullhash}{GMRMMKDGS1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \field{pages}{135\bibrangedash 145}
-    \field{title}{A modern and sophisticated host based intrusion detection
-  data set}
-    \field{journaltitle}{IT-Sicherheit als Voraussetzung f{\"u}r eine
-  erfolgreiche Digitalisierung}
-    \field{year}{2019}
-  \endentry
-
-  \entry{GUO2016}{article}{}
-    \name{author}{2}{}{%
-      {{hash=GC}{%
-         family={Guo},
-         familyi={G\bibinitperiod},
-         given={Cheng},
-         giveni={C\bibinitperiod},
-      }}%
-      {{hash=BF}{%
-         family={Berkhahn},
-         familyi={B\bibinitperiod},
-         given={Felix},
+      {{hash=MF}{%
+         family={{Maggi}},
+         familyi={M\bibinitperiod},
+         given={F.},
          giveni={F\bibinitperiod},
       }}%
-    }
-    \strng{namehash}{GCBF1}
-    \strng{fullhash}{GCBF1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{G}
-    \field{sortinithash}{G}
-    \field{title}{Entity embeddings of categorical variables}
-    \field{journaltitle}{arXiv preprint arXiv:1604.06737}
-    \field{year}{2016}
-  \endentry
-
-  \entry{NGIDS}{article}{}
-    \name{author}{5}{}{%
-      {{hash=HW}{%
-         family={Haider},
-         familyi={H\bibinitperiod},
-         given={Waqas},
-         giveni={W\bibinitperiod},
+      {{hash=MM}{%
+         family={{Matteucci}},
+         familyi={M\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
       }}%
-      {{hash=HJ}{%
-         family={Hu},
-         familyi={H\bibinitperiod},
-         given={Jiankun},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=SJ}{%
-         family={Slay},
-         familyi={S\bibinitperiod},
-         given={Jill},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=TBP}{%
-         family={Turnbull},
-         familyi={T\bibinitperiod},
-         given={Benjamin\bibnamedelima P},
-         giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod},
-      }}%
-      {{hash=XY}{%
-         family={Xie},
-         familyi={X\bibinitperiod},
-         given={Yi},
-         giveni={Y\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Elsevier}%
-    }
-    \strng{namehash}{HW+1}
-    \strng{fullhash}{HWHJSJTBPXY1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{H}
-    \field{sortinithash}{H}
-    \field{pages}{185\bibrangedash 192}
-    \field{title}{Generating realistic intrusion detection system dataset based
-  on fuzzy qualitative modeling}
-    \field{volume}{87}
-    \field{journaltitle}{Journal of Network and Computer Applications}
-    \field{year}{2017}
-  \endentry
-
-  \entry{HE}{inproceedings}{}
-    \name{author}{4}{}{%
-      {{hash=HS}{%
-         family={{He}},
-         familyi={H\bibinitperiod},
+      {{hash=ZS}{%
+         family={{Zanero}},
+         familyi={Z\bibinitperiod},
          given={S.},
          giveni={S\bibinitperiod},
       }}%
-      {{hash=ZJ}{%
-         family={{Zhu}},
-         familyi={Z\bibinitperiod},
-         given={J.},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=HP}{%
-         family={{He}},
-         familyi={H\bibinitperiod},
-         given={P.},
-         giveni={P\bibinitperiod},
-      }}%
-      {{hash=LMR}{%
-         family={{Lyu}},
-         familyi={L\bibinitperiod},
-         given={M.\bibnamedelima R.},
-         giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
-      }}%
     }
-    \strng{namehash}{HS+1}
-    \strng{fullhash}{HSZJHPLMR1}
+    \strng{namehash}{MFMMZS1}
+    \strng{fullhash}{MFMMZS1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{H}
-    \field{sortinithash}{H}
-    \field{booktitle}{2016 IEEE 27th International Symposium on Software
-  Reliability Engineering (ISSRE)}
     \verb{doi}
-    \verb 10.1109/ISSRE.2016.21
+    \verb 10.1109/TDSC.2008.69
     \endverb
-    \field{pages}{207\bibrangedash 218}
-    \field{title}{Experience Report: System Log Analysis for Anomaly Detection}
-    \field{year}{2016}
-  \endentry
-
-  \entry{HOCHREITER1998}{article}{}
-    \name{author}{1}{}{%
-      {{hash=HS}{%
-         family={Hochreiter},
-         familyi={H\bibinitperiod},
-         given={Sepp},
-         giveni={S\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {World Scientific}%
-    }
-    \strng{namehash}{HS1}
-    \strng{fullhash}{HS1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{H}
-    \field{sortinithash}{H}
-    \field{number}{02}
-    \field{pages}{107\bibrangedash 116}
-    \field{title}{The vanishing gradient problem during learning recurrent
-  neural nets and problem solutions}
-    \field{volume}{6}
-    \field{journaltitle}{International Journal of Uncertainty, Fuzziness and
-  Knowledge-Based Systems}
-    \field{year}{1998}
+    \field{number}{4}
+    \field{pages}{381\bibrangedash 395}
+    \field{title}{Detecting Intrusions through System Call Sequence and
+  Argument Analysis}
+    \field{volume}{7}
+    \field{journaltitle}{IEEE Transactions on Dependable and Secure Computing}
+    \field{year}{2010}
   \endentry
 
   \entry{HOCHREITER}{inproceedings}{}
@@ -536,8 +166,6 @@
     \strng{fullhash}{HSSJ1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{H}
-    \field{sortinithash}{H}
     \field{abstract}{%
     Standard recurrent nets cannot deal with long minimal time lags between
   relevant signals. Several recent NIPS papers propose alternative methods. We
@@ -554,125 +182,8 @@
     \field{year}{1996}
   \endentry
 
-  \entry{IDSsurvey}{article}{}
-    \name{author}{4}{}{%
-      {{hash=KA}{%
-         family={Khraisat},
-         familyi={K\bibinitperiod},
-         given={Ansam},
-         giveni={A\bibinitperiod},
-      }}%
-      {{hash=GI}{%
-         family={Gondal},
-         familyi={G\bibinitperiod},
-         given={Iqbal},
-         giveni={I\bibinitperiod},
-      }}%
-      {{hash=VP}{%
-         family={Vamplew},
-         familyi={V\bibinitperiod},
-         given={Peter},
-         giveni={P\bibinitperiod},
-      }}%
-      {{hash=KJ}{%
-         family={Kamruzzaman},
-         familyi={K\bibinitperiod},
-         given={Joarder},
-         giveni={J\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Springer}%
-    }
-    \strng{namehash}{KA+1}
-    \strng{fullhash}{KAGIVPKJ1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{K}
-    \field{sortinithash}{K}
-    \field{number}{1}
-    \field{pages}{1\bibrangedash 22}
-    \field{title}{Survey of intrusion detection systems: techniques, datasets
-  and challenges}
-    \field{volume}{2}
-    \field{journaltitle}{Cybersecurity}
-    \field{year}{2019}
-  \endentry
-
-  \entry{LSTMsys}{article}{}
-    \name{author}{5}{}{%
-      {{hash=KG}{%
-         family={Kim},
-         familyi={K\bibinitperiod},
-         given={Gyuwan},
-         giveni={G\bibinitperiod},
-      }}%
-      {{hash=YH}{%
-         family={Yi},
-         familyi={Y\bibinitperiod},
-         given={Hayoon},
-         giveni={H\bibinitperiod},
-      }}%
-      {{hash=LJ}{%
-         family={Lee},
-         familyi={L\bibinitperiod},
-         given={Jangho},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=PY}{%
-         family={Paek},
-         familyi={P\bibinitperiod},
-         given={Yunheung},
-         giveni={Y\bibinitperiod},
-      }}%
-      {{hash=YS}{%
-         family={Yoon},
-         familyi={Y\bibinitperiod},
-         given={Sungroh},
-         giveni={S\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{KG+1}
-    \strng{fullhash}{KGYHLJPYYS1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{K}
-    \field{sortinithash}{K}
-    \field{title}{LSTM-based system-call language modeling and robust ensemble
-  method for designing host-based intrusion detection systems}
-    \field{journaltitle}{arXiv preprint arXiv:1611.01726}
-    \field{year}{2016}
-  \endentry
-
-  \entry{ANOMALYEXAMPLE}{article}{}
-    \name{author}{1}{}{%
-      {{hash=KV}{%
-         family={Kumar},
-         familyi={K\bibinitperiod},
-         given={Vipin},
-         giveni={V\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {IEEE}%
-    }
-    \strng{namehash}{KV1}
-    \strng{fullhash}{KV1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{K}
-    \field{sortinithash}{K}
-    \field{number}{10}
-    \field{title}{Parallel and distributed computing for cybersecurity}
-    \field{volume}{6}
-    \field{journaltitle}{IEEE Distributed Systems Online}
-    \field{year}{2005}
-  \endentry
-
   \entry{LID-DS}{misc}{}
     \field{labeltitlesource}{title}
-    \field{sortinit}{L}
-    \field{sortinithash}{L}
     \field{title}{Leipzig Intrusion Detection Data Set}
     \verb{url}
     \verb https://www.exploids.de/lid-ds/
@@ -710,12 +221,10 @@
     \list{publisher}{1}{%
       {Elsevier}%
     }
-    \strng{namehash}{LHJ+1}
+    \strng{namehash}{LHJLCHRLYCTKY1}
     \strng{fullhash}{LHJLCHRLYCTKY1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{L}
-    \field{sortinithash}{L}
     \field{number}{1}
     \field{pages}{16\bibrangedash 24}
     \field{title}{Intrusion detection system: A comprehensive review}
@@ -724,65 +233,47 @@
     \field{year}{2013}
   \endentry
 
-  \entry{DARPA}{online}{}
-    \name{author}{1}{}{%
-      {{hash=MLL}{%
-         family={MIT},
-         familyi={M\bibinitperiod},
-         given={Lincoln\bibnamedelima Laboratory},
-         giveni={L\bibinitperiod\bibinitdelim L\bibinitperiod},
+  \entry{IDSsurvey}{article}{}
+    \name{author}{4}{}{%
+      {{hash=KA}{%
+         family={Khraisat},
+         familyi={K\bibinitperiod},
+         given={Ansam},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=GI}{%
+         family={Gondal},
+         familyi={G\bibinitperiod},
+         given={Iqbal},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=VP}{%
+         family={Vamplew},
+         familyi={V\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=KJ}{%
+         family={Kamruzzaman},
+         familyi={K\bibinitperiod},
+         given={Joarder},
+         giveni={J\bibinitperiod},
       }}%
     }
-    \strng{namehash}{MLL1}
-    \strng{fullhash}{MLL1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
-    \field{title}{DARPA Intrusion Detection Evaluation Data Set}
-    \verb{url}
-    \verb https://www.ll.mit.edu/r-d/datasets
-    \endverb
-    \field{year}{1998-2000}
-  \endentry
-
-  \entry{MAGGI}{article}{}
-    \name{author}{3}{}{%
-      {{hash=MF}{%
-         family={{Maggi}},
-         familyi={M\bibinitperiod},
-         given={F.},
-         giveni={F\bibinitperiod},
-      }}%
-      {{hash=MM}{%
-         family={{Matteucci}},
-         familyi={M\bibinitperiod},
-         given={M.},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=ZS}{%
-         family={{Zanero}},
-         familyi={Z\bibinitperiod},
-         given={S.},
-         giveni={S\bibinitperiod},
-      }}%
+    \list{publisher}{1}{%
+      {Springer}%
     }
-    \strng{namehash}{MFMMZS1}
-    \strng{fullhash}{MFMMZS1}
+    \strng{namehash}{KAGIVPKJ1}
+    \strng{fullhash}{KAGIVPKJ1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
-    \verb{doi}
-    \verb 10.1109/TDSC.2008.69
-    \endverb
-    \field{number}{4}
-    \field{pages}{381\bibrangedash 395}
-    \field{title}{Detecting Intrusions through System Call Sequence and
-  Argument Analysis}
-    \field{volume}{7}
-    \field{journaltitle}{IEEE Transactions on Dependable and Secure Computing}
-    \field{year}{2010}
+    \field{number}{1}
+    \field{pages}{1\bibrangedash 22}
+    \field{title}{Survey of intrusion detection systems: techniques, datasets
+  and challenges}
+    \field{volume}{2}
+    \field{journaltitle}{Cybersecurity}
+    \field{year}{2019}
   \endentry
 
   \entry{SIDSstate}{article}{}
@@ -821,12 +312,10 @@
     \list{publisher}{1}{%
       {IEEE}%
     }
-    \strng{namehash}{MCR+1}
+    \strng{namehash}{MCRPJNELAXTE1}
     \strng{fullhash}{MCRPJNELAXTE1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
     \field{number}{1}
     \field{pages}{94\bibrangedash 109}
     \field{title}{Fast regular expression matching using small TCAM}
@@ -835,125 +324,74 @@
     \field{year}{2013}
   \endentry
 
-  \entry{COVID3}{article}{}
-    \name{author}{4}{}{%
-      {{hash=MP}{%
-         family={Melin},
-         familyi={M\bibinitperiod},
-         given={Patricia},
-         giveni={P\bibinitperiod},
-      }}%
-      {{hash=MJC}{%
-         family={Monica},
-         familyi={M\bibinitperiod},
-         given={Julio\bibnamedelima Cesar},
-         giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod},
-      }}%
-      {{hash=SD}{%
-         family={Sanchez},
-         familyi={S\bibinitperiod},
-         given={Daniela},
-         giveni={D\bibinitperiod},
-      }}%
-      {{hash=CO}{%
-         family={Castillo},
+  \entry{ANOMALYSURVEY}{article}{}
+    \name{author}{3}{}{%
+      {{hash=CV}{%
+         family={Chandola},
          familyi={C\bibinitperiod},
-         given={Oscar},
-         giveni={O\bibinitperiod},
+         given={Varun},
+         giveni={V\bibinitperiod},
       }}%
-    }
-    \strng{namehash}{MP+1}
-    \strng{fullhash}{MPMJCSDCO1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
-    \field{abstract}{%
-    In this paper, a multiple ensemble neural network model with fuzzy response
-  aggregation for the COVID-19 time series is presented. Ensemble neural
-  networks are composed of a set of modules, which are used to produce several
-  predictions under different conditions. The modules are simple neural
-  networks. Fuzzy logic is then used to aggregate the responses of several
-  predictor modules, in this way, improving the final prediction by combining
-  the outputs of the modules in an intelligent way. Fuzzy logic handles the
-  uncertainty in the process of making a final decision about the prediction.
-  The complete model was tested for the case of predicting the COVID-19 time
-  series in Mexico, at the level of the states and the whole country. The
-  simulation results of the multiple ensemble neural network models with fuzzy
-  response integration show very good predicted values in the validation data
-  set. In fact, the prediction errors of the multiple ensemble neural networks
-  are significantly lower than using traditional monolithic neural networks, in
-  this way showing the advantages of the proposed approach.%
-    }
-    \verb{doi}
-    \verb 10.3390/healthcare8020181
-    \endverb
-    \field{issn}{2227-9032}
-    \field{number}{2}
-    \field{title}{Multiple Ensemble Neural Network Models with Fuzzy Response
-  Aggregation for Predicting COVID-19 Time Series: The Case of Mexico}
-    \verb{url}
-    \verb https://www.mdpi.com/2227-9032/8/2/181
-    \endverb
-    \field{volume}{8}
-    \field{journaltitle}{Healthcare}
-    \field{year}{2020}
-  \endentry
-
-  \entry{ANT}{article}{}
-    \name{author}{2}{}{%
-      {{hash=MD}{%
-         family={Merkle},
-         familyi={M\bibinitperiod},
-         given={Daniel},
-         giveni={D\bibinitperiod},
+      {{hash=BA}{%
+         family={Banerjee},
+         familyi={B\bibinitperiod},
+         given={Arindam},
+         giveni={A\bibinitperiod},
       }}%
-      {{hash=MM}{%
-         family={Middendorf},
-         familyi={M\bibinitperiod},
-         given={Martin},
-         giveni={M\bibinitperiod},
+      {{hash=KV}{%
+         family={Kumar},
+         familyi={K\bibinitperiod},
+         given={Vipin},
+         giveni={V\bibinitperiod},
       }}%
     }
     \list{publisher}{1}{%
-      {Springer}%
+      {Association for Computing Machinery}%
     }
-    \strng{namehash}{MDMM1}
-    \strng{fullhash}{MDMM1}
+    \keyw{outlier detection, Anomaly detection}
+    \strng{namehash}{CVBAKV1}
+    \strng{fullhash}{CVBAKV1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{M}
-    \field{sortinithash}{M}
-    \field{number}{1}
-    \field{pages}{105\bibrangedash 111}
-    \field{title}{Ant colony optimization with global pheromone evaluation for
-  scheduling a single machine}
-    \field{volume}{18}
-    \field{journaltitle}{Applied Intelligence}
-    \field{year}{2003}
+    \verb{doi}
+    \verb 10.1145/1541880.1541882
+    \endverb
+    \field{issn}{0360-0300}
+    \field{number}{3}
+    \field{title}{Anomaly Detection: A Survey}
+    \verb{url}
+    \verb https://doi.org/10.1145/1541880.1541882
+    \endverb
+    \field{volume}{41}
+    \list{location}{1}{%
+      {New York, NY, USA}%
+    }
+    \field{journaltitle}{ACM Comput. Surv.}
+    \field{month}{07}
+    \field{year}{2009}
   \endentry
 
-  \entry{OLAH2015}{online}{}
+  \entry{ANOMALYEXAMPLE}{article}{}
     \name{author}{1}{}{%
-      {{hash=OC}{%
-         family={Olah},
-         familyi={O\bibinitperiod},
-         given={Christopher},
-         giveni={C\bibinitperiod},
+      {{hash=KV}{%
+         family={Kumar},
+         familyi={K\bibinitperiod},
+         given={Vipin},
+         giveni={V\bibinitperiod},
       }}%
     }
-    \strng{namehash}{OC1}
-    \strng{fullhash}{OC1}
+    \list{publisher}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{KV1}
+    \strng{fullhash}{KV1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{O}
-    \field{sortinithash}{O}
-    \field{title}{Understanding LSTM Networks}
-    \verb{url}
-    \verb https://colah.github.io/posts/2015-08-Understanding-LSTMs/
-    \endverb
-    \field{month}{08}
-    \field{year}{2015}
+    \field{number}{10}
+    \field{title}{Parallel and distributed computing for cybersecurity}
+    \field{volume}{6}
+    \field{journaltitle}{IEEE Distributed Systems Online}
+    \field{year}{2005}
   \endentry
 
   \entry{ANOMALYSURVEY2}{article}{}
@@ -978,8 +416,6 @@
     \strng{fullhash}{PAPJM1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{P}
-    \field{sortinithash}{P}
     \field{number}{12}
     \field{pages}{3448\bibrangedash 3470}
     \field{title}{An overview of anomaly detection techniques: Existing
@@ -989,53 +425,66 @@
     \field{year}{2007}
   \endentry
 
-  \entry{COVID1}{article}{}
+  \entry{NIDS}{article}{}
     \name{author}{3}{}{%
-      {{hash=PRK}{%
-         family={Pathan},
-         familyi={P\bibinitperiod},
-         given={Refat\bibnamedelima Khan},
-         giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod},
-      }}%
-      {{hash=BM}{%
-         family={Biswas},
+      {{hash=BMH}{%
+         family={{Bhuyan}},
          familyi={B\bibinitperiod},
-         given={Munmun},
-         giveni={M\bibinitperiod},
+         given={M.\bibnamedelima H.},
+         giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
       }}%
-      {{hash=KMU}{%
-         family={Khandaker},
+      {{hash=BDK}{%
+         family={{Bhattacharyya}},
+         familyi={B\bibinitperiod},
+         given={D.\bibnamedelima K.},
+         giveni={D\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+      {{hash=KJK}{%
+         family={{Kalita}},
          familyi={K\bibinitperiod},
-         given={Mayeen\bibnamedelima Uddin},
-         giveni={M\bibinitperiod\bibinitdelim U\bibinitperiod},
+         given={J.\bibnamedelima K.},
+         giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
       }}%
     }
-    \list{publisher}{1}{%
-      {Elsevier}%
-    }
-    \strng{namehash}{PRKBMKMU1}
-    \strng{fullhash}{PRKBMKMU1}
+    \strng{namehash}{BMHBDKKJK1}
+    \strng{fullhash}{BMHBDKKJK1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{P}
-    \field{sortinithash}{P}
-    \field{pages}{110018}
-    \field{title}{Time series prediction of COVID-19 by mutation rate analysis
-  using recurrent neural network-based LSTM model}
-    \field{volume}{138}
-    \field{journaltitle}{Chaos, Solitons \& Fractals}
-    \field{year}{2020}
+    \verb{doi}
+    \verb 10.1109/SURV.2013.052213.00046
+    \endverb
+    \field{number}{1}
+    \field{pages}{303\bibrangedash 336}
+    \field{title}{Network Anomaly Detection: Methods, Systems and Tools}
+    \field{volume}{16}
+    \field{journaltitle}{IEEE Communications Surveys Tutorials}
+    \field{year}{2014}
   \endentry
 
-  \entry{SYSDIG}{misc}{}
+  \entry{Syscallseqexploit1}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=WD}{%
+         family={Wagner},
+         familyi={W\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=SP}{%
+         family={Soto},
+         familyi={S\bibinitperiod},
+         given={Paolo},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WDSP1}
+    \strng{fullhash}{WDSP1}
+    \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{S}
-    \field{sortinithash}{S}
-    \field{title}{Seeing is Securing For containers, Kubernetes and cloud
-  services}
-    \verb{url}
-    \verb https://sysdig.com/
-    \endverb
+    \field{booktitle}{Proceedings of the 9th ACM Conference on Computer and
+  Communications Security}
+    \field{pages}{255\bibrangedash 264}
+    \field{title}{Mimicry attacks on host-based intrusion detection systems}
+    \field{year}{2002}
   \endentry
 
   \entry{Syscallseqexploit2}{inproceedings}{}
@@ -1066,8 +515,6 @@
     \strng{fullhash}{TKMKKSMRA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{T}
-    \field{sortinithash}{T}
     \field{booktitle}{International Workshop on Recent Advances in Intrusion
   Detection}
     \field{pages}{54\bibrangedash 73}
@@ -1098,13 +545,55 @@
     \strng{fullhash}{TKMMRA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{T}
-    \field{sortinithash}{T}
     \field{booktitle}{Proceedings 2002 IEEE Symposium on Security and Privacy}
     \field{pages}{188\bibrangedash 201}
     \field{title}{" Why 6?" Defining the operational limits of stide, an
   anomaly-based intrusion detector}
     \field{year}{2002}
+  \endentry
+
+  \entry{DARPA}{online}{}
+    \name{author}{1}{}{%
+      {{hash=MLL}{%
+         family={MIT},
+         familyi={M\bibinitperiod},
+         given={Lincoln\bibnamedelima Laboratory},
+         giveni={L\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MLL1}
+    \strng{fullhash}{MLL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{DARPA Intrusion Detection Evaluation Data Set}
+    \verb{url}
+    \verb https://www.ll.mit.edu/r-d/datasets
+    \endverb
+    \field{year}{1998-2000}
+  \endentry
+
+  \entry{KDD}{thesis}{}
+    \name{author}{1}{}{%
+      {{hash=EV}{%
+         family={Engen},
+         familyi={E\bibinitperiod},
+         given={Vegard},
+         giveni={V\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{EV1}
+    \strng{fullhash}{EV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Machine learning for network based intrusion detection: an
+  investigation into discrepancies in findings with the KDD cup'99 data set and
+  multi-objective evolution of neural network classifier ensembles from
+  imbalanced data.}
+    \list{institution}{1}{%
+      {Bournemouth University}%
+    }
+    \field{type}{phdthesis}
+    \field{year}{2010}
   \endentry
 
   \entry{KDD2}{article}{}
@@ -1130,8 +619,6 @@
     \strng{fullhash}{TAMADI1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{T}
-    \field{sortinithash}{T}
     \verb{doi}
     \verb 10.1080/23742917.2018.1518061
     \endverb
@@ -1149,83 +636,190 @@
     \field{year}{2018}
   \endentry
 
-  \entry{Syscallseqexploit1}{inproceedings}{}
+  \entry{UNM}{online}{}
     \name{author}{2}{}{%
-      {{hash=WD}{%
-         family={Wagner},
-         familyi={W\bibinitperiod},
-         given={David},
-         giveni={D\bibinitperiod},
+      {{hash=FS}{%
+         family={Forrest},
+         familyi={F\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
       }}%
-      {{hash=SP}{%
-         family={Soto},
-         familyi={S\bibinitperiod},
-         given={Paolo},
-         giveni={P\bibinitperiod},
+      {{hash=oNMU}{%
+         prefix={of},
+         prefixi={o\bibinitperiod},
+         family={New\bibnamedelima Mexico},
+         familyi={N\bibinitperiod\bibinitdelim M\bibinitperiod},
+         given={University},
+         giveni={U\bibinitperiod},
       }}%
     }
-    \strng{namehash}{WDSP1}
-    \strng{fullhash}{WDSP1}
+    \strng{namehash}{FSNMUo1}
+    \strng{fullhash}{FSNMUo1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{W}
-    \field{sortinithash}{W}
-    \field{booktitle}{Proceedings of the 9th ACM Conference on Computer and
-  Communications Security}
-    \field{pages}{255\bibrangedash 264}
-    \field{title}{Mimicry attacks on host-based intrusion detection systems}
-    \field{year}{2002}
+    \field{title}{University of New Mexico (UNM) Intrusion Detection Dataset}
+    \verb{url}
+    \verb https://www.cs.unm.edu/~immsec/systemcalls.htm
+    \endverb
   \endentry
 
-  \entry{COVID2}{article}{}
-    \name{author}{5}{}{%
-      {{hash=WP}{%
-         family={Wang},
-         familyi={W\bibinitperiod},
-         given={Peipei},
-         giveni={P\bibinitperiod},
-      }}%
-      {{hash=ZX}{%
-         family={Zheng},
-         familyi={Z\bibinitperiod},
-         given={Xinqi},
-         giveni={X\bibinitperiod},
-      }}%
-      {{hash=AG}{%
-         family={Ai},
-         familyi={A\bibinitperiod},
-         given={Gang},
+  \entry{UNMcritic}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=CG}{%
+         family={Creech},
+         familyi={C\bibinitperiod},
+         given={Gideon},
          giveni={G\bibinitperiod},
       }}%
-      {{hash=LD}{%
-         family={Liu},
-         familyi={L\bibinitperiod},
-         given={Dongya},
-         giveni={D\bibinitperiod},
+      {{hash=HJ}{%
+         family={Hu},
+         familyi={H\bibinitperiod},
+         given={Jiankun},
+         giveni={J\bibinitperiod},
       }}%
-      {{hash=ZB}{%
-         family={Zhu},
-         familyi={Z\bibinitperiod},
-         given={Bangren},
-         giveni={B\bibinitperiod},
+    }
+    \list{organization}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{CGHJ1}
+    \strng{fullhash}{CGHJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2013 IEEE Wireless Communications and Networking
+  Conference (WCNC)}
+    \field{pages}{4487\bibrangedash 4492}
+    \field{title}{Generation of a new IDS test dataset: Time to retire the KDD
+  collection}
+    \field{year}{2013}
+  \endentry
+
+  \entry{ADFA-LDcritic}{article}{}
+    \name{author}{4}{}{%
+      {{hash=AAI}{%
+         family={Abubakar},
+         familyi={A\bibinitperiod},
+         given={Adamu\bibnamedelima I},
+         giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod},
+      }}%
+      {{hash=CH}{%
+         family={Chiroma},
+         familyi={C\bibinitperiod},
+         given={Haruna},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=MSA}{%
+         family={Muaz},
+         familyi={M\bibinitperiod},
+         given={Sanah\bibnamedelima Abdullahi},
+         giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=ILB}{%
+         family={Ila},
+         familyi={I\bibinitperiod},
+         given={Libabatu\bibnamedelima Baballe},
+         giveni={L\bibinitperiod\bibinitdelim B\bibinitperiod},
       }}%
     }
     \list{publisher}{1}{%
       {Elsevier}%
     }
-    \strng{namehash}{WP+1}
-    \strng{fullhash}{WPZXAGLDZB1}
+    \strng{namehash}{AAICHMSAILB1}
+    \strng{fullhash}{AAICHMSAILB1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{W}
-    \field{sortinithash}{W}
-    \field{pages}{110214}
-    \field{title}{Time series prediction for the epidemic trends of COVID-19
-  using the improved LSTM deep learning method: Case studies in Russia, Peru
-  and Iran}
-    \field{volume}{140}
-    \field{journaltitle}{Chaos, Solitons \& Fractals}
-    \field{year}{2020}
+    \field{pages}{221\bibrangedash 227}
+    \field{title}{A review of the advances in cyber security benchmark datasets
+  for evaluating data-driven based intrusion detection systems}
+    \field{volume}{62}
+    \field{journaltitle}{Procedia Computer Science}
+    \field{year}{2015}
+  \endentry
+
+  \entry{NGIDS}{article}{}
+    \name{author}{5}{}{%
+      {{hash=HW}{%
+         family={Haider},
+         familyi={H\bibinitperiod},
+         given={Waqas},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=HJ}{%
+         family={Hu},
+         familyi={H\bibinitperiod},
+         given={Jiankun},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Slay},
+         familyi={S\bibinitperiod},
+         given={Jill},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=TBP}{%
+         family={Turnbull},
+         familyi={T\bibinitperiod},
+         given={Benjamin\bibnamedelima P},
+         giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+      {{hash=XY}{%
+         family={Xie},
+         familyi={X\bibinitperiod},
+         given={Yi},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier}%
+    }
+    \strng{namehash}{HWHJSJTBPXY1}
+    \strng{fullhash}{HWHJSJTBPXY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{pages}{185\bibrangedash 192}
+    \field{title}{Generating realistic intrusion detection system dataset based
+  on fuzzy qualitative modeling}
+    \field{volume}{87}
+    \field{journaltitle}{Journal of Network and Computer Applications}
+    \field{year}{2017}
+  \endentry
+
+  \entry{LIDDS}{article}{}
+    \name{author}{4}{}{%
+      {{hash=GM}{%
+         family={Grimmer},
+         familyi={G\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=RMM}{%
+         family={R{\"o}hling},
+         familyi={R\bibinitperiod},
+         given={Martin\bibnamedelima Max},
+         giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=KD}{%
+         family={Kreusel},
+         familyi={K\bibinitperiod},
+         given={D},
+         giveni={D},
+      }}%
+      {{hash=GS}{%
+         family={Ganz},
+         familyi={G\bibinitperiod},
+         given={Simon},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GMRMMKDGS1}
+    \strng{fullhash}{GMRMMKDGS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{pages}{135\bibrangedash 145}
+    \field{title}{A modern and sophisticated host based intrusion detection
+  data set}
+    \field{journaltitle}{IT-Sicherheit als Voraussetzung f{\"u}r eine
+  erfolgreiche Digitalisierung}
+    \field{year}{2019}
   \endentry
 
   \entry{GECKO}{article}{}
@@ -1276,12 +870,10 @@
     \list{publisher}{1}{%
       {Elsevier}%
     }
-    \strng{namehash}{WGS+1}
+    \strng{namehash}{WGSGDWSLLXCBWMSWJA1}
     \strng{fullhash}{WGSGDWSLLXCBWMSWJA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{W}
-    \field{sortinithash}{W}
     \field{pages}{109\bibrangedash 122}
     \field{title}{A gecko skin micro/nano structure--A low adhesion,
   superhydrophobic, anti-wetting, self-cleaning, biocompatible, antibacterial
@@ -1289,6 +881,346 @@
     \field{volume}{21}
     \field{journaltitle}{Acta biomaterialia}
     \field{year}{2015}
+  \endentry
+
+  \entry{ANT}{article}{}
+    \name{author}{2}{}{%
+      {{hash=MD}{%
+         family={Merkle},
+         familyi={M\bibinitperiod},
+         given={Daniel},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=MM}{%
+         family={Middendorf},
+         familyi={M\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer}%
+    }
+    \strng{namehash}{MDMM1}
+    \strng{fullhash}{MDMM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{1}
+    \field{pages}{105\bibrangedash 111}
+    \field{title}{Ant colony optimization with global pheromone evaluation for
+  scheduling a single machine}
+    \field{volume}{18}
+    \field{journaltitle}{Applied Intelligence}
+    \field{year}{2003}
+  \endentry
+
+  \entry{COVID1}{article}{}
+    \name{author}{3}{}{%
+      {{hash=PRK}{%
+         family={Pathan},
+         familyi={P\bibinitperiod},
+         given={Refat\bibnamedelima Khan},
+         giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod},
+      }}%
+      {{hash=BM}{%
+         family={Biswas},
+         familyi={B\bibinitperiod},
+         given={Munmun},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=KMU}{%
+         family={Khandaker},
+         familyi={K\bibinitperiod},
+         given={Mayeen\bibnamedelima Uddin},
+         giveni={M\bibinitperiod\bibinitdelim U\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier}%
+    }
+    \strng{namehash}{PRKBMKMU1}
+    \strng{fullhash}{PRKBMKMU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{pages}{110018}
+    \field{title}{Time series prediction of COVID-19 by mutation rate analysis
+  using recurrent neural network-based LSTM model}
+    \field{volume}{138}
+    \field{journaltitle}{Chaos, Solitons \& Fractals}
+    \field{year}{2020}
+  \endentry
+
+  \entry{COVID2}{article}{}
+    \name{author}{5}{}{%
+      {{hash=WP}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Peipei},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=ZX}{%
+         family={Zheng},
+         familyi={Z\bibinitperiod},
+         given={Xinqi},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=AG}{%
+         family={Ai},
+         familyi={A\bibinitperiod},
+         given={Gang},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=LD}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Dongya},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=ZB}{%
+         family={Zhu},
+         familyi={Z\bibinitperiod},
+         given={Bangren},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Elsevier}%
+    }
+    \strng{namehash}{WPZXAGLDZB1}
+    \strng{fullhash}{WPZXAGLDZB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{pages}{110214}
+    \field{title}{Time series prediction for the epidemic trends of COVID-19
+  using the improved LSTM deep learning method: Case studies in Russia, Peru
+  and Iran}
+    \field{volume}{140}
+    \field{journaltitle}{Chaos, Solitons \& Fractals}
+    \field{year}{2020}
+  \endentry
+
+  \entry{COVID3}{article}{}
+    \name{author}{4}{}{%
+      {{hash=MP}{%
+         family={Melin},
+         familyi={M\bibinitperiod},
+         given={Patricia},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=MJC}{%
+         family={Monica},
+         familyi={M\bibinitperiod},
+         given={Julio\bibnamedelima Cesar},
+         giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+      {{hash=SD}{%
+         family={Sanchez},
+         familyi={S\bibinitperiod},
+         given={Daniela},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=CO}{%
+         family={Castillo},
+         familyi={C\bibinitperiod},
+         given={Oscar},
+         giveni={O\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MPMJCSDCO1}
+    \strng{fullhash}{MPMJCSDCO1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    In this paper, a multiple ensemble neural network model with fuzzy response
+  aggregation for the COVID-19 time series is presented. Ensemble neural
+  networks are composed of a set of modules, which are used to produce several
+  predictions under different conditions. The modules are simple neural
+  networks. Fuzzy logic is then used to aggregate the responses of several
+  predictor modules, in this way, improving the final prediction by combining
+  the outputs of the modules in an intelligent way. Fuzzy logic handles the
+  uncertainty in the process of making a final decision about the prediction.
+  The complete model was tested for the case of predicting the COVID-19 time
+  series in Mexico, at the level of the states and the whole country. The
+  simulation results of the multiple ensemble neural network models with fuzzy
+  response integration show very good predicted values in the validation data
+  set. In fact, the prediction errors of the multiple ensemble neural networks
+  are significantly lower than using traditional monolithic neural networks, in
+  this way showing the advantages of the proposed approach.%
+    }
+    \verb{doi}
+    \verb 10.3390/healthcare8020181
+    \endverb
+    \field{issn}{2227-9032}
+    \field{number}{2}
+    \field{title}{Multiple Ensemble Neural Network Models with Fuzzy Response
+  Aggregation for Predicting COVID-19 Time Series: The Case of Mexico}
+    \verb{url}
+    \verb https://www.mdpi.com/2227-9032/8/2/181
+    \endverb
+    \field{volume}{8}
+    \field{journaltitle}{Healthcare}
+    \field{year}{2020}
+  \endentry
+
+  \entry{HOCHREITER1998}{article}{}
+    \name{author}{1}{}{%
+      {{hash=HS}{%
+         family={Hochreiter},
+         familyi={H\bibinitperiod},
+         given={Sepp},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {World Scientific}%
+    }
+    \strng{namehash}{HS1}
+    \strng{fullhash}{HS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{02}
+    \field{pages}{107\bibrangedash 116}
+    \field{title}{The vanishing gradient problem during learning recurrent
+  neural nets and problem solutions}
+    \field{volume}{6}
+    \field{journaltitle}{International Journal of Uncertainty, Fuzziness and
+  Knowledge-Based Systems}
+    \field{year}{1998}
+  \endentry
+
+  \entry{OLAH2015}{online}{}
+    \name{author}{1}{}{%
+      {{hash=OC}{%
+         family={Olah},
+         familyi={O\bibinitperiod},
+         given={Christopher},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{OC1}
+    \strng{fullhash}{OC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Understanding LSTM Networks}
+    \verb{url}
+    \verb https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+    \endverb
+    \field{month}{08}
+    \field{year}{2015}
+  \endentry
+
+  \entry{GERS2000}{article}{}
+    \name{author}{3}{}{%
+      {{hash=GFA}{%
+         family={Gers},
+         familyi={G\bibinitperiod},
+         given={Felix\bibnamedelima A.},
+         giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=SJA}{%
+         family={Schmidhuber},
+         familyi={S\bibinitperiod},
+         given={J\"{u}rgen\bibnamedelima A.},
+         giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=CFA}{%
+         family={Cummins},
+         familyi={C\bibinitperiod},
+         given={Fred\bibnamedelima A.},
+         giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MIT Press}%
+    }
+    \strng{namehash}{GFASJACFA1}
+    \strng{fullhash}{GFASJACFA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1162/089976600300015015
+    \endverb
+    \field{issn}{0899-7667}
+    \field{number}{10}
+    \field{pages}{2451\bibrangedash 2471}
+    \field{title}{Learning to Forget: Continual Prediction with LSTM}
+    \verb{url}
+    \verb http://dx.doi.org/10.1162/089976600-300015015
+    \endverb
+    \field{volume}{12}
+    \list{location}{1}{%
+      {Cambridge, MA, USA}%
+    }
+    \field{journaltitle}{Neural Comput.}
+    \field{month}{10}
+    \field{year}{2000}
+  \endentry
+
+  \entry{LSTMsys}{article}{}
+    \name{author}{5}{}{%
+      {{hash=KG}{%
+         family={Kim},
+         familyi={K\bibinitperiod},
+         given={Gyuwan},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=YH}{%
+         family={Yi},
+         familyi={Y\bibinitperiod},
+         given={Hayoon},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=LJ}{%
+         family={Lee},
+         familyi={L\bibinitperiod},
+         given={Jangho},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=PY}{%
+         family={Paek},
+         familyi={P\bibinitperiod},
+         given={Yunheung},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=YS}{%
+         family={Yoon},
+         familyi={Y\bibinitperiod},
+         given={Sungroh},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KGYHLJPYYS1}
+    \strng{fullhash}{KGYHLJPYYS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{LSTM-based system-call language modeling and robust ensemble
+  method for designing host-based intrusion detection systems}
+    \field{journaltitle}{arXiv preprint arXiv:1611.01726}
+    \field{year}{2016}
+  \endentry
+
+  \entry{GUO2016}{article}{}
+    \name{author}{2}{}{%
+      {{hash=GC}{%
+         family={Guo},
+         familyi={G\bibinitperiod},
+         given={Cheng},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=BF}{%
+         family={Berkhahn},
+         familyi={B\bibinitperiod},
+         given={Felix},
+         giveni={F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GCBF1}
+    \strng{fullhash}{GCBF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Entity embeddings of categorical variables}
+    \field{journaltitle}{arXiv preprint arXiv:1604.06737}
+    \field{year}{2016}
   \endentry
 \enddatalist
 \endinput
