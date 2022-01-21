@@ -4,6 +4,7 @@ Chapters/*.blg
 Chapters/*.fls
 Chapters/*.log
 Chapters/*.fdb_latexmk
+FrontBackmatter/*.aux
 *.fls
 *.log
 *.fdb_latexmk
