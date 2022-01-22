@@ -192,6 +192,8 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             \caption{Beschreibung ausgewählter System Calls}
         \end{table}
 
+        \subsection{Allgemeines}
+
         Generell werden System Calls verwendet um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
         Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit welche von Programmen genutzt werden können. 
         Die System Calls stellen dabei die Kommunikation zwischen Kernel und Programmen dar.
@@ -219,133 +221,133 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in Kapitel~\ref{sec:args} untersucht werden.
             Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
 
-    \section{Datensätze}\label{sec:Datensatz}
-        Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
-        kamen verschiedene Datensätze hinzu.
-        Auf diese wird in den kommenden Abschnitten kurz eingegangen.
-        Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
-        \paragraph{KDD}
-            Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
-            simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services. 
-            Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher sieben Wochen über TCP-Dump aufgezeichnet wurde.
-            Dabei werden verschiedene Angriffe ausgeführt, darunter sind \textit{Denial of Service} und \textit{User to Root}\marginpar{Auch als \textit{Priviledge Escalation} bezeichnet}.
-            Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.
-            Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
-        \paragraph{UNM}
-            Der \textit{University of New Mexico} Datensatz beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
-            Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  overflows} ausgeführt.
-            Auch dieser Datensatz~\cite{UNM} ist veraltet (2004) und kommt für eine weitere Betrachtung nicht in Frage,
-            da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
-        \paragraph{ADFA-LD}
-            Der \ac{ADFA-LD} wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
-            Dieser wurde auf einem Linuxsystem aufgezeichnet, dessen Schwachstellen von verschiedenen \textit{Penetration Testing} Tools ausgenutzt werden.
-            Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein Bearbeiten erschwert~\cite{ADFA-LDcritic}.
-            Hinzu kommt, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten im Datensatz enthalten sind.
-        \paragraph{NGIDS-DS}
-            Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
-            Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
-            Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind.
-            Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
-        \paragraph{LID-DS}
-            2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
-            Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
-            Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien.
-            Jedes Szenario repräsentiert dabei eine bekannte Schwachstelle eines Systems.
-            In Tabelle~\ref{tab:scenarien} werden die verschiedenen Schwachstellen als \textit{Common Vulnerabilities and Exposures} (CVE)
-            \marginpar{zu dt. Allgemeine Schwachstellen und Gefährdungen} oder \textit{Common Weakness Enumeration} (CWE) \marginpar{zu dt. Aufzählung gemeinsamer Schwachstellen} bezeichnet.
-            CVE ist ein Industriestandard der für eine einheitliche Namenskonvention für Sicherheitslücken verwendet wird.
-            Bei den CWEs handelt es sich um eine von der Community gepflegte und von der MITRE Corporation veröffentlichte Auflistung verschiedener Typen von Schwachstellen in Soft- und Hardware.
-            Aufgezeichnet werden für jedes Szenario neben den System Calls Namen auch deren Metadaten.
-            Dazu zählen unter anderem die Parameter, Rückgabewerte, Zeitstempel sowie User-, Prozess- und Thread-IDs.
-            Jedes Szenario beinhaltet insgesamt ca. 1000 30-60 Sekunden lange Aufzeichnungen.
-            Die ersten 200 Aufzeichnungen dienen als Trainingsdaten die darauffolgenden 50 als Validierungsdaten und die restlichen als Testdaten. 
-            Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
-            Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben werden.
-             
-            In Tabelle~\ref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in Tabelle~\ref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
+        \subsection{Datensätze}\label{sec:Datensatz}
+            Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
+            kamen verschiedene Datensätze hinzu.
+            Auf diese wird in den kommenden Abschnitten kurz eingegangen.
+            Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
+            \paragraph{KDD}
+                Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
+                simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services. 
+                Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher sieben Wochen über TCP-Dump aufgezeichnet wurde.
+                Dabei werden verschiedene Angriffe ausgeführt, darunter sind \textit{Denial of Service} und \textit{User to Root}\marginpar{Auch als \textit{Priviledge Escalation} bezeichnet}.
+                Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.
+                Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
+            \paragraph{UNM}
+                Der \textit{University of New Mexico} Datensatz beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
+                Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  overflows} ausgeführt.
+                Auch dieser Datensatz~\cite{UNM} ist veraltet (2004) und kommt für eine weitere Betrachtung nicht in Frage,
+                da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
+            \paragraph{ADFA-LD}
+                Der \ac{ADFA-LD} wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
+                Dieser wurde auf einem Linuxsystem aufgezeichnet, dessen Schwachstellen von verschiedenen \textit{Penetration Testing} Tools ausgenutzt werden.
+                Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein Bearbeiten erschwert~\cite{ADFA-LDcritic}.
+                Hinzu kommt, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten im Datensatz enthalten sind.
+            \paragraph{NGIDS-DS}
+                Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
+                Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
+                Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind.
+                Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
+            \paragraph{LID-DS}
+                2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
+                Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
+                Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien.
+                Jedes Szenario repräsentiert dabei eine bekannte Schwachstelle eines Systems.
+                In Tabelle~\ref{tab:scenarien} werden die verschiedenen Schwachstellen als \textit{Common Vulnerabilities and Exposures} (CVE)
+                \marginpar{zu dt. Allgemeine Schwachstellen und Gefährdungen} oder \textit{Common Weakness Enumeration} (CWE) \marginpar{zu dt. Aufzählung gemeinsamer Schwachstellen} bezeichnet.
+                CVE ist ein Industriestandard der für eine einheitliche Namenskonvention für Sicherheitslücken verwendet wird.
+                Bei den CWEs handelt es sich um eine von der Community gepflegte und von der MITRE Corporation veröffentlichte Auflistung verschiedener Typen von Schwachstellen in Soft- und Hardware.
+                Aufgezeichnet werden für jedes Szenario neben den System Calls Namen auch deren Metadaten.
+                Dazu zählen unter anderem die Parameter, Rückgabewerte, Zeitstempel sowie User-, Prozess- und Thread-IDs.
+                Jedes Szenario beinhaltet insgesamt ca. 1000 30-60 Sekunden lange Aufzeichnungen.
+                Die ersten 200 Aufzeichnungen dienen als Trainingsdaten die darauffolgenden 50 als Validierungsdaten und die restlichen als Testdaten. 
+                Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
+                Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben werden.
+                 
+                In Tabelle~\ref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in Tabelle~\ref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
 
-            \begin{table}[ht]\label{tab:scenarien}
-                \small
-                \centering
-                \begin{tabular}{p{3cm}p{6.5cm}}
-                    \rowcolor{Gray!36}
-                    \hline
-                    \multicolumn{2}{c}{Szenarien}\\
-                    \hline
-                    Name & Beschreibung \\
-                    \rowcolor{Gray!16}
-                    \hline
-                    \hline
-                    Bruteforce-CWE-307 & Ungeeignete Einschränkung von übermäßigen Authentifizierungsversuchen \\
-                    \hline
-                    CVE-2012-2122 & Umgehung von MySQL Authentifizierung\\
-                    \rowcolor{Gray!16}
-                    \hline
-                    CVE-2014-0160 & Heartbleed: Schwachstelle in OpenSSL\\
-                    \hline
-                    CVE-2017-7529 & Nginx Integer Overflow \\
-                    \rowcolor{Gray!16}
-                    \hline
-                    CVE-2018-3760 & Sprockets Datenleck Schwachstelle \\
-                    \hline
-                    CVE-2019-5418 & Rails Fileinhalt Offenlegung \\
-                    \rowcolor{Gray!16}
-                    \hline
-                    EPS\_CWE-434 & EPS file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
-                    \hline
-                    PHP\_CWE-434 & PHP file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
-                    \rowcolor{Gray!16}
-                    \hline
-                    SQL Injection & SQL Injection mit sqlmap\\
-                    \hline
-                    ZipSlip & blablabla \\
-                    \hline
-                \end{tabular}
-                \caption{Kurzbeschreibung der in dem Datensatz vorkommenden Sicherheitslücken~\cite{LIDDS}}
-            \end{table}
+                \begin{table}[ht]\label{tab:scenarien}
+                    \small
+                    \centering
+                    \begin{tabular}{p{3cm}p{6.5cm}}
+                        \rowcolor{Gray!36}
+                        \hline
+                        \multicolumn{2}{c}{Szenarien}\\
+                        \hline
+                        Name & Beschreibung \\
+                        \rowcolor{Gray!16}
+                        \hline
+                        \hline
+                        Bruteforce-CWE-307 & Ungeeignete Einschränkung von übermäßigen Authentifizierungsversuchen \\
+                        \hline
+                        CVE-2012-2122 & Umgehung von MySQL Authentifizierung\\
+                        \rowcolor{Gray!16}
+                        \hline
+                        CVE-2014-0160 & Heartbleed: Schwachstelle in OpenSSL\\
+                        \hline
+                        CVE-2017-7529 & Nginx Integer Overflow \\
+                        \rowcolor{Gray!16}
+                        \hline
+                        CVE-2018-3760 & Sprockets Datenleck Schwachstelle \\
+                        \hline
+                        CVE-2019-5418 & Rails Fileinhalt Offenlegung \\
+                        \rowcolor{Gray!16}
+                        \hline
+                        EPS\_CWE-434 & EPS file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
+                        \hline
+                        PHP\_CWE-434 & PHP file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
+                        \rowcolor{Gray!16}
+                        \hline
+                        SQL Injection & SQL Injection mit sqlmap\\
+                        \hline
+                        ZipSlip & blablabla \\
+                        \hline
+                    \end{tabular}
+                    \caption{Kurzbeschreibung der in dem Datensatz vorkommenden Sicherheitslücken~\cite{LIDDS}}
+                \end{table}
 
-            \begin{table}[ht]\label{tab:runsfile}
-                \tiny
-                \centering
-                \begin{tabular}{cccccc}
-                    \rowcolor{Gray!36}
-                    \hline
-                    \multicolumn{6}{c}{runs.csv}\\
-                    \hline
-                    image\_name& scenario\_name& is\_executing\_exploit& warmup\_time& recording\_time& exploit\_start\_time \\
-                    \hline
-                    \hline
-                    \rowcolor{Gray!16}
-                    actual\_name& file\_name\_0001& False& 10& 35& -1 \\
-                    \hline
-                    actual\_name& file\_name\_0002& True& 10& 40& 15 \\
-                    \hline
-                \end{tabular}
-                \caption{Ausschnitt der runs.csv des LID-DS~\cite{LIDDS}}
-            \end{table}
+                \begin{table}[ht]\label{tab:runsfile}
+                    \tiny
+                    \centering
+                    \begin{tabular}{cccccc}
+                        \rowcolor{Gray!36}
+                        \hline
+                        \multicolumn{6}{c}{runs.csv}\\
+                        \hline
+                        image\_name& scenario\_name& is\_executing\_exploit& warmup\_time& recording\_time& exploit\_start\_time \\
+                        \hline
+                        \hline
+                        \rowcolor{Gray!16}
+                        actual\_name& file\_name\_0001& False& 10& 35& -1 \\
+                        \hline
+                        actual\_name& file\_name\_0002& True& 10& 40& 15 \\
+                        \hline
+                    \end{tabular}
+                    \caption{Ausschnitt der runs.csv des LID-DS~\cite{LIDDS}}
+                \end{table}
 
-            \begin{table}[ht]\label{tab:syscallfile}
-                \tiny
-                \centering
-                \begin{tabular}{p{1.1cm}p{1.1cm}p{0.3cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
-                    \rowcolor{Gray!36}
-                    \hline
-                    \multicolumn{9}{c}{System Call}\\
-                    \hline
-                    event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
-                    \hline
-                    \hline
-                    \rowcolor{Gray!16}
-                    4012 & $10:18:20.1231231231$ & 0 & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)size=2392$ \\
-                    \hline
-                \end{tabular}
-                \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
-            \end{table}
+                \begin{table}[ht]\label{tab:syscallfile}
+                    \tiny
+                    \centering
+                    \begin{tabular}{p{1.1cm}p{1.1cm}p{0.3cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
+                        \rowcolor{Gray!36}
+                        \hline
+                        \multicolumn{9}{c}{System Call}\\
+                        \hline
+                        event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
+                        \hline
+                        \hline
+                        \rowcolor{Gray!16}
+                        4012 & $10:18:20.1231231231$ & 0 & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)size=2392$ \\
+                        \hline
+                    \end{tabular}
+                    \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
+                \end{table}
 
 
 
-            Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
-            soll im Folgenden die Frage geklärt werden, wie mit Hilfe von künstlichen neuronalen Netzen Muster in einem Datensatz erkannt werden können.
+                Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
+                soll im Folgenden die Frage geklärt werden, wie mit Hilfe von künstlichen neuronalen Netzen Muster in einem Datensatz erkannt werden können.
 
     \section{Künstliche neuronale Netze}\label{sec:KNN}        
         Das Nutzen von bestehenden und in der Natur vorkommenden Strukturen und Prozessen kommt in verschiedenen Forschungsbereichen zum Einsatz.
