@@ -1,62 +1,62 @@
 %*****************************************
+
 \chapter{Grundlagen}\label{ch:Grundlagen}
 %*****************************************
 In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des \ac{IDS} nötig sind.
     Essentiell dabei sind zum einen die Definition von Anomalien und der Anomaliedetektion (siehe Kapitel~\ref{sec:Anomalieerkennung})
     und eine allgemeine Einführung in den Bereich der \ac{IDS} (siehe Kapitel~\ref{sec:IDS}).
-    Dabei wird auf den im praktischen Teil verwendeten Ansatz der \textit{Host-Based Intrusion Detection Systems} (HIDS) genauer eingegangen.
+    Dabei wird auf den im praktischen Teil verwendeten Ansatz der \ac{HIDS} genauer eingegangen.
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des verwendeten Algorithmus untersucht werden.
-    Dazu gehören rekurrente neuronale Netze (RNN), sowie die Erweiterung der RNNs die \textit{Long Short-Term Memory} neuronalen Netzen (LSTM)\@.
+    Dazu gehören \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen.
 
     \section{Intrusion Detection System}\label{sec:IDS}
-        Eine \textit{Intrusion} \marginpar{zu dt. Eindringung} ist eine unauthorisierte Aktivität, welche einem System Schaden zufügen kann.
-        Eine \textit{Intrusion Detection} Software/Hardware versucht automatisch diese 
-        unauthorisierten Aktivitäten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSreview}
-        Um solche unautorisierte Aktivitäten erkennen zu können müssen zunächst Daten erfasst und anschliessend analysiert werden.
-        In den folgenden beiden Abschnitten werden diese Schritte genauer untersucht.
+        Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unauthorisierte Aktivität, welche einem System Schaden zufügen kann.
+        Ein \ac{IDS} versucht automatisch diese unauthorisierten Aktivitäten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSreview}
+        
+        Um solche unautorisierte Aktivitäten erkennen zu können müssen Daten erfasst und anschliessend analysiert werden.
+        In den folgenden beiden Abschnitten werden verschiedene Ansaetze dieser beiden Schritte, also Datenanalyse und Datenerfassung, genauer untersucht.
 
         \subsection{Datenanalyse}\label{sec:Datenanalyse}
-        Das Erkennen von Angriffen auf Computersystemen mittels \ac{IDS} wird meist, wie auch in~\cite{IDSreview} und~\cite{IDSsurvey}, in drei Kategorien eingeteilt.
-            Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird,
-            sowie die \textit{Stateful Protocol Analysis} \marginpar{zu dt. Zustandsorientierte Protokoll Analyse}.
+        Das Erkennen von Angriffen auf Computersystemen mittels \ac{IDS} wird im wesentlichen in zwei Kategorien eingeteilt.~\cite{IDSreview, IDSsurvey, IDSsurvey2}.
+            Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird.
 
             \paragraph{Signaturbasiert} 
-                \ac{SIDS} versuchen Muster von bekannten Angriffen 
+                \ac{SIDS} versuchen zuvor bekannte Muster von Angriffen 
                 in den zu überwachenden Systemen wiederzuerkennen.
                 Dies basiert darauf, eine ausgeprägte Datenbank an Signaturen von bekannten Angriffen zu besitzen.
                 Verschiedene Methoden vergleichen dann aktuelle Signaturen des Systems mit der Datenbank.
-                Es gibt auch hier diverse Methoden wie diese Signaturen erstellt werden. 
-                Dazu zählen zum Beispiel das Betrachten von \textit{Host-Logs},
-                oder ein wenig ausgefeilter das Erstellen von \textit{State Machines}~\cite{SIDSstate}
-                Doch ein wesentlicher Nachteil der signaturbasierten IDS liegt in der Tatsache,
+                Es gibt diverse Methoden wie diese Signaturen erstellt werden. 
+                Dazu zählen zum Beispiel das Betrachten von Netzwerk Paketen~\cite{IDSsurvey}
+                oder ein wenig ausgefeilter das Erstellen von \textit{State Machines}~\cite{SIDSstate}.
+
+                \ac{SIDS} haben meist eine sehr hohe Genauigkeit, doch ein wesentlicher Nachteil der signaturbasierten IDS liegt in der Tatsache,
                 dass keinerlei neuartigen Angriffe, sowie viele Abwandlungen von Angriffen nicht erkannt werden,
                 da diese noch nicht in der Datenbank vorhanden sind.~\cite{IDSsurvey}
+                Doch wie in \autoref{sec:einleitung} bereits beschrieben, wird die Gefahr von Zero-Day Angriffen noch größer als sie bereits ist.
+                Weswegen im Folgenden die anomaliebesierte Ermittlung von \textit{Intrusions} beschrieben wird.
 
             \paragraph{Anomaliebasiert}
-                Ziel einer \ac{AIDS} ist es Muster in Daten wiederzuerkennen 
-                welche von einem definierten Normalverhalten abweichen~\cite{ANOMALYSURVEY}.
-                Die Bedeutung der Anomalieerkennung liegt in der Tatsache begründet,
-                dass Anomalien in Daten zu signifikanten und oft kritischen Veränderungen eines System führen können. 
+                Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass \ac{AIDS} eine Abweichung eines wohldefinierten Normalverhaltens als Angriff wertet und somit auch bisher unbekannte Angriffe erkennen kann.
+                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand, soll möglichst akkurat das zu erwartende Systemverhalten ohne unerwünschtes Verhalten, also zum Beispiel laufende Angriffe beschreiben.
+                Anomalien des Verhaltens können zu signifikanten und oft kritischen Veränderungen eines System führen. 
                 So kann eine Anomalie in Netzwerkdaten dafür stehen,
                 dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
                 Anomalien in den Daten können aus verschiedenen Gründen entstehen,
                 zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
                 Doch alle Anomalien haben gemein,
-                dass sie ein Abweichen eines definierten Normalverhalten zeigen und damit interessant für Analysen sind.
-                Genau dieser signifikante Unterschied des aktuellen Systemzustand zu dem entworfenen Modell
+                dass sie ein Abweichen eines \glqq Normalverhalten\grqq\ zeigen und damit interessant für Analysen sind.
+                Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell
                 (wohldefiniertes Normalverhalten) zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
                 %TODO (Details für ML Stat und Knowledge)
-                Jede Anomalie gilt dann wiederrum als Intrusion.
-                Grundannahme dieser Methode liegt darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
+                Jede Anomalie gilt dann wiederrum als \textit{Intrusion}.
+                Die Grundannahme dieser Methode liegt darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
 
+                \ac{AIDS} werden in zwei Phasen aufgeteilt,
+                die \textit{Trainingsphase} sowie die \textit{Testphase}.
                 Im ersten Schritt der \ac{AIDS} wird ein Modell des Normalverhaltens erstellt.
                 Dabei können ML-basierte, Statistik-basierte oder auch 
                 \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
-                Weiter kann die anomaliebasierte \textit{Intrusion Detection} in zwei Phasen aufgeteilt werden,
-                die \textit{Trainingsphase} sowie die \textit{Testphase}.
-                In der ersten Phase wird versucht ein Modell des Programmverhaltens zu ermitteln,
-                beziehungsweise zu trainieren.
                 In der zweiten soll dieses Modell dann überprüft werden.
                 Speziell soll dabei mit noch nicht betrachteten Daten die Generalisierung des Modells getestet werden. 
                 Dabei liefert der Algorithmus für jede Eingabe einen Anomaliescore.
@@ -84,11 +84,11 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                         Normalverhalten kann sich über die Zeit verändern 
                         und somit vom Algorithmus Gelerntes unbrauchbar machen~\cite{ANOMALYSURVEY}.
 
-                    \item \textit{Datensätze}:
-                        Gelabelte Daten zur Erfassung des Normalverhaltens sind oft veraltet oder nicht sehr detailreich. 
-                        \marginpar{Mehr dazu in Abschnitt~\ref{sec:Datensatz}}
+                    \item \textit{Unzulängliche Datensätze}:
+                        Daten zur Erfassung des Normalverhaltens sind oft veraltet oder nicht sehr detailreich. 
+                        \marginpar{Mehr dazu in \autoref{sec:Datensatz}}
 
-                    \item \textit{Schwellwert}:
+                    \item \textit{Findung eines sinnvollen Schwellwerts}:
                         Festlegung eines Schwellwertes,
                         welcher die eigentliche Unterscheidung zwischen Normalverhalten und Angriffsverhalten umsetzt.
                 \end{itemize}
@@ -98,17 +98,14 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 %In der Trainingsphase wird ein Modell erstellt welches das Normalverhalten abbilden soll.
                 %In der Folgephase muss dann das gelernte Modell mit bisher noch nicht betrachteten Daten überprüft werden.
                 %Dabei soll vor allem die Generalisierung des Modells getestet werden. 
-                Auch wenn sich die verschiedenen Teilbereiche der \ac{AIDS }stark unterscheiden,
-                haben sie einen wesentlichen Vorteil gegenüber den \ac{SIDS}\@.
-                Denn ihnen ist es nicht generell verwehrt Zero-Day Angriffe zu erkennen,
-                also Angriffe die in dieser Form noch nicht bekannt waren. 
+                Die \ac{AIDS} haben einen wesentlichen Vorteil gegenüber den \ac{SIDS}\@, da sie theoretisch Zero-Day Angriffe erkennen können.
                 %Zusätzlich ist es für Angreifende schwer zu ermitteln wie das 
                 %AIDS Normalverhalten definiert und diese Definitionsgrenzen auszunutzen um unerkannte Angriffe durchzuführen.
                 Jedoch ergibt sich im Vergleich zu den \ac{SIDS} eine andere Problematik.
-                Denn die \ac{AIDS} müssen einen Schwellwert festlegen ab welchem ein Vorkommnis als Anomalie erkannt wird.
+                Denn die \ac{AIDS} müssen einen Schwellwert festlegen ab welchem eine Überschreitung als Anomalie erkannt wird.
                 Dieser Wert entscheidet über die Ergebnisqualität der \ac{AIDS}
                 und sollte daher sorgfältig und am besten automatisch ermittelt werden,
-                um anwendungsspezifische Justierungen zu vermeiden. \marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
+                um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
                 Eine weitere Schwierigkeit bei \ac{AIDS} liegt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
                 dass bei nicht kompletten Erfassen des Normalverhalten viele Fehlalarme enstehen können.
                 Daher ist eine entscheidende Frage bei Verwendung von \ac{AIDS}\@: Woher kommen die für das Lernen des Normalverhalten benötigten Daten?
