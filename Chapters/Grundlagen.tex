@@ -37,43 +37,50 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 Weswegen im Folgenden die anomaliebesierte Ermittlung von \textit{Intrusions} beschrieben wird.
 
             \paragraph{Anomaliebasiert}
-                Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass \ac{AIDS} eine Abweichung eines wohldefinierten Normalverhaltens als Angriff wertet und somit auch bisher unbekannte Angriffe erkennen kann.
-                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand, soll möglichst akkurat das zu erwartende Systemverhalten ohne unerwünschtes Verhalten, also zum Beispiel laufende Angriffe beschreiben.
+                Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass auch bisher unbekannte Angriffe erkannt werden können.
+                Denn \ac{AIDS} werten eine Abweichung eines wohldefinierten Normalverhaltens als Angriff.
+                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand, soll möglichst akkurat das zu erwartende Systemverhalten, ohne unerwünschtes Verhalten also zum Beispiel laufende Angriffe, beschreiben.
                 Anomalien des Verhaltens können zu signifikanten und oft kritischen Veränderungen eines System führen. 
-                So kann eine Anomalie in Netzwerkdaten dafür stehen,
-                dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
-                Anomalien in den Daten können aus verschiedenen Gründen entstehen,
-                zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
-                Doch alle Anomalien haben gemein,
-                dass sie ein Abweichen eines \glqq Normalverhalten\grqq\ zeigen und damit interessant für Analysen sind.
-                Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell
-                (wohldefiniertes Normalverhalten) zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
-                %TODO (Details für ML Stat und Knowledge)
+                So kann eine Anomalie in Netzwerkdaten dafür stehen, dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
+                Anomalien in den Daten können aus verschiedenen Gründen entstehen, zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
+                Doch alle Anomalien haben gemein, dass sie ein Abweichen eines \glqq Normalverhalten\grqq\ darstellen und damit interessant für Analysen sind.
+                Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell (wohldefiniertes Normalverhalten) zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
                 Jede Anomalie gilt dann wiederrum als \textit{Intrusion}.
-                Die Grundannahme dieser Methode liegt darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
+                Zusammengefasst besteht also die Grundannahme dieser Methode darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
 
-                \ac{AIDS} werden in zwei Phasen aufgeteilt,
-                die \textit{Trainingsphase} sowie die \textit{Testphase}.
+
+                \ac{AIDS} werden im Einsatz in zwei Phasen aufgeteilt, die \textit{Trainingsphase} sowie die \textit{Testphase}.
                 Im ersten Schritt der \ac{AIDS} wird ein Modell des Normalverhaltens erstellt.
                 Dabei können ML-basierte, Statistik-basierte oder auch 
                 \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
-                In der zweiten soll dieses Modell dann überprüft werden.
+                In der zweiten muss dieses Modell dann überprüft werden.
                 Speziell soll dabei mit noch nicht betrachteten Daten die Generalisierung des Modells getestet werden. 
-                Dabei liefert der Algorithmus für jede Eingabe einen Anomaliescore.
-                Liegt dieser über einem festgelegten Schwellwert so gilt die Eingabe als 
-                \glqq anormal\grqq \ ansonsten als \glqq normal\grqq.
+                Dabei liefert der Algorithmus für jede Eingabe entweder einen Anomaliescore oder ein Label.
+                Liegt der Score über einem festgelegten Schwellwert so gilt die Eingabe als anormal ansonsten als normal.
+
+                Jedoch ergibt sich hier im Vergleich zu den \ac{SIDS} eine Problematik.
+                Der erwähnte Schwellwert entscheidet über die Ergebnisqualität der \ac{AIDS} und sollte daher sorgfältig und am besten automatisch ermittelt werden, um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in~\autoref{sec:Algorithmus}}
+                Eine weitere Schwierigkeit bei \ac{AIDS} liegt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr, dass bei nicht kompletten Erfassen des Normalverhalten viele Fehlalarme enstehen können.
+
+
                 Die Trainingsphase wird von Chandola et al.~\cite{ANOMALYSURVEY} weiter unterteilt in \textit{Supervised},
                 \textit{Semisupervised} sowie \textit{Unsupervised Anomaly Detection}.
                 Diese unterscheiden sich hauptsächlich in der Anforderung an den Datensatz. 
-                Bei einer \textit{Supervised} Anomalieerkennung werden Trainingsdaten benötigt 
+                
+                Bei einer \textit{Supervised} Anomalieerkennung werden Trainingsdaten verwendet 
                 in welchen Anomalien sowie auch Normalverhalten gelabelt sind.
+                Somit werden auch Muster von Angriffen gelernt.
+                Doch kann es hier beim Lernprozess zu Schwierigkeiten kommen, da eine Ungleichgewicht zwischen der Datenmenge an Angriffs- und Normalverhalten besteht.~\cite{IMBALANCEPHUA2004}
+                
                 Hingegen wird beim \textit{Semisupervised} Verfahren lediglich ein Datensatz benötigt,
                 welcher das Normalverhalten kennzeichnet.
+                Somit werden auch keine Angriffe zum Trainingszeitraum gesehen und erleichtert damit die Umsetzung.
+                
                 Bei der \textit{Unsupervised Anomaly Detection} werden Daten verwendet welche keine Labels beinhalten.
                 Dabei wird davon ausgegangen, dass Normaldaten sehr viel umfangreicher in den Daten vertreten sind als Anomalien,
-                da es sonst häufig zu Fehlalarmen kommen kann~\cite{ANOMALYSURVEY2}.
-                %TODO kurz erläutern
-                Bei der Umsetzung der Anomaliedetektion ergeben sich allerdings einige Schwierigkeiten:
+                da es sonst häufig zu Fehlalarmen kommen kann, falls Anomalien fälschlicherweise als Normalverhalten eingestuft wird.~\cite{ANOMALYSURVEY2}.
+
+                Es ergeben sich bei der Umsetzung der Anomaliedetektion allerdings einige Schwierigkeiten:
                 \begin{itemize}
                     \item \textit{Definition des Normalverhaltens}:
                         Ziel ist es jegliches Verhalten, welches kein anormales beinhaltet, zu erfassen.
@@ -89,47 +96,28 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                         \marginpar{Mehr dazu in \autoref{sec:Datensatz}}
 
                     \item \textit{Findung eines sinnvollen Schwellwerts}:
-                        Festlegung eines Schwellwertes,
-                        welcher die eigentliche Unterscheidung zwischen Normalverhalten und Angriffsverhalten umsetzt.
+                        Festlegung eines Schwellwertes, welcher die eigentliche Unterscheidung zwischen Normalverhalten und Angriffsverhalten umsetzt.
                 \end{itemize}
 
-                %TODO wird bereits im vorigen Kapitel beschrieben
-                %Im Allgemeinen besitzen AIDS zwei Phasen, der Trainingsphase und der Testphase.
-                %In der Trainingsphase wird ein Modell erstellt welches das Normalverhalten abbilden soll.
-                %In der Folgephase muss dann das gelernte Modell mit bisher noch nicht betrachteten Daten überprüft werden.
-                %Dabei soll vor allem die Generalisierung des Modells getestet werden. 
-                Die \ac{AIDS} haben einen wesentlichen Vorteil gegenüber den \ac{SIDS}\@, da sie theoretisch Zero-Day Angriffe erkennen können.
-                %Zusätzlich ist es für Angreifende schwer zu ermitteln wie das 
-                %AIDS Normalverhalten definiert und diese Definitionsgrenzen auszunutzen um unerkannte Angriffe durchzuführen.
-                Jedoch ergibt sich im Vergleich zu den \ac{SIDS} eine andere Problematik.
-                Denn die \ac{AIDS} müssen einen Schwellwert festlegen ab welchem eine Überschreitung als Anomalie erkannt wird.
-                Dieser Wert entscheidet über die Ergebnisqualität der \ac{AIDS}
-                und sollte daher sorgfältig und am besten automatisch ermittelt werden,
-                um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in Kapitel~\ref{sec:Algorithmus}}
-                Eine weitere Schwierigkeit bei \ac{AIDS} liegt in der Ermittlung von Daten für das Normalverhalten und die damit verbundene Gefahr,
-                dass bei nicht kompletten Erfassen des Normalverhalten viele Fehlalarme enstehen können.
+                Die Funktionalität eines \ac{AIDS} steht und fällt also mit den trainierten Daten.
+                Ist das Normalverhalten im Gänze und in seiner Dynamik richtig dargestellt?
                 Daher ist eine entscheidende Frage bei Verwendung von \ac{AIDS}\@: Woher kommen die für das Lernen des Normalverhalten benötigten Daten?
-                %Viele verschiedene Ansätze, unter anderem zusammengefasst in~\cite{IDSsurvey}.
 
         \subsection{Datenerfassung}\label{sec:Datenerfassung}
             Die Datenerhebung wird in verschiedenen Arbeiten in zwei Kategorien unterteilt~\cite{IDSsurvey},~\cite{IDSreview}.
-            Zum einen die \ac{HIDS}
-            und zum anderen die \ac{NIDS}
+            Zum einen die \ac{HIDS} mit Datenerfassung auf Host-Ebene und zum anderen die \ac{NIDS} bei welchen die Daten auf Netzwerkebene betrachtet werden.
             In den folgenden Abschnitten werden diese beiden Ansätze genauer untersucht.
 
             \paragraph{Network Based Intrusion Detection}
-                Überwacht den Netzwerkverkehr über Pakete, NetFlow oder andere Netzwerkdaten.
+                Die Grundidee hierbei besthet darin, dass ein Angriff immer den Zugriff auf die Computersysteme von außen erlangen möchte.
+                Dafür wird der Netzwerkverkehr über Pakete, NetFlow oder andere Netzwerkdaten überwacht.
                 Ein großer Vorteil daran ist, dass viele Computer in einem Netzwerk überwacht werden.
-                Ziel ist es dabei Angriffe möglichst früh zu erkennen und zu verhindern,
-                dass sich die Gefahr weiter ausbreiten kann.
-                Doch der erwähnte Vorteil kann schnell zu Schwierigkeiten führen,
-                da bei besonders großen Netzen der hohe Datendurchsatz das Erkennen von Angriffen erschwert.~\cite{NIDS}
-                Ein weiterer Nachteil bei der Untersuchung von Netzwerkpaketen oder ähnlichem besteht darin,
-                dass der Netzwerkverkehr meist verschlüsselt ist
-                und somit nicht auf den Inhalt der Pakete eingegangen werden kann.
+                Ziel ist es dabei Angriffe möglichst früh zu erkennen und zu verhindern, dass sich die Gefahr weiter ausbreiten kann.
+                Doch der erwähnte Vorteil kann schnell zu Schwierigkeiten führen, da bei besonders großen Netzen der hohe Datendurchsatz das Erkennen von Angriffen erschwert.~\cite{NIDS}
+                Ein weiterer Nachteil bei der Untersuchung von Netzwerkpaketen oder ähnlichem besteht darin, dass der Netzwerkverkehr meist verschlüsselt ist und somit nicht auf den Inhalt der Pakete eingegangen werden kann.
 
             \paragraph{Host Based Intrusion Detection}
-            Wie der Name bereits impliziert konzentriert sich \ac{HIDS} auf die Untersuchung 
+                Wie der Name bereits impliziert konzentriert sich \ac{HIDS} auf die Untersuchung 
                 von Daten welche auf dem Host basieren.
                 Es wird versucht das dynamische Verhalten sowie den Zustand des Systems zu überwachen 
                 und dies nur mit Informationen die auf dem Host zugänglich sind.
@@ -140,6 +128,11 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 da die interne Kommunikation unverschlüsselt stattfindet. 
 
         Abbildung~\ref{fig:IDSOverview} soll einen Überblick über die in den vorigen Abschnitten gemachte Einstufung geben.
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
+            \caption{Einordnung des verwendeten IDS (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
+        \end{figure}
         Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
         in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
         in die anomaliebasierten und signaturbasierten Verfahren sowie die \textit{Stateful Protocol Analysis} eingeteilt wird.
@@ -150,29 +143,35 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         \begin{itemize}
             \item Mit welchen Daten kann das Systemverhalten möglichst präzise dargestellt werden?
                 \begin{itemize}
-                    \item Logs, System Calls, \dots
+                    \item Logs, System Calls, Registry \dots~\cite{HIDSSURVEY2019bridges}
                 \end{itemize}
             \item Wie wird die eigentliche Anomalie in den Daten erkannt?
         \end{itemize}
-        Die erste Frage soll in dem folgenden Abschnitt mit der Betrachtung von System Calls zur Beschreibung des Systemverhaltens angegangen werden.
-        Die letztere soll dann speziell in Kapitel~\ref{sec:Algorithmus} beleuchtet werden.
+        Die letztere Frage soll speziell in Kapitel~\ref{sec:Algorithmus} beleuchtet werden, doch wie das Systemverhalten präzise dargestellt werden kann soll nun behandelt werden.
 
-        \begin{figure}[ht]
-            \centering
-            \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
-            \caption{Einordnung des verwendeten IDS (breiter markiert).}\label{fig:IDSOverview}
-        \end{figure}
+            \paragraph{Host-Daten zur Beschreibung des Systemverhaltens}
+                 
+            Nach Bridges et al. besteht im wesentlichen die Auswahl zwischen Log-Files und \textit{System Calls}\marginpar{zu dt. Systemaufrufe}. 
+            Log-Files können weiter aufgeteilt werden in System-Logs und programmspezifischen Logs.
+            Wobei System-Logs nur durch das \ac{OS}\marginpar{zu dt. Betriebssystem} geschrieben werden.
+            Für beide trifft jedoch zu, dass sie das Systemverhalten beschreiben aber bereits eine starke Filterung stattfindet.
+            Desweiteren müssen die Filter manuell eingestellt werden.
+            System Calls hingegen sind klar definiert, unterliegen dafür allerdings einer weitaus größeren Varianz der Daten.
+            Für die feingranulare Aufzeichnung von Log-Files sowie für System Calls gilt, dass die Aufzeichnung sehr rechenintensiv werden kann.
+            Mit modernen Softwarelösungen wie zum Beispiel sysdig~\cite{SYSDIG}, kann der Berechnungsaufwand für viele Anwendungsbereiche in akzeptable Bereiche gebracht werden.~\cite{HIDSSURVEY2019bridges}
+            {\color{red} Da verarbeitende Algorithmen besser geworden sind und Computer schneller kann auf Filterung verzichtet werden und System Calls verwendet werden.}
+
+
 
     \section{System Calls}\label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
-        Diese Interaktion findet in Form von \textit{System Calls} \marginpar{zu dt. Systemaufrufe} statt.
+        Diese Interaktion findet in Form von \textit{System Calls}  statt.
         Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschriebenen System Calls.
 
         \begin{table}[ht]
             \small
-            \label{tab:syscall}
             \centering
-            \begin{tabular}{cp{6cm}p{3cm}p{3cm}}
+            \begin{tabular}{cp{4cm}p{2cm}p{3cm}}
                 \hline
                 \rowcolor{Gray!36}
                 \multicolumn{4}{c}{System Calls}\\
@@ -186,6 +185,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} & kp\\
                 \hline
             \end{tabular}
+            \label{tab:syscall}
             \caption{Beschreibung ausgewählter System Calls}
         \end{table}
 
