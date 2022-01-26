@@ -196,31 +196,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         Geschrieben werden diese Funktionalitäten in C, C++ oder auch in Assembly.
         Üblicherweise können System Calls nur von Nutzerprozessen ausgelöst werden, welche eine eingeschränkte Berechtigung besitzen.
         So stehen den Nutzerprozessen eine limitierte Auswahl an privilegierten Funktionen aus dem Kernel zur Verfügung.
-        Diese werden in der folgenden Aufzählung zusammengefasst.~\cite{SYSCALL_SILBERSCHATZ}
-        \begin{itemize}
-            \item Prozesskontrolle
-            \begin{itemize}
-                \item Erstellen, beenden, ausführen, \dots
-            \end{itemize}
-            \item File Management
-            \begin{itemize}
-                \item Erstellen, öffnen, schließen, löschen, \dots
-            \end{itemize}
-            \item Geräte Management
-            \begin{itemize}
-                \item Anfragen, lesen, \dots
-            \end{itemize}
-            \item Informationen pflegen
-            \begin{itemize}
-                \item Systeminformationen anfordern, Zeit und Datum erfragen, \dots
-            \end{itemize}
-            \item Kommunikation
-            \begin{itemize}
-                \item Erstellen und löschen von Kommunikationsverbindungen
-                \item Senden und erhalten von Nachrichten 
-                \item \dots
-            \end{itemize}
-        \end{itemize}
+        Dazu gehören verschiedene Bereiche der Prozesskontrolle, das Datei- und Geräte-Management, Informationspflege und Kommunikation.~\cite{SYSCALL_SILBERSCHATZ}
 
         Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können.        Dabei kommen neben bestimmten Flags welche die Funktion der System Calls bestimmen auch zum Beispiel Dateipfade oder auch Verweise auf IP-Adressen. 
         {\color{red}Zu jedem öffnenden System Call gibt es einen schließenden System Call, der Quasi die Antwort des Kernels darstellt.}
@@ -247,21 +223,26 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen und teilweise Argumente und weiter Metadaten enthalten, eingegangen.
 
         \subsection{Datensätze}\label{sec:Datensatz}
-            Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
+            Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA, KDD},
             kamen über die Jahre verschiedene weitere Datensätze hinzu.
             Auf diese wird in den kommenden Abschnitten kurz eingegangen.
             Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
-            \paragraph{KDD}
-                Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA}
-                simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services. 
-                Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher sieben Wochen über TCP-Dump aufgezeichnet wurde.
+            \paragraph{DARPA}
+                Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA} lieferte einen den ersten Benchmark Datensätze für \ac{HIDS}.
+                Er simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services.
+                Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher insgesamt fünf Wochen über TCP-Dump aufgezeichnet wurde.
                 Dabei werden verschiedene Angriffe ausgeführt, darunter sind \textit{Denial of Service} und \textit{User to Root}\marginpar{Auch als \textit{Priviledge Escalation} bezeichnet}.
-                Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDD}~\cite{KDD2}~\cite{UNM}.
-                Zum einen ist der Datensatz veraltet (1999) und zum anderen gibt es Diskrepanzen in den Daten, wie unter anderem von Vegard Engen beschrieben wird~\cite{KDD}.
+                Der Datensatz steht auf Grund verschiedener Unzulänglichkeiten schon länger in der Kritik~\cite{KDDCRITIC, UNM, KDDCRITIC2}.
+                Unter anderem beschreiben McHugh et al.~\cite{KDDMCHUGH}, dass eine Unausgewogenheit zwischen Angriffs- und Normaldaten bestehen.
+                Zum Beispiel gibt es Aufnahmetage an welchen bis zu 76\% der Daten Angriffsdaten entsprechen, was laut McHugh keine realistische Verteilung ist.
+                Eine der größten Kritikpunkte, welcher auch von Tavallaee et al.~\cite{KDDCRITIC2} und Engen~\cite{ENGEN2010} aufgefasst wird, besteht in der Redundanz der Aufnahmen.
+                So haben Tavallaee et al.\ alle mehrfach vorkommenden Aufnahmen entfernt und damit 78.05\% der Trainingsdaten und 17.15\% der Testdaten entfernt.
+                Gerade bei selbstlernende Systeme kann dadurch ein ungewollter Bias entstehen.
+                Des Weiteren ist der Datensatz mittlerweile stark veraltet (1999/1998).
             \paragraph{UNM}
-                Der \textit{University of New Mexico} Datensatz beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
-                Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  overflows} ausgeführt.
-                Auch dieser Datensatz~\cite{UNM} ist veraltet (2004) und kommt für eine weitere Betrachtung nicht in Frage,
+                Der \textit{University of New Mexico} Datensatz stammt aus dem Jahr 2004 und beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
+                Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  Overflows} ausgeführt.
+                Auch dieser Datensatz~\cite{UNM} ist mittlerweile veraltet und kommt für eine weitere Betrachtung nicht in Frage,
                 da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
             \paragraph{ADFA-LD}
                 Der \ac{ADFA-LD} wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
@@ -271,27 +252,26 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             \paragraph{NGIDS-DS}
                 Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
                 Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
-                Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind.
-                Des Weiteren ergeben sich Schwierigkeiten in der Zuordnung von der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
+                Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
             \paragraph{LID-DS}
                 2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
                 Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
-                Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien.
-                Jedes Szenario repräsentiert dabei eine bekannte Schwachstelle eines Systems.
-                In Tabelle~\ref{tab:scenarien} werden die verschiedenen Schwachstellen als \textit{Common Vulnerabilities and Exposures} (CVE)
-                \marginpar{zu dt. Allgemeine Schwachstellen und Gefährdungen} oder \textit{Common Weakness Enumeration} (CWE) \marginpar{zu dt. Aufzählung gemeinsamer Schwachstellen} bezeichnet.
+                Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Systemen auf welchen jeweils ein Angriffszenario ausgeführt wird.
+                Jedes Szenario repräsentiert damit also eine bekannte Schwachstelle eines Systems.
+                In Tabelle~\ref{tab:scenarien} werden die verschiedenen Schwachstellen als \ac{CVE}
+                \marginpar{zu dt. Allgemeine Schwachstellen und Gefährdungen} oder \ac{CWE} \marginpar{zu dt. Aufzählung gemeinsamer Schwachstellen} bezeichnet.
                 CVE ist ein Industriestandard der für eine einheitliche Namenskonvention für Sicherheitslücken verwendet wird.
                 Bei den CWEs handelt es sich um eine von der Community gepflegte und von der MITRE Corporation veröffentlichte Auflistung verschiedener Typen von Schwachstellen in Soft- und Hardware.
-                Aufgezeichnet werden für jedes Szenario neben den System Calls Namen auch deren Metadaten.
+                Aufgezeichnet werden für jedes Szenario neben den Namen der System Calls auch deren Metadaten.
                 Dazu zählen unter anderem die Parameter, Rückgabewerte, Zeitstempel sowie User-, Prozess- und Thread-IDs.
                 Jedes Szenario beinhaltet insgesamt ca. 1000 30-60 Sekunden lange Aufzeichnungen.
                 Die ersten 200 Aufzeichnungen dienen als Trainingsdaten die darauffolgenden 50 als Validierungsdaten und die restlichen als Testdaten. 
                 Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
-                Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben werden.
+                Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben und zusammengefasst werden.
                  
                 In Tabelle~\ref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in Tabelle~\ref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
 
-                \begin{table}[ht]\label{tab:scenarien}
+                \begin{table}[ht]
                     \small
                     \centering
                     \begin{tabular}{p{3cm}p{6.5cm}}
@@ -329,9 +309,10 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                         \hline
                     \end{tabular}
                     \caption{Kurzbeschreibung der in dem Datensatz vorkommenden Sicherheitslücken~\cite{LIDDS}}
+                    \label{tab:scenarien}
                 \end{table}
 
-                \begin{table}[ht]\label{tab:runsfile}
+                \begin{table}[ht]
                     \tiny
                     \centering
                     \begin{tabular}{cccccc}
@@ -349,9 +330,10 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                         \hline
                     \end{tabular}
                     \caption{Ausschnitt der runs.csv des LID-DS~\cite{LIDDS}}
+                    \label{tab:runsfile}
                 \end{table}
 
-                \begin{table}[ht]\label{tab:syscallfile}
+                \begin{table}[ht]
                     \tiny
                     \centering
                     \begin{tabular}{p{1.1cm}p{1.1cm}p{0.3cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
@@ -367,6 +349,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                         \hline
                     \end{tabular}
                     \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
+                    \label{tab:syscallfile}
                 \end{table}
 
 
@@ -375,25 +358,22 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 soll im Folgenden die Frage geklärt werden, wie mit Hilfe von künstlichen neuronalen Netzen Muster in einem Datensatz erkannt werden können.
 
     \section{Künstliche neuronale Netze}\label{sec:KNN}        
-        Das Nutzen von bestehenden und in der Natur vorkommenden Strukturen und Prozessen kommt in verschiedenen Forschungsbereichen zum Einsatz.
-        In direkter Umsetzung von zum Beispiel der Struktur von Geckofüßen für Oberflächenstrukturen welche häufig in der Raumfahrt eingesetzt werden~\cite{GECKO}.
-        %, oder auch zur Verringerung des Luftwiderstandes mit der Adaption von Placoidschuppen der Haie \cite{SHARK}.
-        Auch Prozesse welche in der Natur beobachtbar sind werden versucht zu adaptieren, dazu zählen zum Beispiel Ameisenalgorithmen~\cite{ANT}.
-        Dabei wird versucht das Verhalten von realen Ameisen zu modellieren um verschiedene Optimierungsprobleme zu lösen.
+        Das Übertragen von bestehenden und in der Natur vorkommenden Strukturen und Prozessen kommt in verschiedenen Forschungsbereichen zum Einsatz.
+        Auch zum Beispiel in direkter Umsetzung für Oberflächenstrukturen welche häufig in der Raumfahrt eingesetzt werden~\cite{GECKO}, oder auch Abstrakter in der Umsetzung von Verhaltensweisen von Ameisen~\cite{ANT}.
         Ein in den letzten Jahren immer weiter verbreiteter Ansatz in der elektronischen Datenverarbeitung ist die Verwendung von künstlichen neuronalen Netzen.
         Diese haben Neuronen und neuronale Netze als biologisches Vorbild.
         Dabei ist allerdings die abstrakte Modellierung der Informationsverarbeitung im Vordergrund und nicht das Nachbilden der biologischen neuronalen Netze.
         Man verspricht sich mit dem Einsatz von künstlichen neuronalen Netzen, welche eine Varietät an verschiedenen Architekturen beinhalten, diverse Optimierungsprobleme zu lösen.
         %In dieser Arbeit wird der Einsatz von neuronalen Netzen zur \textit{Time Series Prediction} (zu dt. Vorhersagen von Zeitreihen) untersucht.
-        Zu aktuellen Beispielen zählen dabei auch Vorhersagen die im Zusammenhang mit der Verbreitung des COVID-19 Virus stehen~\cite{COVID1}~\cite{COVID2}~\cite{COVID3}.
+        Zu aktuellen Beispielen zählen dabei auch Vorhersagen die im Zusammenhang mit der Verbreitung des COVID-19 Virus stehen~\cite{COVID1, COVID2, COVID3}.
         %Für die \textit{Time Series Prediction} sind verschieden Architekturen von neuronalen Netzen weit verbreitet \cite{BENIDIS2020}.
         
         Algorithmen in welchen neuronale Netze zum Einsatz kommen bestehen generell aus zwei Phasen. 
         In der ersten Phase, der Trainingsphase, werden vordefinierte Trainingsdaten in das Netz gegeben.
         Dieses versucht Merkmale in den Daten zu ermitteln, mit welchen dann in der Testphase Voraussagen gemacht werden können.
-        Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \textit{Convolutional Neural Nets} (CNN) für die Bilderkennung. 
-        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \textit{Recurrent Neural Nets} (RNN).
-        Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, soll im Folgenden nur auf die RNNs und besondere Abwandlungen dieser eingegangen werden.
+        Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \ac{CNN} für die Bilderkennung. 
+        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \ac{RNN}.
+        Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, soll im Folgenden nur auf die \ac{RNN}s und eine besondere Abwandlungen dieser eingegangen werden.
         % überarbeiten
         %unterteilung verschiedener Netze und einordnung von rnns und lstmnn
         %Neuronale Netze bestehen aus verschiedenen Ebenen von Knoten (auch Neuronen genannt), die miteinander verbunden sind.
