@@ -1,5 +1,5 @@
-[0] Config.pm:304> INFO - This is Biber 2.14
-[0] Config.pm:307> INFO - Logfile is 'ClassicThesis.aux.blg'
-[70] biber:322> INFO - === Mon Dec  7, 2020, 10:37:21
-[207] Utils.pm:320> ERROR - Cannot find 'ClassicThesis.aux.bcf'!
-[207] Biber.pm:132> INFO - ERRORS: 1
+[0] Config.pm:311> INFO - This is Biber 2.16
+[0] Config.pm:314> INFO - Logfile is 'ClassicThesis.aux.blg'
+[65] biber:340> INFO - === Fri Jan 14, 2022, 13:34:03
+[181] Utils.pm:400> ERROR - Cannot find 'ClassicThesis.aux.bcf'!
+[181] Biber.pm:132> INFO - ERRORS: 1

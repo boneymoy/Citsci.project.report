@@ -1,10 +1,11 @@
-This is BibTeX, Version 0.99d (TeX Live 2019)
+This is BibTeX, Version 0.99d (TeX Live 2020/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: ClassicThesis.aux
 The style file: biblatex.bst
 A level-1 auxiliary file: FrontBackmatter/Titlepage.aux
 A level-1 auxiliary file: FrontBackmatter/Titleback.aux
 A level-1 auxiliary file: FrontBackmatter/Abstract.aux
+A level-1 auxiliary file: Chapters/Acronyms.aux
 A level-1 auxiliary file: Chapters/Einleitung.aux
 A level-1 auxiliary file: Chapters/Grundlagen.aux
 A level-1 auxiliary file: Chapters/Related.aux
@@ -28,53 +29,52 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated field_info (elt_size=4) to 10004 items from 5000.
+Reallocated field_info (elt_size=4) to 10460 items from 5000.
 Database file #1: ClassicThesis-blx.bib
 Database file #2: Bibliography.bib
-Database file #3: AMiede_Publications.bib
 Warning--I didn't find a database entry for "Grimmer"
-Biblatex version: 3.13
+Biblatex version: 3.16
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-You've used 35 entries,
-            6365 wiz_defined-function locations,
-            1455 strings with 17790 characters,
-and the built_in function-call counts, 241952 in all, are:
-= -- 17408
-> -- 4369
-< -- 1296
-+ -- 5776
-- -- 1800
-* -- 19161
-:= -- 25887
+You've used 38 entries,
+            6393 wiz_defined-function locations,
+            1480 strings with 18306 characters,
+and the built_in function-call counts, 259795 in all, are:
+= -- 18603
+> -- 4797
+< -- 1410
++ -- 6268
+- -- 1975
+* -- 20498
+:= -- 27816
 add.period$ -- 0
-call.type$ -- 35
-change.case$ -- 34
+call.type$ -- 38
+change.case$ -- 37
 chr.to.int$ -- 62
-cite$ -- 68
-duplicate$ -- 24170
-empty$ -- 21624
-format.name$ -- 2592
-if$ -- 50173
+cite$ -- 74
+duplicate$ -- 26222
+empty$ -- 23182
+format.name$ -- 2844
+if$ -- 53538
 int.to.chr$ -- 0
-int.to.str$ -- 88
+int.to.str$ -- 97
 missing$ -- 0
-newline$ -- 1243
-num.names$ -- 1611
-pop$ -- 12115
+newline$ -- 1341
+num.names$ -- 1762
+pop$ -- 13179
 preamble$ -- 1
-purify$ -- 779
+purify$ -- 847
 quote$ -- 0
-skip$ -- 7431
+skip$ -- 8119
 stack$ -- 0
-substring$ -- 31605
-swap$ -- 5683
-text.length$ -- 1139
-text.prefix$ -- 35
+substring$ -- 33410
+swap$ -- 6154
+text.length$ -- 1239
+text.prefix$ -- 38
 top$ -- 1
-type$ -- 1177
+type$ -- 1279
 warning$ -- 0
-while$ -- 3380
+while$ -- 3660
 width$ -- 0
-write$ -- 1209
+write$ -- 1304
 (There was 1 warning)

@@ -148,6 +148,44 @@
     \field{year}{2009}
   \endentry
 
+  \entry{ANOMALY_SURVEY}{article}{}
+    \name{author}{3}{}{%
+      {{hash=CV}{%
+         family={Chandola},
+         familyi={C\bibinitperiod},
+         given={Varun},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Banerjee},
+         familyi={B\bibinitperiod},
+         given={Arindam},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=KV}{%
+         family={Kumar},
+         familyi={K\bibinitperiod},
+         given={Vipin},
+         giveni={V\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {ACM New York, NY, USA}%
+    }
+    \strng{namehash}{CVBAKV1}
+    \strng{fullhash}{CVBAKV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \field{number}{3}
+    \field{pages}{1\bibrangedash 58}
+    \field{title}{Anomaly detection: A survey}
+    \field{volume}{41}
+    \field{journaltitle}{ACM computing surveys (CSUR)}
+    \field{year}{2009}
+  \endentry
+
   \entry{UNMcritic}{inproceedings}{}
     \name{author}{2}{}{%
       {{hash=CG}{%
@@ -324,6 +362,37 @@
     \field{journaltitle}{Neural Comput.}
     \field{month}{10}
     \field{year}{2000}
+  \endentry
+
+  \entry{LIDS}{article}{}
+    \name{author}{3}{}{%
+      {{hash=GM}{%
+         family={Grimmer},
+         familyi={G\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=KT}{%
+         family={Kaelble},
+         familyi={K\bibinitperiod},
+         given={Tim},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=RE}{%
+         family={Rahm},
+         familyi={R\bibinitperiod},
+         given={Erhard},
+         giveni={E\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GMKTRE1}
+    \strng{fullhash}{GMKTRE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{title}{Improving Host-based Intrusion Detection Using Thread
+  Information}
   \endentry
 
   \entry{LIDDS}{article}{}
@@ -1289,6 +1358,37 @@
     \field{volume}{21}
     \field{journaltitle}{Acta biomaterialia}
     \field{year}{2015}
+  \endentry
+
+  \entry{NLP_LSTM}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=YL}{%
+         family={Yao},
+         familyi={Y\bibinitperiod},
+         given={Lirong},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=GY}{%
+         family={Guan},
+         familyi={G\bibinitperiod},
+         given={Yazhuo},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{YLGY1}
+    \strng{fullhash}{YLGY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{Y}
+    \field{sortinithash}{Y}
+    \field{booktitle}{2018 IEEE International Conference of Safety Produce
+  Informatization (IICSPI)}
+    \verb{doi}
+    \verb 10.1109/IICSPI.2018.8690387
+    \endverb
+    \field{pages}{565\bibrangedash 569}
+    \field{title}{An Improved LSTM Structure for Natural Language Processing}
+    \field{year}{2018}
   \endentry
 \enddatalist
 \endinput
