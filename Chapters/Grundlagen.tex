@@ -11,11 +11,11 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
     Dazu gehören \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen.
 
     \section{Intrusion Detection System}\label{sec:IDS}
-        Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unauthorisierte Aktivität, welche einem System Schaden zufügen kann.
-        Ein \ac{IDS} versucht automatisch diese unauthorisierten Aktivitäten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSreview}
+        Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität, welche einem System Schaden zufügen kann.
+        Ein \ac{IDS} versucht automatisch diese unautorisierten Aktivitäten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSreview}
         
         Um solche unautorisierte Aktivitäten erkennen zu können müssen Daten erfasst und anschliessend analysiert werden.
-        In den folgenden beiden Abschnitten werden verschiedene Ansaetze dieser beiden Schritte, also Datenanalyse und Datenerfassung, genauer untersucht.
+        In den folgenden beiden Abschnitten werden verschiedene Ansätze dieser beiden Schritte, also Datenanalyse und Datenerfassung, genauer untersucht.
 
         \subsection{Datenanalyse}\label{sec:Datenanalyse}
         Das Erkennen von Angriffen auf Computersystemen mittels \ac{IDS} wird im wesentlichen in zwei Kategorien eingeteilt.~\cite{IDSreview, IDSsurvey, IDSsurvey2}.
@@ -34,7 +34,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 dass keinerlei neuartigen Angriffe, sowie viele Abwandlungen von Angriffen nicht erkannt werden,
                 da diese noch nicht in der Datenbank vorhanden sind.~\cite{IDSsurvey}
                 Doch wie in \autoref{sec:einleitung} bereits beschrieben, wird die Gefahr von Zero-Day Angriffen noch größer als sie bereits ist.
-                Weswegen im Folgenden die anomaliebesierte Ermittlung von \textit{Intrusions} beschrieben wird.
+                Weswegen im Folgenden die anomaliebasierte Ermittlung von \textit{Intrusions} beschrieben wird.
 
             \paragraph{Anomaliebasiert}
                 Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass auch bisher unbekannte Angriffe erkannt werden können.
@@ -151,22 +151,20 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
 
             \paragraph{Host-Daten zur Beschreibung des Systemverhaltens}
                  
-            Nach Bridges et al. besteht im wesentlichen die Auswahl zwischen Log-Files und \textit{System Calls}\marginpar{zu dt. Systemaufrufe}. 
+            Nach Bridges et al.\ besteht im wesentlichen die Auswahl zwischen Log-Files und \textit{System Calls}\marginpar{zu dt. Systemaufrufe}. 
             Log-Files können weiter aufgeteilt werden in System-Logs und programmspezifischen Logs.
-            Wobei System-Logs nur durch das \ac{OS}\marginpar{zu dt. Betriebssystem} geschrieben werden.
+            Wobei System-Logs nur durch das Betriebssystem geschrieben werden.
             Für beide trifft jedoch zu, dass sie das Systemverhalten beschreiben aber bereits eine starke Filterung stattfindet.
-            Desweiteren müssen die Filter manuell eingestellt werden.
+            Des Weiteren müssen die Filter manuell eingestellt werden.
             System Calls hingegen sind klar definiert, unterliegen dafür allerdings einer weitaus größeren Varianz der Daten.
             Für die feingranulare Aufzeichnung von Log-Files sowie für System Calls gilt, dass die Aufzeichnung sehr rechenintensiv werden kann.
             Mit modernen Softwarelösungen wie zum Beispiel sysdig~\cite{SYSDIG}, kann der Berechnungsaufwand für viele Anwendungsbereiche in akzeptable Bereiche gebracht werden.~\cite{HIDSSURVEY2019bridges}
-            {\color{red} Da verarbeitende Algorithmen besser geworden sind und Computer schneller kann auf Filterung verzichtet werden und System Calls verwendet werden.}
-
-
+            {\color{red} Da verarbeitende Algorithmen besser und Computer schneller geworden sind, wird in dieser Arbeit auf die Filterung durch Logs verzichtet und System Calls verwendet sodass möglichst viele Angriffe in den Daten wiederzufinden sind.}
 
     \section{System Calls}\label{sec:syscalls}
-        Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
-        Diese Interaktion findet in Form von \textit{System Calls}  statt.
-        Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschriebenen System Calls.
+        Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen, müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
+        Diese Interaktion findet in Form von \textit{System Calls} statt und kann mit einer gewöhnlichen \ac{API} verglichen werden.
+        Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschriebenen System Calls von Linux Betriebssystemen.
 
         \begin{table}[ht]
             \small
@@ -181,46 +179,76 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 \hline
                 \rowcolor{Gray!16}
                 %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
-                open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} & kp\\
-                write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} & kp\\
+                open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} & File descriptor oder Fehlerwert\\
+                write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} & Geschriebene Bytes oder Fehlerwert\\
                 \hline
             \end{tabular}
-            \label{tab:syscall}
             \caption{Beschreibung ausgewählter System Calls}
+            \label{tab:syscall}
         \end{table}
 
         \subsection{Allgemeines}
 
         Generell werden System Calls verwendet um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
-        Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit welche von Programmen genutzt werden können. 
-        Die System Calls stellen dabei die Kommunikation zwischen Kernel und Programmen dar.
-        Mögliche Services sind unter anderem Zugriffe auf Hardware aber auch das Erstellen und Ausführen von Prozessen.
+        Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit, welche dann von Programmen genutzt werden können. 
+        Die System Calls stellen dabei die Kommunikation zwischen dem Kernel und den darauf laufenden Programmen dar.
+        Mögliche Services sind unter anderem Zugriffe auf Hardware aber auch das Erstellen und Ausführen von Prozessen oder das Setzen von File-Berechtigungen.
+        Geschrieben werden diese Funktionalitäten in C, C++ oder auch in Assembly.
         Üblicherweise können System Calls nur von Nutzerprozessen ausgelöst werden, welche eine eingeschränkte Berechtigung besitzen.
-        Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können sowie einen Rückgabewert.
-        %TODO zu jedem öffnenden System Call gibt es schließenden
+        So stehen den Nutzerprozessen eine limitierte Auswahl an privilegierten Funktionen aus dem Kernel zur Verfügung.
+        Diese werden in der folgenden Aufzählung zusammengefasst.~\cite{SYSCALL_SILBERSCHATZ}
+        \begin{itemize}
+            \item Prozesskontrolle
+            \begin{itemize}
+                \item Erstellen, beenden, ausführen, \dots
+            \end{itemize}
+            \item File Management
+            \begin{itemize}
+                \item Erstellen, öffnen, schließen, löschen, \dots
+            \end{itemize}
+            \item Geräte Management
+            \begin{itemize}
+                \item Anfragen, lesen, \dots
+            \end{itemize}
+            \item Informationen pflegen
+            \begin{itemize}
+                \item Systeminformationen anfordern, Zeit und Datum erfragen, \dots
+            \end{itemize}
+            \item Kommunikation
+            \begin{itemize}
+                \item Erstellen und löschen von Kommunikationsverbindungen
+                \item Senden und erhalten von Nachrichten 
+                \item \dots
+            \end{itemize}
+        \end{itemize}
+
+        Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können.        Dabei kommen neben bestimmten Flags welche die Funktion der System Calls bestimmen auch zum Beispiel Dateipfade oder auch Verweise auf IP-Adressen. 
+        {\color{red}Zu jedem öffnenden System Call gibt es einen schließenden System Call, der Quasi die Antwort des Kernels darstellt.}
+        Schließende System Calls haben zusätzlich eine Rückgabewert.
+        Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
+
 
         Auch ein möglicher Angreifer muss um Schaden anzurichten also an der Art der System Calls eine Veränderung vornehmen.
-        Entweder kann die Abfolge, also die Sequenz von System Calls verändert werden, z.B. es werden neue Funktionen aufgerufen, welche wiederum andere System Calls aufrufen,
-        oder es werden die Argumente der System Calls verändert.
-        So könnte zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
+        Der folgende Abschnitt soll einen Überblick verschaffen, wie die System Calls für ein \ac{IDS} verwendet werden können.
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 
         \subsection{System Calls für IDS}
             %TODO richtige Stelle für den Abschnitt finden
-        Viele verschiedene \ac{IDS} Ansätze betrachten lediglich die Sequenz von System Calls und missachten die in den Argumenten enthaltene Informationen.
-            Auch wenn diese Ansätze teilweise sehr erfolgreich sind, lassen sie den Angreifenden einen Spielraum.
-            Verschiedene Arbeiten~\cite{Syscallseqexploit1},~\cite{Syscallseqexploit2},~\cite{Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
-            Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von \ac{der }IDS erkannten Angriffes.
-            Sie beschreiben, wie \ac{dem }IDS fremde System Call Sequenzen derart Verändert werden können, dass sie als normal eingestuft werden.
-            Dabei werden die fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
+            Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}{\color{red} richtige Quelle einfügen}%TODO Quelle einfügen
+            Häufig werden dabei aber nicht die in den Argumente der System Calls enthaltene Information mit einbezogen und bieten damit einen Spielraum für Angriffe.
+            Verschiedene Arbeiten~\cite{Syscallseqexploit1, Syscallseqexploit2, Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
+            Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von der \ac{IDS} erkannten Angriffes.
+            Sie beschreiben, wie dem \ac{IDS} fremde System Call Sequenzen derart Verändert werden können, dass sie als normal eingestuft werden.
+            Dabei werden die dem \ac{IDS} fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
             Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
-            Doch diese Beispiele zeigen auch, dass wenigstens ein Faktor, also Sequenz oder Argumente, verändert werden muss, um das Systemverhalten abzuwandeln.
-            Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in Kapitel~\ref{sec:args} untersucht werden.
-            Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen enthalten, eingegangen.
+            Was diese Beispiele jedoch auch zeigen, ist dass wenigstens ein Faktor, also entweder die Abfolge, also die Sequenz von System Calls verändert werden, z.B.\ neue Funktionen aufrufen welche wiederum andere System Calls auslösen, oder es werden die Argumente der System Calls verändert.
+            So könnte zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
+            Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in \autoref{sec:Meta} untersucht werden.
+            Im dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen und teilweise Argumente und weiter Metadaten enthalten, eingegangen.
 
         \subsection{Datensätze}\label{sec:Datensatz}
             Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA},
-            kamen verschiedene Datensätze hinzu.
+            kamen über die Jahre verschiedene weitere Datensätze hinzu.
             Auf diese wird in den kommenden Abschnitten kurz eingegangen.
             Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
             \paragraph{KDD}
