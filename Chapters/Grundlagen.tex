@@ -206,7 +206,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         \end{figure}
 
         Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können.        Das können neben bestimmten Flags, welche die Funktion der System Calls bestimmen, auch zum Beispiel Dateipfade oder IP-Adressen sein. 
-        {\color{red}Zu jedem öffnenden System Call gibt es einen schließenden System Call, der Quasi die Antwort des Kernels darstellt.}
+        Zu jedem öffnenden System Call gibt es einen schließenden System Call, der Quasi die Antwort des Kernels darstellt.
         Schließende System Calls haben zusätzlich eine Rückgabewert.
         Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
         Zu einem System Call gehört also mehr als nur der Funktionsname.
@@ -218,7 +218,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
 
         \subsection{System Calls für IDS}
             %TODO richtige Stelle für den Abschnitt finden
-            Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}{\color{red} richtige Quelle einfügen}%TODO Quelle einfügen
+            Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}
             Häufig werden dabei aber nicht die in den Argumente der System Calls enthaltene Information mit einbezogen und bieten damit einen Spielraum für Angriffe.
             Verschiedene Arbeiten~\cite{Syscallseqexploit1, Syscallseqexploit2, Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
             Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von der \ac{IDS} erkannten Angriffes.
@@ -235,7 +235,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
             kamen über die Jahre verschiedene weitere Datensätze hinzu.
             Auf diese wird in den kommenden Abschnitten kurz eingegangen.
             Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
-            \paragraph{DARPA}
+            \subsubsection{DARPA}
                 Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA} lieferte einen den ersten Benchmark Datensätze für \ac{HIDS}.
                 Er simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services.
                 Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher insgesamt fünf Wochen über TCP-Dump aufgezeichnet wurde.
@@ -247,79 +247,83 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 So haben Tavallaee et al.\ alle mehrfach vorkommenden Aufnahmen entfernt und damit 78.05\% der Trainingsdaten und 17.15\% der Testdaten entfernt.
                 Gerade bei selbstlernende Systeme kann dadurch ein ungewollter Bias entstehen.
                 Des Weiteren ist der Datensatz mittlerweile stark veraltet (1999/1998).
-            \paragraph{UNM}
+            \subsubsection{UNM}
                 Der \textit{University of New Mexico} Datensatz stammt aus dem Jahr 2004 und beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
                 Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  Overflows} ausgeführt.
                 Auch dieser Datensatz~\cite{UNM} ist mittlerweile veraltet und kommt für eine weitere Betrachtung nicht in Frage,
                 da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
-            \paragraph{ADFA-LD}
+            \subsubsection{ADFA-LD}
                 Der \ac{ADFA-LD} wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
                 Dieser wurde auf einem Linuxsystem aufgezeichnet, dessen Schwachstellen von verschiedenen \textit{Penetration Testing} Tools ausgenutzt werden.
                 Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein Bearbeiten erschwert~\cite{ADFA-LDcritic}.
                 Hinzu kommt, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten im Datensatz enthalten sind.
-            \paragraph{NGIDS-DS}
+            \subsubsection{NGIDS-DS}
                 Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
                 Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
                 Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
-            \paragraph{LID-DS}
+            \subsubsection{LID-DS}
                 2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
                 Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
                 Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Systemen auf welchen jeweils ein Angriffszenario ausgeführt wird.
                 Jedes Szenario repräsentiert damit also eine bekannte Schwachstelle eines Systems.
-                In Tabelle~\ref{tab:scenarien} werden die verschiedenen Schwachstellen als \ac{CVE}
+                In~\autoref{tab:scenarien} werden die verschiedenen Schwachstellen als \ac{CVE}
                 \marginpar{zu dt. Allgemeine Schwachstellen und Gefährdungen} oder \ac{CWE} \marginpar{zu dt. Aufzählung gemeinsamer Schwachstellen} bezeichnet.
                 CVE ist ein Industriestandard der für eine einheitliche Namenskonvention für Sicherheitslücken verwendet wird.
                 Bei den CWEs handelt es sich um eine von der Community gepflegte und von der MITRE Corporation veröffentlichte Auflistung verschiedener Typen von Schwachstellen in Soft- und Hardware.
                 Aufgezeichnet werden für jedes Szenario neben den Namen der System Calls auch deren Metadaten.
                 Dazu zählen unter anderem die Parameter, Rückgabewerte, Zeitstempel sowie User-, Prozess- und Thread-IDs.
-                Jedes Szenario beinhaltet insgesamt ca. 1000 30-60 Sekunden lange Aufzeichnungen.
-                Die ersten 200 Aufzeichnungen dienen als Trainingsdaten die darauffolgenden 50 als Validierungsdaten und die restlichen als Testdaten. 
-                Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
-                Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben und zusammengefasst werden.
-                 
-                In Tabelle~\ref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in Tabelle~\ref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
-
-                \begin{table}[ht]
-                    \small
+                Für die spätere Suche nach sinnvollen zusätzlichen Informationen eines System Calls lohnt es sich hier ein wenig detaillierter auf die in \autoref{tab:scenarien} beschriebenen Szenarien zu schauen.
+                Auffällig ist zunächst das Bruteforce-CWE-307 Szenario.
+                Dabei wird ein Bruteforce Angriff durchgeführt in welchem in kurzer Zeit diverse Anmeldeveruche stattfinden.
+                Hier unterscheiden sich die Abläufe der System Calls zwischen Normal- und Angriffsverhalten nur durch die auftrentende Frequenz.
+                {\color{red}Irgendwas über Return Values?}
+                \begin{table}[]
+                    \scriptsize
                     \centering
                     \begin{tabular}{p{3cm}p{6.5cm}}
                         \rowcolor{Gray!36}
                         \hline
                         \multicolumn{2}{c}{Szenarien}\\
                         \hline
-                        Name & Beschreibung \\
+                        \thead{Name} & \thead{Beschreibung} \\
                         \rowcolor{Gray!16}
                         \hline
                         \hline
-                        Bruteforce-CWE-307 & Ungeeignete Einschränkung von übermäßigen Authentifizierungsversuchen \\
+                        Bruteforce-CWE-307 & \makecell[l]{\textbf{Setup:} Simple Wordpress Web-Applikation \\ \textbf{Schwachstelle:} Ungeeignete Einschränkung von \\übermäßigen Authentifizierungsversuchen} \\
                         \hline
-                        CVE-2012-2122 & Umgehung von MySQL Authentifizierung\\
+                        CVE-2012-2122 & \makecell[l]{\textbf{Setup:} Oracle MySQL Datenbank \\ \textbf{Schwachstelle:} Mehrfacher falscher Loginversuch \\führt zu erfolgreichem Login} \\
                         \rowcolor{Gray!16}
                         \hline
-                        CVE-2014-0160 & Heartbleed: Schwachstelle in OpenSSL\\
+                        CVE-2014-0160 & \makecell[l]{\textbf{Setup:} Simple Web-Applikation \\ \textbf{Schwachstelle:} Fehler in OpenSSL Implementierung,\\ Heartbleed} \\
                         \hline
-                        CVE-2017-7529 & Nginx Integer Overflow \\
+                        CVE-2017-7529 & \makecell[l]{\textbf{Setup:} Nginx Web-Applikation \\ \textbf{Schwachstelle:} Datenleck durch \textit{Integer Overflow} } \\
                         \rowcolor{Gray!16}
                         \hline
-                        CVE-2018-3760 & Sprockets Datenleck Schwachstelle \\
+                        CVE-2018-3760 & \makecell[l]{\textbf{Setup:} Rails Web-Applikation \\ \textbf{Schwachstelle:} Informationsleck durch \textit{Sprockets}} \\ 
                         \hline
-                        CVE-2019-5418 & Rails Fileinhalt Offenlegung \\
+                        CVE-2019-5418 & \makecell[l]{\textbf{Setup:} Rails Web-Applikation \\ \textbf{Schwachstelle:} Schwachstelle in Applikations-\\Controller} \\
                         \rowcolor{Gray!16}
                         \hline
-                        EPS\_CWE-434 & EPS file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
+                        EPS\_CWE-434 & \makecell[l]{\textbf{Setup:} Upload Service\\ \textbf{Schwachstelle:} Keine Upload-Beschränkungen} \\
                         \hline
-                        PHP\_CWE-434 & PHP file upload: uneingeschränkter Upload von gefährlichen Dateitypen  \\
+                        PHP\_CWE-434 & \makecell[l]{\textbf{Setup:} Web-Applikation \\ \textbf{Schwachstelle:} Keine Upload-Beschränkungen} \\
                         \rowcolor{Gray!16}
                         \hline
-                        SQL Injection & SQL Injection mit sqlmap\\
+                        SQL Injection & \makecell[l]{\textbf{Setup:} Web-Applikation mit SQL-Datenbank \\ \textbf{Schwachstelle:} SQL-Injection} \\
                         \hline
-                        ZipSlip & blablabla \\
+                        ZipSlip & \makecell[l]{\textbf{Setup:} Uploading Portal für Zip Dateien\\ \textbf{Schwachstelle:} Dateien werden ohne Überprüfung \\ dekomprimiert} \\
                         \hline
                     \end{tabular}
-                    \caption{Kurzbeschreibung der in dem Datensatz vorkommenden Sicherheitslücken~\cite{LIDDS}}
+                    \caption{Kurzbeschreibung der in dem Datensatz vorkommenden Szenarien und den dazugehörigen Sicherheitslücken~\cite{LIDDS}}
                     \label{tab:scenarien}
                 \end{table}
 
+                Jedes Szenario beinhaltet insgesamt ca. 1000 30-60 Sekunden lange Aufzeichnungen.
+                Die ersten 200 Aufzeichnungen dienen als Trainingsdaten, die darauffolgenden 50 als Validierungsdaten und die restlichen als Testdaten. 
+                Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
+                Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben und zusammengefasst werden.
+                 
+                In~\autoref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in~\autoref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
                 \begin{table}[ht]
                     \tiny
                     \centering
@@ -340,27 +344,54 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                     \caption{Ausschnitt der runs.csv des LID-DS~\cite{LIDDS}}
                     \label{tab:runsfile}
                 \end{table}
+                \paragraph{Problem des Datensatzes}
+
+                    In den Testdaten mit enthaltenen Angriffen wird ein Angriffszeitpunkt angegeben.
+                    Jedoch gibt es bei einer Datei mit Angriff im Gegensatz zu den normalen Dateien vier mögliche Zuordnungen.
+                    In den normalen sind das zum einen \textit{True Negatives}, falls kein Alarm vorliegt, da in den normalen Dateien keine Angriffe stattfinden.
+                    Oder falls fälschlicherweise ein Angriff erkannt wird, die Zuordnung als \textit{False Positive}.
+                    Die Zuordnungen der Dateien mit Angriff werden in~\autoref{fig:quadrant} dargestellt..
+            
+                    \begin{figure}[ht]
+                        \centering
+                        \includegraphics[width=0.8\textwidth]{images/q_problem.eps}
+                        \caption{Illustration des Quadrantenproblems}
+                        \label{fig:quadrant}
+                    \end{figure}
+
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{angriff}$ unter dem Schwellwert, also im Quadrant 2 der Abbildung, kann von einem \textit{True Negative} ausgegangen werden.
+                    Also es wurde korrekterweise kein Alarm vorhergesagt.
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{angriff}$ über dem Schwellwert, also im Quadrant 1, liegt ein \textit{False Positive} vor.
+                    Es wurde ein Alarm gemeldet an einer Stelle an dem (noch) kein Angriff stattfand.
+                    Nach dem angegebenen Angriffszeitpunkt $t_{angriff}$ wird es allerdings schwieriger.
+                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 4, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
+                    Jedoch könnte der Angriff zu diesem Zeitpunkt schon vorbei sein.
+                    Es können nach dem Angriffszeitpunkt auch \textit{False Positive} oder \textit{False Negative} geben, welche allerdings nicht als solche erkannt werden können.
+                    Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in~\autoref{sec:metrik} beleuchtet.
 
                 \begin{table}[ht]
                     \tiny
                     \centering
-                    \begin{tabular}{p{1.1cm}p{1.1cm}p{0.3cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
+                    \begin{tabular}{p{1.1cm}p{1.1cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
                         \rowcolor{Gray!36}
                         \hline
-                        \multicolumn{9}{c}{System Call}\\
+                        \multicolumn{8}{c}{System Call}\\
                         \hline
-                        event number & event time & cpu & user uid & process name & thread id & event direction & event type & event arguments\\
+                        evt.\ number & evt.\ time & user uid & process name & thread id & evt.\ dir & evt.\ type & evt.\ args \\
                         \hline
                         \hline
                         \rowcolor{Gray!16}
-                        4012 & $10:18:20.1231231231$ & 0 & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)size=2392$ \\
+                        26 & $11:09:47.592865922$ & 101 & nginx & 21822 & < & sendfile & $res=612$, $offset=1225$ \\
+                        \hline
+                        \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+                        \hline
+                        \rowcolor{Gray!16}
+                        4012 & $10:18:20.1231231231$ & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)$, $size=2392$ \\
                         \hline
                     \end{tabular}
                     \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
                     \label{tab:syscallfile}
                 \end{table}
-
-
 
                 Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
                 soll im Folgenden die Frage geklärt werden, wie mit Hilfe von künstlichen neuronalen Netzen Muster in einem Datensatz erkannt werden können.
@@ -380,7 +411,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         In der ersten Phase, der Trainingsphase, werden vordefinierte Trainingsdaten in das Netz gegeben.
         Dieses versucht Merkmale in den Daten zu ermitteln, mit welchen dann in der Testphase Voraussagen gemacht werden können.
         Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \ac{CNN} für die Bilderkennung. 
-        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \ac{RNN}.
+        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \ac{RNN}s.
         Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, soll im Folgenden nur auf die \ac{RNN}s und eine besondere Abwandlungen dieser eingegangen werden.
         % überarbeiten
         %unterteilung verschiedener Netze und einordnung von rnns und lstmnn

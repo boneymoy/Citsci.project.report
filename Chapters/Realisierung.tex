@@ -181,18 +181,6 @@
                 \begin{itemize}
                     \item use time delta of two different syscalls as new input
                 \end{itemize}
-                ohe und w2v
-                word embedding parameterwahl wichtig $sqrt(distinct)$
-                Threadid kodieren: 
-                \begin{itemize}
-                    \item use entity embedding for ThreadID~\cite{GUO2016} 
-                    \item relationship between threads and reduce size (possible 1000 different threads)
-                    \item choose size of embedding -thumbrule $sqrt(unique value)$
-                \end{itemize}
-                zeit kodieren
-                \begin{itemize}
-                    \item use time delta of two different syscalls as new input
-                \end{itemize}
                 parameterlänge kodieren
                 \begin{itemize}
                     \item syscall to int: Wandle Syscall name in Integer um
@@ -227,7 +215,6 @@
             % create embedding of syscall
             % append extra parameters
 
-
     \section{Algorithmus}\label{sec:Algorithmus}
         LSTM Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.
         Gab es in den Trainingsdaten die feste Menge $S = {1,\dots,N}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
@@ -243,6 +230,9 @@
         Diese wird verwendet um die Ausgabe zu normalisieren und damit die Wahrscheinlichkeitsverteilung des nächsten System Calls zu erhalten.
         Also $P\left(x_i|x_{1:i-1}\right)$ für alle $i$. 
         
+
+        \subsection{Training}\label{sec:Training}
+            Nächsten Syscall vorhersagen und überprüfen ob richtig vorhergesagt
         \subsection{Anomalieerkennung}\label{sec:Anomalieerkennung}
             Es kann also bei Auftreten des System Calls $x_i$ überprüft werden mit welcher Wahrscheinlichkeit $p$ dieser vorhergesagt wurde.
             Der eigentliche Anomalie-Score wird dann folgenderweise berechnet:
@@ -250,7 +240,7 @@
                 ascore = 1 - p
             \end{equation}
             Unterschreitet dieser einen Schwellwert so wird dies als eine Anomalie gewertet und ein Alarm angezeigt.
-            \subsection{Schwellwertbestimmung}
+        \subsection{Schwellwertbestimmung}
             Um den zuvor erwähnten Schwellwert automatisch zu bestimmen, wird der Algorithmus auf die Validierungsdaten angewendet. 
             Dabei dient der höchste Wert dieser Daten dann als Schwellwert, da angenommen wird, dass mindestens alle Daten aus den Validierungsdaten harmlos sind und damit unter dem Schwellwert liegen sollten.
             Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen könnte. 
@@ -260,6 +250,7 @@
             x ermitteln, betrachte validierungsdaten und schaue ob schlechtestes x aussehen würde
             tatsächlich oft einmal schlechteste platzierung und automatische erkennung von x schwer.
 
+            {\color{red} In Datensatzkapitel!}
             \paragraph{Problem des Datensatz}
 
                 In den Testdaten sind \textit{malicious} \marginpar{zu dt.\ schädlich} Files beinhaltet, welche eine Information über den Angriffszeitpunkt liefert. 
@@ -282,6 +273,7 @@
             generell großes n viele alarme
             kleines n weniger alarme  vorteil LSTM\@?
             wichtiger Parameter den es zu ermitteln gilt
+
 
     \section{Strukturierung der Experimente}\label{sec:StrukExp}
         Um aussagekräftige Experimente zu entwickeln müssen zuerst 
