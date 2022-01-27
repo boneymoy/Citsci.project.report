@@ -3,8 +3,8 @@
 \chapter{Grundlagen}\label{ch:Grundlagen}
 %*****************************************
 In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei der Umsetzung des \ac{IDS} nötig sind.
-    Essentiell dabei sind zum einen die Definition von Anomalien und der Anomaliedetektion (siehe Kapitel~\ref{sec:Anomalieerkennung})
-    und eine allgemeine Einführung in den Bereich der \ac{IDS} (siehe Kapitel~\ref{sec:IDS}).
+    Essentiell dabei sind zum einen die Definition von Anomalien und der Anomaliedetektion (siehe~\autoref{sec:Anomalieerkennung})
+    und eine allgemeine Einführung in den Bereich der \ac{IDS} (siehe~\autoref{sec:IDS}).
     Dabei wird auf den im praktischen Teil verwendeten Ansatz der \ac{HIDS} genauer eingegangen.
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des verwendeten Algorithmus untersucht werden.
@@ -147,7 +147,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
                 \end{itemize}
             \item Wie wird die eigentliche Anomalie in den Daten erkannt?
         \end{itemize}
-        Die letztere Frage soll speziell in Kapitel~\ref{sec:Algorithmus} beleuchtet werden, doch wie das Systemverhalten präzise dargestellt werden kann soll nun behandelt werden.
+        Die letztere Frage soll speziell in~\autoref{sec:Algorithmus} beleuchtet werden, doch wie das Systemverhalten präzise dargestellt werden kann soll nun behandelt werden.
 
             \paragraph{Host-Daten zur Beschreibung des Systemverhaltens}
                  
@@ -163,7 +163,7 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
 
     \section{System Calls}\label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen, müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
-        Diese Interaktion findet in Form von \textit{System Calls} statt und kann mit einer gewöhnlichen \ac{API} verglichen werden.
+        Diese Interaktion findet in Form von \textit{System Calls}\marginpar{zu dt. Systemaufrufe} statt und kann mit einer gewöhnlichen \ac{API} verglichen werden.
         Zu ihnen gehören zum Beispiel die in \autoref{tab:syscall} beschriebenen System Calls von Linux Betriebssystemen.
 
         \begin{table}[ht]
@@ -192,16 +192,24 @@ In den folgenden Abschnitten sollen nun Grundlagen betrachtet werden, welche bei
         Generell werden System Calls verwendet um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
         Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit, welche dann von Programmen genutzt werden können. 
         Die System Calls stellen dabei die Kommunikation zwischen dem Kernel und den darauf laufenden Programmen dar.
-        Mögliche Services sind unter anderem Zugriffe auf Hardware aber auch das Erstellen und Ausführen von Prozessen oder das Setzen von File-Berechtigungen.
+        Zu den Services gehören verschiedene Bereiche der Prozesskontrolle, das Datei- und Geräte-Management, Informationspflege und Kommunikationsaufbau und zugehörige Aufgaben.
         Geschrieben werden diese Funktionalitäten in C, C++ oder auch in Assembly.
-        Üblicherweise können System Calls nur von Nutzerprozessen ausgelöst werden, welche eine eingeschränkte Berechtigung besitzen.
-        So stehen den Nutzerprozessen eine limitierte Auswahl an privilegierten Funktionen aus dem Kernel zur Verfügung.
-        Dazu gehören verschiedene Bereiche der Prozesskontrolle, das Datei- und Geräte-Management, Informationspflege und Kommunikation.~\cite{SYSCALL_SILBERSCHATZ}
+        Üblicherweise können System Calls nur von Nutzerprozessen, also aus dem \textit{User space}, aufgerufen werden, diese besitzen eine eingeschränkte Berechtigungen.
+        In~\autoref{fig:syscallAblauf} wird der Ablauf in welchem ein Programm aus dem \textit{User space} über einen System Call eine privilegierte Aktion ausführen lassen kann dargestellt.
+        Dies ermöglicht es Nutzerprozessen auf eine limitierte Auswahl an privilegierten Funktionen aus dem Kernel zugreifen zu können.~\cite{SYSCALL_SILBERSCHATZ}
+    
+        \begin{figure}[ht]
+            \centering
+            % \includegraphics[width=0.8\textwidth]{}
+            \caption{System Call Ablauf}
+            \label{fig:syscallAblauf}
+        \end{figure}
 
-        Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können.        Dabei kommen neben bestimmten Flags welche die Funktion der System Calls bestimmen auch zum Beispiel Dateipfade oder auch Verweise auf IP-Adressen. 
+        Wie in \autoref{tab:syscall} ebenfalls beschrieben besitzen System Calls auch Argumente die beim Aufrufen mitgegeben werden können.        Das können neben bestimmten Flags, welche die Funktion der System Calls bestimmen, auch zum Beispiel Dateipfade oder IP-Adressen sein. 
         {\color{red}Zu jedem öffnenden System Call gibt es einen schließenden System Call, der Quasi die Antwort des Kernels darstellt.}
         Schließende System Calls haben zusätzlich eine Rückgabewert.
         Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
+        Zu einem System Call gehört also mehr als nur der Funktionsname.
 
 
         Auch ein möglicher Angreifer muss um Schaden anzurichten also an der Art der System Calls eine Veränderung vornehmen.

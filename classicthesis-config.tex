@@ -211,13 +211,27 @@
 \@ifpackageloaded{babel}%
   {%
     \addto\extrasamerican{%
-      \renewcommand*{\figureautorefname}{Figure}%
-      \renewcommand*{\tableautorefname}{Table}%
-      \renewcommand*{\partautorefname}{Part}%
-      \renewcommand*{\chapterautorefname}{Chapter}%
-      \renewcommand*{\sectionautorefname}{Section}%
-      \renewcommand*{\subsectionautorefname}{Section}%
-      \renewcommand*{\subsubsectionautorefname}{Section}%
+      %\renewcommand*{\figureautorefname}{Figure}%
+      %\renewcommand*{\tableautorefname}{Table}%
+      %\renewcommand*{\partautorefname}{Part}%
+      %\renewcommand*{\chapterautorefname}{Chapter}%
+      %\renewcommand*{\sectionautorefname}{Section}%
+      %\renewcommand*{\subsectionautorefname}{Section}%
+      %\renewcommand*{\subsubsectionautorefname}{Section}%
+      \renewcommand*{\subsubsectionautorefname}{Abschnitt}%
+      \renewcommand*{\subsectionautorefname}{Abschnitt}%
+      \renewcommand*{\sectionautorefname}{Abschnitt}%
+      \renewcommand*{\chapterautorefname}{Kapitel}%
+      \renewcommand*{\figureautorefname}{Abbildung}%
+      \renewcommand*{\tableautorefname}{Tabelle}%
+      \renewcommand*{\paragraphautorefname}{Absatz}%
+      \renewcommand*{\subparagraphautorefname}{Unterabsatz}%
+      \renewcommand*{\footnoteautorefname}{Fußnote}%
+      \renewcommand*{\FancyVerbLineautorefname}{Zeile}%
+      \renewcommand*{\theoremautorefname}{Theorem}%
+      \renewcommand*{\appendixautorefname}{Anhang}%
+      \renewcommand*{\equationautorefname}{Gleichung}%
+      \renewcommand*{\itemautorefname}{Punkt}%
     }%
     \addto\extrasngerman{%
       \renewcommand*{\paragraphautorefname}{Absatz}%
