@@ -3,14 +3,14 @@
 %*****************************************
     In den folgenden Abschnitten werden die Grundlagen betrachtet, welche für die Umsetzung eines \ac{IDS} nötig sind.
     Zu Beginn soll in~\autoref{sec:Datenanalyse} geklärt werden welche Analysetechniken für die Überwachung von Systemen zur Verfügung stehen.
-    In~\autoref{sec:Datenerfassung} wird dann auf mögliche Orte der Erfassung und in~\autoref{sec:syscalls} auf die eigentliche Daten für die Überwachung, die System Calls, eingegangen.
+    In~\autoref{sec:Datenerfassung} wird dann auf den Ort der Erfassung und in~\autoref{sec:syscalls} auf die eigentliche Daten für die Überwachung, die System Calls, eingegangen.
 
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des in der Arbeit verwendeten Algorithmus untersucht werden.
     Dazu werden in~\autoref{sec:KNN} \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen beschrieben.
 
     \section{Intrusion Detection System}\label{sec:IDS}
-        Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität welche zu Missbrauch eines Systems oder zumindest anormalen Verhalten führen und einem System großen Schaden zufügen kann.
+        Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität welche zu Missbrauch eines Systems oder zumindest anormalen Verhalten führt und einem System großen Schaden zufügen kann.
         Ein \ac{IDS} überwacht Ressourcen, wie zum Beispiel Netzwerkdaten und versucht automatisch Missbrauch und anormales Verhalten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSPIETRO2008}
 
         Um solche unautorisierte Aktivitäten erkennen zu können müssen Daten erfasst und anschliessend analysiert werden.
@@ -21,28 +21,29 @@
             Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird.
 
             \paragraph{Signaturbasiert} 
-                \ac{SIDS} versuchen zuvor bekannte Muster von Angriffen in den zu überwachenden Systemen wiederzuerkennen.
-                Dies basiert auf einer ausgeprägten Datenbank an Signaturen von bekannten Angriffen.
-                Die aktuelle Signatur von zum Beispiel einer Datei wird dann mit Datenbank verglichen.
-                Es gibt diverse Möglichkeiten wie diese Signaturen erstellt werden. 
-                In mehreren Arbeiten werden dafür zum Beispiel Netzwerk Pakete betrachtet~\cite{IDSsurvey}
+                \ac{SIDS} versuchen zuvor bekannte Muster von Angriffen 
+                in den zu überwachenden Systemen wiederzuerkennen.
+                Dies basiert darauf, eine ausgeprägte Datenbank an Signaturen von bekannten Angriffen zu besitzen.
+                Verschiedene Methoden vergleichen dann aktuelle Signaturen des Systems mit der Datenbank.
+                Es gibt diverse Methoden wie diese Signaturen erstellt werden. 
+                Dafür werden zum Beispiel in mehreren Arbeiten Netzwerk Pakete betrachtet~\cite{IDSsurvey}
                 oder auch ein wenig ausgefeilter \textit{State Machines} erstellt~\cite{SIDSstate}\marginpar{zu dt. Zustandsautomaten}.
 
                 \ac{SIDS} haben meist eine sehr hohe Genauigkeit, doch ein wesentlicher Nachteil der signaturbasierten IDS liegt in der Tatsache begründet,
-                dass keinerlei neuartigen Angriffe, sowie viele Abwandlungen von schon bekannten Angriffen nicht erkannt werden.
-                Das liegt daran, dass für diese Fälle noch keine Signaturen in der Datenbank vorhanden sind.~\cite{IDSPIETRO2008}
+                dass keinerlei neuartigen Angriffe, sowie viele Abwandlungen von schon bekannten Angriffen nicht erkannt werden,
+                da diese noch nicht in der Datenbank vorhanden sind.~\cite{IDSsurvey}
                 Doch wie in \autoref{sec:einleitung} bereits beschrieben, wird die Gefahr von Zero-Day Angriffen größer als sie bereits ist.
-                Weswegen im Folgenden die anomaliebasierte Ermittlung von Intrusions beschrieben wird, die diese Probleme angehen kann.
+                Weswegen im Folgenden die anomaliebasierte Ermittlung von Intrusions beschrieben wird.
 
             \paragraph{Anomaliebasiert}
                 Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass auch bisher unbekannte Angriffe erkannt werden können.
                 Denn anstatt sich auf bekannte Angriffe zu berufen, werten \ac{AIDS} lediglich eine Abweichung eines wohldefinierten Normalverhaltens als Angriff.
                 Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand soll möglichst akkurat das zu erwartende und damit gewollte Systemverhalten beschreiben.~\cite{ANOMALYBOOKKISHAN2017}
-                Anomalien oder auch \textit{\glqq outlier\grqq\ }\marginpar{zu dt. Ausreißer} wurden unter anderem schon 1969 definiert.
+                Anomalien oder auch \textit{\glqq outlier\grqq\ }\marginpar{zu dt. Ausreißer} wurden unter anderem schon 1969 von Grubbs definiert.
 
                 \glqq An outlying observation, or outlier, is one that appears to deviate markedly from other members of the sample in which it occurs\grqq~\cite{ANOMALYDEFINITION1969}
 
-                Also eine Anomalie oder wie hier beschrieben eine abweichende Beobachtung, ist eine Beobachtung die deutlich von den anderen Datenpunkten innerhalb der Stichprobe abweicht.
+                Also eine Anomalie oder wie hier beschrieben eine abweichende Beobachtung ist eine Beobachtung die deutlich von den anderen Datenpunkten innerhalb der Stichprobe abweicht.
                 Anomalien speziell in Daten von Computersystemen können aus verschiedenen Gründen entstehen, zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
                 Anomalien dieses Verhaltens können also zu signifikanten und oft kritischen Veränderungen eines Systems führen.
                 So kann eine Anomalie in Netzwerkdaten dafür stehen, dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
@@ -54,12 +55,12 @@
 
                 \ac{AIDS} werden im Einsatz in zwei Phasen aufgeteilt, die \textit{Trainingsphase} sowie die \textit{Testphase}.
                 Im ersten Schritt der \ac{AIDS} wird ein Modell des Normalverhaltens erstellt.
-                Dabei wird in \ac{ML}-basierte, Statistik-basierte~\cite{IDSPIETRO2008} oder auch 
-                wie in machen Arbeiten~\cite{IDSsurvey} zusätzlich in die \textit{Knowledge}-basierten \marginpar{zu dt. Wissens-basierte} Algorithmen untergliedert.
-                In der zweiten Phase muss dieses Modell dann überprüft werden.
+                Dabei können \ac{ML}-basierte, Statistik-basierte oder auch 
+                \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
+                In der zweiten muss dieses Modell dann überprüft werden.
                 Speziell soll dabei mit noch nicht betrachteten Daten die Generalisierung des Modells getestet werden. 
                 Dabei liefert der Algorithmus für jede Eingabe entweder einen Anomaliescore oder direkt ein Label\marginpar{Intrusion oder keine Intrusion}.
-                Liegt der Score über einem festgelegten Schwellwert so gilt die Eingabe als anormal ansonsten als normal.~\cite{IDSPIETRO2008}
+                Liegt der Score über einem festgelegten Schwellwert so gilt die Eingabe als anormal ansonsten als normal.
 
                 Jedoch ergibt sich hier im Vergleich zu den \ac{SIDS} eine Problematik.
                 Der erwähnte Schwellwert entscheidet über die Ergebnisqualität der \ac{AIDS} und sollte daher sorgfältig und am besten automatisch ermittelt werden, um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in~\autoref{sec:Algorithmus}}
@@ -156,7 +157,7 @@
                 \end{figure}
                 Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
                 in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
-                in die anomaliebasierten und signaturbasierten Verfahren eingeteilt wird.
+                in die anomaliebasierten und signaturbasierten Verfahren eingeteilt wird.{\color{red}Grafik anpassen}
                 Die dicker umrandeten Verfahren werden in dieser Arbeit verwendet.
                 Also zur Datenerfassung werden nur Informationen welche auf dem Host zugänglich sind verwendet 
                 und die so erhaltenen Daten werden anomaliebasiert untersucht.
@@ -365,26 +366,25 @@
                     \begin{figure}[ht]
                         \centering
                         \includegraphics[width=0.8\textwidth]{images/q_problem.eps}
-                        \caption{Illustration des Quadrantenproblems (inspiriert von~\cite{IDSTHREADGRIMMER2021})}
+                        \caption{Illustration des Quadrantenproblems}
                         \label{fig:quadrant}
                     \end{figure}
 
-                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ unter dem Schwellwert, also im Quadrant 3 der Abbildung, kann von einem \textit{True Negative} ausgegangen werden.
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{angriff}$ unter dem Schwellwert, also im Quadrant 2 der Abbildung, kann von einem \textit{True Negative} ausgegangen werden.
                     Also es wurde korrekterweise kein Alarm vorhergesagt.
-                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ über dem Schwellwert, also im Quadrant 2, liegt ein \textit{False Positive} vor.
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{angriff}$ über dem Schwellwert, also im Quadrant 1, liegt ein \textit{False Positive} vor.
                     Es wurde ein Alarm gemeldet an einer Stelle an dem (noch) kein Angriff stattfand.
-                    Nach dem angegebenen Angriffszeitpunkt $t_{Angriff}$ wird es allerdings schwieriger.
-                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
+                    Nach dem angegebenen Angriffszeitpunkt $t_{angriff}$ wird es allerdings schwieriger.
+                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 4, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
                     Jedoch könnte der Angriff zu diesem Zeitpunkt schon vorbei sein.
-                    Also könnte ein Alarm nach $t_{Angriff}$ theoretisch auch ein \textit{False Positive} sein. 
-                    Genauso könnte umgekehrt ein Anomaliescore unter dem Schwellwert, also im Quadranten 4 korrekt sein obwohl er als \textit{False Negative} gewertet werden müsste.
-                    Diese Problematik wird auch von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} aufgegriffen und muss in der Auswertung beachtet werden. 
-                    In~\autoref{sec:metrik} wird eine Lösungsmöglichkeit betrachtet.
+                    Also könnte ein Alarm nach $t_{angriff}$ theoretisch auch ein \textit{False Positive} sein. 
+                    Genauso könnte umgekehrt ein Anomaliescore unter dem Schwellwert korrekt sein obwohl er als \textit{False Negative} gewertet werden müsste.
+                    Diese Problematik muss in der Auswertung beachtet werden und wird in~\autoref{sec:metrik} beleuchtet.
 
                 \begin{table}[ht]
-                    \scriptsize
+                    \tiny
                     \centering
-                    \begin{tabular}{p{1.1cm}p{1.1cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1.3cm}}
+                    \begin{tabular}{p{1.1cm}p{1.1cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1cm}}
                         \rowcolor{Gray!36}
                         \hline
                         \multicolumn{8}{c}{System Call}\\
