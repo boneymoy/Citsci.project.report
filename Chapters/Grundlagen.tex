@@ -40,10 +40,15 @@
             \paragraph{Anomaliebasiert}
                 Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass auch bisher unbekannte Angriffe erkannt werden können.
                 Denn anstatt sich auf bekannte Angriffe zu berufen, werten \ac{AIDS} lediglich eine Abweichung eines wohldefinierten Normalverhaltens als Angriff.
-                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand soll möglichst akkurat das zu erwartende Systemverhalten, ohne unerwünschtes Verhalten also zum Beispiel Angriffe, beschreiben.
-                Anomalien des Verhaltens können zu signifikanten und oft kritischen Veränderungen eines Systems führen. 
+                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand soll möglichst akkurat das zu erwartende Systemverhalten beschreiben.~\cite{ANOMALYBOOKKISHAN2017}
+                Anomalien dieses Verhaltens können dann zu signifikanten und oft kritischen Veränderungen eines Systems führen.
                 So kann eine Anomalie in Netzwerkdaten dafür stehen, dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
-                Anomalien in den Daten können aus verschiedenen Gründen entstehen, zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
+                Anomalien oder auch \textit{\glqq outlier\grqq\ }\marginpar{zu dt. Ausreißer} wurden unter anderem schon 1969 von Grubbs definiert.
+                Wobei in der Arbeit von Grubbs versucht wird diese Ausreißer aus einem Trainingsdatensatz zu entfernen.
+
+                \glqq An outlying observation, or outlier, is one that appears to deviate markedly from other members of the sample in which it occurs\grqq\ ~\cite{ANOMALYDEFINITION1969}
+
+                Anomalien in Daten von Computersystemen können aus verschiedenen Gründen entstehen, zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
                 Doch alle Anomalien haben gemein, dass sie ein Abweichen eines \glqq Normalverhalten\grqq\ darstellen und damit interessant für Analysen sind.
                 Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell (wohldefiniertes Normalverhalten) zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
                 Jede Anomalie gilt dann wiederrum als \textit{Intrusion}.
@@ -52,7 +57,7 @@
 
                 \ac{AIDS} werden im Einsatz in zwei Phasen aufgeteilt, die \textit{Trainingsphase} sowie die \textit{Testphase}.
                 Im ersten Schritt der \ac{AIDS} wird ein Modell des Normalverhaltens erstellt.
-                Dabei können ML-basierte, Statistik-basierte oder auch 
+                Dabei können \ac{ML}-basierte, Statistik-basierte oder auch 
                 \textit{Knowledge}-basierte \marginpar{zu dt. Wissens-basierte} Algorithmen verwendet werden.
                 In der zweiten muss dieses Modell dann überprüft werden.
                 Speziell soll dabei mit noch nicht betrachteten Daten die Generalisierung des Modells getestet werden. 
@@ -70,14 +75,19 @@
                 in welchen Anomalien sowie auch Normalverhalten gelabelt sind.
                 Somit werden auch Muster von Angriffen gelernt.
                 Doch kann es dadurch beim Lernprozess zu Schwierigkeiten kommen, da häufig eine Ungleichgewicht zwischen der Datenmenge an Angriffs- und Normalverhalten besteht.~\cite{IMBALANCEPHUA2004}
+                Zusätzlich sind Anomalien meist unbekannt womit das Erstellen eines sinnvollen Datensatzes erschwertwird.
+                Auch deswegen ist diese Herangehensweise weniger verbreitet.~\cite{UNSUPERVISEDGOLDSTEIN2016}
+
                 
                 Hingegen wird beim \textit{Semi-supervised} Verfahren ein Trainingsdatensatz benötigt welcher lediglich das Normalverhalten kennzeichnet.
                 Somit werden auch keine Angriffe zum Trainingszeitraum gesehen.
+                Die Grundidee besteht also darin Abweichungen eines Modells des Normalverhaltens zu erkennen.
+            
                 
                 Bei der \textit{Unsupervised Anomaly Detection} werden Daten verwendet welche keine Labels beinhalten.
-                Dabei wird davon ausgegangen, dass Normaldaten sehr viel umfangreicher in den Daten vertreten sind als Anomalien,
-                da es sonst häufig zu Fehlalarmen kommen kann, falls Anomalien fälschlicherweise als Normalverhalten eingestuft wird.~\cite{ANOMALYSURVEY2}.
-                Jedoch sind auch \textit{unsupervised} Trainingsverfahren  möglich welche keine Anomalien in den Daten enthalten.{\color{red}\textit{QUELLE}}
+                Dabei wird davon ausgegangen, dass Normaldaten sehr viel umfangreicher in den Daten vertreten sind als Anomalien.
+                Sonst kann es zur Testphase zu häufigen Fehlalarmen kommen, wenn Anomalien fälschlicherweise als Normalverhalten eingestuft werden.~\cite{ANOMALYSURVEY2}.
+                Jedoch sind auch \textit{unsupervised} Trainingsverfahren umsetzbar welche keine Anomalien in den Daten enthalten.\cite{UNSUPERVISEDGOLDSTEIN2016}
 
                 Die Wahl des Algorithmus zur Erkennung von Anomalien in den Daten ist dabei entscheidend für den Ablauf der Trainingsphase und wird deshalb auch im Bezug auf das verwendete Verfahren in~\autoref{sec:Training} beschrieben.
 
@@ -126,7 +136,7 @@
                 In der Literatur werden hierfür verschiedene Informationsquellen genutzt.
                 Dazu gehören verschiedene Logs, z.B Firewall und Database Logs~\cite{IDSsurvey},
                 oder aber auch Daten aus dem Kernel wie z.B. System Calls~\cite{MAGGI}.
-                Im Gegensatz zur \ac{NIDS} kann hier auf den Inhalt von jeder Information eingegangen werden, da die interne Kommunikation unverschlüsselt stattfindet. 
+                Im Gegensatz zur \ac{NIDS} kann hier auf den Inhalt von jeder Information eingegangen werden, da die interne Kommunikation unverschlüsselt stattfindet.~\cite{IDSBOOKHAY}
 
             \paragraph{Host-Daten zur Beschreibung des Systemverhaltens}
                  
@@ -144,7 +154,7 @@
                 \autoref{fig:IDSOverview} soll einen Überblick über die in den vorigen Abschnitten gemachte Einstufung geben.
                 \begin{figure}[ht]
                     \centering
-                    \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/IDSOverview}
+                    \includegraphics[width=0.7\textwidth]{images/Illustrationen/IDS/IDSOverview}
                     \caption{Einordnung des verwendeten IDS (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
                 \end{figure}
                 Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
@@ -162,7 +172,6 @@
                     \item Wie wird die eigentliche Anomalie in den Daten erkannt?
                 \end{itemize}
                 Die letztere Frage soll speziell in~\autoref{sec:Algorithmus} beleuchtet werden, doch wie das Systemverhalten präzise dargestellt werden kann soll nun behandelt werden.
-
 
     \section{System Calls}\label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen, müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
