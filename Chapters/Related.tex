@@ -11,80 +11,99 @@ Und dann auf verschiedene NLP Verfahren die in der Literatur bisher in HIDS mit 
 
 \section{Anomaliedetektion mit System Calls}
 
-\subsection{Sequenzen}
+    \subsection{Sequenzen}
 
-    \paragraph{Anfänge}
-        (1996) Erste Veröffentlichung im Bereich der anomaliebasierten HIDS auf system calls wurde 1996 in~\cite{FORREST} präsentiert.
-        Dabei wird TIDE verwendet lookahead pairs.
+        \paragraph{Anfänge}
+            (1996) Erste Veröffentlichung im Bereich der anomaliebasierten HIDS auf system calls wurde 1996 in~\cite{FORREST} präsentiert.
+            Dabei wird TIDE verwendet lookahead pairs.
 
-        (1997) Aber auch schon erster \ac{ML} Ansatz mit dem RIPPER Algorithmus welcher Regeln lernt von~\cite{LEE1997}
-        Bei diesem Ansatz werden normale sowie anormale Sequenzen gelernt.
+            (1997) Aber auch schon erster \ac{ML} Ansatz mit dem RIPPER "Algorithmus" welcher Regeln lernt von~\cite{LEE1997}
+            Bei diesem Ansatz werden normale sowie anormale Sequenzen gelernt.
 
-        (1998) Dann 1998 sequences of fixed length von~\cite{STIDE} welches eine Erweiterung von TIDE darstellt.
+            (1998) Dann 1998 sequences of fixed length von~\cite{STIDE} welches eine Erweiterung von TIDE darstellt.
 
-        (1999) von~\cite{STIDE_Alternatives} bereits Vergleich verschiedener Methoden auch unter Verwendung von Verfahren (ngram) aus der Textverarbeitung.
+            (1999) von~\cite{STIDE_Alternatives} bereits Vergleich verschiedener Methoden auch unter Verwendung von Verfahren (ngram) aus der Textverarbeitung.
 
 
-    \paragraph{Fortschritte}
-        (2005) Anstatt Sequenzen untersuchen~\cite{FREQUENCY2} Frequenzen von System Calls.
-        \cite{FREQUENCY2} \glqq bag of system calls \grqq\ von 2005.
+        \paragraph{Fortschritte}
+            (2005) Anstatt Sequenzen untersuchen~\cite{FREQUENCY2} Frequenzen von System Calls.
+            In~\cite{FREQUENCY2} \glqq bag of system calls \grqq\ von 2005.
 
-        (2013) Darstellung der System Calls als Zustände von Kernelmodulen~\cite{SYSTEM_STATES} und dann Interaktionen der Zustände untersuchen.
-        Der Vergleich von Wahrscheinlichkeiten des Auftretens von Zuständen wird dann zur Identifizierung von Anomalien genutzt.
+            (2013) Darstellung der System Calls als Zustände von Kernelmodulen~\cite{SYSTEM_STATES} und dann Interaktionen der Zustände untersuchen. 
+            Der Vergleich von Wahrscheinlichkeiten des Auftretens von Zuständen wird dann zur Identifizierung von Anomalien genutzt.
 
-        (2018) In~\cite{SYSCALL_GRAPHS} werden wie in~\cite{STIDE_Alternatives} ngramme verwendet, diese dienen aber als Knoten für sogenannte \textit{System Call Graphs}. 
-        Die Übergangswahrscheinlichkeiten der einzelnen n-gramme stellen die Kanten dieses Graphs dar.
-        Der Anomaliescore wird dann anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
+            (2018) In~\cite{SYSCALL_GRAPHS} werden wie in~\cite{STIDE_Alternatives} ngramme verwendet, diese dienen aber als Knoten für sogenannte \textit{System Call Graphs}. 
+            Die Übergangswahrscheinlichkeiten der einzelnen n-gramme stellen die Kanten dieses Graphs dar.
+            Der Anomaliescore wird dann anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
 
-        (2015) Einsatz in Linux Containern~\cite{FREQUENCY1} oder (2018) in Cloud Lösungen~\cite{VM}
+            (2015) Einsatz in Linux Containern~\cite{FREQUENCY1} oder (2018) in Cloud Lösungen~\cite{VM}
 
-\subsection{Erweiterung der System Call Sequenzen}
+        Doch es gibt Arbeiten die zeigen, dass bestimmte Angriffe der Erkennung entgehen, sofern nur die Sequenz der System Calls betrachtet wird.
+        In~\cite{Syscallseqexploit1} werden verschieden Methoden untersucht mit welchen sie von dem IDS von~\cite{FORREST2000}\marginpar{beruht auf STIDE~\cite{STIDE}} unentdeckt bleiben.
+        Bei ihren theoretischen Ansätzen berufen sie sich unter anderem auf das Abändern von System Call Argumenten, ohne dabei auf die Sequenz der System Calls einfluss zu nehmen.
+        Und~\cite{Syscallseqexploit3} untersuchen speziell die von~\cite{FORREST} ins Spiel gebrachte Fensterlänge von $6$ für den STIDE Algorithmus.
+        Dabei umgehen sie die Angriffserkennung in dem sie die Angriffssequenzen auseinanderziehen und mit Normalsequenzen auffüllen
 
-    \begin{itemize}
-        \item extra models for syscalls~\cite{ARGUMENTS} extended~\cite{MAGGI}
-        \item further~\cite{ARGUMENTS2}
-    \end{itemize}
+
+    \subsection{Erweiterung der System Call Sequenzen}
+
+        (2003/2006)System Call Argumente:~\cite{ARGUMENTS, ARGUMENTS2} erkennen diese Problematik an und versuchen Argumente der System Calls einzubinden.
+        Dazu gehören String Länge: Annahmen über Verteilung von String Längen der Argumente. 
+            Berechnen von Sample mean und Sample Varianz der String Längen von System Calls und mit Chebychev Distance Anomaliescore angeben.
+        String Charakter Verteilung: Frequenzen von Zeichen untersuchen. Lernen für jedes Argument.
+        \textit{Structural Inference:} aus /usr/lib/libc.so wird /aaa/aaa/aaa.aa -> /a/a/a.a  
+        Token finder: Es soll ermittelt werden ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten aus dem Trainingsdaten stammt.
+        
+        Diese wurden auch in die LibAnomaly library eingebunden. library to implement anomaly detection models.
+        Und wird auch von~\cite{MAGGI} verwendet.
+
+        Nutzen von Thread Information~\cite{IDSTHREADGRIMMER2021}.
+
+        Clustern von System Call Argumenten für jeden System Call~\cite{}
+
+        Data-flow (parameters) und code-path-flow kombinieren (sequenz).
+
 
 \section{NLP in der Anomaliedetektion und HIDS}
 
-\subsection{Vorverarbeitung}
+    \subsection{Vorverarbeitung}
 
-\subsection{Algorithmik}
+    \subsection{Algorithmik}
 
-\paragraph{RNN}
+        \paragraph{RNN}
 
-\paragraph{LSTM}
+        \paragraph{LSTM}
 
-2016 Kim~\cite{LSTMsys} 
+        2016 Kim~\cite{LSTMsys} 
 
-2017 Dymshits~\cite{LSTMDYMSHITS2017} supervising multiple hosts
-normalized bag of system calls, sehr großes embedding (ca. 300), Vektor von integers für festes Zeitfenster (z.B. 1sec)
+        2017 Dymshits~\cite{LSTMDYMSHITS2017} supervising multiple hosts
+        normalized bag of system calls, sehr großes embedding (ca. 300), Vektor von integers für festes Zeitfenster (z.B. 1sec)
 
 
 
-\subsection{RNNs für HIDS mit System Calls}
-    Überblick~\cite{NLPHIDSSWORNA2022}
-    NLP Dinge auch Transformer
-    \begin{itemize}
-        \item contextual word embedding tecniques biderectional encoder representations from Transformers (BERT)~\cite{NLPBERT2018}
-        \item semantics~\cite{SEMANTICSLAKSHMANAN2015}
-        \item semantics~\cite{SEMANTICSCREECH2014}
-        \item Word2Vec~\cite{W2VWUNDERLICH2019}
-        \item impact of embedding~\cite{IMPACTOFEMBEDDINGWUNDERLICH2020}
-    \end{itemize}
-    RNN und LSTMs
-    \begin{itemize}
-        \item RNN~\cite{RNN/CNN}
-        \item LSTM1~\cite{LSTMsys}
-        \item LSTM2~\cite{LSTMSURATKAR2019} 
-        \item LSTM3~\cite{NIU2020} 
-        \item LSTM4~\cite{BIDIRECTIONALLSTMCHAWLA2019} 
-        \item LSTM5~\cite{VARIATIONALLSTMBOUZAR2019} 
-        \item LSTM6~\cite{RNNVEDBOUZAR2020} 
-        \item LSTM trained with malicious and bening data~\cite{LSTMKIM2016} % 33
-        \item LSTM as EDR with events~\cite{EVENTLSTMVASQUEZ2020}
-        \item LSTM in Industrial Control System ICS~\cite{ICSLSTMFENG2017} % 34
-        \item LSTM uusing system logs~\cite{LOGLSTMMIN2017} %35
-        
-        \item weiteres
-    \end{itemize}
+    \subsection{RNNs für HIDS mit System Calls}
+        Überblick~\cite{NLPHIDSSWORNA2022}
+        NLP Dinge auch Transformer
+        \begin{itemize}
+            \item contextual word embedding tecniques biderectional encoder representations from Transformers (BERT)~\cite{NLPBERT2018}
+            \item semantics~\cite{SEMANTICSLAKSHMANAN2015}
+            \item semantics~\cite{SEMANTICSCREECH2014}
+            \item Word2Vec~\cite{W2VWUNDERLICH2019}
+            \item impact of embedding~\cite{IMPACTOFEMBEDDINGWUNDERLICH2020}
+        \end{itemize}
+        RNN und LSTMs
+        \begin{itemize}
+            \item RNN~\cite{RNN/CNN}
+            \item LSTM1~\cite{LSTMsys}
+            \item LSTM2~\cite{LSTMSURATKAR2019} 
+            \item LSTM3~\cite{NIU2020} 
+            \item LSTM4~\cite{BIDIRECTIONALLSTMCHAWLA2019} 
+            \item LSTM5~\cite{VARIATIONALLSTMBOUZAR2019} 
+            \item LSTM6~\cite{RNNVEDBOUZAR2020} 
+            \item LSTM trained with malicious and bening data~\cite{LSTMKIM2016} % 33
+            \item LSTM as EDR with events~\cite{EVENTLSTMVASQUEZ2020}
+            \item LSTM in Industrial Control System ICS~\cite{ICSLSTMFENG2017} % 34
+            \item LSTM uusing system logs~\cite{LOGLSTMMIN2017} %35
+            
+            \item weiteres
+        \end{itemize}
