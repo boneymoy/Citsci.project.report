@@ -1,32 +1,66 @@
 %*****************************************
 \chapter{Verwandte Arbeiten}\label{ch:verwandte_arbeiten}
 %*****************************************
+
+Forschungsfrage beruht auf zwei ideen.
+Verbesserung von HIDS auf System calls mit verwendung von NLP Verfahren
+Verbesserung von HIDS auf sc durch verwendung von extra parametern
+Zunächst auf Literatur eingehen, welche Grundlagen der anomaliebasierte HIDS auf System Calls 
+Dann Erweiterungen durch mehr als nur die Sequenz von System Calls
+Und dann auf verschiedene NLP Verfahren die in der Literatur bisher in HIDS mit sc eingesetzt wurden
+
 \section{Anomaliedetektion mit System Calls}
 
-\begin{itemize}
-    \item Anfänge:
-        \begin{itemize}
-            \item TIDE~\cite{FORREST}
-            \item STIDE~\cite{STIDE}
-            \item STIDE Alternatives~\cite{STIDE_Alternatives}
-        \end{itemize}
-    \item Fortschritte
-        \begin{itemize}
-            \item System Call Graphs~\cite{SYSCALL_GRAPHS}
-            \item Frequency~\cite{FREQUENCY1},~\cite{FREQUENCY2}
-            \item Im Cloud/vm Einsatz~\cite{VM}
-            \item System States~\cite{SYSTEM_STATES}
-        \end{itemize}
-\end{itemize}
+\subsection{Sequenzen}
+
+    \paragraph{Anfänge}
+        (1996) Erste Veröffentlichung im Bereich der anomaliebasierten HIDS auf system calls wurde 1996 in~\cite{FORREST} präsentiert.
+        Dabei wird TIDE verwendet lookahead pairs.
+
+        (1997) Aber auch schon erster \ac{ML} Ansatz mit dem RIPPER Algorithmus welcher Regeln lernt von~\cite{LEE1997}
+        Bei diesem Ansatz werden normale sowie anormale Sequenzen gelernt.
+
+        (1998) Dann 1998 sequences of fixed length von~\cite{STIDE} welches eine Erweiterung von TIDE darstellt.
+
+        (1999) von~\cite{STIDE_Alternatives} bereits Vergleich verschiedener Methoden auch unter Verwendung von Verfahren (ngram) aus der Textverarbeitung.
+
+
+    \paragraph{Fortschritte}
+        (2005) Anstatt Sequenzen untersuchen~\cite{FREQUENCY2} Frequenzen von System Calls.
+        \cite{FREQUENCY2} \glqq bag of system calls \grqq\ von 2005.
+
+        (2013) Darstellung der System Calls als Zustände von Kernelmodulen~\cite{SYSTEM_STATES} und dann Interaktionen der Zustände untersuchen.
+        Der Vergleich von Wahrscheinlichkeiten des Auftretens von Zuständen wird dann zur Identifizierung von Anomalien genutzt.
+
+        (2018) In~\cite{SYSCALL_GRAPHS} werden wie in~\cite{STIDE_Alternatives} ngramme verwendet, diese dienen aber als Knoten für sogenannte \textit{System Call Graphs}. 
+        Die Übergangswahrscheinlichkeiten der einzelnen n-gramme stellen die Kanten dieses Graphs dar.
+        Der Anomaliescore wird dann anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
+
+        (2015) Einsatz in Linux Containern~\cite{FREQUENCY1} oder (2018) in Cloud Lösungen~\cite{VM}
 
 \subsection{Erweiterung der System Call Sequenzen}
 
-\begin{itemize}
-    \item extra models for syscalls~\cite{ARGUMENTS} extended~\cite{MAGGI}
-    \item further~\cite{ARGUMENTS2}
-\end{itemize}
+    \begin{itemize}
+        \item extra models for syscalls~\cite{ARGUMENTS} extended~\cite{MAGGI}
+        \item further~\cite{ARGUMENTS2}
+    \end{itemize}
 
-\section{NLP in HIDS}
+\section{NLP in der Anomaliedetektion und HIDS}
+
+\subsection{Vorverarbeitung}
+
+\subsection{Algorithmik}
+
+\paragraph{RNN}
+
+\paragraph{LSTM}
+
+2016 Kim~\cite{LSTMsys} 
+
+2017 Dymshits~\cite{LSTMDYMSHITS2017} supervising multiple hosts
+normalized bag of system calls, sehr großes embedding (ca. 300), Vektor von integers für festes Zeitfenster (z.B. 1sec)
+
+
 
 \subsection{RNNs für HIDS mit System Calls}
     Überblick~\cite{NLPHIDSSWORNA2022}
