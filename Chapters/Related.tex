@@ -62,9 +62,8 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
     In~\cite{Syscallseqexploit1} werden verschieden Methoden untersucht mit welchen Angriffe nicht durch das IDS von~\cite{FORREST2000}\marginpar{beruht auf \ac{STIDE}~\cite{STIDE}} erkannt wurden.
     Bei ihren theoretischen Ansätzen berufen sie sich unter anderem auf das Abändern von System Call Argumenten, ohne dabei auf die Sequenz der System Calls einfluss zu nehmen.
     Und~\cite{Syscallseqexploit3} untersuchen speziell die von~\cite{FORREST} ins Spiel gebrachte Fensterlänge von $6$ für den \ac{STIDE} Algorithmus.
-    Dabei umgehen sie die Angriffserkennung in dem sie die Angriffssequenzen auseinanderziehen und mit Normalsequenzen auffüllen
+    Dabei umgehen sie die Angriffserkennung in dem sie die Angriffssequenzen auseinanderziehen und mit Normalsequenzen auffüllen.
 
-    Deswegen kann es entscheidend sein auch die Argumente der System Calls zu untersuchen.
     Dies zeigt, dass es sinnvoll sein kann auch noch weitere Informationen welche in den System Calls enthalten sind einzubinden.
     Seien es Metadaten wie die Thread Information der System Calls, oder auch die eigentlichen Argumente der Aufrufe.
     Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurde soll nun behandelt werden.
@@ -73,6 +72,7 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
 
         {\color{red}2003 wählen Kruegel et al.\ einen konträren Weg, sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.}
         Sie erstellen in der Trainingsphase für jeden System Call verschiedene Modelle, welche in der Testphase die Wahrscheinlichkeit eines anormalen Verhaltens bestimmen.
+        Spannend dabei sind mehr die vorgestellten Modelle, als die eigentliche Verarbeitung dieser
 
         \textit{String Length}: Die Annahme dieses Features besteht darin, dass sich bei einem Angriff die Länge der Strings der Argumente signifikant ändert.
         Dafür wird in der Trainingsphase versucht die Verteilung der String-Längen zu approximieren.S
@@ -92,11 +92,16 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         Laut Kruegel et al.\ werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
         Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
         Falls die Anzahl der möglichen Werte nicht proportional mit den Argumenten wächst, werden diese Werte in die Normaldatenbank aufgenommen.
-        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt oder nicht.~\cite{ARGUMENTS}
+        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt oder nicht.
+
+        Um diese Modelle für System Call Argumente einfach nutzbar zu machen wurde von Kruegel et al.\ das LibAnomlay Framework implementiert.~\cite{ARGUMENTS}
+
+        Auch in~\cite{ARGUMENTS2} kommen diese Modelle der Argumente zum Einsatz.
         
-        Diese wurden auch in die LibAnomaly library eingebunden.\
-        library to implement anomaly detection models.
-        Und wird auch von~\cite{MAGGI} verwendet.
+        Ebenso werden sie auch von Maggi et al.\ verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.~\cite{MAGGI}
+
+        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informtiao
+
 
         Nutzen von Thread Information~\cite{IDSTHREADGRIMMER2021}.
 
