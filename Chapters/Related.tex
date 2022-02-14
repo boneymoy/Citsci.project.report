@@ -41,8 +41,8 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         % Auch in moderneren Arbeiten werden die Abfolge von System Calls beziehungsweise speziell nur die Funktionsnamen verwendet.
         Auch aktuellere Arbeiten befassen sich mit der Anomalieerkennung mit System Calls, {\color{red} speziell nur Namen von System Calls}.
     
-        2005 betrachten Kang et al.\ nicht die Sequenzen sondern auf die Frequenzen der auftretenden System Calls.
-        Dabei zählen sie das Auftreten von System Calls in einem bestimmten Zeitfenster und verwenden dann die sogenannten \textit{bag of system calls}\marginpar{zu dt. Bündel von Systemaufrufen} für ihre Beschreibung des Normalverhaltens.
+        2005 betrachten Kang et al.\ nicht die Sequenzen sondern die Frequenzen der auftretenden System Calls.
+        Dabei zählen sie das Vorkommen von System Calls in einem bestimmten Zeitfenster und verwenden diese sogenannten \textit{bag of system calls}\marginpar{zu dt. Bündel von Systemaufrufen} für ihre Beschreibung des Normalverhaltens.
         Ähnlich zu~\cite{FORREST} und~\cite{STIDE} bauen sie mit diesen Bündelungen eine Datenbank für das Normalverhalten auf.~\cite{FREQUENCY2}
 
         2013 stellen Murtaza et al. System Calls als Zustände von Kernelmodulen dar, indem sie System Calls einem bestimmten Modul zuschreiben.
@@ -66,18 +66,33 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
 
     Deswegen kann es entscheidend sein auch die Argumente der System Calls zu untersuchen.
     Dies zeigt, dass es sinnvoll sein kann auch noch weitere Informationen welche in den System Calls enthalten sind einzubinden.
-    Seien es Metadaten wie die Thread Informationen der System Calls, oder auch die eigentlichen Argumente der Aufrufe.
+    Seien es Metadaten wie die Thread Information der System Calls, oder auch die eigentlichen Argumente der Aufrufe.
     Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurde soll nun behandelt werden.
 
     \paragraph{Mehr als Sequenzen}
 
-        (2003/2006) System Call Argumente:~\cite{ARGUMENTS, ARGUMENTS2} erkennen diese Problematik an und versuchen Argumente der System Calls einzubinden.
-        Generell ist dabei die Grundidee die Kodierung eines System Calls um die Kodierung der jeweiligen Argumente zu erweitern.
-        Dazu gehören String Länge: Annahmen über Verteilung von String Längen der Argumente. 
-            Berechnen von Sample mean und Sample Varianz der String Längen von System Calls und mit Chebychev Distance Anomaliescore angeben.
-        String Charakter Verteilung: Frequenzen von Zeichen untersuchen. Lernen für jedes Argument.
-        \textit{Structural Inference:} aus /usr/lib/libc.so wird /aaa/aaa/aaa.aa -> /a/a/a.a  
-        Token finder: Es soll ermittelt werden ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten aus dem Trainingsdaten stammt.
+        {\color{red}2003 wählen Kruegel et al.\ einen konträren Weg, sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.}
+        Sie erstellen in der Trainingsphase für jeden System Call verschiedene Modelle, welche in der Testphase die Wahrscheinlichkeit eines anormalen Verhaltens bestimmen.
+
+        \textit{String Length}: Die Annahme dieses Features besteht darin, dass sich bei einem Angriff die Länge der Strings der Argumente signifikant ändert.
+        Dafür wird in der Trainingsphase versucht die Verteilung der String-Längen zu approximieren.S
+        In der Testphase wird dann die Wahrscheinlichkeit dafür, dass die aktuelle String-Länge aus der Verteilung stammt mit der \textit{Tschebyschaffschen Ungleichheit} berechnet.
+        
+        \textit{String Character Distribution}: Hier wird angenommen, dass es unter legitimen System Calls Ähnlichkeiten unter den Frequenzen der auftretenden Zeichen eines Strings gibt.
+        In der Trainingsphase wird für jedes gesehene Argument die Zeichenverteilung hinterlegt.
+        Ähnlich zu der String-Länge zuvor wird in der Testphase nun überprüft mit welcher Wahrscheinlichkeit die aktuelle Zeichenverteilung aus der gespeicherten Verteilung gezogen wurde.
+
+        \textit{Structural Inference:} Da Angriffe laut Kruegel et al.\ aber auch besonders lange oder auffällige Verteilungen von Argumenten umgehen können, wird versucht auch die Struktur der Argumente zu untersuchen.
+        Um diese Struktur zu erlernen, vereinfachen sie die Argumente zunächst wie auch von Maggi et al.~\cite{ARGUMENTS2} beschrieben.
+        Beispielhaft wird aus dem Pfad \path{/usr/lib/libc.so} $\longrightarrow$ \path{/a/a/a.a}.
+        Für das Erlernen verwenden sie ein Markov Modell.
+        Mit Hilfe dieses Modells kann in der Testphase entschieden werden ob die aktuelle Struktur des System Call Arguments durch das Markov Modell erstellt werden kann oder nicht.
+
+        \textit{Token Finder}: Es soll ermittelt werden ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
+        Laut Kruegel et al.\ werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
+        Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
+        Falls die Anzahl der möglichen Werte nicht proportional mit den Argumenten wächst, werden diese Werte in die Normaldatenbank aufgenommen.
+        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt oder nicht.~\cite{ARGUMENTS}
         
         Diese wurden auch in die LibAnomaly library eingebunden.\
         library to implement anomaly detection models.
@@ -85,7 +100,7 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
 
         Nutzen von Thread Information~\cite{IDSTHREADGRIMMER2021}.
 
-        Clustern von System Call Argumenten für jeden System Call~\cite{}
+        Clustern von System Call Argumenten für jeden System Call~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
         Data-flow (parameters) und code-path-flow kombinieren (sequenz).
 
