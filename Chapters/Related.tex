@@ -72,9 +72,10 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
 
     \paragraph{Mehr als Sequenzen}
 
-        {\color{red}2003 wählen Kruegel et al.\ einen konträren Weg, sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.}
+        2003 wählen Kruegel et al.~\cite{ARGUMENTS} einen konträren Weg, sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.
         Sie erstellen in der Trainingsphase für jeden System Call verschiedene Modelle, welche in der Testphase die Wahrscheinlichkeit eines anormalen Verhaltens bestimmen.
-        Spannend dabei sind mehr die vorgestellten Modelle, als die eigentliche Verarbeitung dieser
+        Speziell nutzen sie aber auch Informationen über mögliche Angriffe für die Erstellung der Modelle
+        Spannend dabei sind mehr die vorgestellten Modelle, als die eigentliche Verarbeitung dieser.
 
         \textit{String Length}: Die Annahme dieses Features besteht darin, dass sich bei einem Angriff die Länge der Strings der Argumente signifikant ändert.
         Dafür wird in der Trainingsphase versucht die Verteilung der String-Längen zu approximieren.S
@@ -95,17 +96,19 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
         Falls die Anzahl der möglichen Werte nicht proportional mit den Argumenten wächst, werden diese Werte in die Normaldatenbank aufgenommen.
         Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt oder nicht.
-
         Um diese Modelle für System Call Argumente einfach nutzbar zu machen wurde von Kruegel et al.\ das LibAnomlay Framework implementiert.~\cite{ARGUMENTS}
 
         Auch in~\cite{ARGUMENTS2} kommen diese Modelle der Argumente zum Einsatz.
         
         Ebenso werden sie auch von Maggi et al.\ verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.~\cite{MAGGI}
 
-        Doch bei allen zuvor erwaehnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
+        {\color{red}Doch bei allen zuvor erwähnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
         Koucham et al.\ wollen nun im Gegensatz dazu sowohl die Sequenz als auch die Argumente beachten.
-        Dafuer Clustern sie durch das Clustern von System Call Argumenten für jeden System Call die betrachteten Sequenzen anreichern.
-        ~\cite{ARGUMENTCLUSTERKOUCHAM2015}
+        Dafür clustern sie die Argumente jedes System Calls, jeweils für einen Prozess.
+        So wird der System Call in der Tesetphase dem nächsten Cluster zugeordnet und dieses dient dann als Eingabe.
+        Für das Clustern fließen in dieser Arbeit verschiedene Argumente und Kontextinformationen ein.
+        Zu den Argumenten gehören zum Beispiel Pfadnamen, Benutzerkennung, die Menge der möglichen Werte, wozu unter anderem Flags zählen.
+        Kontextinformationen beinhalten Rückgabewerte, Dateirechte oder auch Dateimodi.~\cite{ARGUMENTCLUSTERKOUCHAM2015}}
 
         Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informtionen nicht direkt einbinden, sondern die Thread ID verwenden um die Streamverarbeitung zu verbessern.
         Der Ausgangspunkt ihrer Ueberlegungen liegt darin, dass moderne Prozesse Mulit-Threaded sind.
@@ -113,51 +116,57 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         Um diese Vermischung der Threads zu verhindern bilden sie n-gramme, welche nur aus System Calls desselben Thread stammen.
         So konnten sie in den meisten Faellen eine Verringerung der Fehlalarme und eine Erhoehung der Erkennungsrate erreichen.\cite{IDSTHREADGRIMMER2021}
 
-
-        Data-flow (parameters) und code-path-flow kombinieren (sequenz).
-
-
-    \subsection{LSTM/RNNs für HIDS mit System Calls}
-        Überblick~\cite{NLPHIDSSWORNA2022}
-        NLP Dinge auch Transformer
-        \begin{itemize}
-            \item contextual word embedding tecniques biderectional encoder representations from Transformers (BERT)~\cite{NLPBERT2018}
-            \item semantics~\cite{SEMANTICSLAKSHMANAN2015}
-            \item semantics~\cite{SEMANTICSCREECH2014}
-            \item Word2Vec~\cite{W2VWUNDERLICH2019}
-            \item impact of embedding~\cite{IMPACTOFEMBEDDINGWUNDERLICH2020}
-        \end{itemize}
-        RNN und LSTMs
-        \begin{itemize}
-            \item RNN~\cite{RNN/CNN}
-            \item LSTM1~\cite{LSTMsys}
-            \item LSTM2~\cite{LSTMSURATKAR2019} 
-            \item LSTM3~\cite{NIU2020} 
-            \item LSTM4~\cite{BIDIRECTIONALLSTMCHAWLA2019} 
-            \item LSTM5~\cite{VARIATIONALLSTMBOUZAR2019} 
-            \item LSTM6~\cite{RNNVEDBOUZAR2020} 
-            \item LSTM trained with malicious and bening data~\cite{LSTMKIM2016} % 33
-            \item LSTM as EDR with events~\cite{EVENTLSTMVASQUEZ2020}
-            \item LSTM in Industrial Control System ICS~\cite{ICSLSTMFENG2017} % 34
-            \item LSTM uusing system logs~\cite{LOGLSTMMIN2017} %35
-            
-            \item weiteres
-        \end{itemize}
+    %\subsection{LSTM/RNNs für HIDS mit System Calls}
+        
+        %RNN und LSTMs
+        %\begin{itemize}
+            %\item RNN~\cite{RNN/CNN}
+            %\item LSTM1~\cite{LSTMsys}
+            %\item LSTM2~\cite{LSTMSURATKAR2019} 
+            %\item LSTM3~\cite{NIU2020} 
+            %\item LSTM4~\cite{BIDIRECTIONALLSTMCHAWLA2019} 
+            %\item LSTM5~\cite{VARIATIONALLSTMBOUZAR2019} 
+            %\item LSTM6~\cite{RNNVEDBOUZAR2020} 
+            %\item LSTM trained with malicious and bening data~\cite{LSTMKIM2016} % 33
+            %\item LSTM as EDR with events~\cite{EVENTLSTMVASQUEZ2020}
+            %\item LSTM in Industrial Control System ICS~\cite{ICSLSTMFENG2017} % 34
+            %\item LSTM uusing system logs~\cite{LOGLSTMMIN2017} %35
+            %
+            %\item weiteres
+        %\end{itemize}
 
     \subsection{NLP in der Anomaliedetektion und HIDS}
 
-        \subsection{Vorverarbeitung}
+        Speziell in den letzten Jahren wurden diverse weitere Ansätze vorgestellt, in welchen ein \ac{HIDS} mit Hilfe von Verfahren aus der \ac{NLP} erweitert oder neu konstruiert wurden.
+        Einen Überblick der verschiedenen Transfers wurde in der Arbeit von Sworna et al.~\cite{NLPHIDSSWORNA2022} bereitgestellt.
+        Besonders hervorzuheben ist dabei unter anderem die Studie von Wunderlich et al.\ in welcher sie Sequenzen von System Calls als Text betrachten und verschiedene aus der \ac{NLP} bekannte Verfahren in der Domäne der \ac{HIDS} auswerten.
+        Dazu gehören One-Hot-Encoding, Word2Vev sowie GloVe und fastText. 
+        Zusätzlich untersuchen sie wie sich die Darstellung der System Calls als Kernelmodule, ähnlich zu~\cite{SYSTEM_STATES}, als Sequenz oder die Kombination beider auf die Ergebnisqualität auswirkt.
+        In der Auswertung bevorzugen sie das One-Hot-Encoding, wobei in dieser Arbeit nur geringfügig auf die Vorteile der Dimensionsreduktion durch das Word2Vec-Verfahren eingegangen wird.\cite{W2VWUNDERLICH2019}
 
-        \subsection{Algorithmik}
+        Auch die in der Textverarbeitung verwendeten \ac{LSTM} Netzwerke finden Anwendung in der \ac{HIDS}.
+        Dazu gehören~\cite{LSTMsys, LSTMSURATKAR2019, NIU2020, BIDIRECTIONALLSTMCHAWLA2019, VARIATIONALLSTMBOUZAR2019}.
+        Doch die meisten Arbeiten verwenden entweder sehr alte oder anderweitig kritisch zu betrachtende Datensätze, wie in\autoref{sec:Datensatz} beschrieben.
+        Leider haben sie damit eine geringere Aussagekraft für aktuelle Systeme als es mit aktuelleren Datensätzen der Fall wäre.
+        So zum Beispiel Kim et al.~\cite{LSTMsys}, sie beschreiben wie sie Sprachmodelle der System Calls mithilfe von \ac{LSTM} Netzwerken erstellen.
+        Mit diesen Modellen wollen sie dann für eine Sequenz von System Calls eine Vorhersage treffen und die Ergebnisse der verschiedenen Modelle kombiniert ergeben dann einen Anomaliescore.
+        Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit darin, dass keine zusätzlichen Informationen der System Calls verwendet werden.
 
-        \paragraph{RNN}
+        Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück welche in diesem Kontext nur wenig Aussagekraft besitzten, wie in~\autoref{sec:metrik} beschrieben.
+        Desweiteren werden hier ebenso keine zusätzlichen Argumente wie zum Beispiel den Rückgabewert betrachtet~\cite{LSTMPARK2021}
 
-        \paragraph{LSTM}
-
-        2016 Kim~\cite{LSTMsys} 
-
-        2017 Dymshits~\cite{LSTMDYMSHITS2017} supervising multiple hosts
-        normalized bag of system calls, sehr großes embedding (ca. 300), Vektor von integers für festes Zeitfenster (z.B. 1sec)
+        2017 überwachen Dymshits et al./ mit ihrer LSTM-Herangehensweise mehrere Hosts gleichzeitig.
+        Sie erstellen aber aufgrund der großen Datenmengen normalisierte \textit{Bag of System Call}-Vektoren für ein fest definiertes Zeitfenster.~\cite{LSTMDYMSHITS2017}
 
 
+
+        %\begin{itemize}
+            %\item contextual word embedding tecniques biderectional encoder representations from Transformers (BERT)~\cite{NLPBERT2018}
+            %\item semantics~\cite{SEMANTICSLAKSHMANAN2015}
+            %\item semantics~\cite{SEMANTICSCREECH2014}
+            %\item Word2Vec~\cite{W2VWUNDERLICH2019}
+            %\item impact of embedding~\cite{IMPACTOFEMBEDDINGWUNDERLICH2020}
+        %%\end{itemize}
+
+        %2016 Kim~\cite{LSTMsys} 
 
