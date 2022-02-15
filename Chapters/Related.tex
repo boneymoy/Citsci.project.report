@@ -37,6 +37,8 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         Dazu gehören die bereits erwähnten Verfahren \ac{TIDE}, \ac{STIDE}, \ac{RIPPER}, sowie ein \ac{HMM}.
         Dabei schienen alle Verfahren erfolgreich wobei das \ac{HMM} als sehr rechenintensiv hervorgehoben wird.
         Speziell interessant an dieser Arbeit ist auch die Verwendung von n-grammen aus der Textverarbeitung.~\cite{STIDE_Alternatives}
+        Ein n-gramm ist eine zusammenhängende Folge von n Elementen aus einer gegebenen Eingabe.
+        Oft wird diese Art der Vorverarbeitung bei Datenstreams eingesetzt.
  
         % Auch in moderneren Arbeiten werden die Abfolge von System Calls beziehungsweise speziell nur die Funktionsnamen verwendet.
         Auch aktuellere Arbeiten befassen sich mit der Anomalieerkennung mit System Calls, {\color{red} speziell nur Namen von System Calls}.
@@ -50,8 +52,8 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         Der Wahrscheinlichkeiten für das Auftreten von Zustandssequenzen wird dann zur Identifizierung von Anomalien genutzt.~\cite{SYSTEM_STATES}
 
         2018 interpretieren Grimmer et al. System Call Sequenzen als einen sogenannten \textit{System Call Graph}.
-        Dabei werden wie in~\cite{STIDE_Alternatives} ngramme verwendet.
-        Die N-gramme stellen einen Knoten dar und der Übergang eines N-gramms zu einem weiteren wird mit einer gerichteten Kante dargestellt.
+        Dabei werden wie in~\cite{STIDE_Alternatives} n-gramme verwendet.
+        Die n-gramme stellen einen Knoten dar und der Übergang eines n-gramms zu einem weiteren wird mit einer gerichteten Kante dargestellt.
         Zusammen mit den Häufigkeiten des Auftretens eines Überganges und dem Ausgangsgrad eines Knotens ergeben sich dann Übergangswahrscheinlichkeiten, für alle Knoten.
         Der Anomaliescore wird dann anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.~\cite{SYSCALL_GRAPHS} 
 
@@ -100,12 +102,17 @@ Abschließend werden Arbeiten untersucht welche sich speziell mit dem Einsatz vo
         
         Ebenso werden sie auch von Maggi et al.\ verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.~\cite{MAGGI}
 
-        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informtiao
+        Doch bei allen zuvor erwaehnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
+        Koucham et al.\ wollen nun im Gegensatz dazu sowohl die Sequenz als auch die Argumente beachten.
+        Dafuer Clustern sie durch das Clustern von System Call Argumenten für jeden System Call die betrachteten Sequenzen anreichern.
+        ~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
+        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informtionen nicht direkt einbinden, sondern die Thread ID verwenden um die Streamverarbeitung zu verbessern.
+        Der Ausgangspunkt ihrer Ueberlegungen liegt darin, dass moderne Prozesse Mulit-Threaded sind.
+        Das heisst die Sequenz der System Calls beschreibt die Aktionen mehrere Threads gleichzeitig.
+        Um diese Vermischung der Threads zu verhindern bilden sie n-gramme, welche nur aus System Calls desselben Thread stammen.
+        So konnten sie in den meisten Faellen eine Verringerung der Fehlalarme und eine Erhoehung der Erkennungsrate erreichen.\cite{IDSTHREADGRIMMER2021}
 
-        Nutzen von Thread Information~\cite{IDSTHREADGRIMMER2021}.
-
-        Clustern von System Call Argumenten für jeden System Call~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
         Data-flow (parameters) und code-path-flow kombinieren (sequenz).
 
