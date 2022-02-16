@@ -2,18 +2,18 @@
 %*****************************************
 \chapter{Realisierung}\label{ch:Realisierung}
 %*****************************************
-    Bei der Realisierung einer AIDS müssen wie im Grundlagenkapitel~\ref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
+    Bei der Realisierung einer AIDS müssen wie in~\autoref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
     Die Trainingsphase und die Testphase.
     Diesen beiden Phasen liegt allerdings schon ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des LSTMs zu Grunde. 
-    Welche Datensätze überhaupt in Frage kommen wurde bereits in Abschnitt~\ref{sec:Datensatz} untersucht.
+    Welche Datensätze überhaupt in Frage kommen wurde bereits in~\autoref{sec:Datensatz} untersucht.
     Wie dieser weiterverarbeitet, für das LSTM vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden könnte, 
-    soll in Abschnitt~\ref{sec:Preprocessing} betrachtet werden.
-    Zuvor in Abschnitt~\ref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
-    Der eigentliche Algorithmus, also das finden von Anomalien in den Daten wird dann im Abschnitt~\ref{sec:Algorithmus} beschrieben.
-    Nachdem so also der verarbeitende Teil betrachtet wurde, soll in Abschnitt~\ref{sec:StrukExp} die Strukturierung der Experimente präsentiert werden.
+    soll in~\autoref{sec:Preprocessing} betrachtet werden.
+    Zuvor in~\autoref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
+    Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird dann im~\autoref{sec:Algorithmus} beschrieben.
+    Nachdem so also der verarbeitende Teil betrachtet wurde, soll in~\autoref{sec:StrukExp} die Strukturierung der Experimente präsentiert werden.
     Diese Strukturierung hat zum Ziel früh wenig vielversprechende Konfigurationen auszuschließen um ressourcenschonend Auswertungen durchzuführen.
-    Speziell die Ressource Zeit, wie sich später zeigen wird, ist dabei im Rahmen dieser Arbeit eine mit entscheidende.
-    Abschließen soll dieses Kapitel dann in Abschnitt~\ref{sec:Metriken} die Untersuchung von Metriken, welche dann für die Auswertung der Experimente benötigt wird.
+    Speziell die Ressource Zeit, wie sich später zeigen wird, ist dabei im Rahmen dieser Arbeit eine Entscheidende.
+    Abschließen soll dieses Kapitel dann in~\autoref{sec:Metriken} die Untersuchung von Metriken, welche dann für die Auswertung der Experimente benötigt wird.
 
 
 
@@ -23,30 +23,31 @@
         sysdig
 
     \section{Vorverarbeitung}\label{sec:Preprocessing}
-        In dem kommenden Abschnitt~\ref{sec:struktur} soll zunächst auf die Vorverarbeitung des Datensatzes eingegangen werden.
-        Anschließend soll in Abschnitt~\ref{sec:syscalldarstellung} untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
-        Da, wie zuvor beschrieben, in dieser Arbeit ein Datenstream betrachtet werden soll, wird in Abschnitt~\ref{sec:streamdarstellung} die Frage wie dieser für das LSTM dargestellt geprüft.
+        %In dem kommenden Abschnitt~\ref{sec:struktur} wird die erste Vorverarbeitung des Datensatzes vorgestellt.
+        Im kommenden Abschnitt~\ref{sec:syscalldarstellung} soll untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
+        In dieser Arbeit werden die System Call Daten als Datenstream betrachtet.
+        Weshalb in Abschnitt~\ref{sec:streamdarstellung} die Frage geprüft, wie dieser für das LSTM dargestellt wird.
         Ein weiterer wichtiger Teil der Arbeit, neben dem Untersuchen ob sich LSTMs für die Anomalieerkennung bei System Calls eignen, besteht darin,
         welche Metadaten neben dem Namen des System Calls noch verwendet werden können um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
         Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in Abschnitt~\ref{sec:Meta}
 
-        \subsection{Vorverarbeitung des Datensatzes}\label{sec:struktur}
-            Gegeben 10 szenarien die aus bekannten CVEs bestehen.\
-            mit ca. 1000 files durschnittlich 45sec
-            in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
-            falls kein exploit dann exploit start time -1
-            keine dauer des exploits also ende nicht bekannt 
-            nicht systemcall genau start des angriffs angegeben 
-            führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
-            alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
-            %TODO Quadranten
-            filtern von switch statements in Datensatz weil keine system calls
-            nur schließende syscalls keine öffnenden.
-            Muss wie in~\ref{sec:syscalls} beschrieben immer beide geben.
-            Schließende interessant, da auch Rückgabewerte betrachtet werden können
+        %\subsection{Vorverarbeitung des Datensatzes}\label{sec:struktur}
+            %Gegeben 10 szenarien die aus bekannten CVEs bestehen.\
+            %mit ca. 1000 files durschnittlich 45sec
+            %in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
+            %falls kein exploit dann exploit start time -1
+            %keine dauer des exploits also ende nicht bekannt 
+            %nicht systemcall genau start des angriffs angegeben 
+            %führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
+            %alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
+            %%TODO Quadranten
+            %filtern von switch statements in Datensatz weil keine system calls
+            %nur schließende syscalls keine öffnenden.
+            %Muss wie in~\ref{sec:syscalls} beschrieben immer beide geben.
+            %Schließende interessant, da auch Rückgabewerte betrachtet werden können
 
         \subsection{Wie wird ein System Call dargestellt?}\label{sec:syscalldarstellung}
-            Neuronale netze benötigen numerische werte deswegen umwandlung von stringnamen 
+            Neuronale netze benötigen numerische werte deswegen Umwandlung von stringnamen 
             sys to int nur bedingt brauchbar für netz auf Grund aktivierungsfunktion --> 2>1 3>1 mittelwert 2
             Darstellung von kategorischen Daten für neuronale Netze bekanntes Problem,
             Auch in der Spracherkennung, hier ist allerdings auch ein ohe vorstellbar, da begrenzte Anzahl an versch
@@ -392,7 +393,7 @@
 
 
 
-\section{Metriken}\label{sec:metrik}
+\section{Metriken}\label{sec:Metriken}
 
     Auf Grund dessen Metrik False Alarm/ consecutive false alarm und Detection rate falls einmal pro malicious file in quadrant 4 -> HIT
     Wahl von Metriken in NN
