@@ -4,9 +4,9 @@
 %*****************************************
     Bei der Realisierung einer AIDS müssen wie in~\autoref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
     Die Trainingsphase und die Testphase.
-    Diesen beiden Phasen liegt allerdings schon ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des LSTMs zu Grunde. 
+    Diesen beiden Phasen liegt allerdings schon ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des \ac{LSTM} zu Grunde. 
     Welche Datensätze überhaupt in Frage kommen wurde bereits in~\autoref{sec:Datensatz} untersucht.
-    Wie dieser weiterverarbeitet, für das LSTM vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden könnte, 
+    Wie dieser weiterverarbeitet, für das \ac{LSTM} vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden könnte, 
     soll in~\autoref{sec:Preprocessing} betrachtet werden.
     Zuvor in~\autoref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
     Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird dann im~\autoref{sec:Algorithmus} beschrieben.
@@ -26,9 +26,9 @@
         %In dem kommenden Abschnitt~\ref{sec:struktur} wird die erste Vorverarbeitung des Datensatzes vorgestellt.
         Im kommenden Abschnitt~\ref{sec:syscalldarstellung} soll untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
         In dieser Arbeit werden die System Call Daten als Datenstream betrachtet.
-        Weshalb in Abschnitt~\ref{sec:streamdarstellung} die Frage geprüft, wie dieser für das LSTM dargestellt wird.
-        Ein weiterer wichtiger Teil der Arbeit, neben dem Untersuchen ob sich LSTMs für die Anomalieerkennung bei System Calls eignen, besteht darin,
-        welche Metadaten neben dem Namen des System Calls noch verwendet werden können um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
+        Weshalb in Abschnitt~\ref{sec:streamdarstellung} die Frage geprüft, wie dieser für das \ac{LSTM} dargestellt wird.
+        Ein weiterer wichtiger Teil der Arbeit besteht darin, zu klären welche Metadaten neben dem Namen des System Calls noch verwendet werden können,
+        um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
         Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in Abschnitt~\ref{sec:Meta}
 
         %\subsection{Vorverarbeitung des Datensatzes}\label{sec:struktur}
@@ -47,23 +47,60 @@
             %Schließende interessant, da auch Rückgabewerte betrachtet werden können
 
         \subsection{Wie wird ein System Call dargestellt?}\label{sec:syscalldarstellung}
-            Neuronale netze benötigen numerische werte deswegen Umwandlung von stringnamen 
-            sys to int nur bedingt brauchbar für netz auf Grund aktivierungsfunktion --> 2>1 3>1 mittelwert 2
-            Darstellung von kategorischen Daten für neuronale Netze bekanntes Problem,
-            Auch in der Spracherkennung, hier ist allerdings auch ein ohe vorstellbar, da begrenzte Anzahl an versch
-            System calls.
+            Neuronale Netze benötigen numerische werte deswegen Umwandlung von Namen der System Calls. 
+            Eine einfache Kodierung dieser Strings bestünde darin die System Calls in Integer Werte umzuwandeln.
+            Allerdings entstehen dabei künstliche Zusammenhänge und Ordnungen, welche für den Lernvorgang unvorteilhaft sein können~\cite{NEURALBISHOP1995}.
+            Werden die System Calls als kategorische Daten betrachtet bietet sich das für neuronale Netze typische \ac{OHE} an.
             \paragraph{One-Hot-Encoding}
-                Beschreibung OHE
-            Eine weitere Möglichkeit System Calls darzustellen wird ebenfalls in der Spracherkennung verwendet.
-            Durch \textit{Word embeddings} kann zusätzlich zu der Kategorie auch noch der Kontext des Wortes in der Repräsentation eingebunden werden.
-            \paragraph{Word-To-Vector}
-                Beschreibung W2v
+                Für die Darstellung eines System Calls mit dem \ac{OHE}, muss zunächst die Anzahl $n$ der unterschiedlichen System Calls ermittelt werden.
+                Der System Call $sc_i$ aus der Menge der möglichen System Calls $ SC = \{sc_1,sc_2,\dots,sc_n\}$ 
+                wird dann als Bit-Vektor $v_i$ der Länge $n$ kodiert.
+                Dabei nehmen alle Stellen bis auf $i$ den Wert $0$ an und dort den Wert $1$.
+                So wird aus dem System Call \textit{open} aus der Menge $SC = \{open, close, read\}$ der Vektor $v_1 = (1, 0, 0)$
+                Da die Anzahl der möglichen System Calls und damit auch $n$ begrenzt ist, scheint diese Darstellung für einen System Call denkbar.
+                Allerdings bringt sie auch zwei neue Probleme mit sich.
+                Zum einen führt das \ac{OHE} eines System Calls bei großem $n$ zu einem langen und spärlich besetzten Vektor $v_i$.
+                Gerade bei neuronalen Netzen führt das zu längeren Rechenzeiten.
+                Und der neu gewonnen Vorteil, dass keine künstlichen Ordnungen vorhanden ist birgt den Nachteil, dass tatsächlich ebenso vorhandene Zusammenhänge verloren gehen.
+                So besteht mindestens ein semantischer Zusammenhang zwischen \textit{open} und \textit{close} in der englischen Sprache, dieser ist in dem \ac{OHE} verloren gegangen. 
+                Optimaler Weise gilt es also eine Darstellung zu finden die kurz ist und in der nur gewollte Ordnungen vorhanden sind.
+                In der \ac{NLP} gilt es ähnliche Probleme durch die Darstellungen der Wörter zu lösen, zum Beispiel mit dem \ac{W2V} Verfahren.
 
-            Nachdem nun eine Darstellung eines System Calls besprochen wurde muss auch noch auf die Streamverarbeitung eingegangen werden.
+            \paragraph{Word2Vec}
+                Das \ac{W2V} Verfahren ist ein auf feedforward neuronalen Netzen basierender Ansatz, welcher häufig in der \ac{NLP} eingesetzt wird~\cite{W2VAYYADEVARA2018}.
+                Dabei werden Wörter aus einem gegebenen Satz an möglichen Wörtern anhand eines Trainingsdatensatzes in dichte Vektoren $v$ fester Länge $embed\_size$ kodiert.
+                Ziel des von~\cite{W2VMIKOLOV2013} eingeführten \ac{W2V} Verfahrens ist es eine Dimensionsreduktion durchzuführen, bei welcher möglichst viel Kontextinformationen erhalten bleiben.
+                So sollen also die Vektordarstellungen von ähnlichen Wörtern ebenso ähnlich sein.
+                Dies wird erreicht, indem Worte nicht einzeln betrachtet werden, sondern immer in einem Kontext.
+                Es wird angenommen, dass Wörter die häufig in einem ähnlichen Kontext auftreten, auch ähnlich sind.
+                Wie umfangreich dieser Kontext für jedes Wort sein soll, wird mit der Fenstergröße $window\_length$ festgelegt.
+
+                In der Trainingsphase gibt es zwei verschiedene Ansätze, zum einen Das \textit{Continuous Bag-Of-Words},
+                dabei wird versucht eine Vorhersage über ein Wort anhand des Kontextes zu machen.
+                Hingegen wird unter Verwendung von \textit{Skip-gram}, eine Vorhersage des Kontextes aufgrund des Wortes vorgenommen.~\cite{EMBEDDINGPILEHVAR2020}
+
+                Schwierigkeiten wie das häufige auftreten von Wörtern in der englischen Sprache wie \textit{the}, treten in der System Call Domäne nicht auf.
+                Die Vorteile der dichtbesetzten und dimensionsreduzierten Vektoren machen sich auch bereits~\cite{IDSTHREADGRIMMER2021} in der anomaliebasierten \ac{HIDS} mit System Calls zu nutzen.
+                Dieses Embedding wird auch im Folgenden verwendet.
+                
+            Neben den eigentlichen Namen der System Call enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
+            Wie zumindest Teile dieser die Embeddings der System Calls erweitern können soll im folgenden Abschnitt untersucht werden.
 
             \subsubsection{Wie können weitere System Call Informationen dargestellt werden?}\label{sec:Meta}
 
+                Wie zusätzliche Informationen der System Calls genutzt werden können ist auch Gegenstand bestehender Forschung.
+                In \autoref{sec:related_sys_arg} wurden die verschiedenen bestehenden Ansätze untersucht.
+                Im Folgenden soll es speziell darum gehen neue Darstellungsformen der System Call Argumente zu finden.
+                Dabei soll noch einmal kurz auf die in \autoref{sec:syscalls} besprochenen Grundlagen zurückgegriffen werden um einen ersten Anhaltspunkt für wichtige Informationsquellen zu finden.
+
             \paragraph{System Call Argumente}  
+                
+                Um die Unterscheidung von Normalverhalten und einer Anomalie zu erleichtern, müssen vor allem Faktoren betrachtet werden, die sensibel auf eine Veränderung des Normalverhaltens reagieren.
+                Gleichzeitig soll dabei aber nicht einzelne Angriffe genutzt werden um diese Faktoren zu ermitteln, da sonst die Gefahr besteht in die Richtung der signaturbasierten IDS zu gelangen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hätte.
+                Ziel dieses Abschnittes soll es sein eine grobe Einschätzung zu bekommen welche Argumente einen großen Informationsgehalt zur Beschreibung des Systemverhaltens bieten.
+
+                und speziell von welchen System Calls diese Argumente kommen.spannend
+                Auch wenn ein allgemeiner Ansatz zur Kodierung wichtiger 
                 most frequent calls
                 Sql: vfrom, fcntl, lstat, nmap, poll
                 php: vfrom, fcntl, lstat, nmap, poll
@@ -208,7 +245,7 @@
             Erstellung von ngrammen bekannte Vorgehensweise.
             Aufteilen von Datenstream unbekannter Länge in feste Größe.
             Wird oft als \textit{Streaming Window} oder \textit{Ngram} bezeichnet.
-            Nötig da LSTM Eingaben fester Größe benötigen.
+            Nötig da \ac{LSTM} Eingaben fester Größe benötigen.
             %%%%NOTES
             % iterate syscalls 
             % Filter switch
@@ -217,13 +254,13 @@
             % append extra parameters
 
     \section{Algorithmus}\label{sec:Algorithmus}
-        LSTM Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.
+        \ac{LSTM} Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.
         Gab es in den Trainingsdaten die feste Menge $S = {1,\dots,N}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
         Jeder dieser System Calls bekommt im ersten Schritt einen Integerwert zwischen 1 und $N$.
         Taucht in den Testdaten nun ein noch nicht bekannter System Call $x_i$ auf, also $x_i \notin S$, so erhält dieser den vorläufigen Wert 0.
         Zu jedem Zeitpunkt wird $x_i$ der Input Layer übergeben.
         Dabei wird ein Embedding aus Abschnitt~\ref{sec:embedding} verwendet. 
-        Mit den gegebenen Trainingsdaten kann nun das LSTM mittels des \textit{back-propagation through time} (BPTT) trainiert werden.
+        Mit den gegebenen Trainingsdaten kann nun das \ac{LSTM} mittels des \textit{back-propagation through time} (BPTT) trainiert werden.
         % Im ersten Schritt besteht dieses Embedding aus dem \textit{One hot encoding} (OHE).
         % In weiterer Ausführung werden dann zwei W2V Verfahren verwendet.
         % Wie in Kapitel \ref{Grundlagen:LSTM} bereits beschrieben wird, soll das LSTM mit den kodierten system calls aus dem Trainingsdatensatz trainiert werden.
@@ -272,9 +309,8 @@
             lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info
             -> finden von sweet spot
             generell großes n viele alarme
-            kleines n weniger alarme  vorteil LSTM\@?
+            kleines n weniger alarme  vorteil \ac{LSTM}\@?
             wichtiger Parameter den es zu ermitteln gilt
-
 
     \section{Strukturierung der Experimente}\label{sec:StrukExp}
         Um aussagekräftige Experimente zu entwickeln müssen zuerst 
@@ -375,7 +411,7 @@
             args
             time
 
-            LSTM ohne Threadinfos mit OHE
+            \ac{LSTM} ohne Threadinfos mit OHE
             LSTM mit W2V ohne Threadinfos (ngram)
             LSTM mit W2V mit Threadinfos (ngram)
             LSTM mit W2V threadaware mit Threadinfos (ngram)
