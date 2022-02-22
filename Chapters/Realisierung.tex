@@ -68,14 +68,14 @@
 
             \paragraph{Word2Vec}
                 Das \ac{W2V} Verfahren ist ein auf feedforward neuronalen Netzen basierender Ansatz, welcher häufig in der \ac{NLP} eingesetzt wird~\cite{W2VAYYADEVARA2018}.
-                Dabei werden Wörter aus einem gegebenen Satz an möglichen Wörtern anhand eines Trainingsdatensatzes in dichte Vektoren $v$ fester Länge $embed\_size$ kodiert.
+                Dabei werden Wörter aus einem gegebenen Satz an möglichen Wörtern anhand eines Trainingsdatensatzes in dichte Vektoren $v$ fester Länge $embed\_size$ kodiert beziehungsweise \textit{embedded}\marginpar{zu dt.\ eingebettet}.
                 Ziel des von~\cite{W2VMIKOLOV2013} eingeführten \ac{W2V} Verfahrens ist es eine Dimensionsreduktion durchzuführen, bei welcher möglichst viel Kontextinformationen erhalten bleiben.
                 So sollen also die Vektordarstellungen von ähnlichen Wörtern ebenso ähnlich sein.
-                Dies wird erreicht, indem Worte nicht einzeln betrachtet werden, sondern immer in einem Kontext.
+                Dies wird erreicht, indem Worte für das Erstellen der Kodierung nicht einzeln betrachtet werden, sondern immer in einem Kontext.
                 Es wird angenommen, dass Wörter die häufig in einem ähnlichen Kontext auftreten, auch ähnlich sind.
                 Wie umfangreich dieser Kontext für jedes Wort sein soll, wird mit der Fenstergröße $window\_length$ festgelegt.
 
-                In der Trainingsphase gibt es zwei verschiedene Ansätze, zum einen Das \textit{Continuous Bag-Of-Words},
+                In der Trainingsphase gibt es zwei verschiedene Ansätze, zum einen das \textit{Continuous Bag-Of-Words},
                 dabei wird versucht eine Vorhersage über ein Wort anhand des Kontextes zu machen.
                 Hingegen wird unter Verwendung von \textit{Skip-gram}, eine Vorhersage des Kontextes aufgrund des Wortes vorgenommen.~\cite{EMBEDDINGPILEHVAR2020}
 
@@ -96,26 +96,28 @@
             \paragraph{System Call Argumente}  
                 
                 Um die Unterscheidung von Normalverhalten und einer Anomalie zu erleichtern, müssen vor allem Faktoren betrachtet werden, die sensibel auf eine Veränderung des Normalverhaltens reagieren.
-                Gleichzeitig soll dabei aber nicht einzelne Angriffe genutzt werden um diese Faktoren zu ermitteln, da sonst die Gefahr besteht in die Richtung der signaturbasierten IDS zu gelangen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hätte.
+                Gleichzeitig sollen dabei aber nicht einzelne Angriffe genutzt werden um diese Faktoren zu ermitteln.
+                Da die Gefahr besteht Signaturen einzelner Angriffe abbilden zu wollen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hätte.
                 Ziel dieses Abschnittes soll es sein eine grobe Einschätzung zu bekommen welche Argumente einen großen Informationsgehalt zur Beschreibung des Systemverhaltens bieten.
+                3 Ideen:
 
-                und speziell von welchen System Calls diese Argumente kommen.spannend
-                Auch wenn ein allgemeiner Ansatz zur Kodierung wichtiger 
-                most frequent calls
-                Sql: vfrom, fcntl, lstat, nmap, poll
-                php: vfrom, fcntl, lstat, nmap, poll
-                bru: writev,read,  close, nmap, poll
-                eps: open,  read,  fstat, mmap, brk
-                zip: futex, write, getpid,protect,open
-                2019: statat,write, futex, stat, getpid
-                2014: writev,read,  nmap,  close,poll
-                2017: lwait,close,ollctl,write,writev
-                2018: statat,write, futex, getpid, stat
+                %und speziell von welchen System Calls diese Argumente kommen.spannend
+                %Auch wenn ein allgemeiner Ansatz zur Kodierung wichtiger 
+                %most frequent calls
+                %Sql: vfrom, fcntl, lstat, nmap, poll
+                %php: vfrom, fcntl, lstat, nmap, poll
+                %bru: writev,read,  close, nmap, poll
+                %eps: open,  read,  fstat, mmap, brk
+                %zip: futex, write, getpid,protect,open
+                %2019: statat,write, futex, stat, getpid
+                %2014: writev,read,  nmap,  close,poll
+                %2017: lwait,close,ollctl,write,writev
+                %2018: statat,write, futex, getpid, stat
 
 
-                unique:
-                    vfrom, fcntl, lstat, nmap, poll, writev, read, close, open, fstat, mmap, brk
-                    futex, write, getpid, protect, statat, stat, lwait, ollctl
+                %unique:
+                    %vfrom, fcntl, lstat, nmap, poll, writev, read, close, open, fstat, mmap, brk
+                    %futex, write, getpid, protect, statat, stat, lwait, ollctl
 
             %\begin{table}[ht]
                 %\small
@@ -146,101 +148,220 @@
             interesting arguments:
             
             \paragraph{Thread Awareness}
-                \textit{Thread aware ngrams}
-                    syscalls welche nicht in trainingsdaten bekommen eine 0
-                    ngramme thread aware bilden unbrauchbar bei ngram länge von 1
-                \textit{Thread change flag}
-                    oder thread change flag
+                Wie in \autoref{sec:syscalldarstellung} beschrieben
+                Thread information erweitern
+                    Grimmer ngramme thread aware sinnvoll bei multithread anwendungen 
+                    bei ihren verwendeted algorithmen ausreichend
+                    für LSTM kontext wichtig, deshalb angeben ob aktueller thread aus selben Kontext wie der vorige kommt
 
             \paragraph{Zeitliche Abstände von System Calls}
                 Berechne größten Abstand zwischen zwei aufeinanderfolgende System Calls in den Trainingsdaten.
                 Normiere folgende System Call Abstände mit diesem Maximum.
+                Zeitdifferenz zwischen system calls
+                    bruteforce angriffe evtl auffällig
+                    differenz kann durch scheduler beeinflusst werden -> ungewollt
 
             \paragraph{Return Werte}
-                Anzahl unique return Werte, nur numerische Werte betrachtet, 
-                res=-11(<f>/path/to/some/file) wird als -11 interpretiert
-                Bruteforce: 17192 2851 int, 14333 hex, 8 else
-                2012:       1897 193 int, 1698 hex, 6
-                2014:       16736 2706, 14022, 8
-                2017:       381 26, 354, 1 
-                2018:       110 106, 0, 4 
-                2019:       125 119 int werte und 6 else
-                SQL
-                EPS
-                PHP
-                Zipslip
 
-                Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
-                Mögliche Bedeutungen bei else:
-                    Meist Fehlermeldungen!!!
-                    stat:
-                        file status, 
-                        sollte 0 bei success und -1 bei error, gefunden auch -2 
-                    ioctl:
-                        manipulate underlying device, 
-                        normalerweise 0 bei success manchmal negative werte
-                        -1 bei error
-                        manchmal return als ausgabe parameter
-                    Kategorische Betrachtung sinnvoll
-                HEX:\@
-                    mmap:
-                        map or unmap files into memory
-                        return pointer to mapped area
-                    brk:
-                        change data segment size
-                        return 0 on success -1 on error
-                        got hex value
+                Return Information
+                    Anwendung kann viele Anfragen stellen, wie der Kernel darauf reagiert aber entscheident
+                    Deswegen Reaktion in Form von return values embedden
+                    gelesene und geschriebene bytes potentielle aussagekraft
 
-                Systemcalls welche Rückgabewerte haben:
-                    %Bruteforce: {'select': 11012, 
-                                 %'poll': 64443,
-                                 %'close': 80535,
+                %Anzahl unique return Werte, nur numerische Werte betrachtet, 
+                %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
+                %Bruteforce: 17192 2851 int, 14333 hex, 8 else
+                %2012:       1897 193 int, 1698 hex, 6
+                %2014:       16736 2706, 14022, 8
+                %2017:       381 26, 354, 1 
+                %2018:       110 106, 0, 4 
+                %2019:       125 119 int werte und 6 else
+                %SQL
+                %EPS
+                %PHP
+                %Zipslip
+%
+                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
+                %Mögliche Bedeutungen bei else:
+                    %Meist Fehlermeldungen!!!
+                    %stat:
+                        %file status, 
+                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
+                    %ioctl:
+                        %manipulate underlying device, 
+                        %normalerweise 0 bei success manchmal negative werte
+                        %-1 bei error
+                        %manchmal return als ausgabe parameter
+                    %Kategorische Betrachtung sinnvoll
+                %HEX:\@
+                    %mmap:
+                        %map or unmap files into memory
+                        %return pointer to mapped area
+                    %brk:
+                        %change data segment size
+                        %return 0 on success -1 on error
+                        %got hex value
+
+                %Systemcalls welche Rückgabewerte haben:
+                    %Bruteforce: {
+                                 %'writev': 126627,
                                  %'read': 92587,
-                                 %'epoll_wait': 13746,
-                                 %'semop': 27435,
+                                 %'munmap': 90757,
+                                 %'close': 80535,
+                                 %'poll': 64443,
                                  %'mmap': 45437,
+                                 %'write': 39703,
                                  %'fcntl': 35722,
-            %'brk': 30372, 'writev': 126627, 'stat': 28356, 'fstat': 12950, 'getcwd': 4616, 'lstat': 8060, 'write': 39703, 'chdir': 4616, 'munmap': 90757, 'rename': 2308, 'shutdown': 11127, 'connect': 4106, 'getdents': 40, 'clone': 1409, 'setgid': 705, 'lseek': 1410, 'setuid': 705}
-                    %2012: {'futex': 149729, 'select': 7846, 'poll': 1262, 'fcntl': 147382, 'setsockopt': 148874, 'mmap': 1723, 'clone': 2523, 'munmap': 464, 'write': 71308, 'read': 209140, 'access': 3337, 'pwrite': 25132, 'stat': 960, 'shutdown': 959, 'close': 959}
-                    %2014: {'poll': 62797, 'writev': 122406, 'shutdown': 11112, 'select': 11094, 'read': 90368, 'close': 79167, 'epoll_wait': 13629, 'semop': 27166, 'mmap': 44653, 'fcntl': 35692, 'brk': 28193, 'stat': 26827, 'munmap': 90471, 'write': 38219, 'connect': 4231, 'fstat': 12290, 'getcwd': 4324, 'lstat': 7826, 'chdir': 4324, 'rename': 2162, 'clone': 1480, 'setgid': 740, 'lseek': 1480, 'setuid': 740, 'getdents': 34} 
-                    %2017: {'epoll_wait': 53355, 'recvfrom': 26108, 'fstat': 26385, 'pread': 26109, 'writev': 26110, 'sendfile': 26110, 'write': 26109, 'close': 52823, 'getdents': 552, 'stat': 276, 'brk': 368, 'futex': 92, 'sendmsg': 166, 'recvmsg': 330} 
-                    %2018: {'select': 56420, 'fcntl': 27396, 'fstat': 82226, 'futex': 262846, 'recvfrom': 27403, 'getsockopt': 27405, 'stat': 252081, 'write': 576100, 'ioctl': 54824, 'lseek': 54824, 'read': 119433, 'close': 82304, 'setsockopt': 54836, 'poll': 4654, 'lstat': 3, 'pread': 3} 
-                    %2019: {'select': 75772, 'fcntl': 27245, 'fstat': 81543, 'futex': 359158, 'recvfrom': 27145, 'getsockopt': 27129, 'stat': 307293, 'write': 542742, 'ioctl': 54282, 'lseek': 54250, 'read': 136356, 'close': 81599, 'setsockopt': 54269, 'poll': 9050, 'lstat': 245, 'pread': 21, 'unlink': 21, 'rename': 32, 'getdents': 32}
+                                 %'brk': 30372,
+                                 %'stat': 28356,
+                                 %'semop': 27435,
+                                 %'epoll_wait': 13746,
+                                 %'fstat': 12950,
+                                 %'shutdown': 11127,
+                                 %'select': 11012, 
+                                 %'lstat': 8060,
+                                 %'getcwd': 4616,
+                                 %'chdir': 4616,
+                                 %'rename': 2308,
+                                 %'connect': 4106,
+                                 %'lseek': 1410                           ,
+                                 %'clone': 1409,
+                                 %'setgid': 705,
+                                 %'setuid': 705}
+                                 %'getdents': 40,
 
-                ohe und w2v
-                word embedding parameterwahl wichtig $sqrt(distinct)$
-                Threadid kodieren: 
-                \begin{itemize}
-                    \item use entity embedding for ThreadID~\cite{GUO2016} 
-                    \item relationship between threads and reduce size (possible 1000 different threads)
-                    \item choose size of embedding -thumbrule $sqrt(unique value)$
-                \end{itemize}
-                zeit kodieren
-                \begin{itemize}
-                    \item use time delta of two different syscalls as new input
-                \end{itemize}
-                parameterlänge kodieren
-                \begin{itemize}
-                    \item syscall to int: Wandle Syscall name in Integer um
+                    %2012: {
+                            % 'read': 209140,
+                            % 'futex': 149729,
+                            % 'setsockopt': 148874,
+                            % 'fcntl': 147382,
+                            % 'write': 71308,
+                            % 'pwrite': 25132,
+                            % 'select': 7846,
+                            % 'access': 3337,
+                            % 'clone': 2523,
+                            % 'mmap': 1723,
+                            % 'poll': 1262,
+                            % 'stat': 960,
+                            % 'shutdown': 959,
+                            % 'close': 959}
+                            % 'munmap': 464,
 
-                     ohe of sysint: use ohe for every syscall 
-                     n * (distinct calls + 1) eingabeneuronen 
+                    %2014: {
+                            % 'writev': 122406,
+                            % 'munmap': 90471,
+                            % 'read': 90368,
+                            % 'close': 79167,
+                            % 'poll': 62797,
+                            % 'mmap': 44653,
+                            % 'write': 38219,
+                            % 'fcntl': 35692,
+                            % 'brk': 28193,
+                            % 'semop': 27166,
+                            % 'stat': 26827,
+                            % 'epoll_wait': 13629,
+                            % 'fstat': 12290,
+                            % 'shutdown': 11112,
+                            % 'select': 11094,
+                            % 'lstat': 7826,
+                            % 'getcwd': 4324,
+                            % 'chdir': 4324,
+                            % 'connect': 4231,
+                            % 'rename': 2162,
+                            % 'clone': 1480,
+                            % 'lseek': 1480,
+                            % 'setgid': 740,
+                            % 'setuid': 740,
+                            % 'getdents': 34} 
 
-                     w2v von syscall
-                     weniger neuronen und nähe von syscall!!!
-                    \item ngram bilden: Bilde entsprechend angegebenes n ngramm
-                \end{itemize}
-                overhead berechnung embedding, muss allerdings nur einmal berechnet werden
-                zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
-                embedding größer -> langsamer
-                vergleich ngram
-                im schnitt mit ngram gr 2 84\% von ngr 3 und 
-                w2v bringt entscheidenden Vorteil gegenüber ohe:
-                Jeweils vergleich der selben parameter außer w2v vs ohe:
-                Single small w2v nur 30\% der zeit gegenüber single small ohe
-                bei mulit w2v sogar nur 13\%
-                im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+                    %2017: {'epoll_wait': 53355,
+                            % 'close': 52823,
+                            % 'fstat': 26385,
+                            % 'writev': 26110,
+                            % 'sendfile': 26110,
+                            % 'pread': 26109,
+                            % 'write': 26109,
+                            % 'recvfrom': 26108,
+                            % 'getdents': 552,
+                            % 'brk': 368,
+                            % 'recvmsg': 330} 
+                            % 'stat': 276,
+                            % 'sendmsg': 166,
+                            % 'futex': 92,
 
+                    %2018: {
+                            % 'write': 576100,
+                            % 'futex': 262846,
+                            % 'stat': 252081,
+                            % 'read': 119433,
+                            % 'close': 82304,
+                            % 'fstat': 82226,
+                            % 'select': 56420,
+                            % 'setsockopt': 54836,
+                            % 'ioctl': 54824,
+                            % 'lseek': 54824,
+                            % 'getsockopt': 27405,
+                            % 'recvfrom': 27403,
+                            % 'fcntl': 27396,
+                            % 'poll': 4654,
+                            % 'lstat': 3,
+                            % 'pread': 3} 
+
+                    %2019: {
+                            % 'write': 542742,
+                            % 'futex': 359158,
+                            % 'stat': 307293,
+                            % 'read': 136356,
+                            % 'fstat': 81543,
+                            % 'close': 81599,
+                            % 'select': 75772,
+                            % 'ioctl': 54282,
+                            % 'setsockopt': 54269,
+                            % 'lseek': 54250,
+                            % 'fcntl': 27245,
+                            % 'recvfrom': 27145,
+                            % 'getsockopt': 27129,
+                            % 'poll': 9050,
+                            % 'lstat': 245,
+                            % 'rename': 32,
+                            % 'getdents': 32}
+                            % 'unlink': 21,
+                            % 'pread': 21,
+
+                %ohe und w2v
+                %word embedding parameterwahl wichtig $sqrt(distinct)$
+                %Threadid kodieren: 
+                %\begin{itemize}
+                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
+                    %\item relationship between threads and reduce size (possible 1000 different threads)
+                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
+                %\end{itemize}
+                %zeit kodieren
+                %\begin{itemize}
+                    %\item use time delta of two different syscalls as new input
+                %\end{itemize}
+                %parameterlänge kodieren
+                %\begin{itemize}
+                    %\item syscall to int: Wandle Syscall name in Integer um
+%
+                     %ohe of sysint: use ohe for every syscall 
+                     %n * (distinct calls + 1) eingabeneuronen 
+
+                     %w2v von syscall
+                     %weniger neuronen und nähe von syscall!!!
+                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                %\end{itemize}
+                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                %embedding größer -> langsamer
+                %vergleich ngram
+                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                %w2v bringt entscheidenden Vorteil gegenüber ohe:
+                %Jeweils vergleich der selben parameter außer w2v vs ohe:
+                %Single small w2v nur 30\% der zeit gegenüber single small ohe
+                %bei mulit w2v sogar nur 13\%
+                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+%
         \subsection{Wie wird ein Datenstream dargestellt?}\label{sec:streamdarstellung}
             Erstellung von ngrammen bekannte Vorgehensweise.
             Aufteilen von Datenstream unbekannter Länge in feste Größe.
@@ -444,4 +565,4 @@
     weswegen filegenau geschaut wird
     vorteil des Datensatzes gegenüber anderen, immerhin exploitstart time
 
-    alarm in quadrant ---> image
+    ilarm in quadrant ---> image

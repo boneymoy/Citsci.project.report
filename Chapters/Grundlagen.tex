@@ -250,7 +250,7 @@
             kamen über die Jahre verschiedene weitere Datensätze hinzu.
             Auf diese wird in den kommenden Abschnitten kurz eingegangen.
             Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
-            \subsubsection{DARPA}
+            \paragraph{DARPA}
                 Der unter anderen von der \textit{Defence Advanced Research Project Agency}, kurz DARPA, erstellte Datensatz KDD-99~\cite{DARPA} lieferte einen der ersten Benchmark Datensätze für \ac{HIDS}.
                 Er simuliert ein militärisches Netzwerk bestehend aus drei Systemen mit unterschiedlichen Betriebssystemen und Services.
                 Diese Systeme erzeugen mit wechselnden IP-Adressen Traffic, welcher insgesamt fünf Wochen über TCP-Dump aufgezeichnet wurde.
@@ -262,21 +262,21 @@
                 So haben Tavallaee et al.\ alle mehrfach vorkommenden Aufnahmen entfernt und damit 78.05\% der Trainingsdaten und 17.15\% der Testdaten entfernt.
                 Gerade bei selbstlernenden Systeme kann dadurch ein ungewollter Bias entstehen.
                 Des Weiteren ist der Datensatz mittlerweile stark veraltet (1999/1998).
-            \subsubsection{UNM}
+            \paragraph{UNM}
                 Der \textit{University of New Mexico} Datensatz stammt aus dem Jahr 2004 und beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
                 Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  Overflows} ausgeführt.
                 Auch dieser Datensatz~\cite{UNM} ist mittlerweile veraltet und kommt für eine weitere Betrachtung nicht in Frage,
                 da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
-            \subsubsection{ADFA-LD}
+            \paragraph{ADFA-LD}
                 Der \ac{ADFA-LD} wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
                 Dieser wurde auf einem Linuxsystem aufgezeichnet, dessen Schwachstellen von verschiedenen \textit{Penetration Testing} Tools ausgenutzt werden.
                 Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein Bearbeiten erschwert~\cite{ADFA-LDcritic}.
                 Hinzu kommt, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten im Datensatz enthalten sind.
-            \subsubsection{NGIDS-DS}
+            \paragraph{NGIDS-DS}
                 Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
                 Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
                 Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
-            \subsubsection{LID-DS}
+            \paragraph{LID-DS}
                 2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
                 Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \ac{IDS} zu verwenden.
                 Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien auf welchen jeweils ein Angriff ausgeführt wird.
@@ -343,10 +343,11 @@
                 \begin{table}[ht]
                     \small
                     \centering
-                    \begin{tabular}{l || g | l}
+                    \begin{tabular}{l | g | l}
                         \rowcolor{GruvGray!36}
                         \hline
                         \multicolumn{3}{c}{runs.csv}\\
+                        \hline
                         \hline
                         \rowcolor{White}
                         Eintrag & Beispieldatei 1 & Beispieldatei 2 \\
@@ -361,12 +362,12 @@
                     \caption{Ausschnitt aus der runs.csv des LID-DS, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
                     \label{tab:runsfile}
                 \end{table}
-                \paragraph{Problem des Datensatzes}
+                \paragraph{Problem des LID-DS}
 
                     In den Testdaten mit enthaltenen Angriffen wird ein Angriffszeitpunkt angegeben.
                     Jedoch gibt es bei einer Datei mit Angriff im Gegensatz zu den normalen Dateien vier statt zwei mögliche Zuordnungen.
-                    In den normalen sind das zum einen \textit{True Negatives}, falls kein Alarm vorliegt, da in den normalen Dateien keine Angriffe stattfinden.
-                    Oder falls fälschlicherweise ein Angriff erkannt wird, die Zuordnung als \textit{False Positive}.
+                    In den normalen sind das zum einen \ac{TN}, falls kein Alarm vorliegt, da in den normalen Dateien keine Angriffe stattfinden.
+                    Oder falls fälschlicherweise ein Angriff erkannt wird, die Zuordnung als \ac{FP}.
                     Die Zuordnungen der Dateien mit Angriff werden in~\autoref{fig:quadrant} dargestellt.
             
                     \begin{figure}[ht]
@@ -377,17 +378,17 @@
                         \label{fig:quadrant}
                     \end{figure}
 
-                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ unter dem Schwellwert, also im Quadrant 3 der Abbildung, kann von einem \textit{True Negative} ausgegangen werden.
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ unter dem Schwellwert, also im Quadrant 3 der Abbildung, kann von einem \ac{TN} ausgegangen werden.
                     Also es wurde korrekterweise kein Alarm vorhergesagt.
-                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ über dem Schwellwert, also im Quadrant 2, liegt ein \textit{False Positive} vor.
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ über dem Schwellwert, also im Quadrant 2, liegt ein \ap{FP} vor.
                     Es wurde ein Alarm gemeldet an einer Stelle an dem (noch) kein Angriff stattfand.
                     Nach dem angegebenen Angriffszeitpunkt $t_{Angriff}$ wird es allerdings schwieriger.
-                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
+                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem \ac{TP}, also einem korrektem Alarm ausgegangen.
                     Jedoch könnte der Angriff zu diesem Zeitpunkt schon vorbei sein.
-                    Also könnte ein Alarm nach $t_{Angriff}$ theoretisch auch ein \textit{False Positive} sein. 
-                    Genauso könnte umgekehrt ein Anomaliescore unter dem Schwellwert, also im Quadranten 4 korrekt sein obwohl er als \textit{False Negative} gewertet werden müsste.
+                    Also könnte ein Alarm nach $t_{Angriff}$ theoretisch auch ein \ac{FP} sein. 
+                    Genauso könnte umgekehrt ein Anomaliescore unter dem Schwellwert, also im Quadranten 4 korrekt sein obwohl er als \ac{FN} gewertet werden müsste.
                     Diese Problematik wird auch von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} aufgegriffen und muss in der Auswertung beachtet werden. 
-                    In~\autoref{sec:metrik} wird eine Lösungsmöglichkeit betrachtet.
+                    In~\autoref{sec:Metriken} wird eine Lösungsmöglichkeit für die Problemstellung betrachtet.
 
                 \begin{table}[ht]
                     \scriptsize

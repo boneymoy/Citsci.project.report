@@ -100,9 +100,11 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         \textit{Token Finder}: Es soll ermittelt werden ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
         Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
         Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
-        Falls die Anzahl der möglichen Werte nicht proportional mit den Argumenten wächst, werden diese Werte in die Normaldatenbank aufgenommen.
-        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt oder nicht.
-        Um diese Modelle für System Call Argumente einfach nutzbar zu machen wurde von Kruegel et al.\ das LibAnomlay Framework implementiert.~\cite{ARGUMENTS}
+        Falls dies nicht der Fall ist werden diese Werte in die Normaldatenbank aufgenommen.
+        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt und dann eine 1 zurückgegeben und falls nicht eine 0.
+        Folgt das Argument einer Zufallsverteilung wird immer 1 zurückgegeben.
+        Für die erwähnten Modelle der System Call Argumente wurde von Kruegel et al.\ ein LibAnomlay Framework entworfen um die Nutzbarkeit auch für andere Arbeiten zu ermöglichen.~\cite{ARGUMENTS}
+        Leider scheint das Framework aktuell nicht mehr nutzbar zu sein, da es online nicht mehr abrufbar ist.
 
         Auch in~\cite{ARGUMENTS2} kommen diese Modelle der Argumente zum Einsatz.
         
@@ -110,14 +112,14 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
 
         Doch bei allen zuvor erwähnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
         Koucham et al.\ wollen nun im Gegensatz dazu sowohl die Sequenz als auch die Argumente beachten.
-        Dafür clustern sie die Argumente jedes System Calls, jeweils für einen Prozess.
-        So wird der System Call in der Tesetphase dem nächsten Cluster zugeordnet und dieses dient dann als Eingabe.
+        Dafür clustern sie die Argumente jedes System Calls für jeden einzelnen Prozess.
+        So wird der System Call in der Testphase dem nächsten Cluster zugeordnet und dieses dient dann als Eingabe.
         Für das Clustern fließen in dieser Arbeit verschiedene Argumente und Kontextinformationen ein.
         Zu den Argumenten gehören zum Beispiel Pfadnamen, Benutzerkennung, die Menge der möglichen Werte, wozu unter anderem Flags zählen.
         Kontextinformationen beinhalten Rückgabewerte, Dateirechte oder auch Dateimodi.~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
-        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informtionen nicht direkt einbinden, sondern die Thread ID verwenden um die Streamverarbeitung zu anzupassen.
-        Der Ausgangspunkt ihrer Überlegungen liegt darin, dass moderne Prozesse Mulit-Threaded sind.
+        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt einbinden, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
+        Der Ausgangspunkt ihrer Überlegungen liegt darin, dass moderne Prozesse Multi-Threaded sind.
         Das heißt die Sequenz der System Calls beschreibt die Aktionen mehrere Threads gleichzeitig.
         Um diese Vermischung der Threads zu verhindern bilden sie n-gramme, welche nur aus System Calls desselben Threads stammen.
         So konnten sie in den meisten Fällen eine Verringerung der Fehlalarme und eine Erhöhung der Erkennungsrate erreichen.\cite{IDSTHREADGRIMMER2021}
@@ -146,27 +148,29 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Speziell in den letzten Jahren wurden diverse weitere Ansätze vorgestellt, in welchen ein \ac{HIDS} mit Hilfe von Verfahren aus der \ac{NLP} designt wurden.
         Einen Überblick der verschiedenen Transfers wurde in der Arbeit von Sworna et al.~\cite{NLPHIDSSWORNA2022} bereitgestellt.
         Besonders hervorzuheben ist dabei unter anderem die Studie von Wunderlich et al.~\cite{W2VWUNDERLICH2019} in welcher sie Sequenzen von System Calls als Text betrachten und verschiedene aus der \ac{NLP} bekannte Verfahren in der Domäne der \ac{HIDS} auswerten.
-        Dazu gehören One-Hot-Encoding, Word2Vev sowie GloVe und fastText. 
+        Dazu gehören One-Hot-Encoding, \ac{W2V} sowie GloVe und fastText. 
         Zusätzlich untersuchen sie wie sich die Darstellung der System Calls als Kernelmodule, ähnlich zu~\cite{SYSTEM_STATES}, als Sequenz der Namen oder die Kombination beider auf die Ergebnisqualität auswirkt.
-        In der Auswertung bevorzugen sie das One-Hot-Encoding, wobei in dieser Arbeit nur geringfügig auf die Vorteile der Dimensionsreduktion durch das Word2Vec-Verfahren eingegangen wird.
+        In der Auswertung bevorzugen sie das One-Hot-Encoding, wobei in dieser Arbeit nur geringfügig auf die Vorteile der Dimensionsreduktion durch das \ac{W2V}-Verfahren eingegangen wird.
 
-        Auch die in der Textverarbeitung verwendeten \ac{LSTM} Netzwerke finden Anwendung in der \ac{HIDS}.
-        Dazu gehören~\cite{LSTMsys, LSTMPARK2021, LSTMSURATKAR2019, NIU2020, BIDIRECTIONALLSTMCHAWLA2019, VARIATIONALLSTMBOUZAR2019}.
+        Ein in der \ac{NLP} verbreitetes Konzept sind die \ac{LSTM} Netzwerke~\cite{LSTMNLP2016,LSTMREVIEWYU2019}.
+        Diese Netzwerke finden ihre Anwendung auch in der \ac{HIDS}, dazu gehören zum Beispiel~\cite{LSTMsys, LSTMPARK2021, LSTMSURATKAR2019, NIU2020, BIDIRECTIONALLSTMCHAWLA2019, VARIATIONALLSTMBOUZAR2019}.
         Doch die meisten Arbeiten verwenden entweder sehr alte oder anderweitig kritisch zu betrachtende Datensätze, wie in~\autoref{sec:Datensatz} beschrieben.
         Leider haben sie damit eine geringere Aussagekraft für aktuelle Systeme als es mit aktuelleren Datensätzen der Fall wäre.
         So zum Beispiel Kim et al.~\cite{LSTMsys}, sie beschreiben wie sie Sprachmodelle der System Calls mithilfe von \ac{LSTM} Netzwerken erstellen.
         Mit diesen Modellen wollen sie dann für eine Sequenz von System Calls eine Vorhersage treffen und die Ergebnisse der verschiedenen Modelle kombiniert ergeben dann einen Anomaliescore.
         Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit in dem Ansatz mehrere Sprachmodelle gleichzeitig aufzubauen und dass keine zusätzlichen Informationen der System Calls verwendet werden.
 
-        Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück welche in diesem Kontext nur wenig Aussagekraft besitzen, wie in~\autoref{sec:Metriken} beschrieben.
-        Des Weiteren werden hier ebenso keine zusätzlichen Argumente wie zum Beispiel den Rückgabewert betrachtet~\cite{LSTMPARK2021}
+        Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück welche in diesem Kontext nur wenig Aussagekraft besitzen, wie in~\autoref{sec:Metriken} beschrieben wird.
+        Des Weiteren werden hier ebenso keine zusätzlichen Argumente wie zum Beispiel den Rückgabewert betrachtet.~\cite{LSTMPARK2021}
 
         2017 überwachen Dymshits et al.\ mit ihrer LSTM-Herangehensweise mehrere Hosts gleichzeitig.
-        Sie erstellen aber aufgrund der großen Datenmengen normalisierte \textit{Bag of System Call}-Vektoren für ein fest definiertes Zeitfenster.~\cite{LSTMDYMSHITS2017}
+        Sie erstellen aber aufgrund der großen Datenmengen normalisierte \textit{Bag of System Call}-Vektoren.
+        Zusätzlich legen sie ein fest definiertes Zeitfenster fest für welche diese Bündelungen vorgenommen werden.~\cite{LSTMDYMSHITS2017}
 
-        Es scheint also ein mittlerweile in der \ac{HIDS} weit verbreitet zu sein einen Transfer von \ac{NLP} Verfahren vorzunehmen.
-        Diese Arbeit will speziell diverse bekannte Ansätze sinnvoll verbinden.
-        Zusätzlich soll durch das Entwickeln neuer Arten die Argumente der System Calls zu verwenden einen Fortschritt in \ac{FP}-Rate und \ac{DR}-Rate erzielen.
+        Es scheint also ein mittlerweile in der \ac{HIDS} weit verbreitet zu sein, einen Transfer von \ac{NLP}-Verfahren vorzunehmen.
+        Dies gilt für Vorverarbeitungsschritte wie das \ac{W2V}-Verfahren sowie 
+        Diese Arbeit will speziell bekannte Ansätze sinnvoll verbinden.
+        Zusätzlich soll durch das Entwickeln neuer Verfahren die Argumente der System Calls zu verwenden einen Fortschritt in \ac{FP}-Rate und \ac{DR}-Rate erzielen.
 
 
 
