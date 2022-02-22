@@ -18,7 +18,7 @@
         In den folgenden beiden Abschnitten werden verschiedene Ansätze dieser beiden Schritte, also Datenanalyse und Datenerfassung, genauer untersucht.
 
         \subsection{Datenanalyse}\label{sec:Datenanalyse}
-        Das Erkennen von Angriffen auf Computersystemen mittels \ac{IDS} wird im wesentlichen in zwei Kategorien eingeteilt.~\cite{IDSreview, IDSsurvey, IDSsurvey2}.
+            Das Erkennen von Angriffen auf Computersystemen mittels \ac{IDS} wird im wesentlichen in zwei Kategorien eingeteilt.~\cite{IDSreview, IDSsurvey, IDSsurvey2}.
             Dazu zählen die signaturbasierten und anomaliebasierten Verfahren auf die im Folgenden eingegangen wird.
 
             \paragraph{Signaturbasiert} 
@@ -155,7 +155,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.7\textwidth]{images/Illustrationen/IDS/IDSOverview}
-                    \caption{Einordnung des verwendeten IDS (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
+                    \caption{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
                 \end{figure}
                 Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
                 in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
@@ -186,19 +186,19 @@
             \centering
             \begin{tabular}{cp{4cm}p{2cm}p{3cm}}
                 \hline
-                \rowcolor{Gray!36}
+                \rowcolor{GruvGray!36}
                 \multicolumn{4}{c}{System Calls}\\
                 \hline
                 Name & Beschreibung & Argumente & Rückgabewerte\\
                 \hline
                 \hline
-                \rowcolor{Gray!16}
+                \rowcolor{GruvGray!16}
                 %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
                 open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} & File descriptor oder Fehlerwert\\
                 write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} & Geschriebene Bytes oder Fehlerwert\\
                 \hline
             \end{tabular}
-            \caption{Beschreibung ausgewählter System Calls}
+            \caption{Kurzbeschreibung ausgewählter System Calls}
             \label{tab:syscall}
         \end{table}
 
@@ -209,21 +209,21 @@
         Die System Calls stellen dabei die Kommunikation zwischen dem Kernel und den darauf laufenden Programmen dar.
         Zu den Services gehören verschiedene Bereiche der Prozesskontrolle, das Datei- und Geräte-Management, Informationspflege und Kommunikationsaufbau und zugehörige Aufgaben.
         Geschrieben werden diese Funktionalitäten in C, C++ oder auch in Assembly.
-        Üblicherweise können System Calls nur von Nutzerprozessen, also aus dem \textit{User space}, aufgerufen werden, diese besitzen eine eingeschränkte Berechtigungen.
-        In~\autoref{fig:syscallAblauf} wird der Ablauf in welchem ein Programm aus dem \textit{User space} über einen System Call eine privilegierte Aktion ausführen lassen kann dargestellt.
+        Üblicherweise können System Calls nur von Nutzerprozessen, also aus dem \textit{User space}\marginpar{zu dt. Benutzer-Modus/Benutzerprozesse}, aufgerufen werden, diese besitzen eine eingeschränkte Berechtigungen.
+        In~\autoref{fig:syscallAblauf} wird der Ablauf in welchem ein Programm aus dem User space über einen System Call eine privilegierte Aktion ausführen lassen kann dargestellt.
         Dies ermöglicht es Nutzerprozessen auf eine limitierte Auswahl an privilegierten Funktionen aus dem Kernel zugreifen zu können.~\cite{SYSCALL_SILBERSCHATZ}
     
         \begin{figure}[ht]
             \centering
             \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/syscalls}
-            \caption{System Call Ablauf}
+            \caption{Darstellung der Kommunikation zwischen Applikationen aus dem User space mit dem System Kernel und dem Kernel mit Dateien/Netzwerk/Hardware/\dots}
             \label{fig:syscallAblauf}
         \end{figure}
 
         Wie in~\autoref{fig:syscallAblauf} ebenfalls angedeutet, besteht ein System Call aus einem Aufruf an das Betriebssystem und der Antwort des Betriebssystems.
         In \autoref{tab:syscall} beschrieben besitzen System Calls Argumente die beim Aufrufen mitgegeben werden können.        
         Das können neben bestimmten Flags, welche die Funktion der System Calls bestimmen, auch zum Beispiel Dateipfade oder IP-Adressen sein.~\cite{SYSCALL_MANPAGE}
-        Die Betriebssystemantwort auf einen System Calls haben zusätzlich in den Argumenten einen Rückgabewert~\marginpar{Gekennzeichnet mit \glqq $res$\grqq}.
+        Die Betriebssystemantworten auf einen System Calls haben zusätzlich in den Argumenten einen Rückgabewert~\marginpar{Gekennzeichnet mit \glqq $res$\grqq}.
         Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
         Zu einem System Call gehört also mehr als nur der Funktionsname.
 
@@ -233,7 +233,6 @@
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 
         \subsection{System Calls für IDS}
-            %TODO richtige Stelle für den Abschnitt finden
             Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}
             Häufig werden dabei aber nicht die in den Argumente der System Calls enthaltene Information mit einbezogen und bieten damit einen Spielraum für Angriffe.
             Verschiedene Arbeiten~\cite{Syscallseqexploit1, Syscallseqexploit2, Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
@@ -247,7 +246,7 @@
             In dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen und teilweise Argumente und weiter Metadaten enthalten, eingegangen.
 
         \subsection{Datensätze}\label{sec:Datensatz}
-            Seit 1998 einer der ersten System Call Datensätze für HIDS veröffentlicht wurde~\cite{DARPA, KDD},
+            Seit 1998 einer der ersten System Call Datensätze für \ac{HIDS} veröffentlicht wurde~\cite{DARPA, KDD},
             kamen über die Jahre verschiedene weitere Datensätze hinzu.
             Auf diese wird in den kommenden Abschnitten kurz eingegangen.
             Dabei soll auch auf die Nutzbarkeit und die entstehenden Problematiken dieser für die \ac{HIDS} über System Calls eingegangen werden.
@@ -279,7 +278,7 @@
                 Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
             \subsubsection{LID-DS}
                 2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
-                Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein IDS zu verwenden.
+                Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \ac{IDS} zu verwenden.
                 Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien auf welchen jeweils ein Angriff ausgeführt wird.
                 Jedes Szenario repräsentiert damit also eine bekannte Schwachstelle eines Systems.
                 In~\autoref{tab:scenarien} werden die verschiedenen Schwachstellen als \ac{CVE}
@@ -288,43 +287,43 @@
                 Bei den CWEs handelt es sich um eine von der Community gepflegte und von der MITRE Corporation veröffentlichte Auflistung verschiedener Typen von Schwachstellen in Soft- und Hardware.
                 Aufgezeichnet werden für jedes Szenario neben den Namen der System Calls auch deren Metadaten.
                 Dazu zählen unter anderem die Parameter, Rückgabewerte, Zeitstempel sowie User-, Prozess- und Thread-IDs.
-                {\color{red}Für die spätere Suche nach sinnvollen zusätzlichen Informationen eines System Calls lohnt es sich hier ein wenig detaillierter auf die in \autoref{tab:scenarien} beschriebenen Szenarien zu schauen.
-                Auffällig ist zunächst das Bruteforce-CWE-307 Szenario.
-                Dabei wird ein Bruteforce Angriff durchgeführt in welchem in kurzer Zeit diverse Anmeldeveruche stattfinden.
-                Hier unterscheiden sich die Abläufe der System Calls zwischen Normal- und Angriffsverhalten unter anderem durch die auftretende Frequenz.
-                Ein weiterer spannen
-                Return Values}
+                %{\color{red}Für die spätere Suche nach sinnvollen zusätzlichen Informationen eines System Calls lohnt es sich hier ein wenig detaillierter auf die in \autoref{tab:scenarien} beschriebenen Szenarien zu schauen.
+                %Auffällig ist zunächst das Bruteforce-CWE-307 Szenario.
+                %Dabei wird ein Bruteforce Angriff durchgeführt in welchem in kurzer Zeit diverse Anmeldeveruche stattfinden.
+                %Hier unterscheiden sich die Abläufe der System Calls zwischen Normal- und Angriffsverhalten unter anderem durch die auftretende Frequenz.
+                %Ein weiterer spannen
+                %Return Values}
                 \begin{table}[]
                     \scriptsize
                     \centering
                     \begin{tabular}{p{3cm}p{6.5cm}}
-                        \rowcolor{Gray!36}
+                        \rowcolor{GruvGray!36}
                         \hline
                         \multicolumn{2}{c}{Szenarien}\\
                         \hline
                         \thead{Name} & \thead{Beschreibung} \\
-                        \rowcolor{Gray!16}
+                        \rowcolor{GruvGray!16}
                         \hline
                         \hline
                         Bruteforce-CWE-307 & \makecell[l]{\textbf{Setup:} Simple Wordpress Web-Applikation \\ \textbf{Schwachstelle:} Ungeeignete Einschränkung von \\übermäßigen Authentifizierungsversuchen} \\
                         \hline
                         CVE-2012-2122 & \makecell[l]{\textbf{Setup:} Oracle MySQL Datenbank \\ \textbf{Schwachstelle:} Mehrfacher falscher Loginversuch \\führt zu erfolgreichem Login} \\
-                        \rowcolor{Gray!16}
+                        \rowcolor{GruvGray!16}
                         \hline
                         CVE-2014-0160 & \makecell[l]{\textbf{Setup:} Simple Web-Applikation \\ \textbf{Schwachstelle:} Fehler in OpenSSL Implementierung,\\ Heartbleed} \\
                         \hline
                         CVE-2017-7529 & \makecell[l]{\textbf{Setup:} Nginx Web-Applikation \\ \textbf{Schwachstelle:} Datenleck durch \textit{Integer Overflow} } \\
-                        \rowcolor{Gray!16}
+                        \rowcolor{GruvGray!16}
                         \hline
                         CVE-2018-3760 & \makecell[l]{\textbf{Setup:} Rails Web-Applikation \\ \textbf{Schwachstelle:} Informationsleck durch \textit{Sprockets}} \\ 
                         \hline
                         CVE-2019-5418 & \makecell[l]{\textbf{Setup:} Rails Web-Applikation \\ \textbf{Schwachstelle:} Schwachstelle in Applikations-\\Controller} \\
-                        \rowcolor{Gray!16}
+                        \rowcolor{GruvGray!16}
                         \hline
                         EPS\_CWE-434 & \makecell[l]{\textbf{Setup:} Upload Service\\ \textbf{Schwachstelle:} Keine Upload-Beschränkungen} \\
                         \hline
                         PHP\_CWE-434 & \makecell[l]{\textbf{Setup:} Web-Applikation \\ \textbf{Schwachstelle:} Keine Upload-Beschränkungen} \\
-                        \rowcolor{Gray!16}
+                        \rowcolor{GruvGray!16}
                         \hline
                         SQL Injection & \makecell[l]{\textbf{Setup:} Web-Applikation mit SQL-Datenbank \\ \textbf{Schwachstelle:} SQL-Injection} \\
                         \hline
@@ -342,23 +341,24 @@
                  
                 In~\autoref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in~\autoref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
                 \begin{table}[ht]
-                    \tiny
+                    \small
                     \centering
-                    \begin{tabular}{cccccc}
-                        \rowcolor{Gray!36}
+                    \begin{tabular}{l || g | l}
+                        \rowcolor{GruvGray!36}
                         \hline
-                        \multicolumn{6}{c}{runs.csv}\\
+                        \multicolumn{3}{c}{runs.csv}\\
                         \hline
-                        image\_name& scenario\_name& is\_executing\_exploit& warmup\_time& recording\_time& exploit\_start\_time \\
+                        \rowcolor{White}
+                        Eintrag & Beispieldatei 1 & Beispieldatei 2 \\
                         \hline
-                        \hline
-                        \rowcolor{Gray!16}
-                        actual\_name& file\_name\_0001& False& 10& 35& -1 \\
-                        \hline
-                        actual\_name& file\_name\_0002& True& 10& 40& 15 \\
-                        \hline
+                        image\_name& file\_1 & file\_2\\
+                        scenario\_name& scenario\_1 & scenario\_1 \\
+                        is\_executing\_exploit& False & True \\
+                        warmup\_time& 10 & 10 \\
+                        recording\_time& 53 & 40 \\
+                        exploit\_start\_time &-1 & 15\\
                     \end{tabular}
-                    \caption{Ausschnitt der runs.csv des LID-DS~\cite{LIDDS}}
+                    \caption{Ausschnitt aus der runs.csv des LID-DS, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
                     \label{tab:runsfile}
                 \end{table}
                 \paragraph{Problem des Datensatzes}
@@ -372,7 +372,8 @@
                     \begin{figure}[ht]
                         \centering
                         \includegraphics[width=0.8\textwidth]{images/q_problem.eps}
-                        \caption{Illustration des Quadrantenproblems (inspiriert von~\cite{IDSTHREADGRIMMER2021})}
+                        \caption{Illustration des Quadrantenproblems (inspiriert von~\cite{IDSTHREADGRIMMER2021}).
+                        Es beschreibt die Problematik, dass Alle System Calls nach $t_{Angriff}$ als bösartig eingestuft werden müssen, obwohl auch Normalverhalten stattfindet.}
                         \label{fig:quadrant}
                     \end{figure}
 
@@ -391,21 +392,22 @@
                 \begin{table}[ht]
                     \scriptsize
                     \centering
-                    \begin{tabular}{p{1.1cm}p{1.1cm}p{0.4cm}p{0.6cm}p{0.6cm}p{0.8cm}p{0.6cm}p{1.3cm}}
+                    \begin{tabular}{l || g | l | g}
                         \rowcolor{Gray!36}
                         \hline
-                        \multicolumn{8}{c}{System Call}\\
+                        \multicolumn{4}{c}{System Call}\\
                         \hline
-                        evt.\ number & evt.\ time & user uid & process name & thread id & evt.\ dir & evt.\ type & evt.\ args \\
+                        \rowcolor{White}
+                        Eintrag & System Call 1 & &System Call 2 \\
                         \hline
-                        \hline
-                        \rowcolor{Gray!16}
-                        26 & $11:09:47.592865922$ & 101 & nginx & 21822 & < & sendfile & $res=612$, $offset=1225$ \\
-                        \hline
-                        \dots & \dots & \dots & \dots & \dots & \dots & \dots & \dots \\
-                        \hline
-                        \rowcolor{Gray!16}
-                        4012 & $10:18:20.1231231231$ & 33 & apache2 & 1425 & > & writev & $fd=12(<4t>172.131.12.1:123\rightarrow172.13.231.2:123)$, $size=2392$ \\
+                        evtent number & 26 & & 4012 \\
+                        evtent time &$11:09:47.592865922$ & & $10:18:20.1231231231$ \\
+                        user uid & 101 & & 33 \\
+                        process name & nginx &\dots & apache2 \\
+                        thread id & 21822 & & 1425 \\
+                        evtent dir & < & & > \\
+                        evtent type & sendfile & & writev \\
+                        evtent args & $res=612$, $offset=1225$ & &\makecell{$fd=12(<4t>172.131.12.1:123 \\ \rightarrow172.13.231.2:123)$, $size=2392$} \\
                         \hline
                     \end{tabular}
                     \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
