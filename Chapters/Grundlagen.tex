@@ -339,7 +339,7 @@
                 Dabei sind mindestens in 100 Aufzeichnungen der Testdaten Angriffe enthalten, für welche der Angriffszeitpunkt gegeben ist.
                 Jede dieser Aufzeichnungen ist in einer Datei gespeichert, welche in einer $runs.csv$ beschrieben und zusammengefasst werden.
                  
-                In~\autoref{tab:runsfile} soll zunächst die beschreibende $runs.csv$ betrachtet werden und anschließend in~\autoref{tab:syscallfile} eine Beispieldatei einer Aufzeichnung.
+                In~\autoref{tab:runsfile} wird ein Ausschnitt aus der beschreibenen $runs.csv$ dargestellt und in~\autoref{tab:syscallfile} eine Beispieldatei einer tatsächliche Aufzeichnung von System Calls.
                 \begin{table}[ht]
                     \small
                     \centering
@@ -362,6 +362,30 @@
                     \caption{Ausschnitt aus der runs.csv des LID-DS, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
                     \label{tab:runsfile}
                 \end{table}
+                \begin{table}[ht]
+                    \scriptsize
+                    \centering
+                    \begin{tabular}{l || g | l | g}
+                        \rowcolor{GruvGray!36}
+                        \hline
+                        \multicolumn{4}{c}{System Call}\\
+                        \hline
+                        \rowcolor{White}
+                        Eintrag & System Call 1 & &System Call x \\
+                        \hline
+                        evtent number & 26 & & 4012 \\
+                        evtent time &$11:09:47.592865922$ & & $10:18:20.1231231231$ \\
+                        user uid & 101 & & 33 \\
+                        process name & nginx &\dots & apache2 \\
+                        thread id & 21822 & & 1425 \\
+                        evtent dir & < & & > \\
+                        evtent type & sendfile & & writev \\
+                        evtent args & $res=612$, $offset=1225$ & &\makecell{$fd=12(<4t>172.131.12.1:123 \\ \rightarrow172.13.231.2:123)$, $size=2392$} \\
+                        \hline
+                    \end{tabular}
+                    \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
+                    \label{tab:syscallfile}
+                \end{table}
                 \paragraph{Problem des LID-DS}
 
                     In den Testdaten mit enthaltenen Angriffen wird ein Angriffszeitpunkt angegeben.
@@ -380,7 +404,7 @@
 
                     Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ unter dem Schwellwert, also im Quadrant 3 der Abbildung, kann von einem \ac{TN} ausgegangen werden.
                     Also es wurde korrekterweise kein Alarm vorhergesagt.
-                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ über dem Schwellwert, also im Quadrant 2, liegt ein \ap{FP} vor.
+                    Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ über dem Schwellwert, also im Quadrant 2, liegt ein \ac{FP} vor.
                     Es wurde ein Alarm gemeldet an einer Stelle an dem (noch) kein Angriff stattfand.
                     Nach dem angegebenen Angriffszeitpunkt $t_{Angriff}$ wird es allerdings schwieriger.
                     Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem \ac{TP}, also einem korrektem Alarm ausgegangen.
@@ -390,30 +414,6 @@
                     Diese Problematik wird auch von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} aufgegriffen und muss in der Auswertung beachtet werden. 
                     In~\autoref{sec:Metriken} wird eine Lösungsmöglichkeit für die Problemstellung betrachtet.
 
-                \begin{table}[ht]
-                    \scriptsize
-                    \centering
-                    \begin{tabular}{l || g | l | g}
-                        \rowcolor{Gray!36}
-                        \hline
-                        \multicolumn{4}{c}{System Call}\\
-                        \hline
-                        \rowcolor{White}
-                        Eintrag & System Call 1 & &System Call 2 \\
-                        \hline
-                        evtent number & 26 & & 4012 \\
-                        evtent time &$11:09:47.592865922$ & & $10:18:20.1231231231$ \\
-                        user uid & 101 & & 33 \\
-                        process name & nginx &\dots & apache2 \\
-                        thread id & 21822 & & 1425 \\
-                        evtent dir & < & & > \\
-                        evtent type & sendfile & & writev \\
-                        evtent args & $res=612$, $offset=1225$ & &\makecell{$fd=12(<4t>172.131.12.1:123 \\ \rightarrow172.13.231.2:123)$, $size=2392$} \\
-                        \hline
-                    \end{tabular}
-                    \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
-                    \label{tab:syscallfile}
-                \end{table}
 
                 Nachdem nun verschiedene allgemeine Ansätze zur Erkennung von schädlichem Verhalten eines Systems und mögliche Datensätze zur Auswertung untersucht wurden,
                 soll im Folgenden die Frage geklärt werden, wie mit Hilfe von künstlichen neuronalen Netzen Muster in einem Datensatz erkannt werden können.

@@ -101,14 +101,14 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
         Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
         Falls dies nicht der Fall ist werden diese Werte in die Normaldatenbank aufgenommen.
-        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt und dann eine 1 zurückgegeben und falls nicht eine 0.
+        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt und dann eine $1$ zurückgegeben und falls nicht eine $0$.
         Folgt das Argument einer Zufallsverteilung wird immer 1 zurückgegeben.
         Für die erwähnten Modelle der System Call Argumente wurde von Kruegel et al.\ ein LibAnomlay Framework entworfen um die Nutzbarkeit auch für andere Arbeiten zu ermöglichen.~\cite{ARGUMENTS}
         Leider scheint das Framework aktuell nicht mehr nutzbar zu sein, da es online nicht mehr abrufbar ist.
 
         Auch in~\cite{ARGUMENTS2} kommen diese Modelle der Argumente zum Einsatz.
         
-        Ebenso werden sie auch von Maggi et al.\ verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.~\cite{MAGGI}
+        Ebenso werden sie auch von Maggi et al.~\cite{MAGGI} verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.
 
         Doch bei allen zuvor erwähnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
         Koucham et al.\ wollen nun im Gegensatz dazu sowohl die Sequenz als auch die Argumente beachten.
@@ -118,8 +118,8 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Zu den Argumenten gehören zum Beispiel Pfadnamen, Benutzerkennung, die Menge der möglichen Werte, wozu unter anderem Flags zählen.
         Kontextinformationen beinhalten Rückgabewerte, Dateirechte oder auch Dateimodi.~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
-        Luckett et al.\cite{TIMINGLUCKETT2016} versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
-        \textit{Rootkits} sind eine Klasse von Malware, welche die Fähigkeit haben Root-Zugriff zu erhalten und dabei unentdeckt zu bleiben.~\cite{OSSECBRAY2008}.
+        Luckett et al.~\cite{TIMINGLUCKETT2016} versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
+        \textit{Rootkits} sind eine Klasse von Malware, welche die Fähigkeit haben Root-Zugriff zu erhalten und dabei unentdeckt zu bleiben~\cite{OSSECBRAY2008}.
         Sie verwenden dafür nur das Timing von System Calls um mit neuronalen Netzen die Daten in normal oder anormal zu klassifizieren.
         Dabei beschreiben sie aber nicht näher wie genau das Timing der System Calls verwendet wird.
 
