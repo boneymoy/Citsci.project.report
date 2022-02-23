@@ -86,20 +86,17 @@
             Neben den eigentlichen Namen der System Call enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
             Wie zumindest Teile dieser die Embeddings der System Calls erweitern können soll im folgenden Abschnitt untersucht werden.
 
-            \subsubsection{Wie können weitere System Call Informationen dargestellt werden?}\label{sec:Meta}
+            \subsection{Wie können weitere System Call Informationen dargestellt werden?}\label{sec:Meta}
 
                 Wie zusätzliche Informationen der System Calls genutzt werden können ist auch Gegenstand bestehender Forschung.
                 In \autoref{sec:related_sys_arg} wurden die verschiedenen bestehenden Ansätze untersucht.
                 Im Folgenden soll es speziell darum gehen neue Darstellungsformen der System Call Argumente zu finden.
                 Dabei soll noch einmal kurz auf die in \autoref{sec:syscalls} besprochenen Grundlagen zurückgegriffen werden um einen ersten Anhaltspunkt für wichtige Informationsquellen zu finden.
 
-            \paragraph{System Call Argumente}  
-                
-                Um die Unterscheidung von Normalverhalten und einer Anomalie zu erleichtern, müssen vor allem Faktoren betrachtet werden, die sensibel auf eine Veränderung des Normalverhaltens reagieren.
+                Um die Unterscheidung von Normalverhalten und einer Anomalie zu erleichtern, müssen Faktoren betrachtet werden, welche sensibel auf eine Veränderung des Normalverhaltens reagieren.
                 Gleichzeitig sollen dabei aber nicht einzelne Angriffe genutzt werden um diese Faktoren zu ermitteln.
-                Da die Gefahr besteht Signaturen einzelner Angriffe abbilden zu wollen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hätte.
-                Ziel dieses Abschnittes soll es sein eine grobe Einschätzung zu bekommen welche Argumente einen großen Informationsgehalt zur Beschreibung des Systemverhaltens bieten.
-                3 Ideen:
+                Denn dabei besteht die Gefahr Signaturen einzelner Angriffe abbilden zu wollen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hätte.
+                Ziel dieses Abschnitts ist es die Überlegungen und Umsetzungen von zwei Verfahren zur Darstellung von zusätzlichen System Call Informationen zu präsentieren.
 
                 %und speziell von welchen System Calls diese Argumente kommen.spannend
                 %Auch wenn ein allgemeiner Ansatz zur Kodierung wichtiger 
@@ -145,21 +142,21 @@
                 %\end{tabular}
                 %\caption{Beschreibung ausgewählter System Calls}
             %\end{table}
-            interesting arguments:
-            
-            \paragraph{Thread Awareness}
-                Wie in \autoref{sec:syscalldarstellung} beschrieben
-                Thread information erweitern
-                    Grimmer ngramme thread aware sinnvoll bei multithread anwendungen 
-                    bei ihren verwendeted algorithmen ausreichend
-                    für LSTM kontext wichtig, deshalb angeben ob aktueller thread aus selben Kontext wie der vorige kommt
 
             \paragraph{Zeitliche Abstände von System Calls}
+                Wie bereits in \autoref{sec:related_sys_arg} beschrieben verwenden Lucket et al.~\cite{TIMINGLUCKETT2016} die Timing-Information von System Calls für das Aufspüren von Rootkits.
+                In diesem Abschnitt soll diese Idee wieder aufgegriffen werden und detaillierter beschrieben werden.
+                Zwischenschieben von system call sequenzen um angriff zu verbergen.
+                Verändert Timing der Normalabfolge.
+                Statistik aus dem Datensatz:
+
+                Schwierigkeiten Timing von System Calls hängt auch von Betriebssystem selbst ab.
+                So werden indirekt auch Schedulerinformationen mitgelernt, was die Komplexität erhöhen kann und damit die Erkennung schwerer.
+                
+                Idee:
                 Berechne größten Abstand zwischen zwei aufeinanderfolgende System Calls in den Trainingsdaten.
                 Normiere folgende System Call Abstände mit diesem Maximum.
-                Zeitdifferenz zwischen system calls
-                    bruteforce angriffe evtl auffällig
-                    differenz kann durch scheduler beeinflusst werden -> ungewollt
+                So befinden sich die meisten Eingaben im Bereich von $[0,1]$ aber auch größere Werte möglich.
 
             \paragraph{Return Werte}
 
@@ -373,6 +370,14 @@
             % Thread awareness ngrams
             % create embedding of syscall
             % append extra parameters
+
+            \paragraph{Thread Awareness}
+                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie die Thread Information der System Calls verwendet werden kann die Stream 
+                Wie in \autoref{sec:syscalldarstellung} beschrieben enthalten  
+                Thread information erweitern
+                    Grimmer ngramme thread aware sinnvoll bei multithread anwendungen 
+                    bei ihren verwendeted algorithmen ausreichend
+                    für LSTM kontext wichtig, deshalb angeben ob aktueller thread aus selben Kontext wie der vorige kommt
 
     \section{Algorithmus}\label{sec:Algorithmus}
         \ac{LSTM} Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.

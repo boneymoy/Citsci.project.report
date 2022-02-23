@@ -118,6 +118,11 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Zu den Argumenten gehören zum Beispiel Pfadnamen, Benutzerkennung, die Menge der möglichen Werte, wozu unter anderem Flags zählen.
         Kontextinformationen beinhalten Rückgabewerte, Dateirechte oder auch Dateimodi.~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
+        Luckett et al.\cite{TIMINGLUCKETT2016} versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
+        \textit{Rootkits} sind eine Klasse von Malware, welche die Fähigkeit haben Root-Zugriff zu erhalten und dabei unentdeckt zu bleiben.~\cite{OSSECBRAY2008}.
+        Sie verwenden dafür nur das Timing von System Calls um mit neuronalen Netzen die Daten in normal oder anormal zu klassifizieren.
+        Dabei beschreiben sie aber nicht näher wie genau das Timing der System Calls verwendet wird.
+
         Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt einbinden, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
         Der Ausgangspunkt ihrer Überlegungen liegt darin, dass moderne Prozesse Multi-Threaded sind.
         Das heißt die Sequenz der System Calls beschreibt die Aktionen mehrere Threads gleichzeitig.
