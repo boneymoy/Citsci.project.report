@@ -114,9 +114,15 @@
                 Normiere folgende System Call Abstände mit diesem Maximum.
                 So befinden sich die meisten Eingaben im Bereich von $[0,1]$ aber auch größere Werte möglich.
 
+                \begin{figure}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/CVE-2012--Test-data-time_delta.pdf}
+                    \caption{}
+                    \label{fig:time_delta}
+                \end{figure}
             \paragraph{Return Werte}
 
-                Wie in \autoref{sec:related_sys_arg} angemerkt, besteht ein System Calls aus zwei \glqq Phasen\grqq .
+                Wie in \autoref{sec:related_sys_arg} angemerkt, besteht ein System Calls aus zwei \glqq Phasen\grqq.
                 Die zweite Phase beinhaltet den Rückgabewert des Betriebssystemskernel.
                 Unter anderem geben diese an wieviele Bytes durch einen \textit{write} System Call gelesen wurden.
                 Idee, betrachte erhaltene gesendete geschriebene und gelesene Bytes und normalisiere diese.
@@ -124,10 +130,12 @@
                 In der oberen Darstellung ist dabei zu erkennen, dass in den Testdaten bei Normalverhalten nur entweder ca. 100 Bytes geschrieben werden oder ca. 250.\marginpar{Geschrieben durch write, pwrite, writev}
                 Im Gegensatz dazu werden bei zusätzlichem Angriffsverhalten auch noch andere Bytegrößen geschrieben.
                 Ähnliches gilt für durch Socket erhaltenen Bytes, im unteren Teil der Abbildung.
+
+                Falls Fehlerwert -> $-1$
                 
                 \begin{figure}
-                    \includegraphics[width=\textwidth]{images/CVE-2017-7529--Test-datawritten.pdf}
-                    \includegraphics[width=\textwidth]{images/CVE-2017-7529--Test-datasocket_recv.pdf}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/return_2017_plot.pdf}
                     \caption{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des LID-DS CVE-2017-7529 Szenarios.
                     Oben die durch die System Calls \textit{write, pwrite und writev} gelesenen Bytes.
                     Unten die durch die System Calls \textit{recvfrom, recv, recvmsg} über Sockets erhaltenen Bytes.
