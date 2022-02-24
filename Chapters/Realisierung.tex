@@ -6,7 +6,7 @@
     Die Trainingsphase und die Testphase.
     Diesen beiden Phasen liegt allerdings schon ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des \ac{LSTM} zu Grunde. 
     Welche Datensätze überhaupt in Frage kommen wurde bereits in~\autoref{sec:Datensatz} untersucht.
-    Wie dieser weiterverarbeitet, für das \ac{LSTM} vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden könnte, 
+    Wie dieser weiterverarbeitet, für das \ac{LSTM} vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden kann, 
     soll in~\autoref{sec:Preprocessing} betrachtet werden.
     Zuvor in~\autoref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
     Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird dann im~\autoref{sec:Algorithmus} beschrieben.
@@ -95,7 +95,7 @@
 
                 Um die Unterscheidung von Normalverhalten und einer Anomalie zu erleichtern, müssen Faktoren betrachtet werden, welche sensibel auf eine Veränderung des Normalverhaltens reagieren.
                 Gleichzeitig sollen dabei aber nicht einzelne Angriffe genutzt werden um diese Faktoren zu ermitteln.
-                Denn dabei besteht die Gefahr Signaturen einzelner Angriffe abbilden zu wollen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hätte.
+                Denn dabei besteht die Gefahr Signaturen einzelner Angriffe abbilden zu wollen, was wie in \autoref{sec:Datenanalyse} ungewollte Nachteile hat.
                 Ziel dieses Abschnitts ist es die Überlegungen und Umsetzungen von zwei Verfahren zur Darstellung von zusätzlichen System Call Informationen zu präsentieren.
 
             \paragraph{Zeitliche Abstände von System Calls}
@@ -116,23 +116,25 @@
 
             \paragraph{Return Werte}
 
-
+                Wie in \autoref{sec:related_sys_arg} angemerkt, besteht ein System Calls aus zwei \glqq Phasen\grqq .
+                Die zweite Phase beinhaltet den Rückgabewert des Betriebssystemskernel.
+                Unter anderem geben diese an wieviele Bytes durch einen \textit{write} System Call gelesen wurden.
+                Idee, betrachte erhaltene gesendete geschriebene und gelesene Bytes und normalisiere diese.
+                Für das CVE-2017-7529 Szenario wird dies für die Testdaten in \autoref{fig:return_values} beispielhaft dargestellt.
+                In der oberen Darstellung ist dabei zu erkennen, dass in den Testdaten bei Normalverhalten nur entweder ca. 100 Bytes geschrieben werden oder ca. 250.\marginpar{Geschrieben durch write, pwrite, writev}
+                Im Gegensatz dazu werden bei zusätzlichem Angriffsverhalten auch noch andere Bytegrößen geschrieben.
+                Ähnliches gilt für durch Socket erhaltenen Bytes, im unteren Teil der Abbildung.
+                
                 \begin{figure}
-                    \begin{subfig}{.5\textwidth}
-                        \centering
-                        \includegraphics[width=0.5\textwidth]{images/fixCVE-2017-7529socket_send.jpg}
-                        \caption{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
-                    \end{subfig}
-                    \begin{subfig}{.5\textwidth}
-                        \centering
-                        \includegraphics[width=0.5\textwidth]{images/fixCVE-2017-7529socket_send.jpg}
-                        \caption{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
-                    \end{subfig}
+                    \includegraphics[width=\textwidth]{images/CVE-2017-7529--Test-datawritten.pdf}
+                    \includegraphics[width=\textwidth]{images/CVE-2017-7529--Test-datasocket_recv.pdf}
+                    \caption{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des LID-DS CVE-2017-7529 Szenarios.
+                    Oben die durch die System Calls \textit{write, pwrite und writev} gelesenen Bytes.
+                    Unten die durch die System Calls \textit{recvfrom, recv, recvmsg} über Sockets erhaltenen Bytes.
+                    Blau: Nur Normalverhalten, Rot:Normalverhalten und Angriffsverhalten}
+                    \label{fig:return_values}
                 \end{figure}
-                Return Information
-                    Anwendung kann viele Anfragen stellen, wie der Kernel darauf reagiert aber entscheident
-                    Deswegen Reaktion in Form von return values embedden
-                    gelesene und geschriebene bytes potentielle aussagekraft
+
 %
         \subsection{Wie wird ein Datenstream dargestellt?}\label{sec:streamdarstellung}
             Erstellung von ngrammen bekannte Vorgehensweise.
@@ -809,7 +811,7 @@
         \subsection{Schwellwertbestimmung}
             Um den zuvor erwähnten Schwellwert automatisch zu bestimmen, wird der Algorithmus auf die Validierungsdaten angewendet. 
             Dabei dient der höchste Wert dieser Daten dann als Schwellwert, da angenommen wird, dass mindestens alle Daten aus den Validierungsdaten harmlos sind und damit unter dem Schwellwert liegen sollten.
-            Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen könnte. 
+            Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen kann. 
             Das würde bedeuten, dass nur sehr geringe Anomaliewerte auftreten und der Schwellwert sehr gering ist und damit die Gefahr für viele Fehlalarme besteht.
 
             Alternativ betrachte die x wahrscheinlichsten vorhergesagten system calls, falls tatsächlicher system call nicht dabei --> alarm
@@ -828,9 +830,9 @@
                 Es wurde ein Alarm gemeldet an einer Stelle an dem kein Angriff stattfand.
                 Nach dem angegebenen Angriffszeitpunkt wird es allerdings schwieriger.
                 Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
-                Jedoch könnte da der Angriff schon vorbei sein, oder gar noch nicht gestartet sein.
+                Jedoch kann da der Angriff schon vorbei sein, oder gar noch nicht gestartet sein.
                 Es können nach dem Angriffszeitpunkt auch \textit{False Positive} oder \textit{False Negative} geben, welche allerdings nicht als solche erkannt werden können.
-                Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in Kapitel~\ref{sec:metrik} beleuchtet.
+                Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in Kapitel~\ref{sec:Metriken} beleuchtet.
 
         \subsection{Parameterwahl}
             ngram länge
