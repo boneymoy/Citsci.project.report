@@ -101,25 +101,48 @@
             \paragraph{Zeitliche Abstände von System Calls}
 
                 Wie bereits in \autoref{sec:related_sys_arg} beschrieben verwenden Lucket et al.~\cite{TIMINGLUCKETT2016} die Timing-Information von System Calls für das Aufspüren von Rootkits.
-                In diesem Abschnitt soll diese Idee wieder aufgegriffen werden und detaillierter beschrieben werden.
-                Zwischenschieben von system call sequenzen um angriff zu verbergen.
-                Verändert Timing der Normalabfolge.
-                Statistik aus dem Datensatz:
-
-                Schwierigkeiten Timing von System Calls hängt auch von Betriebssystem selbst ab.
-                So werden indirekt auch Schedulerinformationen mitgelernt, was die Komplexität erhöhen kann und damit die Erkennung schwerer.
-                
-                Idee:
-                Berechne größten Abstand zwischen zwei aufeinanderfolgende System Calls in den Trainingsdaten.
-                Normiere folgende System Call Abstände mit diesem Maximum.
-                So befinden sich die meisten Eingaben im Bereich von $[0,1]$ aber auch größere Werte möglich.
-
+                In diesem Abschnitt wird diese Idee wieder aufgegriffen.
+                Die Grundidee besteht darin, dass durch ein Angriffsverhalten eine Veränderung im Timing der auftretenden System Calls eintritt.
+                Dabei gelten System Calls in diesem Ansatz nur als aufeinanderfolgend, sofern sie auch aus dem selben Thread stammen.
+                Eine genauere Beschreibung dazu erfolgt in \autoref{sec:streamdarstellung}.
+                Um den Unterschied in den Normaldaten und Angriffsdaten zu untersuchen wurden in \autoref{fig:time_delta} die zeitlichen Abstände zwischen aufeinanderfolgenden System Calls aus dem Bruteforce und dem CVE-2019-5418 Szenario des \ac{LIDDS} geplottet.
+                In Blau sind die Abstände der System Calls während des Normalverhaltens eingetragen und in Rot die des Normalverhaltens mit zusätzlichen Angriffsverhalten.
+                Im rechten Plot kein sichtlicher Unterschied zwischen Angriffsverhalten und dem Normalverhalten zu erkennen.
+                Der in diesem Szenario durchgeführte Angriff scheint nicht zu einer Abweichung der Zeitabstände zwischen System Calls zu führen.
+                Im linken Plot hingegen ist eine Abweichung im Bereich ca. $0.05*10^{6}$\textit{ns} zu erkennen.
+                In der Auswertung lohnt es sich also speziell einen Vergleich dieser beiden Szenarien zu betrachten.
+                %Wie in \autoref{sec:related_no_arg} beschrieben können Verfahren die keine weiteren Parameter verwenden umgangen werden, indem weitere System Calls eingefügt werden~\cite{Syscallseqexploit1}.
                 \begin{figure}
                     \centering
-                    \includegraphics[width=\textwidth]{images/CVE-2012--Test-data-time_delta.pdf}
-                    \caption{}
+                    \includegraphics[width=\textwidth]{images/CVE-2012--Test-data-time_delta.eps}
+                    \caption{Dargestellt ist der zeitliche Abstand zwischen zwei System Calls aus dem selben Thread.
+                             Diese werden in ihrer Häufigkeit in Prozent an allen auftretenden Abstände in dem Plot eingetragen.
+                             Verwendet wurden dafür nur die Testdaten. Links für das Bruteforce Szenario und rechts für das CVE-2019-5418 Szenario.
+                             Blau: Nur Normalverhalten, Rot: Normalverhalten und Angriffsverhalten}
                     \label{fig:time_delta}
                 \end{figure}
+
+                Dies wird erreicht indem der zeitlichen Abstand $\tau$ zwischen zwei aufeinanderfolgenden System Calls berechnet wird und diesen als weiteren Eingabeparameter für den verarbeitenden Algorithmus zu verwenden.
+                In der Trainingsphase wird zunächst nur der größte Abstand $\tau_{max}$ aus den Trainingsdaten ermittelt.
+                Mithilfe dieses Werts werden dann in der Testphase alle Werte wie in \autoref{eq:time_norm} beschrieben normalisiert.
+                \begin{equation}\label{eq:time_norm}
+                    \tau_{norm} = \frac{\tau}{\tau_{max}}
+                \end{equation}
+                So gilt für die meisten Werte $\tau_{norm}=[0;1]$.
+                Falls $\tau\geq\tau_{max}$ gilt, kann dieser Wert auch größer als $1$ werden.
+                %\begin{figure}
+                    %\centering
+                    %\includegraphics[width=\textwidth]{images/CVE-2012--Test-data-time_delta.pdf}
+                    %\caption{Dargestellt ist der zeitliche Abstand zwischen zwei System Calls aus dem selben Thread.
+                             %Diese werden in ihrer Häufigkeit in Prozent an allen auftretenden Abstände in dem Plot eingetragen.
+                             %Verwendet wurden dafür nur die Testdaten des 
+                             %Blau: Nur Normalverhalten}
+                    %\label{fig:time_delta_werte}
+                %\end{figure}
+                Doch es können durch das Verwenden der Timings von System Calls auch Schwierigkeiten entstehen.
+                Denn das Betriebssystem selbst beeinflusst die Timings der System Calls, so könnten Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
+                Ob dies das Lernen des Normalverhaltens verbessert oder verschlechtert wird in \autoref{sec:Ergebnis_timing} untersucht
+
             \paragraph{Return Werte}
 
                 Wie in \autoref{sec:related_sys_arg} angemerkt, besteht ein System Calls aus zwei \glqq Phasen\grqq.
@@ -133,12 +156,14 @@
 
                 Falls Fehlerwert -> $-1$
                 
-                \begin{figure}
+                \begin{figure}[ht]
                     \centering
                     \includegraphics[width=\textwidth]{images/return_2017_plot.pdf}
-                    \caption{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des LID-DS CVE-2017-7529 Szenarios.
-                    Oben die durch die System Calls \textit{write, pwrite und writev} gelesenen Bytes.
-                    Unten die durch die System Calls \textit{recvfrom, recv, recvmsg} über Sockets erhaltenen Bytes.
+                    \caption{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des LID-DS~\cite{LID-DS} CVE-2017-7529 Szenarios.
+                    Links oben für die von den System Calls \textit{write, pwrite} und \textit{writev} geschriebenen Bytes.
+                    Rechts oben für die von \textit{read, pread} und \textit{readv} gelesenen Bytes.
+                    Links unten für die von \textit{sendfile} und \textit{sendmsg} über Sockets gesendete Bytes.
+                    Rechts unten für die von \textit{recvfrom, recv} und \textit{recvmsg} über Sockets erhaltenen Bytes.
                     Blau: Nur Normalverhalten, Rot:Normalverhalten und Angriffsverhalten}
                     \label{fig:return_values}
                 \end{figure}
