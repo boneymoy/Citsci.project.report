@@ -241,7 +241,7 @@
             Dabei werden die dem \ac{IDS} fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
             Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
             Was diese Beispiele jedoch zeigen, ist dass wenigstens einer dieser Faktoren, also entweder die Sequenz von System Calls verändert werden muss oder es werden die Argumente der System Calls verändert.
-            So könnte zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
+            So kann zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
             Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in \autoref{sec:Meta} untersucht werden.
             In dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen und teilweise Argumente und weiter Metadaten enthalten, eingegangen.
 
@@ -397,7 +397,7 @@
                     \begin{figure}[ht]
                         \centering
                         \includegraphics[width=0.8\textwidth]{images/q_problem.eps}
-                        \caption{Illustration des Quadrantenproblems (inspiriert von~\cite{IDSTHREADGRIMMER2021}).
+                        \caption{Illustration des Quadrantenproblems (Abwandlung von~\cite{IDSTHREADGRIMMER2021}).
                         Es beschreibt die Problematik, dass Alle System Calls nach $t_{Angriff}$ als bösartig eingestuft werden müssen, obwohl auch Normalverhalten stattfindet.}
                         \label{fig:quadrant}
                     \end{figure}
@@ -408,8 +408,8 @@
                     Es wurde ein Alarm gemeldet an einer Stelle an dem (noch) kein Angriff stattfand.
                     Nach dem angegebenen Angriffszeitpunkt $t_{Angriff}$ wird es allerdings schwieriger.
                     Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem \ac{TP}, also einem korrektem Alarm ausgegangen.
-                    Jedoch könnte der Angriff zu diesem Zeitpunkt schon vorbei sein.
-                    Also könnte ein Alarm nach $t_{Angriff}$ theoretisch auch ein \ac{FP} sein. 
+                    Jedoch kann der Angriff zu diesem Zeitpunkt schon vorbei sein.
+                    Also kann ein Alarm nach $t_{Angriff}$ theoretisch auch ein \ac{FP} sein. 
                     Genauso könnte umgekehrt ein Anomaliescore unter dem Schwellwert, also im Quadranten 4 korrekt sein obwohl er als \ac{FN} gewertet werden müsste.
                     Diese Problematik wird auch von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} aufgegriffen und muss in der Auswertung beachtet werden. 
                     In~\autoref{sec:Metriken} wird eine Lösungsmöglichkeit für die Problemstellung betrachtet.
@@ -485,12 +485,12 @@
    	
         \subsection{Long Short-Term Memory} 
             Hauptziel der \acp{LSTM} ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
-            Entscheidend dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant sein könnten.
+            Entscheidend dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant ist.
             
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=1\textwidth]{images/Illustrationen/LSTM}
-                \caption{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (inspiriert von \cite{OLAH2015}).}
+                \caption{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (Abwandlung von \cite{OLAH2015}).}
                 \label{fig:LSTM}
             \end{figure}
 
@@ -504,7 +504,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_MC}
-                    \caption{Weitergabe des Zellstatus innerhalb eines Knotens (inspiriert von \cite{OLAH2015}).}
+                    \caption{Weitergabe des Zellstatus innerhalb eines Knotens (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Status}
                 \end{figure}
                 
@@ -519,13 +519,13 @@
             $W_{fh}$ und $W_{fx}$ beschreiben die Gewichte $b_f$ den Bias des \textit{Forget Gate}.
             Es wird also die vorherige Eingabe $h_{t-1}$ sowie die aktuelle Eingabe $x_t$ gewichtet und mit Bias an die Aktivierungsfunktion $\sigma$ übergeben.
             Damit sollen Informationen aus dem Speicher, die keinen Einfluss mehr haben sollen, entfernt werden.
-            In dem Sprachbeispiel könnte das Genus (\textit{grammatikalisches Geschlecht}) gespeichert werden, um so eine grammatikalisch korrekte Vorhersage zu machen.
+            In dem Sprachbeispiel ist vorstellbar, dass das Genus (\textit{grammatikalisches Geschlecht}) gespeichert wird, um so eine grammatikalisch korrekte Vorhersage zu machen.
             Kommt nun allerdings ein neues Pronomen in der Eingabe $x_t$, sollte das bisher gespeicherte Genus keinen Einfluss mehr haben.
             
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_FG}
-                    \caption{Einfluss des Forget Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
+                    \caption{Einfluss des Forget Gates auf den Zellstatus (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Forget}
                 \end{figure}
                 
@@ -551,7 +551,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_IG}
-                    \caption{Einfluss des Input Gates auf den Zellstatus (inspiriert von \cite{OLAH2015}).}
+                    \caption{Einfluss des Input Gates auf den Zellstatus (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Input}
                 \end{figure}
             
@@ -567,7 +567,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_OG}
-                    \caption{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (inspiriert von \cite{OLAH2015}).}
+                    \caption{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Output}
                 \end{figure}
             
