@@ -276,8 +276,8 @@
                 Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
                 Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
                 Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
-            \paragraph{LID-DS}
-                2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (LID-DS).
+            \paragraph{\ac{LID-DS}}
+                2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (\ac{LID-DS}).
                 Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \ac{IDS} zu verwenden.
                 Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien auf welchen jeweils ein Angriff ausgeführt wird.
                 Jedes Szenario repräsentiert damit also eine bekannte Schwachstelle eines Systems.
@@ -359,7 +359,7 @@
                         recording\_time& 53 & 40 \\
                         exploit\_start\_time &-1 & 15\\
                     \end{tabular}
-                    \caption{Ausschnitt aus der runs.csv des LID-DS, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
+                    \caption{Ausschnitt aus der runs.csv des \ac{LID-DS}, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
                     \label{tab:runsfile}
                 \end{table}
                 \begin{table}[ht]
@@ -383,10 +383,10 @@
                         evtent args & $res=612$, $offset=1225$ & &\makecell{$fd=12(<4t>172.131.12.1:123 \\ \rightarrow172.13.231.2:123)$, $size=2392$} \\
                         \hline
                     \end{tabular}
-                    \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem LID-DS~\cite{LIDDS}}
+                    \caption{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem \ac{LID-DS}~\cite{LIDDS}}
                     \label{tab:syscallfile}
                 \end{table}
-                \paragraph{Problem des LID-DS}
+                \paragraph{Problem des \ac{LID-DS}}
 
                     In den Testdaten mit enthaltenen Angriffen wird ein Angriffszeitpunkt angegeben.
                     Jedoch gibt es bei einer Datei mit Angriff im Gegensatz zu den normalen Dateien vier statt zwei mögliche Zuordnungen.
