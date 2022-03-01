@@ -133,8 +133,8 @@
 
                 Doch treten mit der Verwendung dieser Information als Extraparameter zwei Probleme auf.
 
-                Zum einen stellt sich die Frage, ob eine Verbesserung von einem Szenario mit abweichenden Abständen eine Verschlechterung in Szenarien in welchen dies nicht der Fall ist zur Folge hat.
-                Und zum anderen stellt sich die generelle Frage ob diese Information den möglichen Ergebnisraum wesentlich vergrößert und damit die Suche nach einem globalen Minimum erschwert.
+                Zum einen stellt sich die Frage, ob eine Verbesserung eines Szenarios mit abweichenden Abständen\marginpar{zw. Normal- und Angriffsverhalten} eine Verschlechterung in Szenarien in welchen dies nicht der Fall ist zur Folge hat.
+                Und zum anderen stellt sich die generelle Frage ob diese Information den möglichen Ergebnisraum wesentlich vergrößert worunter die Ergebnisqualität im Gesamten leidet.
                 Denn das Betriebssystem selbst beeinflusst die Timings der System Calls, so könnten Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
                 Ob dies das Lernen des Normalverhaltens verbessert oder verschlechtert wird in \autoref{sec:Ergebnis_timing} untersucht.
                 %\begin{figure}
@@ -149,13 +149,17 @@
 
             \paragraph{Return Werte}
 
-                Wie in \autoref{sec:related_sys_arg} angemerkt, besteht ein System Calls aus zwei \glqq Phasen\grqq.
+                Wie in \autoref{sec:syscall_allg} angemerkt, besteht ein System Call aus zwei \glqq Phasen\grqq.
                 Wobei die zweite Phase den Rückgabewert des Betriebssystemskernel beinhaltet.
-                Unter anderem gibt der Rückgabewert an wieviele Bytes durch einen \textit{write} System Call gelesen wurden.
-                Speziell soll in dieser Arbeit die Kodierung von System Calls betrachtet werden welche Daten schreiben oder lesen und Daten über Sockets empfangen oder senden. 
-                Dabei wurden nur System Calls betrachtet, die auch im Datensatz vorkamen und einen Byte Rückgabewert haben.
+                Bei erfolgreicher Durchführung ist dieser Rückgabewert positiv, ansonsten negativ.
+                So gibt der Rückgabewert eines \textit{write} System Calls an wieviele Bytes gelesen wurden.
+                Der Rückgabewert enthält in diesem Beispiel also wertvolle Informationen über den tatsächlichen Ablauf des spezifischen System Calls.
+                Auch weitere schreibende und lesende System Calls geben die gelesene oder geschriebene Bytes zurück.
+                Für manche System Calls die im Zusammenhang mit Sockets stehen gilt dies ebenfalls.
+                Deswegen soll in diesem Abschnitt die Kodierung von System Call Rückgabewerten betrachtet werden welche Daten schreiben oder lesen und Daten über Sockets empfangen oder senden. 
+                Dabei wurden nur System Calls betrachtet, die auch im Datensatz vorkommen und einen Byte Rückgabewert haben.
                 Leider fallen dabei System Calls wie \textit{send} heraus, da der Rückgabewert die Anzahl der gesendeten Charaktere angibt und nicht die Anzahl an geschriebenen Bytes.
-                In \autoref{tab:syscall_return} werden diese System Calls mit einer Kurzbeschreibung vorgestellt.
+                In \autoref{tab:syscall_return} werden die ausgewählten System Calls mit einer Kurzbeschreibung vorgestellt.
 
                 \begin{table}[ht]
                     \small
@@ -178,7 +182,7 @@
                         read    & Versucht bis zu \textit{count} Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset an.                                              & Filedeskriptor oder $-1$ bei Fehler\\
                         \rowcolor{GruvGray!16}
                         pread   & Versucht bis zu \textit{count} Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset nicht an.                                        & Filedeskriptor oder $-1$ bei Fehler\\
-                        readv   & Liest spezifizierten \textit{iovcnt} Vektor aus Filedeskriptor \textit{fd} & Gelesene Bytes oder Fehlerwert $-1$\\
+                        readv   & Liest spezifizierten \textit{iovcnt} Vektor aus Filedeskriptor \textit{fd} & Gelesene Bytes oder $-1$ Fehler\\
 
                         \rowcolor{GruvGray!16}
 
@@ -186,24 +190,27 @@
                         \makecell{recvfrom, recv,\\ recvmsg}& Erhalte Nachricht über Socket     & Empfangene Bytes oder $-1$ bei Fehler\\
                         \hline
                     \end{tabular}
-                    \caption{Kurzbeschreibung ausgewählter System Calls.\cite{SYSCALL_MANPAGE}}
+                    \caption{Kurzbeschreibung ausgewählter System Calls.~\cite{SYSCALL_MANPAGE}}
                     \label{tab:syscall_return}
                 \end{table}
-
-                Für die beschriebenen System Calls werden nun in \autoref{fig:return_values} die normalisierten Byte Rückgabewerte\marginpar{Analog zu den Zeitabständen} dargestellt.                
                 Diese werden in ihrer Häufigkeit in Prozent an allen auftretenden Rückgabewertgrößen in dem Plot eingetragen. 
-                Beispielhaft wird dafür das CVE-2017-7529 Szenario genutzt.
-                Für die System Calls read, pread und readv sind die Rückgabewertgrößen im Normalverhalten wie im Normalverhalten mit zusätzlichem Angriffsverhalten gleich und zwar ca.\ 615 Bytes.
+                Für die beschriebenen System Calls werden in \autoref{fig:return_values} die normalisierten Byte Rückgabewerte.                
+                Beispielhaft wird dafür das $CVE-2017-7529$ Szenario genutzt.
+                Für die System Calls read, pread und readv sind die Rückgabewertgrößen im Normalverhalten wie im Normalverhalten mit zusätzlichem Angriffsverhalten gleich und zwar ca.\ $615$ Bytes.
                 Bei allen anderen betrachteten Rückgabewerten ist ein Unterschied in den auftretenden Größen bei zusätzlichem Angriffsverhalten zu erkennen.
                 So zum Beispiel bei den write, pwrite, und writev System Calls.
-                Im Normalverhalten werden entweder 100 oder ca. 250 Bytes geschrieben, im Angriffsverhalten kommen noch weitere sehr selten auftretende Größen vor.
+                Im Normalverhalten werden entweder $100$ oder ca. $250$ Bytes geschrieben, im Angriffsverhalten kommen noch weitere sehr selten auftretende Größen vor.
+                Auch hier gilt analog zu den Zeitabständen für die Normalisierung $\rho_{norm}$ mit einem Rückgabewert $\rho$ und dem Maximalwert $\rho_{max}$ aus den Trainingsdaten:
+                \begin{equation}\label{eq:return_norm}
+                    \rho_{norm} = \frac{\rho}{\rho_{max}}
+                \end{equation}
                 Wie sich die Verwendung der normalisierten Rückgabewerte spezieller System Calls auf die Ergebnisse auswirkt wird in \autoref{sec:Ergebnis_return} behandelt.
 
                 
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=\textwidth]{images/return_2017_plot.pdf}
-                    \caption{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des \ac{LID-DS}~\cite{LID-DS} CVE-2017-7529 Szenarios.
+                    \caption{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des \ac{LID-DS}~\cite{LID-DS} $CVE-2017-7529$ Szenarios.
                     Dargestellt wird dabei immer der Anteil einer Rückgabewertgröße in Byte an allen Rückgabewertgrößen der besagten System Calls.
                     Links oben für die von den System Calls \textit{write, pwrite} und \textit{writev} geschriebenen Bytes.
                     Rechts oben für die von \textit{read, pread} und \textit{readv} gelesenen Bytes.
@@ -216,24 +223,18 @@
 %
         \subsection{Wie wird ein Datenstream dargestellt?}\label{sec:streamdarstellung}
         
-            Nachdem die Kodierung eines System Calls inklusive zwei weitere Parameter neben dem Namen selbst besprochen wurde, soll in diesem Abschnitt die Abarbeitung mehrerer System Calls für den verarbeitenden Algorithmus vorbereitet werden.
+            Nachdem die Kodierung eines System Calls inklusive zwei weiterer Parameter neben dem Namen selbst besprochen wurde, soll in diesem Abschnitt die Abarbeitung mehrerer System Calls für den verarbeitenden Algorithmus behandelt werden.
             Dabei werden die Abfolge der System Calls des Datensatzes als ein kontinuierlicher Stream betrachtet.
             Dies ermöglicht den Einsatz der entwickelten Vorgehensweise in der Praxis auch im Live-Betrieb, sofern die Verarbeitung entsprechend schnell stattfindet.
             Für viele Algorithmen wie zum Beispiel auch neuronale Netze ist es sinnvoll und Teilweise unausweichlich eine feste Eingangsgröße festzulegen.
             Um dies für einen Stream zu ermöglichen werden in der \ac{NLP} schon seit langer Zeit n-gramme verwendet~\cite{NGRAMSUEN1979}.
             Auch in der auf System Call basierten Anomalieerkennung kommen n-gramme zum Einsatz~\cite{STIDE_Alternatives, SYSCALL_GRAPHS, IDSTHREADGRIMMER2021}.
             Ein n-gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
-            Diese werden wie in \autoref{fig:ngram} aufgebaut.
-
-            \begin{figure}
-                %ngram image
-                \caption{Erstellung eines n-grams}
-                \label{fig:ngram}
-            \end{figure}
+            Diese werden wie in \autoref{fig:ngram_thread} Beispielhaft aufgebaut.
 
             Zu beachten ist dabei, dass die Abfolge der System Calls mehrere Abfolgen zusammenführen.
-            Denn moderne Computer Systeme können mehrere Threads quasi parallel verarbeiten.
-            Die System Calls aller Threads werden dann je nach dem wie sie vom Betriebssystemskernel verarbeitet werden in die Sequenz eingeführt.
+            Denn moderne Computer Systeme verarbeiten mehrere Threads parallel.~\cite{SYSCALL_SILBERSCHATZ}
+            Die System Calls aller Threads werden dann je nach dem wie sie vom Betriebssystemskernel verarbeitet werden an die Sequenz angefügt.
             
             \paragraph{Thread Awareness}
                 Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwendet um die verwundenen Sequenzen zu entzerren.
@@ -242,7 +243,12 @@
 
                 \begin{figure}
                     %thread ngram image
-                    \caption{Erstellung eines n-grams}
+                    \includegraphics[width=\textwidth]{images/ngram.pdf}
+                    \caption{Erstellung der n-gramme mit $n=2$.
+                        Links ohne und rechts mit der Beachtung der Threadinformation.
+                        Die Dabei entstehenden n-gramme dienen dann als Eingabe für den bewertenden Algorithmus.
+                        Die Reihenfolge der Eingaben ist dabei von oben nach unten.
+                    }
                     \label{fig:ngram_thread}
                 \end{figure}
 

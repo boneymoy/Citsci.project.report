@@ -202,7 +202,7 @@
             \label{tab:syscall}
         \end{table}
 
-        \subsection{Allgemeines}
+        \subsection{Allgemeines}\label{sec:syscall_allg}
 
         Generell werden System Calls verwendet um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
         Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit, welche dann von Programmen genutzt werden können. 
@@ -223,8 +223,9 @@
         Wie in~\autoref{fig:syscallAblauf} ebenfalls angedeutet, besteht ein System Call aus einem Aufruf an das Betriebssystem und der Antwort des Betriebssystems.
         In \autoref{tab:syscall} beschrieben besitzen System Calls Argumente die beim Aufrufen mitgegeben werden können.        
         Das können neben bestimmten Flags, welche die Funktion der System Calls bestimmen, auch zum Beispiel Dateipfade oder IP-Adressen sein.~\cite{SYSCALL_MANPAGE}
-        Die Betriebssystemantworten auf einen System Calls haben zusätzlich in den Argumenten einen Rückgabewert~\marginpar{Gekennzeichnet mit \glqq $res$\grqq}.
+        Die Betriebssystemantworten auf einen System Call haben zusätzlich in den Argumenten einen Rückgabewert~\marginpar{Gekennzeichnet mit \glqq $res$\grqq}.
         Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
+        Generell wird bei erfolgreicher Durchführung ein nicht-negativer und bei einem Fehler ein negativer Wert zurückgegeben~\cite{SYSCALLBOOKMOONA2009}.
         Zu einem System Call gehört also mehr als nur der Funktionsname.
 
 
