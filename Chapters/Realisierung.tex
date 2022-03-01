@@ -204,8 +204,10 @@
                 \begin{equation}\label{eq:return_norm}
                     \rho_{norm} = \frac{\rho}{\rho_{max}}
                 \end{equation}
+                Neben dem normalisierten Rückgabewert kann aber auch ein Fehlerwert Details über den Ablauf, eines System Calls liefern.
+                Weshalb $\rho_{norm} = -1$, falls ein System Call aus \autoref{tab:syscall_return} einen Fehlerwert liefert und damit $\rho = -1$ gilt.
+                %TODO noch mehr schreiben?
                 Wie sich die Verwendung der normalisierten Rückgabewerte spezieller System Calls auf die Ergebnisse auswirkt wird in \autoref{sec:Ergebnis_return} behandelt.
-
                 
                 \begin{figure}[ht]
                     \centering
@@ -220,37 +222,87 @@
                     \label{fig:return_values}
                 \end{figure}
 
-%
+
         \subsection{Wie wird ein Datenstream dargestellt?}\label{sec:streamdarstellung}
         
-            Nachdem die Kodierung eines System Calls inklusive zwei weiterer Parameter neben dem Namen selbst besprochen wurde, soll in diesem Abschnitt die Abarbeitung mehrerer System Calls für den verarbeitenden Algorithmus behandelt werden.
+            Nachdem die Kodierung eines System Calls und zwei weiterer Parameter neben dem Namen selbst besprochen wurde, soll in diesem Abschnitt die Abarbeitung mehrerer System Calls für den verarbeitenden Algorithmus behandelt werden.
             Dabei werden die Abfolge der System Calls des Datensatzes als ein kontinuierlicher Stream betrachtet.
             Dies ermöglicht den Einsatz der entwickelten Vorgehensweise in der Praxis auch im Live-Betrieb, sofern die Verarbeitung entsprechend schnell stattfindet.
-            Für viele Algorithmen wie zum Beispiel auch neuronale Netze ist es sinnvoll und Teilweise unausweichlich eine feste Eingangsgröße festzulegen.
+            Für viele Algorithmen wie zum Beispiel auch neuronale Netze ist es sinnvoll und teilweise unausweichlich eine feste Eingangsgröße festzulegen.
             Um dies für einen Stream zu ermöglichen werden in der \ac{NLP} schon seit langer Zeit n-gramme verwendet~\cite{NGRAMSUEN1979}.
             Auch in der auf System Call basierten Anomalieerkennung kommen n-gramme zum Einsatz~\cite{STIDE_Alternatives, SYSCALL_GRAPHS, IDSTHREADGRIMMER2021}.
             Ein n-gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
-            Diese werden wie in \autoref{fig:ngram_thread} Beispielhaft aufgebaut.
+            Diese werden wie in der linken Graphik in \autoref{fig:ngram_thread} Beispielhaft dargestellt aufgebaut.
 
-            Zu beachten ist dabei, dass die Abfolge der System Calls mehrere Abfolgen zusammenführen.
+            In der Umsetzung wird ein Buffer der Länge $n$ erzeugt, welcher das erste n-gram liefert sofern sich $n$ Elemente in dem Buffer befinden.
+            Zu beachten ist dabei, dass die Abfolge der System Calls mehrere logische Abfolgen zusammenführen.
             Denn moderne Computer Systeme verarbeiten mehrere Threads parallel.~\cite{SYSCALL_SILBERSCHATZ}
             Die System Calls aller Threads werden dann je nach dem wie sie vom Betriebssystemskernel verarbeitet werden an die Sequenz angefügt.
             
             \paragraph{Thread Awareness}
-                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwendet um die verwundenen Sequenzen zu entzerren.
-                Dabei werden nur dann System Calls einem n-gram hinzugefügt, sofern die zuvor hinzugefügten System Calls aus dem selben Thread stammen.
-                Wie sich diese n-gramme dann aufbauen wird in~\autoref{fig:ngram_thread} dargelegt.
+                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwenden um die verwundenen Sequenzen zu entwirren.
+                Dabei werden für jeden Thread ein eigener Buffer erzeugt. Die Ausgabe dieser Buffer wird in der rechten Graphik in \autoref{fig:ngram_thread} veranschaulicht. 
+                Also nur System Calls aus demselben Thread bilden ein n-gram.
+                Grimmer et al.\ konnten zeigen, dass dies speziell auch für diesen Datensatz eine Verbesserung der Ergebnisse erreicht werden konnte.
 
                 \begin{figure}
                     %thread ngram image
                     \includegraphics[width=\textwidth]{images/ngram.pdf}
-                    \caption{Erstellung der n-gramme mit $n=2$.
+                    \caption{Erstellung der n-gramme mit $n=2$ aus einem Datenstream von System Calls.
                         Links ohne und rechts mit der Beachtung der Threadinformation.
-                        Die Dabei entstehenden n-gramme dienen dann als Eingabe für den bewertenden Algorithmus.
-                        Die Reihenfolge der Eingaben ist dabei von oben nach unten.
-                    }
-                    \label{fig:ngram_thread}
+                        Die dabei entstehenden n-gramme dienen als Eingabe für den bewertenden Algorithmus.
+                        Die Reihenfolge der entstehenden n-gramme als Eingaben ist dabei von oben nach unten.
+                    }\label{fig:ngram_thread}
                 \end{figure}
+
+            \paragraph{Thread Change Flag}
+                Sie verwenden dafür aber ausschließlich Algorithmen welche kontextfrei arbeiten.
+                Dies bedeutet, dass das zuvor gesehene n-gram keinen Einfluss auf das aktuelle hat.
+                Wie in~\autoref{sec:LSTM} beschrieben wird ist das bei \ac{LSTM} Netzwerken nicht der Fall.
+                Es gilt also den benötigten Kontext in die von Grimmer et al.\ beschriebene Methodik zu integrieren.
+                Kodieren der tatsächlichen Thread ID unpraktisch, da Thread IDs wiederverwendet werden können.
+                Dies wird erreicht indem ein n-gram mit der Information über einen Kontextwechsel angereichert wird. 
+                Initial wird, weil kein Kontextwechsel stattfindet, für die \ac{TCF} eine $0$ angegeben.
+                Kommt das aktuelle n-gram aus demselben Thread wie das n-gram zuvor, ist die \ac{TCF} ebenfalls $0$.
+                Ist das aktuelle n-gram allerdings aus einem anderen Thread wird ein Kontextwechsel durch das Setzen der \ac{TCF} auf $1$ angezeigt.
+
+                Wie oft so ein Kontextwechsel stattfindet wird in~\autoref{tab:tcf} dargestellt.
+                
+
+                Initial 0
+
+                \begin{figure}
+                    %thread ngram image
+                    \includegraphics[width=\textwidth]{images/tcf.pdf}
+                    \caption{
+                    }\label{fig:ngram_thread}
+                \end{figure}
+
+                \begin{table}[ht]
+                    \small
+                    \centering
+                    \begin{tabular}{c|c|c|c}
+                        \hline
+                        \rowcolor{GruvGray!36}
+                        \multicolumn{4}{c}{Thread Change Flag}\\
+                        \hline
+                        Szenario & #\ac{TCF}$=1$ & #\ac{TCF}$=0$ & \makecell{Anteil \ac{TCF}$=1$ \\an allen n-grammen \\ in \%}\\
+                        \hline
+                        \hline
+                        \rowcolor{GruvGray!16}
+                        $Bruteforce\_CWE\_307$ & $2534165$ & $20383314$ & $11.1$ \\
+                        $CVE-2012-2122$ & $1206151$ & $10365309$ & $10.4$ \\
+                        \rowcolor{GruvGray!16}
+                        $CVE-2014-0160$ & $1120786$ & $7026864$ & $13.8$ \\
+                        $CVE-2017-7529$ & $1130717$ & $10721010$ & $9.5$ \\
+                        \rowcolor{GruvGray!16}
+                        \hline
+                    \end{tabular}
+                    \caption{Vorkommen von eines Kontextwechsels angezeigt durch die \ac{TCF}.
+                    Bei einer n-gram Länge von $6$}
+                    \label{tab:tcf}
+                \end{table}
+
 
                 %und speziell von welchen System Calls diese Argumente kommen.spannend
                 %Auch wenn ein allgemeiner Ansatz zur Kodierung wichtiger 
@@ -288,7 +340,7 @@
                     %lstat & file status & path & 
                     %\rowcolor{Gray!16}
                     %mmap & map or unmap files or devices into memory & addr, length, fd,... & pointer to maped area
-                    %poll & wait for event on fd & fds (fd, events, revents), timeout
+                    %poll & wait for event on fd & fds (), timeout
                     %\rowcolor{Gray!16}
                     %open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} \\
                     %write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} \\
@@ -684,10 +736,6 @@
                 %Single small w2v nur 30\% der zeit gegenüber single small ohe
                 %bei mulit w2v sogar nur 13\%
                 %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
-                Thread information erweitern
-                    Grimmer ngramme thread aware sinnvoll bei multithread anwendungen 
-                    bei ihren verwendeted algorithmen ausreichend
-                    für LSTM kontext wichtig, deshalb angeben ob aktueller thread aus selben Kontext wie der vorige kommt
 
                 %Anzahl unique return Werte, nur numerische Werte betrachtet, 
                 %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
