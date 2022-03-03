@@ -234,14 +234,17 @@
             Ein n-gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
             Diese werden wie in der linken Graphik in \autoref{fig:ngram_thread} Beispielhaft dargestellt aufgebaut.
 
-            In der Umsetzung wird ein Buffer der Länge $n$ erzeugt, welcher das erste n-gram liefert sofern sich $n$ Elemente in dem Buffer befinden.
-            Zu beachten ist dabei, dass die Abfolge der System Calls mehrere logische Abfolgen zusammenführen.
+            Dabei wird ein Buffer der Länge $n$ erzeugt, welcher das erste n-gram liefert sofern sich $n$ Elemente in dem Buffer befinden.
+            Kommt ein neues Element in den Buffer fällt das älteste heraus.
+
+            Zu beachten ist dabei, dass die Abfolge der System Calls mehrere logische Abfolgen zusammenführt.
             Denn moderne Computer Systeme verarbeiten mehrere Threads parallel.~\cite{SYSCALL_SILBERSCHATZ}
             Die System Calls aller Threads werden dann je nach dem wie sie vom Betriebssystemskernel verarbeitet werden an die Sequenz angefügt.
             
             \paragraph{Thread Awareness}
-                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwenden um die verwundenen Sequenzen zu entwirren.
-                Dabei werden für jeden Thread ein eigener Buffer erzeugt. Die Ausgabe dieser Buffer wird in der rechten Graphik in \autoref{fig:ngram_thread} veranschaulicht. 
+                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwenden um diese verwundenen Sequenzen zu entwirren.
+                Dabei wird für jeden Thread ein eigener Buffer erzeugt. 
+                Die Ausgabe dieser Buffer wird in der rechten Graphik in \autoref{fig:ngram_thread} veranschaulicht. 
                 Also nur System Calls aus demselben Thread bilden ein n-gram.
                 Grimmer et al.\ konnten zeigen, dass dies speziell auch für diesen Datensatz eine Verbesserung der Ergebnisse erreicht werden konnte.
 
@@ -256,27 +259,36 @@
                 \end{figure}
 
             \paragraph{Thread Change Flag}
-                Sie verwenden dafür aber ausschließlich Algorithmen welche kontextfrei arbeiten.
-                Dies bedeutet, dass das zuvor gesehene n-gram keinen Einfluss auf das aktuelle hat.
-                Wie in~\autoref{sec:LSTM} beschrieben wird ist das bei \ac{LSTM} Netzwerken nicht der Fall.
+                Sie verwenden in der Auswertung aber ausschließlich Algorithmen welche kontextfrei arbeiten.
+                Dies bedeutet, dass zuvor gesehene n-gramme keinen Einfluss auf das aktuelle haben.
+                Wie in~\autoref{sec:LSTM} beschrieben wird, ist das bei \ac{LSTM} Netzwerken nicht der Fall.
                 Es gilt also den benötigten Kontext in die von Grimmer et al.\ beschriebene Methodik zu integrieren.
-                Kodieren der tatsächlichen Thread ID unpraktisch, da Thread IDs wiederverwendet werden können.
-                Dies wird erreicht indem ein n-gram mit der Information über einen Kontextwechsel angereichert wird. 
+
+                Eine Möglichkeit bestünde darin die ThreadID zu kodieren und die Information aus welchem Thread das n-gram stammt mitzugeben.
+                Doch das Kodieren der tatsächlichen Thread ID ist sehr unpraktisch, da Thread IDs wiederverwendet werden können.
+                Stattdessen wird in dieser Arbeit ein n-gram mit der Informatione über einen Kontextwechsel angereichert. 
+                Dieser Kontextwechsel soll dann über die \ac{TCF} an das \ac{LSTM} übergeben werden.
                 Initial wird, weil kein Kontextwechsel stattfindet, für die \ac{TCF} eine $0$ angegeben.
                 Kommt das aktuelle n-gram aus demselben Thread wie das n-gram zuvor, ist die \ac{TCF} ebenfalls $0$.
                 Ist das aktuelle n-gram allerdings aus einem anderen Thread wird ein Kontextwechsel durch das Setzen der \ac{TCF} auf $1$ angezeigt.
+                Visualisiert wird dies in \autoref{fig:ngram_tcf}
 
-                Wie oft so ein Kontextwechsel stattfindet wird in~\autoref{tab:tcf} dargestellt.
-                
-
-                Initial 0
-
-                \begin{figure}
+                \begin{figure}[ht]
                     %thread ngram image
-                    \includegraphics[width=\textwidth]{images/tcf.pdf}
-                    \caption{
-                    }\label{fig:ngram_thread}
+                    \centering
+                    \includegraphics[width=0.6\textwidth]{images/tcf.pdf}
+                    \caption{Analog zu \autoref{fig:ngram_thread} werden n-gramme erzeugt.
+                             Diese werden nun mit der \ac{TCF} angereichert.
+                             Initial ist die \ac{TCF} $0$.
+                             Ist das zuvor ausgegeben n-gram aus demselben Thread, ist die \ac{TCF} ebenfalls $0$.
+                             Findet ein Wechsel des Threads statt, wird dieser Kontextwechsel durch das Setzen der \ac{TCF} auf $1$ signalisiert.}\label{fig:ngram_tcf}
                 \end{figure}
+
+                Die Vorstellung dabei ist, dass eine \ac{TCF}$= 1$ dem \ac{LSTM} die Information gibt, dass der zuvor gesehene n-gramme nur eine untergeordnete Rolle für den Kontext spielen, da diese aus einem anderen Thread stammen.
+                Falls dies der Fall ist, kann ein häufiger Kontextwechsel dafür sorgen, dass der Vorteil der \ac{LSTM}s abgeschwächt wird, da immer dafür gesorgt wird, dass potentiell wenige Informationen im Kontext enthalten sind.
+                In \autoref{tab:tcf} wird dargestellt wie oft so ein Kontextwechsel stattfindet.
+                Dabei ist zu erkennen, dass in den Szenarien aus dem \ac{LID-DS} bei einer Länge von $n=6$ nur bis zu $13.8\%$ der n-gramme eine \ac{TCF}$=1$ haben.
+                Die zuvor geschilderte Gefahr scheint also für die gegebenen Szenarien keine Rolle zu spielen, ist aber für andere Einsatzbereiche mit nicht kontextfreien verarbeitenden Algorithmen zu beachten.
 
                 \begin{table}[ht]
                     \small
@@ -303,652 +315,55 @@
                     \label{tab:tcf}
                 \end{table}
 
-
-                %und speziell von welchen System Calls diese Argumente kommen.spannend
-                %Auch wenn ein allgemeiner Ansatz zur Kodierung wichtiger 
-                %most frequent calls
-                %Sql: vfrom, fcntl, lstat, nmap, poll
-                %php: vfrom, fcntl, lstat, nmap, poll
-                %bru: writev,read,  close, nmap, poll
-                %eps: open,  read,  fstat, mmap, brk
-                %zip: futex, write, getpid,protect,open
-                %2019: statat,write, futex, stat, getpid
-                %2014: writev,read,  nmap,  close,poll
-                %2017: lwait,close,ollctl,write,writev
-                %2018: statat,write, futex, getpid, stat
-
-
-                %unique:
-                    %vfrom, fcntl, lstat, nmap, poll, writev, read, close, open, fstat, mmap, brk
-                    %futex, write, getpid, protect, statat, stat, lwait, ollctl
-
-            %\begin{table}[ht]
-                %\small
-                %\label{tab:syscall}
-                %\centering
-                %\begin{tabular}{c||p{6cm}|p{3cm}|p{3cm}}
-                    %\hline
-                    %\rowcolor{Gray!36}
-                    %\multicolumn{3}{c}{System Calls}\\
-                    %\hline
-                    %Name & Beschreibung & Interessante Argumente & return\\
-                    %\hline
-                    %\hline
-                    %\rowcolor{Gray!16}
-                    %fcntl & manipulate current fd & None & None
-                    %\hline
-                    %lstat & file status & path & 
-                    %\rowcolor{Gray!16}
-                    %mmap & map or unmap files or devices into memory & addr, length, fd,... & pointer to maped area
-                    %poll & wait for event on fd & fds (), timeout
-                    %\rowcolor{Gray!16}
-                    %open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} \\
-                    %write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} \\
-                    %\hline
-                %\end{tabular}
-                %\caption{Beschreibung ausgewählter System Calls}
-            %\end{table}
-
-                %Anzahl unique return Werte, nur numerische Werte betrachtet, 
-                %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
-                %Bruteforce: 17192 2851 int, 14333 hex, 8 else
-                %2012:       1897 193 int, 1698 hex, 6
-                %2014:       16736 2706, 14022, 8
-                %2017:       381 26, 354, 1 
-                %2018:       110 106, 0, 4 
-                %2019:       125 119 int werte und 6 else
-                %SQL
-                %EPS
-                %PHP
-                %Zipslip
-%
-                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
-                %Mögliche Bedeutungen bei else:
-                    %Meist Fehlermeldungen!!!
-                    %stat:
-                        %file status, 
-                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
-                    %ioctl:
-                        %manipulate underlying device, 
-                        %normalerweise 0 bei success manchmal negative werte
-                        %-1 bei error
-                        %manchmal return als ausgabe parameter
-                    %Kategorische Betrachtung sinnvoll
-                %HEX:\@
-                    %mmap:
-                        %map or unmap files into memory
-                        %return pointer to mapped area
-                    %brk:
-                        %change data segment size
-                        %return 0 on success -1 on error
-                        %got hex value
-
-                %Systemcalls welche Rückgabewerte haben:
-                    %Bruteforce: {
-                                 %'writev': 126627,
-                                 %'read': 92587,
-                                 %'munmap': 90757,
-                                 %'close': 80535,
-                                 %'poll': 64443,
-                                 %'mmap': 45437,
-                                 %'write': 39703,
-                                 %'fcntl': 35722,
-                                 %'brk': 30372,
-                                 %'stat': 28356,
-                                 %'semop': 27435,
-                                 %'epoll_wait': 13746,
-                                 %'fstat': 12950,
-                                 %'shutdown': 11127,
-                                 %'select': 11012, 
-                                 %'lstat': 8060,
-                                 %'getcwd': 4616,
-                                 %'chdir': 4616,
-                                 %'rename': 2308,
-                                 %'connect': 4106,
-                                 %'lseek': 1410                           ,
-                                 %'clone': 1409,
-                                 %'setgid': 705,
-                                 %'setuid': 705}
-                                 %'getdents': 40,
-
-                    %2012: {
-                            % 'read': 209140,
-                            % 'futex': 149729,
-                            % 'setsockopt': 148874,
-                            % 'fcntl': 147382,
-                            % 'write': 71308,
-                            % 'pwrite': 25132,
-                            % 'select': 7846,
-                            % 'access': 3337,
-                            % 'clone': 2523,
-                            % 'mmap': 1723,
-                            % 'poll': 1262,
-                            % 'stat': 960,
-                            % 'shutdown': 959,
-                            % 'close': 959}
-                            % 'munmap': 464,
-
-                    %2014: {
-                            % 'writev': 122406,
-                            % 'munmap': 90471,
-                            % 'read': 90368,
-                            % 'close': 79167,
-                            % 'poll': 62797,
-                            % 'mmap': 44653,
-                            % 'write': 38219,
-                            % 'fcntl': 35692,
-                            % 'brk': 28193,
-                            % 'semop': 27166,
-                            % 'stat': 26827,
-                            % 'epoll_wait': 13629,
-                            % 'fstat': 12290,
-                            % 'shutdown': 11112,
-                            % 'select': 11094,
-                            % 'lstat': 7826,
-                            % 'getcwd': 4324,
-                            % 'chdir': 4324,
-                            % 'connect': 4231,
-                            % 'rename': 2162,
-                            % 'clone': 1480,
-                            % 'lseek': 1480,
-                            % 'setgid': 740,
-                            % 'setuid': 740,
-                            % 'getdents': 34} 
-
-                    %2017: {'epoll_wait': 53355,
-                            % 'close': 52823,
-                            % 'fstat': 26385,
-                            % 'writev': 26110,
-                            % 'sendfile': 26110,
-                            % 'pread': 26109,
-                            % 'write': 26109,
-                            % 'recvfrom': 26108,
-                            % 'getdents': 552,
-                            % 'brk': 368,
-                            % 'recvmsg': 330} 
-                            % 'stat': 276,
-                            % 'sendmsg': 166,
-                            % 'futex': 92,
-
-                    %2018: {
-                            % 'write': 576100,
-                            % 'futex': 262846,
-                            % 'stat': 252081,
-                            % 'read': 119433,
-                            % 'close': 82304,
-                            % 'fstat': 82226,
-                            % 'select': 56420,
-                            % 'setsockopt': 54836,
-                            % 'ioctl': 54824,
-                            % 'lseek': 54824,
-                            % 'getsockopt': 27405,
-                            % 'recvfrom': 27403,
-                            % 'fcntl': 27396,
-                            % 'poll': 4654,
-                            % 'lstat': 3,
-                            % 'pread': 3} 
-
-                    %2019: {
-                            % 'write': 542742,
-                            % 'futex': 359158,
-                            % 'stat': 307293,
-                            % 'read': 136356,
-                            % 'fstat': 81543,
-                            % 'close': 81599,
-                            % 'select': 75772,
-                            % 'ioctl': 54282,
-                            % 'setsockopt': 54269,
-                            % 'lseek': 54250,
-                            % 'fcntl': 27245,
-                            % 'recvfrom': 27145,
-                            % 'getsockopt': 27129,
-                            % 'poll': 9050,
-                            % 'lstat': 245,
-                            % 'rename': 32,
-                            % 'getdents': 32}
-                            % 'unlink': 21,
-                            % 'pread': 21,
-
-                %ohe und w2v
-                %word embedding parameterwahl wichtig $sqrt(distinct)$
-                %Threadid kodieren: 
-                %\begin{itemize}
-                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
-                    %\item relationship between threads and reduce size (possible 1000 different threads)
-                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
-                %\end{itemize}
-                %zeit kodieren
-                %\begin{itemize}
-                    %\item use time delta of two different syscalls as new input
-                %\end{itemize}
-                %parameterlänge kodieren
-                %\begin{itemize}
-                    %\item syscall to int: Wandle Syscall name in Integer um
-%
-                     %ohe of sysint: use ohe for every syscall 
-                     %n * (distinct calls + 1) eingabeneuronen 
-
-                     %w2v von syscall
-                     %weniger neuronen und nähe von syscall!!!
-                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
-                %\end{itemize}
-                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
-                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
-                %embedding größer -> langsamer
-                %vergleich ngram
-                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
-                %w2v bringt entscheidenden Vorteil gegenüber ohe:
-                %Jeweils vergleich der selben parameter außer w2v vs ohe:
-                %Single small w2v nur 30\% der zeit gegenüber single small ohe
-                %bei mulit w2v sogar nur 13\%
-                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
-
-                %Anzahl unique return Werte, nur numerische Werte betrachtet, 
-                %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
-                %Bruteforce: 17192 2851 int, 14333 hex, 8 else
-                %2012:       1897 193 int, 1698 hex, 6
-                %2014:       16736 2706, 14022, 8
-                %2017:       381 26, 354, 1 
-                %2018:       110 106, 0, 4 
-                %2019:       125 119 int werte und 6 else
-                %SQL
-                %EPS
-                %PHP
-                %Zipslip
-%
-                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
-                %Mögliche Bedeutungen bei else:
-                    %Meist Fehlermeldungen!!!
-                    %stat:
-                        %file status, 
-                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
-                    %ioctl:
-                        %manipulate underlying device, 
-                        %normalerweise 0 bei success manchmal negative werte
-                        %-1 bei error
-                        %manchmal return als ausgabe parameter
-                    %Kategorische Betrachtung sinnvoll
-                %HEX:\@
-                    %mmap:
-                        %map or unmap files into memory
-                        %return pointer to mapped area
-                    %brk:
-                        %change data segment size
-                        %return 0 on success -1 on error
-                        %got hex value
-
-                %Systemcalls welche Rückgabewerte haben:
-                    %Bruteforce: {
-                                 %'writev': 126627,
-                                 %'read': 92587,
-                                 %'munmap': 90757,
-                                 %'close': 80535,
-                                 %'poll': 64443,
-                                 %'mmap': 45437,
-                                 %'write': 39703,
-                                 %'fcntl': 35722,
-                                 %'brk': 30372,
-                                 %'stat': 28356,
-                                 %'semop': 27435,
-                                 %'epoll_wait': 13746,
-                                 %'fstat': 12950,
-                                 %'shutdown': 11127,
-                                 %'select': 11012, 
-                                 %'lstat': 8060,
-                                 %'getcwd': 4616,
-                                 %'chdir': 4616,
-                                 %'rename': 2308,
-                                 %'connect': 4106,
-                                 %'lseek': 1410                           ,
-                                 %'clone': 1409,
-                                 %'setgid': 705,
-                                 %'setuid': 705}
-                                 %'getdents': 40,
-
-                    %2012: {
-                            % 'read': 209140,
-                            % 'futex': 149729,
-                            % 'setsockopt': 148874,
-                            % 'fcntl': 147382,
-                            % 'write': 71308,
-                            % 'pwrite': 25132,
-                            % 'select': 7846,
-                            % 'access': 3337,
-                            % 'clone': 2523,
-                            % 'mmap': 1723,
-                            % 'poll': 1262,
-                            % 'stat': 960,
-                            % 'shutdown': 959,
-                            % 'close': 959}
-                            % 'munmap': 464,
-
-                    %2014: {
-                            % 'writev': 122406,
-                            % 'munmap': 90471,
-                            % 'read': 90368,
-                            % 'close': 79167,
-                            % 'poll': 62797,
-                            % 'mmap': 44653,
-                            % 'write': 38219,
-                            % 'fcntl': 35692,
-                            % 'brk': 28193,
-                            % 'semop': 27166,
-                            % 'stat': 26827,
-                            % 'epoll_wait': 13629,
-                            % 'fstat': 12290,
-                            % 'shutdown': 11112,
-                            % 'select': 11094,
-                            % 'lstat': 7826,
-                            % 'getcwd': 4324,
-                            % 'chdir': 4324,
-                            % 'connect': 4231,
-                            % 'rename': 2162,
-                            % 'clone': 1480,
-                            % 'lseek': 1480,
-                            % 'setgid': 740,
-                            % 'setuid': 740,
-                            % 'getdents': 34} 
-
-                    %2017: {'epoll_wait': 53355,
-                            % 'close': 52823,
-                            % 'fstat': 26385,
-                            % 'writev': 26110,
-                            % 'sendfile': 26110,
-                            % 'pread': 26109,
-                            % 'write': 26109,
-                            % 'recvfrom': 26108,
-                            % 'getdents': 552,
-                            % 'brk': 368,
-                            % 'recvmsg': 330} 
-                            % 'stat': 276,
-                            % 'sendmsg': 166,
-                            % 'futex': 92,
-
-                    %2018: {
-                            % 'write': 576100,
-                            % 'futex': 262846,
-                            % 'stat': 252081,
-                            % 'read': 119433,
-                            % 'close': 82304,
-                            % 'fstat': 82226,
-                            % 'select': 56420,
-                            % 'setsockopt': 54836,
-                            % 'ioctl': 54824,
-                            % 'lseek': 54824,
-                            % 'getsockopt': 27405,
-                            % 'recvfrom': 27403,
-                            % 'fcntl': 27396,
-                            % 'poll': 4654,
-                            % 'lstat': 3,
-                            % 'pread': 3} 
-
-                    %2019: {
-                            % 'write': 542742,
-                            % 'futex': 359158,
-                            % 'stat': 307293,
-                            % 'read': 136356,
-                            % 'fstat': 81543,
-                            % 'close': 81599,
-                            % 'select': 75772,
-                            % 'ioctl': 54282,
-                            % 'setsockopt': 54269,
-                            % 'lseek': 54250,
-                            % 'fcntl': 27245,
-                            % 'recvfrom': 27145,
-                            % 'getsockopt': 27129,
-                            % 'poll': 9050,
-                            % 'lstat': 245,
-                            % 'rename': 32,
-                            % 'getdents': 32}
-                            % 'unlink': 21,
-                            % 'pread': 21,
-
-                %ohe und w2v
-                %word embedding parameterwahl wichtig $sqrt(distinct)$
-                %Threadid kodieren: 
-                %\begin{itemize}
-                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
-                    %\item relationship between threads and reduce size (possible 1000 different threads)
-                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
-                %\end{itemize}
-                %zeit kodieren
-                %\begin{itemize}
-                    %\item use time delta of two different syscalls as new input
-                %\end{itemize}
-                %parameterlänge kodieren
-                %\begin{itemize}
-                    %\item syscall to int: Wandle Syscall name in Integer um
-%
-                     %ohe of sysint: use ohe for every syscall 
-                     %n * (distinct calls + 1) eingabeneuronen 
-
-                     %w2v von syscall
-                     %weniger neuronen und nähe von syscall!!!
-                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
-                %\end{itemize}
-                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
-                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
-                %embedding größer -> langsamer
-                %vergleich ngram
-                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
-                %w2v bringt entscheidenden Vorteil gegenüber ohe:
-                %Jeweils vergleich der selben parameter außer w2v vs ohe:
-                %Single small w2v nur 30\% der zeit gegenüber single small ohe
-                %bei mulit w2v sogar nur 13\%
-                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
-
-                %Anzahl unique return Werte, nur numerische Werte betrachtet, 
-                %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
-                %Bruteforce: 17192 2851 int, 14333 hex, 8 else
-                %2012:       1897 193 int, 1698 hex, 6
-                %2014:       16736 2706, 14022, 8
-                %2017:       381 26, 354, 1 
-                %2018:       110 106, 0, 4 
-                %2019:       125 119 int werte und 6 else
-                %SQL
-                %EPS
-                %PHP
-                %Zipslip
-%
-                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
-                %Mögliche Bedeutungen bei else:
-                    %Meist Fehlermeldungen!!!
-                    %stat:
-                        %file status, 
-                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
-                    %ioctl:
-                        %manipulate underlying device, 
-                        %normalerweise 0 bei success manchmal negative werte
-                        %-1 bei error
-                        %manchmal return als ausgabe parameter
-                    %Kategorische Betrachtung sinnvoll
-                %HEX:\@
-                    %mmap:
-                        %map or unmap files into memory
-                        %return pointer to mapped area
-                    %brk:
-                        %change data segment size
-                        %return 0 on success -1 on error
-                        %got hex value
-
-                %Systemcalls welche Rückgabewerte haben:
-                    %Bruteforce: {
-                                 %'writev': 126627,
-                                 %'read': 92587,
-                                 %'munmap': 90757,
-                                 %'close': 80535,
-                                 %'poll': 64443,
-                                 %'mmap': 45437,
-                                 %'write': 39703,
-                                 %'fcntl': 35722,
-                                 %'brk': 30372,
-                                 %'stat': 28356,
-                                 %'semop': 27435,
-                                 %'epoll_wait': 13746,
-                                 %'fstat': 12950,
-                                 %'shutdown': 11127,
-                                 %'select': 11012, 
-                                 %'lstat': 8060,
-                                 %'getcwd': 4616,
-                                 %'chdir': 4616,
-                                 %'rename': 2308,
-                                 %'connect': 4106,
-                                 %'lseek': 1410                           ,
-                                 %'clone': 1409,
-                                 %'setgid': 705,
-                                 %'setuid': 705}
-                                 %'getdents': 40,
-
-                    %2012: {
-                            % 'read': 209140,
-                            % 'futex': 149729,
-                            % 'setsockopt': 148874,
-                            % 'fcntl': 147382,
-                            % 'write': 71308,
-                            % 'pwrite': 25132,
-                            % 'select': 7846,
-                            % 'access': 3337,
-                            % 'clone': 2523,
-                            % 'mmap': 1723,
-                            % 'poll': 1262,
-                            % 'stat': 960,
-                            % 'shutdown': 959,
-                            % 'close': 959}
-                            % 'munmap': 464,
-
-                    %2014: {
-                            % 'writev': 122406,
-                            % 'munmap': 90471,
-                            % 'read': 90368,
-                            % 'close': 79167,
-                            % 'poll': 62797,
-                            % 'mmap': 44653,
-                            % 'write': 38219,
-                            % 'fcntl': 35692,
-                            % 'brk': 28193,
-                            % 'semop': 27166,
-                            % 'stat': 26827,
-                            % 'epoll_wait': 13629,
-                            % 'fstat': 12290,
-                            % 'shutdown': 11112,
-                            % 'select': 11094,
-                            % 'lstat': 7826,
-                            % 'getcwd': 4324,
-                            % 'chdir': 4324,
-                            % 'connect': 4231,
-                            % 'rename': 2162,
-                            % 'clone': 1480,
-                            % 'lseek': 1480,
-                            % 'setgid': 740,
-                            % 'setuid': 740,
-                            % 'getdents': 34} 
-
-                    %2017: {'epoll_wait': 53355,
-                            % 'close': 52823,
-                            % 'fstat': 26385,
-                            % 'writev': 26110,
-                            % 'sendfile': 26110,
-                            % 'pread': 26109,
-                            % 'write': 26109,
-                            % 'recvfrom': 26108,
-                            % 'getdents': 552,
-                            % 'brk': 368,
-                            % 'recvmsg': 330} 
-                            % 'stat': 276,
-                            % 'sendmsg': 166,
-                            % 'futex': 92,
-
-                    %2018: {
-                            % 'write': 576100,
-                            % 'futex': 262846,
-                            % 'stat': 252081,
-                            % 'read': 119433,
-                            % 'close': 82304,
-                            % 'fstat': 82226,
-                            % 'select': 56420,
-                            % 'setsockopt': 54836,
-                            % 'ioctl': 54824,
-                            % 'lseek': 54824,
-                            % 'getsockopt': 27405,
-                            % 'recvfrom': 27403,
-                            % 'fcntl': 27396,
-                            % 'poll': 4654,
-                            % 'lstat': 3,
-                            % 'pread': 3} 
-
-                    %2019: {
-                            % 'write': 542742,
-                            % 'futex': 359158,
-                            % 'stat': 307293,
-                            % 'read': 136356,
-                            % 'fstat': 81543,
-                            % 'close': 81599,
-                            % 'select': 75772,
-                            % 'ioctl': 54282,
-                            % 'setsockopt': 54269,
-                            % 'lseek': 54250,
-                            % 'fcntl': 27245,
-                            % 'recvfrom': 27145,
-                            % 'getsockopt': 27129,
-                            % 'poll': 9050,
-                            % 'lstat': 245,
-                            % 'rename': 32,
-                            % 'getdents': 32}
-                            % 'unlink': 21,
-                            % 'pread': 21,
-
-                %ohe und w2v
-                %word embedding parameterwahl wichtig $sqrt(distinct)$
-                %Threadid kodieren: 
-                %\begin{itemize}
-                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
-                    %\item relationship between threads and reduce size (possible 1000 different threads)
-                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
-                %\end{itemize}
-                %zeit kodieren
-                %\begin{itemize}
-                    %\item use time delta of two different syscalls as new input
-                %\end{itemize}
-                %parameterlänge kodieren
-                %\begin{itemize}
-                    %\item syscall to int: Wandle Syscall name in Integer um
-%
-                     %ohe of sysint: use ohe for every syscall 
-                     %n * (distinct calls + 1) eingabeneuronen 
-
-                     %w2v von syscall
-                     %weniger neuronen und nähe von syscall!!!
-                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
-                %\end{itemize}
-                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
-                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
-                %embedding größer -> langsamer
-                %vergleich ngram
-                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
-                %w2v bringt entscheidenden Vorteil gegenüber ohe:
-                %Jeweils vergleich der selben parameter außer w2v vs ohe:
-                %Single small w2v nur 30\% der zeit gegenüber single small ohe
-                %bei mulit w2v sogar nur 13\%
-                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
-
     \section{Algorithmus}\label{sec:Algorithmus}
-        \ac{LSTM} Sprachmodell soll Wahrscheinlichkeit des nächsten System Calls vorhersagen, gegeben eines System Calls oder einer Sequenz von System Calls.
-        Gab es in den Trainingsdaten die feste Menge $S = {1,\dots,N}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
-        Jeder dieser System Calls bekommt im ersten Schritt einen Integerwert zwischen 1 und $N$.
-        Taucht in den Testdaten nun ein noch nicht bekannter System Call $x_i$ auf, also $x_i \notin S$, so erhält dieser den vorläufigen Wert 0.
-        Zu jedem Zeitpunkt wird $x_i$ der Input Layer übergeben.
-        Dabei wird ein Embedding aus Abschnitt~\ref{sec:embedding} verwendet. 
-        Mit den gegebenen Trainingsdaten kann nun das \ac{LSTM} mittels des \textit{back-propagation through time} (BPTT) trainiert werden.
-        % Im ersten Schritt besteht dieses Embedding aus dem \textit{One hot encoding} (OHE).
-        % In weiterer Ausführung werden dann zwei W2V Verfahren verwendet.
-        % Wie in Kapitel \ref{Grundlagen:LSTM} bereits beschrieben wird, soll das LSTM mit den kodierten system calls aus dem Trainingsdatensatz trainiert werden.
-        An der Ausgangs Layer befindet sich eine Softmax Aktivierungsfunktion.
-        Diese wird verwendet um die Ausgabe zu normalisieren und damit die Wahrscheinlichkeitsverteilung des nächsten System Calls zu erhalten.
-        Also $P\left(x_i|x_{1:i-1}\right)$ für alle $i$. 
         
+        Im vorigen Kapitel wurden alle verwendeten Vorverarbeitungsschritte vorgestellt.
+        In den kommenden Abschnitten werden diese Schritte zu einem Ablauf zusammengeführt.
+        Zunächst soll in \autoref{sec:Allgemein} ein allgemeiner Überblick gegeben werden.
+        Anschließend wird in \autoref{sec:Training} behandelt was das \ac{LSTM} Netzwerk lernt.
+        Wie aus dem Gelernten dann die Einstufung in Normal- oder Angriffsverhalten stattfindet, wird dann in \autoref{sec:Anomalieerkennung} und \autoref{sec:Schwellung}.
+        Abschließend werden dann grobe Richtlinien für die Parameterwahl in \autoref{sec:StrukExp} erstellt.
+
+        \subsection{Allgemein}\label{sec:Allgemein}
+            Wie bereits in \autoref{sec:related_nlp} beschrieben, werden verschiedene Verfahren der \ac{NLP} auch in der anomaliebasierten \ac{HIDS} eingesetzt.
+            Neben den bereits beschriebenen \ac{W2V} Verfahren kommen auch die in der \ac{NLP} verbreiteten \ac{LSTM} Netzwerke zum Einsatz.
+            Mit dem \ac{LSTM} soll in der Trainingsphase ein Sprachmodell der System Calls erstellt werden.
+            Anhand dieses Modells soll dann in der Testphase eine Vorhersage über den nächsten System Call gemacht werden.
+            Diese Vorhersage besteht aus den Wahrscheinlichkeiten für alle aus dem Training gesehenen System Calls, plus einem Platzhalter für noch unbekannte System Calls.
+            Die Wahrscheinlichkeit des tatsächlich auftretenden System Calls stellt dann den Anomaliescore dar.
+            Ob dieser Anomaliescore zu einem Alarm führt oder nicht hängt von einem zuvor bestimmten Schwellwert ab.
+            Dieser wird bestimmt indem nach dem Training die Anomaliescores für einen Ausschnitt des Datensatzes bestimmt werden.
+            In diesem Ausschnitt darf kein Angriffsverhalten enthalten sein.
+            Eine Garantie die in der echten Welt nie komplett gegeben werden kann.
+            Da in dem Ausschnitt kein Alarm auftreten darf, wird der höchste Anomaliescore als Schwellwert gewählt.
+            Dies ist definitiv nur eine Annäherung an einen optimalen Schwellwert.
+
+            Die System Calls werden wie zuvor beschrieben durch das \ac{W2V} Verfahren in einen Vektor umgewandelt und durch die zwei zuvor beschriebenen Verfahren, die Normalisierung der Zeitabstände und der Rückgabewerte bestimmter System Calls, angereichert.
+            Der Stream der System Calls wird dann mit Betrachtung der Threads in n-gramme zusammengetragen.
+            Zusätzlich wird zu jedem n-gram die Information über einen Kontextwechsel durch die \ac{TCF} angegeben.
+            % Im Folgenden wird der Trainingsablauf detaillierter bestimmt.
 
         \subsection{Training}\label{sec:Training}
-            Nächsten Syscall vorhersagen und überprüfen ob richtig vorhergesagt
+            
+            Für das Training des \ac{LSTM} Netzwerkes werden nur Normaldaten aus dem Trainingsdatensatz verwendet.
+            200 Training - nur Normal
+            50 Validierung - nur Normal
+            Rest Test - Normal und Angriffsverhalten
+            Gab es in den Trainingsdaten die feste Menge $S = \{1,\dots,N\}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
+            Jeder dieser System Calls bekommt im ersten Schritt einen Integerwert zwischen 1 und $N$.
+            Taucht in den Testdaten nun ein noch nicht bekannter System Call $x_i$ auf, also $x_i \notin S$, so erhält dieser den vorläufigen Wert 0.
+            Zu jedem Zeitpunkt wird $x_i$ der Input Layer übergeben.
+            Dabei wird ein Embedding aus Abschnitt~\ref{sec:embedding} verwendet. 
+            Mit den gegebenen Trainingsdaten kann nun das \ac{LSTM} mittels des \textit{back-propagation through time} (BPTT) trainiert werden.
+            % Im ersten Schritt besteht dieses Embedding aus dem \textit{One hot encoding} (OHE).
+            % In weiterer Ausführung werden dann zwei W2V Verfahren verwendet.
+            % Wie in Kapitel \ref{Grundlagen:LSTM} bereits beschrieben wird, soll das LSTM mit den kodierten system calls aus dem Trainingsdatensatz trainiert werden.
+            An der Ausgangs Layer befindet sich eine Softmax Aktivierungsfunktion.
+            Diese wird verwendet um die Ausgabe zu normalisieren und damit die Wahrscheinlichkeitsverteilung des nächsten System Calls zu erhalten.
+            Also $P\left(x_i|x_{1:i-1}\right)$ für alle $i$. 
+        
+
+
         \subsection{Anomalieerkennung}\label{sec:Anomalieerkennung}
             Es kann also bei Auftreten des System Calls $x_i$ überprüft werden mit welcher Wahrscheinlichkeit $p$ dieser vorhergesagt wurde.
             Der eigentliche Anomalie-Score wird dann folgenderweise berechnet:
@@ -956,7 +371,7 @@
                 ascore = 1 - p
             \end{equation}
             Unterschreitet dieser einen Schwellwert so wird dies als eine Anomalie gewertet und ein Alarm angezeigt.
-        \subsection{Schwellwertbestimmung}
+            \subsection{Schwellwertbestimmung}\label{sec:Schwellung}
             Um den zuvor erwähnten Schwellwert automatisch zu bestimmen, wird der Algorithmus auf die Validierungsdaten angewendet. 
             Dabei dient der höchste Wert dieser Daten dann als Schwellwert, da angenommen wird, dass mindestens alle Daten aus den Validierungsdaten harmlos sind und damit unter dem Schwellwert liegen sollten.
             Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen kann. 
@@ -966,28 +381,10 @@
             x ermitteln, betrachte validierungsdaten und schaue ob schlechtestes x aussehen würde
             tatsächlich oft einmal schlechteste platzierung und automatische erkennung von x schwer.
 
-            {\color{red} In Datensatzkapitel!}
-            \paragraph{Problem des Datensatz}
-
-                In den Testdaten sind \textit{malicious} \marginpar{zu dt.\ schädlich} Files beinhaltet, welche eine Information über den Angriffszeitpunkt liefert. 
-                Jedoch gibt es bei einer malicious File im Gegensatz zu den normalen Files  vier mögliche Zuordnungen.
-                %TODO Bild einfügen von Quadranten 
-                Befindet sich der Anomaliescore unter dem Schwellwert kann von einem \textit{True Negative} eingestuft werden.
-                Also es wurde korrekter weise kein Alarm vorhergesagt.
-                Befindet sich der Anomaliescore vor dem Angriffszeitpunkt über dem Schwellwert liegt ein \textit{False Positive} vor.
-                Es wurde ein Alarm gemeldet an einer Stelle an dem kein Angriff stattfand.
-                Nach dem angegebenen Angriffszeitpunkt wird es allerdings schwieriger.
-                Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, wird von einem \textit{True Positive}, also einem korrektem Alarm ausgegangen.
-                Jedoch kann da der Angriff schon vorbei sein, oder gar noch nicht gestartet sein.
-                Es können nach dem Angriffszeitpunkt auch \textit{False Positive} oder \textit{False Negative} geben, welche allerdings nicht als solche erkannt werden können.
-                Wie sich das auf die Auswertung der Ergebnisse auswirkt wird in Kapitel~\ref{sec:Metriken} beleuchtet.
-
         \subsection{Parameterwahl}
             ngram länge
             lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info
             -> finden von sweet spot
-            generell großes n viele alarme
-            kleines n weniger alarme  vorteil \ac{LSTM}\@?
             wichtiger Parameter den es zu ermitteln gilt
 
     \section{Strukturierung der Experimente}\label{sec:StrukExp}

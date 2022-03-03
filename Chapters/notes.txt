@@ -1,0 +1,570 @@
+
+                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
+                %Mögliche Bedeutungen bei else:
+                    %Meist Fehlermeldungen!!!
+                    %stat:
+                        %file status, 
+                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
+                    %ioctl:
+                        %manipulate underlying device, 
+                        %normalerweise 0 bei success manchmal negative werte
+                        %-1 bei error
+                        %manchmal return als ausgabe parameter
+                    %Kategorische Betrachtung sinnvoll
+                %HEX:\@
+                    %mmap:
+                        %map or unmap files into memory
+                        %return pointer to mapped area
+                    %brk:
+                        %change data segment size
+                        %return 0 on success -1 on error
+                        %got hex value
+
+                %Systemcalls welche Rückgabewerte haben:
+                    %Bruteforce: {
+                                 %'writev': 126627,
+                                 %'read': 92587,
+                                 %'munmap': 90757,
+                                 %'close': 80535,
+                                 %'poll': 64443,
+                                 %'mmap': 45437,
+                                 %'write': 39703,
+                                 %'fcntl': 35722,
+                                 %'brk': 30372,
+                                 %'stat': 28356,
+                                 %'semop': 27435,
+                                 %'epoll_wait': 13746,
+                                 %'fstat': 12950,
+                                 %'shutdown': 11127,
+                                 %'select': 11012, 
+                                 %'lstat': 8060,
+                                 %'getcwd': 4616,
+                                 %'chdir': 4616,
+                                 %'rename': 2308,
+                                 %'connect': 4106,
+                                 %'lseek': 1410                           ,
+                                 %'clone': 1409,
+                                 %'setgid': 705,
+                                 %'setuid': 705}
+                                 %'getdents': 40,
+
+                    %2012: {
+                            % 'read': 209140,
+                            % 'futex': 149729,
+                            % 'setsockopt': 148874,
+                            % 'fcntl': 147382,
+                            % 'write': 71308,
+                            % 'pwrite': 25132,
+                            % 'select': 7846,
+                            % 'access': 3337,
+                            % 'clone': 2523,
+                            % 'mmap': 1723,
+                            % 'poll': 1262,
+                            % 'stat': 960,
+                            % 'shutdown': 959,
+                            % 'close': 959}
+                            % 'munmap': 464,
+
+                    %2014: {
+                            % 'writev': 122406,
+                            % 'munmap': 90471,
+                            % 'read': 90368,
+                            % 'close': 79167,
+                            % 'poll': 62797,
+                            % 'mmap': 44653,
+                            % 'write': 38219,
+                            % 'fcntl': 35692,
+                            % 'brk': 28193,
+                            % 'semop': 27166,
+                            % 'stat': 26827,
+                            % 'epoll_wait': 13629,
+                            % 'fstat': 12290,
+                            % 'shutdown': 11112,
+                            % 'select': 11094,
+                            % 'lstat': 7826,
+                            % 'getcwd': 4324,
+                            % 'chdir': 4324,
+                            % 'connect': 4231,
+                            % 'rename': 2162,
+                            % 'clone': 1480,
+                            % 'lseek': 1480,
+                            % 'setgid': 740,
+                            % 'setuid': 740,
+                            % 'getdents': 34} 
+
+                    %2017: {'epoll_wait': 53355,
+                            % 'close': 52823,
+                            % 'fstat': 26385,
+                            % 'writev': 26110,
+                            % 'sendfile': 26110,
+                            % 'pread': 26109,
+                            % 'write': 26109,
+                            % 'recvfrom': 26108,
+                            % 'getdents': 552,
+                            % 'brk': 368,
+                            % 'recvmsg': 330} 
+                            % 'stat': 276,
+                            % 'sendmsg': 166,
+                            % 'futex': 92,
+
+                    %2018: {
+                            % 'write': 576100,
+                            % 'futex': 262846,
+                            % 'stat': 252081,
+                            % 'read': 119433,
+                            % 'close': 82304,
+                            % 'fstat': 82226,
+                            % 'select': 56420,
+                            % 'setsockopt': 54836,
+                            % 'ioctl': 54824,
+                            % 'lseek': 54824,
+                            % 'getsockopt': 27405,
+                            % 'recvfrom': 27403,
+                            % 'fcntl': 27396,
+                            % 'poll': 4654,
+                            % 'lstat': 3,
+                            % 'pread': 3} 
+
+                    %2019: {
+                            % 'write': 542742,
+                            % 'futex': 359158,
+                            % 'stat': 307293,
+                            % 'read': 136356,
+                            % 'fstat': 81543,
+                            % 'close': 81599,
+                            % 'select': 75772,
+                            % 'ioctl': 54282,
+                            % 'setsockopt': 54269,
+                            % 'lseek': 54250,
+                            % 'fcntl': 27245,
+                            % 'recvfrom': 27145,
+                            % 'getsockopt': 27129,
+                            % 'poll': 9050,
+                            % 'lstat': 245,
+                            % 'rename': 32,
+                            % 'getdents': 32}
+                            % 'unlink': 21,
+                            % 'pread': 21,
+
+                %ohe und w2v
+                %word embedding parameterwahl wichtig $sqrt(distinct)$
+                %Threadid kodieren: 
+                %\begin{itemize}
+                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
+                    %\item relationship between threads and reduce size (possible 1000 different threads)
+                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
+                %\end{itemize}
+                %zeit kodieren
+                %\begin{itemize}
+                    %\item use time delta of two different syscalls as new input
+                %\end{itemize}
+                %parameterlänge kodieren
+                %\begin{itemize}
+                    %\item syscall to int: Wandle Syscall name in Integer um
+%
+                     %ohe of sysint: use ohe for every syscall 
+                     %n * (distinct calls + 1) eingabeneuronen 
+
+                     %w2v von syscall
+                     %weniger neuronen und nähe von syscall!!!
+                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                %\end{itemize}
+                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                %embedding größer -> langsamer
+                %vergleich ngram
+                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                %w2v bringt entscheidenden Vorteil gegenüber ohe:
+                %Jeweils vergleich der selben parameter außer w2v vs ohe:
+                %Single small w2v nur 30\% der zeit gegenüber single small ohe
+                %bei mulit w2v sogar nur 13\%
+                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+
+                %Anzahl unique return Werte, nur numerische Werte betrachtet, 
+                %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
+                %Bruteforce: 17192 2851 int, 14333 hex, 8 else
+                %2012:       1897 193 int, 1698 hex, 6
+                %2014:       16736 2706, 14022, 8
+                %2017:       381 26, 354, 1 
+                %2018:       110 106, 0, 4 
+                %2019:       125 119 int werte und 6 else
+                %SQL
+                %EPS
+                %PHP
+                %Zipslip
+%
+                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
+                %Mögliche Bedeutungen bei else:
+                    %Meist Fehlermeldungen!!!
+                    %stat:
+                        %file status, 
+                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
+                    %ioctl:
+                        %manipulate underlying device, 
+                        %normalerweise 0 bei success manchmal negative werte
+                        %-1 bei error
+                        %manchmal return als ausgabe parameter
+                    %Kategorische Betrachtung sinnvoll
+                %HEX:\@
+                    %mmap:
+                        %map or unmap files into memory
+                        %return pointer to mapped area
+                    %brk:
+                        %change data segment size
+                        %return 0 on success -1 on error
+                        %got hex value
+
+                %Systemcalls welche Rückgabewerte haben:
+                    %Bruteforce: {
+                                 %'writev': 126627,
+                                 %'read': 92587,
+                                 %'munmap': 90757,
+                                 %'close': 80535,
+                                 %'poll': 64443,
+                                 %'mmap': 45437,
+                                 %'write': 39703,
+                                 %'fcntl': 35722,
+                                 %'brk': 30372,
+                                 %'stat': 28356,
+                                 %'semop': 27435,
+                                 %'epoll_wait': 13746,
+                                 %'fstat': 12950,
+                                 %'shutdown': 11127,
+                                 %'select': 11012, 
+                                 %'lstat': 8060,
+                                 %'getcwd': 4616,
+                                 %'chdir': 4616,
+                                 %'rename': 2308,
+                                 %'connect': 4106,
+                                 %'lseek': 1410                           ,
+                                 %'clone': 1409,
+                                 %'setgid': 705,
+                                 %'setuid': 705}
+                                 %'getdents': 40,
+
+                    %2012: {
+                            % 'read': 209140,
+                            % 'futex': 149729,
+                            % 'setsockopt': 148874,
+                            % 'fcntl': 147382,
+                            % 'write': 71308,
+                            % 'pwrite': 25132,
+                            % 'select': 7846,
+                            % 'access': 3337,
+                            % 'clone': 2523,
+                            % 'mmap': 1723,
+                            % 'poll': 1262,
+                            % 'stat': 960,
+                            % 'shutdown': 959,
+                            % 'close': 959}
+                            % 'munmap': 464,
+
+                    %2014: {
+                            % 'writev': 122406,
+                            % 'munmap': 90471,
+                            % 'read': 90368,
+                            % 'close': 79167,
+                            % 'poll': 62797,
+                            % 'mmap': 44653,
+                            % 'write': 38219,
+                            % 'fcntl': 35692,
+                            % 'brk': 28193,
+                            % 'semop': 27166,
+                            % 'stat': 26827,
+                            % 'epoll_wait': 13629,
+                            % 'fstat': 12290,
+                            % 'shutdown': 11112,
+                            % 'select': 11094,
+                            % 'lstat': 7826,
+                            % 'getcwd': 4324,
+                            % 'chdir': 4324,
+                            % 'connect': 4231,
+                            % 'rename': 2162,
+                            % 'clone': 1480,
+                            % 'lseek': 1480,
+                            % 'setgid': 740,
+                            % 'setuid': 740,
+                            % 'getdents': 34} 
+
+                    %2017: {'epoll_wait': 53355,
+                            % 'close': 52823,
+                            % 'fstat': 26385,
+                            % 'writev': 26110,
+                            % 'sendfile': 26110,
+                            % 'pread': 26109,
+                            % 'write': 26109,
+                            % 'recvfrom': 26108,
+                            % 'getdents': 552,
+                            % 'brk': 368,
+                            % 'recvmsg': 330} 
+                            % 'stat': 276,
+                            % 'sendmsg': 166,
+                            % 'futex': 92,
+
+                    %2018: {
+                            % 'write': 576100,
+                            % 'futex': 262846,
+                            % 'stat': 252081,
+                            % 'read': 119433,
+                            % 'close': 82304,
+                            % 'fstat': 82226,
+                            % 'select': 56420,
+                            % 'setsockopt': 54836,
+                            % 'ioctl': 54824,
+                            % 'lseek': 54824,
+                            % 'getsockopt': 27405,
+                            % 'recvfrom': 27403,
+                            % 'fcntl': 27396,
+                            % 'poll': 4654,
+                            % 'lstat': 3,
+                            % 'pread': 3} 
+
+                    %2019: {
+                            % 'write': 542742,
+                            % 'futex': 359158,
+                            % 'stat': 307293,
+                            % 'read': 136356,
+                            % 'fstat': 81543,
+                            % 'close': 81599,
+                            % 'select': 75772,
+                            % 'ioctl': 54282,
+                            % 'setsockopt': 54269,
+                            % 'lseek': 54250,
+                            % 'fcntl': 27245,
+                            % 'recvfrom': 27145,
+                            % 'getsockopt': 27129,
+                            % 'poll': 9050,
+                            % 'lstat': 245,
+                            % 'rename': 32,
+                            % 'getdents': 32}
+                            % 'unlink': 21,
+                            % 'pread': 21,
+
+                %ohe und w2v
+                %word embedding parameterwahl wichtig $sqrt(distinct)$
+                %Threadid kodieren: 
+                %\begin{itemize}
+                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
+                    %\item relationship between threads and reduce size (possible 1000 different threads)
+                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
+                %\end{itemize}
+                %zeit kodieren
+                %\begin{itemize}
+                    %\item use time delta of two different syscalls as new input
+                %\end{itemize}
+                %parameterlänge kodieren
+                %\begin{itemize}
+                    %\item syscall to int: Wandle Syscall name in Integer um
+%
+                     %ohe of sysint: use ohe for every syscall 
+                     %n * (distinct calls + 1) eingabeneuronen 
+
+                     %w2v von syscall
+                     %weniger neuronen und nähe von syscall!!!
+                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                %\end{itemize}
+                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                %embedding größer -> langsamer
+                %vergleich ngram
+                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                %w2v bringt entscheidenden Vorteil gegenüber ohe:
+                %Jeweils vergleich der selben parameter außer w2v vs ohe:
+                %Single small w2v nur 30\% der zeit gegenüber single small ohe
+                %bei mulit w2v sogar nur 13\%
+                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+
+                %Anzahl unique return Werte, nur numerische Werte betrachtet, 
+                %res=-11(<f>/path/to/some/file) wird als -11 interpretiert
+                %Bruteforce: 17192 2851 int, 14333 hex, 8 else
+                %2012:       1897 193 int, 1698 hex, 6
+                %2014:       16736 2706, 14022, 8
+                %2017:       381 26, 354, 1 
+                %2018:       110 106, 0, 4 
+                %2019:       125 119 int werte und 6 else
+                %SQL
+                %EPS
+                %PHP
+                %Zipslip
+%
+                %Hinweis 3 Kategorien evtl kategorische Einteilung bei geringer Anzahl
+                %Mögliche Bedeutungen bei else:
+                    %Meist Fehlermeldungen!!!
+                    %stat:
+                        %file status, 
+                        %sollte 0 bei success und -1 bei error, gefunden auch -2 
+                    %ioctl:
+                        %manipulate underlying device, 
+                        %normalerweise 0 bei success manchmal negative werte
+                        %-1 bei error
+                        %manchmal return als ausgabe parameter
+                    %Kategorische Betrachtung sinnvoll
+                %HEX:\@
+                    %mmap:
+                        %map or unmap files into memory
+                        %return pointer to mapped area
+                    %brk:
+                        %change data segment size
+                        %return 0 on success -1 on error
+                        %got hex value
+
+                %Systemcalls welche Rückgabewerte haben:
+                    %Bruteforce: {
+                                 %'writev': 126627,
+                                 %'read': 92587,
+                                 %'munmap': 90757,
+                                 %'close': 80535,
+                                 %'poll': 64443,
+                                 %'mmap': 45437,
+                                 %'write': 39703,
+                                 %'fcntl': 35722,
+                                 %'brk': 30372,
+                                 %'stat': 28356,
+                                 %'semop': 27435,
+                                 %'epoll_wait': 13746,
+                                 %'fstat': 12950,
+                                 %'shutdown': 11127,
+                                 %'select': 11012, 
+                                 %'lstat': 8060,
+                                 %'getcwd': 4616,
+                                 %'chdir': 4616,
+                                 %'rename': 2308,
+                                 %'connect': 4106,
+                                 %'lseek': 1410                           ,
+                                 %'clone': 1409,
+                                 %'setgid': 705,
+                                 %'setuid': 705}
+                                 %'getdents': 40,
+
+                    %2012: {
+                            % 'read': 209140,
+                            % 'futex': 149729,
+                            % 'setsockopt': 148874,
+                            % 'fcntl': 147382,
+                            % 'write': 71308,
+                            % 'pwrite': 25132,
+                            % 'select': 7846,
+                            % 'access': 3337,
+                            % 'clone': 2523,
+                            % 'mmap': 1723,
+                            % 'poll': 1262,
+                            % 'stat': 960,
+                            % 'shutdown': 959,
+                            % 'close': 959}
+                            % 'munmap': 464,
+
+                    %2014: {
+                            % 'writev': 122406,
+                            % 'munmap': 90471,
+                            % 'read': 90368,
+                            % 'close': 79167,
+                            % 'poll': 62797,
+                            % 'mmap': 44653,
+                            % 'write': 38219,
+                            % 'fcntl': 35692,
+                            % 'brk': 28193,
+                            % 'semop': 27166,
+                            % 'stat': 26827,
+                            % 'epoll_wait': 13629,
+                            % 'fstat': 12290,
+                            % 'shutdown': 11112,
+                            % 'select': 11094,
+                            % 'lstat': 7826,
+                            % 'getcwd': 4324,
+                            % 'chdir': 4324,
+                            % 'connect': 4231,
+                            % 'rename': 2162,
+                            % 'clone': 1480,
+                            % 'lseek': 1480,
+                            % 'setgid': 740,
+                            % 'setuid': 740,
+                            % 'getdents': 34} 
+
+                    %2017: {'epoll_wait': 53355,
+                            % 'close': 52823,
+                            % 'fstat': 26385,
+                            % 'writev': 26110,
+                            % 'sendfile': 26110,
+                            % 'pread': 26109,
+                            % 'write': 26109,
+                            % 'recvfrom': 26108,
+                            % 'getdents': 552,
+                            % 'brk': 368,
+                            % 'recvmsg': 330} 
+                            % 'stat': 276,
+                            % 'sendmsg': 166,
+                            % 'futex': 92,
+
+                    %2018: {
+                            % 'write': 576100,
+                            % 'futex': 262846,
+                            % 'stat': 252081,
+                            % 'read': 119433,
+                            % 'close': 82304,
+                            % 'fstat': 82226,
+                            % 'select': 56420,
+                            % 'setsockopt': 54836,
+                            % 'ioctl': 54824,
+                            % 'lseek': 54824,
+                            % 'getsockopt': 27405,
+                            % 'recvfrom': 27403,
+                            % 'fcntl': 27396,
+                            % 'poll': 4654,
+                            % 'lstat': 3,
+                            % 'pread': 3} 
+
+                    %2019: {
+                            % 'write': 542742,
+                            % 'futex': 359158,
+                            % 'stat': 307293,
+                            % 'read': 136356,
+                            % 'fstat': 81543,
+                            % 'close': 81599,
+                            % 'select': 75772,
+                            % 'ioctl': 54282,
+                            % 'setsockopt': 54269,
+                            % 'lseek': 54250,
+                            % 'fcntl': 27245,
+                            % 'recvfrom': 27145,
+                            % 'getsockopt': 27129,
+                            % 'poll': 9050,
+                            % 'lstat': 245,
+                            % 'rename': 32,
+                            % 'getdents': 32}
+                            % 'unlink': 21,
+                            % 'pread': 21,
+
+                %ohe und w2v
+                %word embedding parameterwahl wichtig $sqrt(distinct)$
+                %Threadid kodieren: 
+                %\begin{itemize}
+                    %\item use entity embedding for ThreadID~\cite{GUO2016} 
+                    %\item relationship between threads and reduce size (possible 1000 different threads)
+                    %\item choose size of embedding -thumbrule $sqrt(unique value)$
+                %\end{itemize}
+                %zeit kodieren
+                %\begin{itemize}
+                    %\item use time delta of two different syscalls as new input
+                %\end{itemize}
+                %parameterlänge kodieren
+                %\begin{itemize}
+                    %\item syscall to int: Wandle Syscall name in Integer um
+%
+                     %ohe of sysint: use ohe for every syscall 
+                     %n * (distinct calls + 1) eingabeneuronen 
+
+                     %w2v von syscall
+                     %weniger neuronen und nähe von syscall!!!
+                    %\item ngram bilden: Bilde entsprechend angegebenes n ngramm
+                %\end{itemize}
+                %overhead berechnung embedding, muss allerdings nur einmal berechnet werden
+                %zu erkennen w2v mit embedding size = 2  und window = 4 wesentlich schneller
+                %embedding größer -> langsamer
+                %vergleich ngram
+                %im schnitt mit ngram gr 2 84\% von ngr 3 und 
+                %w2v bringt entscheidenden Vorteil gegenüber ohe:
+                %Jeweils vergleich der selben parameter außer w2v vs ohe:
+                %Single small w2v nur 30\% der zeit gegenüber single small ohe
+                %bei mulit w2v sogar nur 13\%
+                %im mittel über alle architekturen 21.5\% der Zeit von ohe bei verwendung w2v
+
