@@ -245,11 +245,13 @@
             Die System Calls aller Threads werden dann je nach dem wie sie vom Betriebssystemskernel verarbeitet werden an die Sequenz angefügt.
             
             \paragraph{Thread Awareness}
-                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwenden um diese verwundenen Sequenzen zu entwirren.
-                Dabei wird für jeden Thread ein eigener Buffer erzeugt. 
+                Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwenden um die verwundenen Sequenzen zu entwirren.
+                Dabei werden für jeden Thread ein eigener Buffer erzeugt. 
                 Die Ausgabe dieser Buffer wird in der rechten Graphik in \autoref{fig:ngram_thread} veranschaulicht. 
-                Also nur System Calls aus demselben Thread bilden ein n-gram.
+                Also nur System Calls aus demselben Thread bilden ein n-gram, weshalb sie von \textit{Thread aware n-grams}\marginpar{zu dt.\ Thread bewusst} sprechen.
+>>>>>>> Stashed changes
                 Grimmer et al.\ konnten zeigen, dass dies speziell auch für diesen Datensatz eine Verbesserung der Ergebnisse erreicht werden konnte.
+                Zusätzlich zeigen sie, dass bei jedem einzelnen Scenario mindestens so gute Ergebnisse erzielt wurden.
 
                 \begin{figure}
                     %thread ngram image
@@ -305,16 +307,23 @@
                         \hline
                         \hline
                         \rowcolor{GruvGray!16}
-                        $Bruteforce\_CWE\_307$ & $2534165$ & $20383314$ & $11.1$ \\
-                        $CVE-2012-2122$ & $1206151$ & $10365309$ & $10.4$ \\
+                        $Bruteforce\_CWE\_307$ & $2,534,165$ & $20,383,314$ & $11.1$ \\
+                        $CVE-2012-2122$ & $1,206,151$ & $10,365,309$ & $10.4$ \\
                         \rowcolor{GruvGray!16}
-                        $CVE-2014-0160$ & $1120786$ & $7026864$ & $13.8$ \\
-                        $CVE-2017-7529$ & $1130717$ & $10721010$ & $9.5$ \\
+                        $CVE-2014-0160$ & $1,120,786$ & $7,026,864$ & $13.8$ \\
+                        $CVE-2017-7529$ & $1,130,717$ & $10,721,010$ & $9.5$ \\
                         \rowcolor{GruvGray!16}
+                        $CVE-2018-3706$ & $1,453,876$ & $38,255,576$ & $3.7$ \\
+                        $CVE-2019-5418$ & $3,131,792$ & $74,159,462$ & $4.1$ \\
+                        \rowcolor{GruvGray!16}
+                        $PHP\_CWE-434$ & $10,891,051$ & $112,549,739$ & $8.8$ \\
+                        $EPS\_CEW-434$ & $12,657,844$ & $374,439,042$ & $3.3$ \\
+                        \rowcolor{GruvGray!16}
+                        $ZipSlip$ & $10,891,051$ & $112549739$ & $8.8$ \\
                         \hline
                     \end{tabular}
                     \caption{Vorkommen von eines Kontextwechsels angezeigt durch die \ac{TCF}.
-                    Bei einer n-gram Länge von $6$}
+                    Bei einer n-gram Länge von $6$.}
                     \label{tab:tcf}
                 \end{table}
 
