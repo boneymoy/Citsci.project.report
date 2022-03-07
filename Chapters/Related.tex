@@ -2,20 +2,20 @@
 \chapter{Verwandte Arbeiten}\label{ch:verwandte_arbeiten}
 %*****************************************
 
-Die Forschungsfrage mit der sich diese Arbeit beschäftigt kann wie in~\autoref{sec:Forschungsfrage} beschrieben weiter unterteilt werden.
-Zum einen soll untersucht werden inwiefern \ac{LSTM} neuronale Netze in anomaliebasierten \ac{HIDS} Vorteile bringen können.
+Die Forschungsfrage mit der sich diese Arbeit beschäftigt kann, wie in~\autoref{sec:Forschungsfrage} beschrieben, weiter unterteilt werden.
+Zum einen soll untersucht werden inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen können.
 Und zum anderen wie durch die Anreicherung der Sequenzen von System Calls, durch weitere Informationen neben dem Namen des System Calls, die \ac{FP}-Rate sowie die \ac{DR} verbessert werden kann.
 Um den Überblick über die verwandten Arbeiten zu bewahren sind diese im Folgenden untergliedert.
 Zunächst sollen Grundlagen der Anomalieerkennung und erste Ansätze der Anomalieerkennung mit System Calls aufgeführt werden, auf welchen diese Arbeit indirekt fußt.
 Im nächsten Schritt werden dann Arbeiten betrachtet, welche sich auf die Argumente der System Calls konzentrieren.
 Abschließend werden Arbeiten untersucht welche sich speziell mit dem Transfer von \ac{NLP} Verfahren in die anomaliebasierte \ac{HIDS} auseinandersetzen.
-Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
+Dazu zählen auch Ansätze mit \acp{LSTM}.
 
 \section{Grundlagen Anomaliedetektion}
 
     % Die Anomaliedetektion findet nicht nur in der IT-Sicherheit ihren Einsatz und kann .
     % Dazu gehören die Erkennung von Betrug, unter anderem bei Kreditkarten~\cite{CREDITBOLTON2001}, das Aufdecken von Unregelmäßigkeiten in medizinischen und Gesundheitsdaten~\cite{MEDIZINHORN2001} oder Schadenserkennung in der Industrie~\cite{INDUSTRIEBASU2007}.
-    Die Anfänge der Anomalieerkennug werden von~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden sollen.
+    Die Anfänge der Anomalieerkepnug werden von~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden sollen.
     Hingegen berufen sich~\cite{ANOMALYSURVEY} bei den Anfängen der Anomalieerkennung auf eine Arbeit aus dem~\textit{Dublin Philosophical Magazine of Journal and Science} von 1887~\cite{ANOMALYDEFINITION1887}.
     Dort werden \textit{discordant observations}\marginpar{zu dt.\ nicht stimmige Beobachtung} anhand einer abweichenden gesetzmäßigen Frequenz isoliert. 
     Speziell im Kontext der Angriffserkennung wird wie in~\autoref{sec:Datenerfassung} beschrieben die Anomalieerkennung in \ac{NIDS} und \ac{HIDS} eingeteilt.
@@ -26,7 +26,7 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
     Zunächst soll im Folgenden \ac{HIDS} betrachtet werden die explizit nur die Sequenzen der System Call Namen betrachten und alle weiteren Informationen nicht beachten.
 
     \paragraph{Ohne Betrachtung der System Call Argumente}\label{sec:related_no_arg}
-        Bereits 1996 stellten Stephanie Forrest et al.~\cite{FORREST} die erste Arbeit vor in welcher sie mit ihrem \ac{TIDE} Algorithmus Anomalien in System Call Daten ermitteln.
+        Bereits 1996 stellten Stephanie Forrest et al.~\cite{FORREST} die erste Arbeit vor, in welcher sie mit ihrem \ac{TIDE} Algorithmus Anomalien in System Call Daten ermitteln.
         Dabei wird anhand einer Datenbank gültiger System Call Paare, \textit{lookahead pairs}, ermittelt ob eine System Call Sequenz eine Anomalie darstellt.
 
         In einer späteren Arbeit erweitern sie diesen Ansatz, indem sie die Datenbank mit zusammenhängende Sequenzen von System Calls befüllen.
@@ -53,13 +53,13 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
 
         2013 stellen Murtaza et al.~\cite{SYSTEM_STATES} System Calls als Zustände von Kernelmodulen dar, indem sie System Calls einem bestimmten Modul zuschreiben.
         Dazu gehört zum Beispiel das Modul \textit{File System} mit den System Calls \textit{read} \textit{write} etc., oder auch \textit{Architecture}, \textit{Memory Management}.
-        Der Wahrscheinlichkeiten für das Auftreten von Zustandssequenzen wird dann zur Identifizierung von Anomalien genutzt.
+        Die Wahrscheinlichkeiten für das Auftreten von Zustandssequenzen wird dann zur Identifizierung von Anomalien genutzt.
 
         2018 interpretieren Grimmer et al.~\cite{SYSCALL_GRAPHS} System Call Sequenzen als einen sogenannten \textit{System Call Graph}.
         Dabei werden wie in~\cite{STIDE_Alternatives} n-gramme verwendet.
         Die n-gramme stellen einen Knoten dar und der Übergang eines n-gramms zu einem weiteren wird mit einer gerichteten Kante dargestellt.
-        Zusammen mit den Häufigkeiten des Auftretens eines Überganges und dem Ausgangsgrad eines Knotens ergeben sich dann die Übergangswahrscheinlichkeiten für alle Knoten.
-        Der Anomaliescore eines Fensters von n-grammen aus den Testdaten wird dann anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
+        Zusammen mit den Häufigkeiten des Auftretens eines Überganges und dem Ausgangsgrad eines Knotens ergeben sich die Übergangswahrscheinlichkeiten für alle Knoten.
+        Der Anomaliescore eines Fensters von n-grammen aus den Testdaten wird anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
 
         % (2015) Einsatz in Linux Containern~\cite{FREQUENCY1} oder (2018) in Cloud Lösungen~\cite{VM}
 
@@ -73,7 +73,7 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
 
     \paragraph{Mit Betrachtung der System Call Argumente}\label{sec:related_sys_arg}
 
-        Dies zeigt, dass es sinnvoll sein kann auch noch weitere Informationen welche in den System Calls enthalten sind einzubinden.
+        Dies zeigt, dass es sinnvoll sein kann auch noch weitere Informationen aus den System Calls einzubinden.
         Seien es Metadaten wie die Thread Information der System Calls, oder auch die eigentlichen Argumente der Aufrufe.
         Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurde soll nun behandelt werden.
 
@@ -101,16 +101,17 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
         Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
         Falls dies nicht der Fall ist werden diese Werte in die Normaldatenbank aufgenommen.
-        Wurde ermittelt, dass ein Argument nicht einer Zufallsverteilung folgt, wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt und dann eine $1$ zurückgegeben und falls nicht eine $0$.
-        Folgt das Argument einer Zufallsverteilung wird immer 1 zurückgegeben.
+        Für diese Werte wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt.
+        Trifft dies zu, wird eine $1$ zurückgegeben und falls nicht eine $0$.
+        Folgt das Argument einer Zufallsverteilung wird immer eine $1$ zurückgegeben.
         Für die erwähnten Modelle der System Call Argumente wurde von Kruegel et al.\ ein LibAnomlay Framework entworfen um die Nutzbarkeit auch für andere Arbeiten zu ermöglichen.~\cite{ARGUMENTS}
         Leider scheint das Framework aktuell nicht mehr nutzbar zu sein, da es online nicht mehr abrufbar ist.
 
         Auch in~\cite{ARGUMENTS2} kommen diese Modelle der Argumente zum Einsatz.
         
         Ebenso werden sie auch von Maggi et al.~\cite{MAGGI} verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.
-
         Doch bei allen zuvor erwähnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
+
         Koucham et al.\ wollen nun im Gegensatz dazu sowohl die Sequenz als auch die Argumente beachten.
         Dafür clustern sie die Argumente jedes System Calls für jeden einzelnen Prozess.
         So wird der System Call in der Testphase dem nächsten Cluster zugeordnet und dieses dient dann als Eingabe.
@@ -118,15 +119,15 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Zu den Argumenten gehören zum Beispiel Pfadnamen, Benutzerkennung, die Menge der möglichen Werte, wozu unter anderem Flags zählen.
         Kontextinformationen beinhalten Rückgabewerte, Dateirechte oder auch Dateimodi.~\cite{ARGUMENTCLUSTERKOUCHAM2015}
 
-        Luckett et al.~\cite{TIMINGLUCKETT2016} versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
+        Luckett et al.\ versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
         \textit{Rootkits} sind eine Klasse von Malware, welche die Fähigkeit haben Root-Zugriff zu erhalten und dabei unentdeckt zu bleiben~\cite{OSSECBRAY2008}.
         Sie verwenden dafür nur das Timing von System Calls um mit neuronalen Netzen die Daten in normal oder anormal zu klassifizieren.
-        Dabei beschreiben sie aber nicht näher wie genau das Timing der System Calls verwendet wird.
+        Dabei beschreiben sie aber nicht genauer wie sie das Timing der System Calls verwenden.~\cite{TIMINGLUCKETT2016}
 
-        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt einbinden, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
+        Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt kodieren, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
         Der Ausgangspunkt ihrer Überlegungen liegt darin, dass moderne Prozesse Multi-Threaded sind.
         Das heißt die Sequenz der System Calls beschreibt die Aktionen mehrere Threads gleichzeitig.
-        Um diese Vermischung der Threads zu verhindern bilden sie n-gramme, welche nur aus System Calls desselben Threads stammen.
+        Um diese Vermischung der Threads in den n-grammen zu verhindern, bilden sie sie nur aus System Calls desselben Threads.
         So konnten sie in den meisten Fällen eine Verringerung der Fehlalarme und eine Erhöhung der Erkennungsrate erreichen.\cite{IDSTHREADGRIMMER2021}
 
     %\subsection{LSTM/RNNs für HIDS mit System Calls}
@@ -150,20 +151,20 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
 
 \section{NLP in der Anomaliedetektion und HIDS}\label{sec:related_nlp}
 
-        Speziell in den letzten Jahren wurden diverse weitere Ansätze vorgestellt, in welchen ein \ac{HIDS} mit Hilfe von Verfahren aus der \ac{NLP} designt wurden.
+        In den letzten Jahren wurden auch diverse Ansätze vorgestellt, in welchen ein \ac{HIDS} mit Hilfe von Verfahren aus der \ac{NLP} designt wurden.
         Einen Überblick der verschiedenen Transfers wurde in der Arbeit von Sworna et al.~\cite{NLPHIDSSWORNA2022} bereitgestellt.
         Besonders hervorzuheben ist dabei unter anderem die Studie von Wunderlich et al.~\cite{W2VWUNDERLICH2019} in welcher sie Sequenzen von System Calls als Text betrachten und verschiedene aus der \ac{NLP} bekannte Verfahren in der Domäne der \ac{HIDS} auswerten.
-        Dazu gehören One-Hot-Encoding, \ac{W2V} sowie GloVe und fastText. 
+        Dazu gehören \ac{OHE}, \ac{W2V} sowie GloVe und fastText. 
         Zusätzlich untersuchen sie wie sich die Darstellung der System Calls als Kernelmodule, ähnlich zu~\cite{SYSTEM_STATES}, als Sequenz der Namen oder die Kombination beider auf die Ergebnisqualität auswirkt.
-        In der Auswertung bevorzugen sie das One-Hot-Encoding, wobei in dieser Arbeit nur geringfügig auf die Vorteile der Dimensionsreduktion durch das \ac{W2V}-Verfahren eingegangen wird.
+        In der Auswertung bevorzugen sie das \ac{OHE}, wobei in dieser Arbeit nur geringfügig auf die Vorteile der Dimensionsreduktion durch das \ac{W2V}-Verfahren eingegangen wird.
 
-        Ein in der \ac{NLP} verbreitetes Konzept sind die \ac{LSTM} Netzwerke~\cite{LSTMNLP2016,LSTMREVIEWYU2019}.
+        Ein in der \ac{NLP} verbreitetes Konzept sind die \ac{LSTM}~\cite{LSTMNLP2016,LSTMREVIEWYU2019}.
         Diese Netzwerke finden ihre Anwendung auch in der \ac{HIDS}, dazu gehören zum Beispiel~\cite{LSTMsys, LSTMPARK2021, LSTMSURATKAR2019, NIU2020, BIDIRECTIONALLSTMCHAWLA2019, VARIATIONALLSTMBOUZAR2019}.
         Doch die meisten Arbeiten verwenden entweder sehr alte oder anderweitig kritisch zu betrachtende Datensätze, wie in~\autoref{sec:Datensatz} beschrieben.
-        Leider haben sie damit eine geringere Aussagekraft für aktuelle Systeme als es mit aktuelleren Datensätzen der Fall wäre.
-        So zum Beispiel Kim et al.~\cite{LSTMsys}, sie beschreiben wie sie Sprachmodelle der System Calls mithilfe von \ac{LSTM} Netzwerken erstellen.
-        Mit diesen Modellen wollen sie dann für eine Sequenz von System Calls eine Vorhersage treffen und die Ergebnisse der verschiedenen Modelle kombiniert ergeben dann einen Anomaliescore.
-        Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit in dem Ansatz mehrere Sprachmodelle gleichzeitig aufzubauen und dass keine zusätzlichen Informationen der System Calls verwendet werden.
+        Leider haben sie damit eine geringere Aussagekraft für aktuelle Systeme, als es mit aktuelleren Datensätzen der Fall wäre.
+        So zum Beispiel Kim et al.~\cite{LSTMsys}, sie beschreiben wie sie Sprachmodelle der System Calls mithilfe von \acp{LSTM} erstellen.
+        Mit diesen Modellen wollen sie dann für eine Sequenz von System Calls eine Vorhersage treffen und die Ergebnisse der verschiedenen Modelle kombiniert ergeben einen Anomaliescore.
+        Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit, indem sie mehrere Sprachmodelle gleichzeitig aufzubauen und keine zusätzlichen Informationen der System Calls verwenden.
 
         Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück welche in diesem Kontext nur wenig Aussagekraft besitzen, wie in~\autoref{sec:Metriken} beschrieben wird.
         Des Weiteren werden hier ebenso keine zusätzlichen Argumente wie zum Beispiel den Rückgabewert betrachtet.~\cite{LSTMPARK2021}
@@ -173,7 +174,7 @@ Dazu zählen auch Ansätze der mit \ac{LSTM} Netzwerken.
         Zusätzlich legen sie ein fest definiertes Zeitfenster fest für welche diese Bündelungen vorgenommen werden.~\cite{LSTMDYMSHITS2017}
 
         Es scheint also ein mittlerweile in der \ac{HIDS} weit verbreitet zu sein, einen Transfer von \ac{NLP}-Verfahren vorzunehmen.
-        Dies gilt für Vorverarbeitungsschritte wie das \ac{W2V}-Verfahren sowie 
+        Dies gilt für Vorverarbeitungsschritte wie das \ac{W2V}-Verfahren sowie auch verarbeitende Algorithmen wie den \acp{LSTM}.
         Diese Arbeit will speziell bekannte Ansätze sinnvoll verbinden.
         Zusätzlich soll durch das Entwickeln neuer Verfahren die Argumente der System Calls zu verwenden einen Fortschritt in \ac{FP}-Rate und \ac{DR}-Rate erzielen.
 
