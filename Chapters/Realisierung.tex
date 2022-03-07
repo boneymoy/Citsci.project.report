@@ -140,7 +140,7 @@
 
                     Zum einen stellt sich die Frage, ob eine Verbesserung eines Szenarios mit abweichenden Abständen\marginpar{zw. Normal- und Angriffsverhalten} eine Verschlechterung in Szenarien in welchen dies nicht der Fall ist zur Folge hat.
                     Und zum anderen stellt sich die generelle Frage ob diese Information den möglichen Ergebnisraum wesentlich vergrößert worunter die Ergebnisqualität im Gesamten leidet.
-                    Denn das Betriebssystem selbst beeinflusst die Timings der System Calls, so könnten Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
+                    Denn das Betriebssystem selbst beeinflusst die Timings der System Calls, so kann Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
                     Ob dies das Lernen des Normalverhaltens verbessert oder verschlechtert wird in \autoref{sec:Ergebnis_timing} untersucht.
                     %\begin{figure}
                         %\centering
@@ -249,9 +249,8 @@
                 Dabei werden für jeden Thread ein eigener Buffer erzeugt. 
                 Die Ausgabe dieser Buffer wird in der rechten Graphik in \autoref{fig:ngram_thread} veranschaulicht. 
                 Also nur System Calls aus demselben Thread bilden ein n-gram, weshalb sie von \textit{Thread aware n-grams}\marginpar{zu dt.\ Thread bewusst} sprechen.
->>>>>>> Stashed changes
-                Grimmer et al.\ konnten zeigen, dass dies speziell auch für diesen Datensatz eine Verbesserung der Ergebnisse erreicht werden konnte.
-                Zusätzlich zeigen sie, dass bei jedem einzelnen Scenario mindestens so gute Ergebnisse erzielt wurden.
+                Grimmer et al.\ konnten zeigen, dass dies speziell auch für diesen Datensatz eine Verbesserung der Ergebnisse erzielt.
+                Zusätzlich zeigen sie, dass dies für jedes einzelne Szenario mindestens so gute Ergebnisse erzielt wurden.
 
                 \begin{figure}
                     %thread ngram image
@@ -319,7 +318,7 @@
                         $PHP\_CWE-434$ & $10,891,051$ & $112,549,739$ & $8.8$ \\
                         $EPS\_CEW-434$ & $12,657,844$ & $374,439,042$ & $3.3$ \\
                         \rowcolor{GruvGray!16}
-                        $ZipSlip$ & $10,891,051$ & $112549739$ & $8.8$ \\
+                        $ZipSlip$ & $80,126,899$ & $444,510,136$ & $15.3$ \\
                         \hline
                     \end{tabular}
                     \caption{Vorkommen von eines Kontextwechsels angezeigt durch die \ac{TCF}.
@@ -327,7 +326,7 @@
                     \label{tab:tcf}
                 \end{table}
 
-        \section{Aufbau LSTM}\label{sec:aufbau_lstm}
+    \section{Aufbau LSTM}\label{sec:aufbau_lstm}
         \begin{figure}[ht]
             \centering
             \includegraphics[width=0.7\textwidth]{images/lstm.pdf}
@@ -365,7 +364,7 @@
         Die Architektur wird ebenfalls in \autoref{fig:lstm} dargestellt und besteht aus der Eingabe-Layer, der \ac{LSTM}-Layer, einer \textit{fully-connected} Linear-Layer und der Output-Layer.
 
         Entgegen der typischen Implementierungen von \acp{LSTM} wird der \textit{Hidden State} nach einem Batch gespeichert und dem nächsten Batch  übergeben. 
-        Ansonsten würde die Kontextinformation zwischen den Batches verloren gehen.
+        Ansonsten geht die Kontextinformation zwischen den Batches verloren.
         Diese Idee ist allerdings ausgelegt für einen kontinuierlichen Stream an System Calls, der Datensatz besteht aber aus vielen Dateien.
         Deswegen wird der \textit{Hidden State} zum Ende einer Aufnahme zurückgesetzt.
         Details zu der Parameterwahl wird in \autoref{sec:parameterwahl} erläutert.
@@ -409,74 +408,82 @@
                         Diese beiden Extraparameter sind bläulich hervorgehoben.
                         Zusätzlich wird die \ac{TCF} an das n-gram gefügt.
                         Der Index des höchsten Wertes (gelb) aus der Ausgabe des \ac{LSTM} wird mit dem eigentlichen Label (grün) verglichen.
-                        Aufgrund dieser Information werden die Gewichte im \ac{LSTM} angepasst}
-                        \label{fig:training}
+                        Aufgrund dieser Information werden die Gewichte im \ac{LSTM} angepasst}\label{fig:training}
             \end{figure}
             % Für das Training des \ac{LSTM} Netzwerkes werden nur Normaldaten aus dem Trainingsdatensatz verwendet.
-            Pro Szenario werden $200$ der ca.\ $1100$ Aufnahmen welche nur Normalverhalten enthalten für das Training ausgewählt.
+            Pro Szenario werden $200$, der insgesamt ca.\ $1100$ Aufnahmen,  welche nur Normalverhalten enthalten für das Training ausgewählt.
             Die Grundidee besteht darin mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$, in diesem Fall ein n-gram, den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
-            Da der nächste System Call aus dem Datensatz stets bekannt ist, kann als Feedback für das Netzwerk die Information genommen werden ob $sc_{x_{n+1}}$ korrekt vorhergesagt wurde.
-            Diese lässt sich durch die folgende Formel beschreiben.
-            \begin{equation}
-                P\left(x_i|x_{1:i-1}\right) \forall i
-            \end{equation}
+            Da der nächste System Call aus dem Datensatz stets bekannt ist, kann als Feedback für das Netzwerk die Information genommen werden, ob $sc_{x_{n+1}}$ korrekt vorhergesagt wurde, also dem Label entspricht.
             Das \ac{LSTM} gibt wie in \autoref{fig:training} dargestellt diese Information an das \ac{LSTM} zurück.
 
             Seien die System Calls aus den Trainingsdaten aus der Menge $SC = \{sc_1,sc_2,\dots,sc_k\}$.
             Womit $k$ die Anzahl der in den Trainingsdaten vorkommenden System Call Namen angibt.
-            Durchlaufe Trainingsdaten und erstelle n-gramme $ngram_i$ und verwende den auf das n-gram folgenden System Call als Label $l_i$.
-            Danach ist das erste n-gram $ngram_0$ mit Label $l_0$.
-            Dabei werden die System Call Namen durch Integerwerte ersetzt. 
+            Die Trainingsdaten werden durchlaufen und n-gramme $ngram_i$ erstellt.
+            Der auf das $ngram_i$ folgenden System Call dient als Label $l_i$.
+            Nach dieser Idee ist das erste n-gram $ngram_0$ mit Label $l_0$.
+            Dabei werden die System Call Namen für die Label durch Integerwerte ersetzt. 
             Das \ac{LSTM} Netzwerk bekommt $ngram_0$ und gibt einen Vektor der Länge $k+1$ zurück.
-            Damit für jeden der $k$ möglichen System Calls aus den Trainingsdaten eine Auftrittswahrscheinlichkeit angegeben.
-            Zusätzlich wir $1$ addiert, da in den Testdaten unbekannte System Calls auftreten können.
-            Diese bekommen den \ac{W2V}-Vektor $(0,0)$ und einen Integerwert von $0$. 
-            Die Ausgabe des \acp{LSTM} sind \textit{Python Logits}, diese werden mithilfe der \textit{Softmax}-Funktion in die gewünschten Wahrscheinlichkeiten umgewandelt.
-            Der Index der Liste der Wahrscheinlichkeiten wird mit dem aus den Trainingsdaten gezogenen Label verglichen.
+            Für jeden der $k$ möglichen System Calls aus den Trainingsdaten eine Auftrittswahrscheinlichkeit angegeben.
+            Zusätzlich wird $1$ addiert, da in den Testdaten unbekannte System Calls auftreten können.
+            Diese bekommen den \ac{W2V}-Vektor $(0,0)^e$, wobei $e$ die Länge des \ac{W2V}-Vektoren ist und für das Label einen Integerwert von $0$. 
+            Die Ausgabe des \acp{LSTM} sind \textit{PyTorch Logits}, diese werden mithilfe der \textit{Softmax}-Funktion in die gewünschten Wahrscheinlichkeiten umgewandelt.
+            Der Index der Liste der so berechneten Wahrscheinlichkeiten wird mit dem aus den Trainingsdaten gezogenen Label verglichen.
             Dieser Vergleich dient dann als Feedback für das \ac{LSTM}.
             Mit den gegebenen Trainingsdaten kann nun das \ac{LSTM} mittels des \textit{back-propagation through time}  trainiert werden.
 
-            Wird mit \ac{W2V} zu $V_{sc} = \{v_{sc1},v_{sc2},\dots,v_{scn}\}$.
-            
-            Gab es in den Trainingsdaten die feste Menge $S = \{1,\dots,N\}$ an System Calls, so gibt $x=x_1\dots x_l \ (x_i\in S)$ die Sequenz an $l$ System Calls an.
-            Jeder dieser System Calls bekommt im ersten Schritt einen Integerwert zwischen 1 und $N$.
-            Taucht in den Testdaten nun ein noch nicht bekannter System Call $x_i$ auf, also $x_i \notin S$, so erhält dieser den vorläufigen Wert 0.
-            Zu jedem Zeitpunkt wird $x_i$ der Input Layer übergeben.
-            Dabei wird ein Embedding aus Abschnitt~\ref{sec:embedding} verwendet. 
-            An der Ausgangs Layer befindet sich eine Softmax Aktivierungsfunktion.
-            Diese wird verwendet um die Ausgabe zu normalisieren und damit die Wahrscheinlichkeitsverteilung des nächsten System Calls zu erhalten.
-            % Im ersten Schritt besteht dieses Embedding aus dem \textit{One hot encoding} (OHE).
-            % In weiterer Ausführung werden dann zwei W2V Verfahren verwendet.
-            % Wie in Kapitel \ref{Grundlagen:LSTM} bereits beschrieben wird, soll das LSTM mit den kodierten system calls aus dem Trainingsdatensatz trainiert werden.
-
         \subsection{Anomalieerkennung}\label{sec:Anomalieerkennung}
-            \begin{figure}
+            \begin{figure}[ht]
                 \centering
-                \includegraphics[width=0.7\textwidth]{images/Validation_overview.pdf}
-                \caption{}
-                \label{fig:training}
+                \includegraphics[width=0.8\textwidth]{images/Validation_overview.pdf}
+                \caption{Ähnlich zu \autoref{fig:training} wird hier der Validierungsablauf beschrieben.
+                         Dabei wird wie zuvor ein Datenauszug dargestellt sowie die Auftrittswahrscheinlichkeiten für den folgenden System Call.
+                         In der Test-, wie in der Validierungsphase dient die Wahrscheinlichkeit des Integerwerts des tatsächlich als nächstes auftretende System Call als Berechnungsgrundlage für den Anomliescore. Die Werte für $ascore$ werden wie beschrieben berechnet und wie unten in der Abbildung dargestellt wird das Maximum der $ascore$ der gesamten Validierungsdaten als Schwellwert festgelegt.}
+                \label{fig:validierung}
             \end{figure}
-            Es kann also bei Auftreten des System Calls $x_i$ überprüft werden mit welcher Wahrscheinlichkeit $p$ dieser vorhergesagt wurde.
-            Der eigentliche Anomalie-Score wird dann folgenderweise berechnet:
+            Es kann also bei Auftreten des System Calls $sc_i$ überprüft werden mit welcher Wahrscheinlichkeit $p_i$ dieser vorhergesagt wurde.
+            Der eigentliche Anomalie-Score $ascore$ für $sc_i$ wird dann folgenderweise berechnet:
             \begin{equation}
-                ascore = 1 - p
+                ascore = 1 - p_i
             \end{equation}
-            Unterschreitet dieser einen Schwellwert so wird dies als eine Anomalie gewertet und ein Alarm angezeigt.
-            \subsection{Schwellwertbestimmung}\label{sec:Schwellung}
-            Um den zuvor erwähnten Schwellwert automatisch zu bestimmen, wird der Algorithmus auf die Validierungsdaten angewendet. 
-            Dabei dient der höchste Wert dieser Daten dann als Schwellwert, da angenommen wird, dass mindestens alle Daten aus den Validierungsdaten harmlos sind und damit unter dem Schwellwert liegen sollten.
-            Wichtig ist dabei dafür nicht die Trainingsdaten zu wählen, da eine starke Verzerrung der Schwellwertes durch Overfitting der Daten entstehen kann. 
-            Das würde bedeuten, dass nur sehr geringe Anomaliewerte auftreten und der Schwellwert sehr gering ist und damit die Gefahr für viele Fehlalarme besteht.
+            Übertrifft dieser Wert einen zuvor bestimmten Schwellwert $\theta$, so wird $sc_i$ als Anomalie und damit als Angriff gewertet.
 
-            Alternativ betrachte die x wahrscheinlichsten vorhergesagten system calls, falls tatsächlicher system call nicht dabei --> alarm.
-            X ermitteln, betrachte validierungsdaten und schaue ob schlechtestes x aussehen würde.
-            Tatsächlich oft einmal schlechteste platzierung und automatische erkennung von x schwer.
+            \paragraph{Schwellwertbestimmung}\label{sec:Schwellung}
+                Für die Berechnung des Schwellwertes $\theta$ wird für alle System Calls der Validierungsdaten $ascore$ berechnet.
+                Die Valiedierungsdaten bestehen aus $50$ Aufnahmen und enthalten ebenfalls wie die Trainingsdaten nur das Normalverhalten.
+                Da in den Validierungsdaten kein Angriffsverhalten integriert ist, darf keiner der $ascore$s einen Alarm auslösen.
+                Weshalb der höchste Wert der $ascore$s den Validierungs als Schwellwert $\theta$ genutzt wird.
+                Bei Scores über diesem Wert kann keine Aussage getroffen werden.
+                Der Ablauf der Schwellwertfindung wir zusätzlich in \autoref{fig:validierung} dargestellt.
 
         \subsection{Parameterwahl}\label{sec:parameterwahl}
+
+            Das Aufsetzen des beschriebenen Algorithmus bedarf der Festlegung einiger Parameter.
+            Dazu gehören allgemeine Parameter für neuronale Netze, aber auch spezifischere Parameter wie die Länge der n-gramme.
+            Da nicht alle Parameter experimentell untersucht werden können werden sie im Folgenden in festgelegte und zu ermittelnde Parameter eingeteilt.
+            \paragraph{Festgelegte Parameter}
+                Entscheidende Parameter der \acp{LSTM} sind die Anzahl der Neuronen pro Layer sowie die Anzahl der \ac{LSTM}-Layer in dem Netzwerk.
+                Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht tragbaren Laufzeiten geführt hat, muss dies bei der Findung vieler Parameter bedacht werden.
+                Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \texit{Accuracy} führen.\cite{LSTMHYPERAUFA2020}
+                Die Anzahl der Neuronen dieser Layer wird wie bereits in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
+                Der Einfluss der Batch size auf die Ergebnisqualität wird unter anderem in~\cite{LSTMBENCHBREUEL2015} als gering eingestuft und wird auf $1024$ festgelegt.
+                 
+                %TODO
+                Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
+
+
+
+            Hyperparameter LSTM
+                learning rate
+                criterion
+                optimizer
+                epochen
+
+            \paragraph{Zu ermittelnde Parameter}
             ngram länge.
             lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info.
             -> finden von sweet spot.
-            wichtiger Parameter den es zu ermitteln gilt.
+            w2v embedding size
+                epochen
 
     \section{Strukturierung der Experimente}\label{sec:StrukExp}
         Um aussagekräftige Experimente zu entwickeln müssen zuerst 
