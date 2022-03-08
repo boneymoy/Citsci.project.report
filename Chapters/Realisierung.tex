@@ -24,12 +24,12 @@
 
     \section{Vorverarbeitung}\label{sec:Preprocessing}
         %In dem kommenden Abschnitt~\ref{sec:struktur} wird die erste Vorverarbeitung des Datensatzes vorgestellt.
-        Im kommenden Abschnitt~\ref{sec:syscalldarstellung} soll untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
+        Im kommenden~\autoref{sec:syscalldarstellung} soll untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
         In dieser Arbeit werden die System Call Daten als Datenstream betrachtet.
-        Weshalb in Abschnitt~\ref{sec:streamdarstellung} die Frage geprüft, wie dieser für das \ac{LSTM} dargestellt wird.
+        Weshalb in~\autoref{sec:streamdarstellung} die Frage geprüft, wie dieser für das \ac{LSTM} dargestellt wird.
         Ein weiterer wichtiger Teil der Arbeit besteht darin, zu klären welche Metadaten neben dem Namen des System Calls noch verwendet werden können,
         um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
-        Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in Abschnitt~\ref{sec:Meta}
+        Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in~\autoref{sec:Meta}
 
         %\subsection{Vorverarbeitung des Datensatzes}\label{sec:struktur}
             %Gegeben 10 szenarien die aus bekannten CVEs bestehen.\
@@ -456,10 +456,9 @@
                 Der Ablauf der Schwellwertfindung wir zusätzlich in \autoref{fig:validierung} dargestellt.
 
         \subsection{Parameterwahl}\label{sec:parameterwahl}
-
             Das Aufsetzen des beschriebenen Algorithmus bedarf der Festlegung einiger Parameter.
             Dazu gehören allgemeine Parameter für neuronale Netze, aber auch spezifischere Parameter wie die Länge der n-gramme.
-            Da nicht alle Parameter experimentell untersucht werden können werden sie im Folgenden in festgelegte und zu ermittelnde Parameter eingeteilt.
+            Da nicht alle Parameter experimentell untersucht werden können werden sie im Folgenden in festgelegte und zu ermittelnde Parameter unterteilt.
             \paragraph{Festgelegte Parameter}
                 Entscheidende Parameter der \acp{LSTM} sind die Anzahl der Neuronen pro Layer sowie die Anzahl der \ac{LSTM}-Layer in dem Netzwerk.
                 Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht tragbaren Laufzeiten geführt hat, muss dies bei der Findung vieler Parameter bedacht werden.
@@ -469,22 +468,21 @@
                  
                 %TODO
                 Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
+                
+                Für die Loss-Funktion wurde die CrossEntropy gewählt.
+                Und der in vielen Bereichen eingesetzte Adam-Optimizer.
+                Wie auch in \autoref{smth} erkennbar ist stagniert der Fehler nach nur wenigen Epochen, weshalb diese auf $20$ festgelegt werden.
+
+                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nur n-gramme aufgebaut mit Betrachtung der Thread Information.
 
 
-
-            Hyperparameter LSTM
-                learning rate
-                criterion
-                optimizer
-                epochen
 
             \paragraph{Zu ermittelnde Parameter}
-            ngram länge.
-            lstm merkt sich vorherige syscalls aber hinzunahme von syscalls weitere info.
-            -> finden von sweet spot.
-            w2v embedding size
-                epochen
+                Für die Ergebnisqualität mit entscheidende Faktoren sind vor allem die Länge der n-gramme.
+                Einstellbar ist außerdem die Vektorgröße des \ac{W2V}.
+                
 
+\iffalse
     \section{Strukturierung der Experimente}\label{sec:StrukExp}
         Um aussagekräftige Experimente zu entwickeln müssen zuerst 
         überlegungen zur praktischen umsetzung gemacht werden
@@ -494,7 +492,6 @@
         und diese ausschließen.
 
         \subsection{Faktor Zeit}
-
             zeit/dr als groesse und farbe von scatter plot
             batch size test und train x/y achse
 
@@ -513,95 +510,109 @@
                      ngram größe
                 \item embedding
             \end{itemize}
-        ngram größe, architektur und verwendung w2v statt ohe
-        Grobe Abschätzung der Zeit, da Berechnungen auf Clustern ausgeführt werden von Auslastung beeinflusst werden.
-        Klare Erkenntnisse:
-
+            ngram größe, architektur und verwendung w2v statt ohe
+            Grobe Abschätzung der Zeit, da Berechnungen auf Clustern ausgeführt werden von Auslastung beeinflusst werden.
+            Klare Erkenntnisse:
             Single Small 50 neuronen eine schicht:
             Single Big 250 neuronen eine schicht
             multi 50 neuronrn 3 schichten
+            erste Abschätzung von Nutzen von Thread 
+            einführen von stateful sowie Batch Normalization
+        \subsection{Optimale Parameter}
+            \paragraph{Architektur}
+                versch architekturen:
+                Single Small 50 neuronen eine schicht
+                Single Big 250 neuronen eine schicht
+                multi small 20 neuronen 3 schichten
+                multi big 50 neuronrn 3 schichten
+                deep erste 50 sonst 20 6 schichten
 
-        erste Abschätzung von Nutzen von Thread 
-        einführen von stateful sowie Batch Normalization
+                singlesmall 43\% von Deep
+                insgesamt am schnellsten single small
+                wie zu erwarten,  deep am langsamsten
 
-    \subsection{Optimale Parameter}
-        \paragraph{Architektur}
-            versch architekturen:
-            Single Small 50 neuronen eine schicht
-            Single Big 250 neuronen eine schicht
-            multi small 20 neuronen 3 schichten
-            multi big 50 neuronrn 3 schichten
-            deep erste 50 sonst 20 6 schichten
+                teste eine schicht viele neuronen 
+                eine schicht wenige neuronen
+                mehrere schichten mehrere neuronen / mit dropout dazwischen
+                viele schichten wenige neuronen /mit dropout dazwischen
 
-            singlesmall 43\% von Deep
-            insgesamt am schnellsten single small
-            wie zu erwarten,  deep am langsamsten
+                auf Grund des zeitlichen Faktors fallen Deep und multibig weg
+                Also zu testen:
+                Single Small
+                Single 
+                Multi Small
+                Multi 
 
-            teste eine schicht viele neuronen 
-            eine schicht wenige neuronen
-            mehrere schichten mehrere neuronen / mit dropout dazwischen
-            viele schichten wenige neuronen /mit dropout dazwischen
+            \paragraph{Hyperparameter}
+                aktivierungs funktion
+                -> dense layer with softmax or tanh
+                batch size
+                learning rate
+                optimizer
 
-            auf Grund des zeitlichen Faktors fallen Deep und multibig weg
-            Also zu testen:
-            Single Small
-            Single 
-            Multi Small
-            Multi 
+            \paragraph{Ngram Größe}
+                ngram größer -> langsamer
 
-        \paragraph{Hyperparameter}
-            aktivierungs funktion
-            -> dense layer with softmax or tanh
-            batch size
-            learning rate
-            optimizer
+            \paragraph{Threadinfo}
+                Hypothese:
+                Threadinfos bringen was
 
-        \paragraph{Ngram Größe}
-            ngram größer -> langsamer
+                Einbinden von thread information auf verschiedenen wegen:
+                Thread aware ngrams (tan)
+                Thread aware ngrams for w2v (tanw2v)
+                Thread change flag (tcf)
 
-        \paragraph{Threadinfo}
-            Hypothese:
-            Threadinfos bringen was
+                varianten:
+                tan
+                tanw2v
+                tcf
+                tan tcf
+                tan tanw2v
+                tcf tanw2v
+                tan tanw2v tcf
 
-            Einbinden von thread information auf verschiedenen wegen:
-            Thread aware ngrams (tan)
-            Thread aware ngrams for w2v (tanw2v)
-            Thread change flag (tcf)
+                ---> welcher dieser varianten am besten?
 
-            varianten:
-            tan
-            tanw2v
-            tcf
-            tan tcf
-            tan tanw2v
-            tcf tanw2v
-            tan tanw2v tcf
+            \paragraph{Parameter}
+                args
+                time
 
-            ---> welcher dieser varianten am besten?
+                \ac{LSTM} ohne Threadinfos mit OHE
+                LSTM mit W2V ohne Threadinfos (ngram)
+                LSTM mit W2V mit Threadinfos (ngram)
+                LSTM mit W2V threadaware mit Threadinfos (ngram)
+                LSTM mit W2V threadaware mit Threadinfos (ngram) und threadchangeflag
+                LSTM mit W2Vthreadaware mit Threadinfos (ngram) und threadchangeflag, spezialtraining
+                --> LSTM final
 
-        \paragraph{Parameter}
-            args
-            time
+                Manche angriffe verändern Sequenz von syscalls nicht
+                Hypothese:
+                verwende Parameter um erg zu verb
 
-            \ac{LSTM} ohne Threadinfos mit OHE
-            LSTM mit W2V ohne Threadinfos (ngram)
-            LSTM mit W2V mit Threadinfos (ngram)
-            LSTM mit W2V threadaware mit Threadinfos (ngram)
-            LSTM mit W2V threadaware mit Threadinfos (ngram) und threadchangeflag
-            LSTM mit W2Vthreadaware mit Threadinfos (ngram) und threadchangeflag, spezialtraining
-            --> LSTM final
+                LSTM final + strlen
+                LSTM final + time delta
+                LSTM final + strlen + time delta
 
-            Manche angriffe verändern Sequenz von syscalls nicht
-            Hypothese:
-            verwende Parameter um erg zu verb
-
-            LSTM final + strlen
-            LSTM final + time delta
-            LSTM final + strlen + time delta
-
-
+                \fi
 
 \section{Metriken}\label{sec:Metriken}
+
+    Typische Metriken für die Auswertung von neuronalen Netzen und damit auch für \acp{LSTM} die in der Anomalieerkennung eingesetzt werden umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\textwidth]{images/Illustrationen/Precision.pdf}
+        \caption{Berechnungen der häufig verwendeten Metriken der Precision und des Recalls.}\label{fig:metriken}
+    \end{figure}
+    Diese werden wie in \autoref{fig:metriken} dargestellt berechnet.
+    Da der Datensatz aus System Calls besteht bedeutet Recall in diesem Fall, der Anteil an korrekt erkannten bösartigen System Calls, an allen bösartigen System Calls.
+    Wie in \autoref{sec:prob_LIDDS} beschrieben liefert der Datensatz nur den Angriffszeitpunkt.
+    Also muss jeder System Call nach dem Angriffszeitpunkt als bösartig eingestuft werden, obwohl gleichzeitig noch Normalverhalten stattfindet.
+    Wird von einem optimalen Fall ausgegangen, dass alle dem Angriff zugehörigen System Calls einen Alarm auslösen, wird der Recall immer noch sehr niedrig sein.
+    Somit ist auch der F1-Score wenig nützlich, da sich dieser aus Recall und Precision zusammensetzt.
+    Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen, diese sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
+    Die Grundidee der verwendeten Metriken besteht darin, Alarme welche nach dem Angriffszeitpunkt in einer Aufnahme mit Angriffsverhalten auftreten als korrekt zu werten.
+    Zusätzlich gilt dann diese Aufnahme als korrekt erkannt.
+    Die \ac{} 
 
     Auf Grund dessen Metrik False Alarm/ consecutive false alarm und Detection rate falls einmal pro malicious file in quadrant 4 -> HIT
     Wahl von Metriken in NN
