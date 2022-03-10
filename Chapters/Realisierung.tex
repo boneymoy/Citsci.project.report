@@ -15,12 +15,8 @@
     Speziell die Ressource Zeit, wie sich später zeigen wird, ist dabei im Rahmen dieser Arbeit eine Entscheidende.
     Abschließen soll dieses Kapitel dann in~\autoref{sec:Metriken} die Untersuchung von Metriken, welche dann für die Auswertung der Experimente benötigt wird.
 
-
-
     \section{Verwendete Tools}\label{sec:Tools}
-        Tensorflow Keras
-        Rechencluster clara
-        sysdig
+        Berechnungen für diese Arbeit wurden (z.T.) mit Ressourcen des Universitätsrechenzentrums Leipzig durchgeführt.
 
     \section{Vorverarbeitung}\label{sec:Preprocessing}
         %In dem kommenden Abschnitt~\ref{sec:struktur} wird die erste Vorverarbeitung des Datensatzes vorgestellt.
@@ -30,21 +26,6 @@
         Ein weiterer wichtiger Teil der Arbeit besteht darin, zu klären welche Metadaten neben dem Namen des System Calls noch verwendet werden können,
         um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
         Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in~\autoref{sec:Meta}
-
-        %\subsection{Vorverarbeitung des Datensatzes}\label{sec:struktur}
-            %Gegeben 10 szenarien die aus bekannten CVEs bestehen.\
-            %mit ca. 1000 files durschnittlich 45sec
-            %in runs.csv genauere beschreibung files mit label und zeitangabe falls exploit
-            %falls kein exploit dann exploit start time -1
-            %keine dauer des exploits also ende nicht bekannt 
-            %nicht systemcall genau start des angriffs angegeben 
-            %führe puffer ein, da angegebener Zeitpunkt ungenau, sodass auch wirklich jeder angriff nach exploit start time
-            %alles nach dem angrffszeitpunkt muss als anomalie gewertet werden, auch wenn angriff evtl noch nicht gestartet hat oder schon vorbei.
-            %%TODO Quadranten
-            %filtern von switch statements in Datensatz weil keine system calls
-            %nur schließende syscalls keine öffnenden.
-            %Muss wie in~\ref{sec:syscalls} beschrieben immer beide geben.
-            %Schließende interessant, da auch Rückgabewerte betrachtet werden können
 
         \subsection{Darstellung eines System Calls}\label{sec:syscalldarstellung}
             Neuronale Netze benötigen numerische werte deswegen Umwandlung von Namen der System Calls. 
@@ -77,18 +58,15 @@
                 Dabei ist mit Kontext die Wörter vor und nach dem aktuellen Wort gemeint.
                 Wie umfangreich dieser Kontext für jedes Wort sein soll, wird mit der Fenstergröße $w$ festgelegt.
 
-                In der Trainingsphase gibt es zwei verschiedene Ansätze, zum einen das \textit{Continuous Bag-Of-Words},
-                dabei wird versucht eine Vorhersage über ein Wort anhand des Kontextes zu machen.
+                In der Trainingsphase gibt es zwei verschiedene Architekturen.
+                \textit{Continuous Bag-Of-Words} versucht eine Vorhersage über ein Wort anhand des Kontextes zu machen.
                 Hingegen wird unter Verwendung von \textit{Skip-gram}, eine Vorhersage des Kontextes aufgrund des Wortes vorgenommen.~\cite{EMBEDDINGPILEHVAR2020}
 
                 Schwierigkeiten wie das häufige auftreten von Wörtern in der englischen Sprache wie \textit{the}, treten in der System Call Domäne nicht auf.
                 Die Vorteile der dichtbesetzten und dimensionsreduzierten Vektoren machen sich auch bereits~\cite{IDSTHREADGRIMMER2021} in der anomaliebasierten \ac{HIDS} mit System Calls zu nutzen.
 
-                %TODO
-                {\color{red} TODO Wunderlich einbinden}
-                Wie in \cite{W2VWUNDERLICH2019} beschrieben \ac{OHE} pot. besser, aber Dimensionsreduktion entscheidend.
-                Zeitlicher Vorteil überwiegt in dieser Arbeit weshalb dieses Embedding auch im Folgenden verwendet.
-                
+                Wie in~\cite{W2VWUNDERLICH2019} beschrieben bevorzugen sie das \ac{OHE}, wobei auch das \ac{W2V} geeignet ist.
+                In dieser Arbeit überwiegt allerdings der zeitliche Vorteil durch die Dimensionsreduktion des \ac{W2V}.
                 Neben den eigentlichen Namen der System Call enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
                 Wie zumindest Teile dieser die Embeddings der System Calls erweitern können soll im folgenden Abschnitt untersucht werden.
 
@@ -466,22 +444,27 @@
                 Die Anzahl der Neuronen dieser Layer wird wie bereits in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
                 Der Einfluss der Batch size auf die Ergebnisqualität wird unter anderem in~\cite{LSTMBENCHBREUEL2015} als gering eingestuft und wird auf $1024$ festgelegt.
                  
-                %TODO
                 Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
                 
-                Für die Loss-Funktion wurde die CrossEntropy gewählt.
-                Und der in vielen Bereichen eingesetzte Adam-Optimizer.
-                Wie auch in \autoref{smth} erkennbar ist stagniert der Fehler nach nur wenigen Epochen, weshalb diese auf $20$ festgelegt werden.
+                Als Loss Funktion wird für das $k+1$ Klassen Klassifizierungsproblem die \texit{Cross-Entropy} gewählt.
+                Außerdem wird der für \acp{LSTM} häufig eingesetzte Adam-Optimizer verwendet.
+                Wie auch in \autoref{fig:learning_rate} erkennbar ist stagniert der Fehler bei verschiedenen Szenarien nach nur wenigen Epochen, weshalb für die Epochenanzahl ein Maximum von $20$ festgelegt wird.
+                \begin{figure}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/learning_rate.pdf}
+                    \caption{Darstellung der Lernrate für zwei Szenarien.
+                             Zum einen ist ein Lernfortschritt zu erkennen und zum anderen tritt dieser bereits nach wenigen Epochen ein.}\label{fig:learning_rate}
+                \end{figure}
 
-                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nur n-gramme aufgebaut mit Betrachtung der Thread Information.
-
-
+                Da das Berechnen des \ac{W2V} im Vergleich zum Training und Testen des \acp{LSTM} nur einen geringen Zeitaufwand benötigt wird eine Epochenanzahl von $500$ festgelegt. 
+                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nach verschiedenen Tests mit alten Konfigurationen nur n-gramme aufgebaut mit Betrachtung der Thread Information.
 
             \paragraph{Zu ermittelnde Parameter}
-                Für die Ergebnisqualität mit entscheidende Faktoren sind vor allem die Länge der n-gramme.
-                Einstellbar ist außerdem die Vektorgröße des \ac{W2V}.
+                Kann eine Konfiguration gefunden werden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
+                Dafür gilt es speziell verschiedene \textbf{n-gram Größe}n in Kombination mit verschiedenen \textbf{Größe}n für das \textbf{\ac{W2V}-Embedding} zu finden.
+                Zusätzlich soll untersucht werden ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
+                Speziell wird getestet ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
                 
-
 \iffalse
     \section{Strukturierung der Experimente}\label{sec:StrukExp}
         Um aussagekräftige Experimente zu entwickeln müssen zuerst 
@@ -601,30 +584,21 @@
     \begin{figure}
         \centering
         \includegraphics[width=0.75\textwidth]{images/Illustrationen/Precision.pdf}
-        \caption{Berechnungen der häufig verwendeten Metriken der Precision und des Recalls.}\label{fig:metriken}
+        \caption{Visualisierung der Berechnung der häufig verwendeten Metriken der Precision und des Recalls, bezogen auf die Domäner der \textit{Intrusion Detection}.}\label{fig:metriken}
     \end{figure}
     Diese werden wie in \autoref{fig:metriken} dargestellt berechnet.
     Da der Datensatz aus System Calls besteht bedeutet Recall in diesem Fall, der Anteil an korrekt erkannten bösartigen System Calls, an allen bösartigen System Calls.
-    Wie in \autoref{sec:prob_LIDDS} beschrieben liefert der Datensatz nur den Angriffszeitpunkt.
+    Wie in \autoref{sec:prob_LIDDS} beschrieben liefert der Datensatz allerdings nur den Angriffszeitpunkt.
     Also muss jeder System Call nach dem Angriffszeitpunkt als bösartig eingestuft werden, obwohl gleichzeitig noch Normalverhalten stattfindet.
-    Wird von einem optimalen Fall ausgegangen, dass alle dem Angriff zugehörigen System Calls einen Alarm auslösen, wird der Recall immer noch sehr niedrig sein.
+    Wird von einem optimalen Fall ausgegangen, dass alle dem Angriff zugehörigen System Calls einen Alarm auslösen, wird der Recall immer noch sehr niedrig sein und damit keinen realistischen Wert liefern.
     Somit ist auch der F1-Score wenig nützlich, da sich dieser aus Recall und Precision zusammensetzt.
     Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen, diese sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
-    Die Grundidee der verwendeten Metriken besteht darin, Alarme welche nach dem Angriffszeitpunkt in einer Aufnahme mit Angriffsverhalten auftreten als korrekt zu werten.
-    Zusätzlich gilt dann diese Aufnahme als korrekt erkannt.
-    Die \ac{} 
-
-    Auf Grund dessen Metrik False Alarm/ consecutive false alarm und Detection rate falls einmal pro malicious file in quadrant 4 -> HIT
-    Wahl von Metriken in NN
-    Precision, Recall, f-score, TNR, FNR, FPR
-
-    problematisch:
-    nicht auf systemcall genau gelabelt
-    recall precision usw nur auf file ebene:
-    alarm nach exploitstarttime wird immer als hit gewertet -> aber evtl angriff noch nicht begonnen
-    oder angriff bereits vorbei
-    ebenso umgekehrt, eig muss jeder nicht alarm nach exploitstart als FN gewertet werden
-    weswegen filegenau geschaut wird
-    vorteil des Datensatzes gegenüber anderen, immerhin exploitstart time
-
-    ilarm in quadrant ---> image
+    Die Grundidee der verwendeten Metriken besteht darin, Aufnahmen mit Angriffsverhalten welche nach dem Angriffszeitpunkt einen Alarm auslösen als korrekt zu werten.
+    Werden alle Aufnahmen mit Angriffsverhalten korrekt erkannt gilt: $\ac{DR}=1$.
+    Dabei wird außer Acht gelassen, dass ein Alarm nach dem Angriffszeitpunkt wie in \autoref{sec:prob_LIDDS} beschrieben theoretisch auch ein Fehlalarm sein kann.
+    Nur ein Alarm vor dem Angriffszeitpunkt oder in einer Aufnahme ohne Angriffsverhalten wird als Fehlalarm beziehungsweise als \ac{FP} gewertet.
+    Ziel ist es also eine hohe \ac{DR} und eine möglichst geringe \ac{FP}-Rate zu erreichen.
+    Um einschätzen zu können welche Konfiguration am besten abgeschnitten hat, ergibt sich eine neue Schwierigkeit.
+    Werden alle System Calls aus dem Datensatz als Angriff erkannt ist die \ac{DR} wie gewünscht $1$.
+    Eine hohe \ac{DR} alleine ist also wenig aussagekräftig.
+    Es muss eine Abwägung zwischen \ac{FP}-Rate und \ac{DR} stattfinden, dies wird in der Auswertung mit einbezogen.
