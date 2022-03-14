@@ -1,10 +1,388 @@
 \chapter{Ergebnisse}\label{ch:erg}
 
 In diesem Kapitel sollen die Ergebnisse der Experimente dargestellt und ausgewertet werden.
-In \autoref{ch:folgerungen} soll dann eine Einschätzung und Einordnung der besprochenen Ergebnisse erfolgen.
+\autoref{sec:erg_LSTM} untersucht Konfigurationen des \ac{LSTM} ohne Verwendung von Extraparametern.
+Dabei werden diese speziell nur entweder nach \ac{DR} oder Anzahl der \acp{FP} eingestuft.
+In \autoref{sec:erg_LSTM_extra} werden auch Ergebnisse mit Extraparametern hinzugezogen.
+Dabei soll zusätzlich eine beste Konfiguration gefunden werden welche nicht entweder die \ac{DR} oder die \acp{FP} isoliert betrachtet.
+Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit dieser Arbeit verglichen.
+Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit die ebenfalls ein \ac{LSTM} auf demselben Datensatz verwenden.
 
 
-\section{LSTM Ansatz}
+\section{LSTM Ansatz}\label{sec:erg_LSTM}
+    Im ersten Schritt der Auswertung wird die \ac{DR} isoliert für Konfigurationen betrachtet welche keine weiteren Extraparameter der System Calls enthalten.
+    Alle Konfigurationen verwenden dabei \textit{Thread Aware} n-gramme.
+    In \autoref{tab:LSTM_erg} werden die zehn besten Ergebnisse dargestellt.
+    Die Durchschnittliche \ac{DR} von $0.69$ des besten Ergebnisses zeigt, dass es generell möglich ist mit \acp{LSTM} eine Anomalieerkennung auf Basis von System Calls umzusetzen.
+    Eine klarer Zusammenhang zwischen Embedding Größe (embed) oder n-gram Größe (n-gram) und der \ac{DR} ist dabei nicht direkt zu erkennen.
+    So hat die Konfiguration in Zeile $2$ mit einer n-gram Größe von $10$ und einer Embedding Größe von $4$ das \ac{LSTM} $10 \cdot 4=40$ Eingangsneuronen.
+    Hingegen hat die Konfiguration aus Zeile $4$ nur $2 \cdot 4 = 8$ Eingangsneuronen.
+    Beide Konfigurationen erzielen dabei sehr ähnliche Ergebnisse mit einer durchschnittlichen \ac{DR} von $0.67$ und $15.63$ \acp{FP} beziehungsweise $0.64$ und $13.50$.
+
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{cccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{6}{c}{Ergebnisse für \ac{LSTM} ohne Extraparameter}\\
+            \toprule
+            n-gram & embed & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $6$ & 	$6$ & 	$22.22$ &  	$209$ & 	$0.69$ &  	$9$ \\
+            $10$ & 	$4$ & 	$15.63$ &  	$125$ & 	$0.67$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$10$ & 	$6.88$ &  	$55$ & 	    $0.64$ &  	$8$ \\
+            $2$ & 	$4$ & 	$13.50$ &  	$108$ & 	$0.64$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$6$ & 	$20.60$ &  	$206$ & 	$0.64$ &  	$10$ \\
+            $10$ & 	$8$ & 	$19.13$ &  	$153$ & 	$0.62$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$6$ & 	$6.44$ &  	$58$ & 	    $0.56$ &  	$9$ \\
+            $6$ & 	$4$ & 	$10.13$ &  	$81$ & 	    $0.53$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$10$ & 	$5.38$ &  	$43$ & 	    $0.51$ &  	$8$ \\
+            $6$ & 	$10$ & 	$7.26$ &  	$58$ & 	    $0.51$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$8$ & 	$8.40$ &  	$84$ & 	    $0.50$ &  	$10$ \\
+            \bottomrule
+        \end{tabular}
+        \caption{Konfigurationen mit den $10$ höchsten \acp{DR}. 
+                 Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
+                 Alle n-gramme sind \textit{Thread Aware}.}
+        \label{tab:LSTM_erg}
+    \end{table}
+
+    Im zweiten Schritt der Auswertung sollen die besten Ergebnisse nur im Bezug auf die Anzahl der Fehlalarme, also \acp{FP} untersucht werden.
+    In \autoref{tab:LSTM_erg_FP} werden wieder \textit{Thread Aware} n-gramme genutzt und nur Ergebnisse mit $\ac{DR}>0.5$ einbezogen.
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{cccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{6}{c}{Ergebnisse für \ac{LSTM} ohne Extraparameter}\\
+            \toprule
+            n-gram & embed & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $10$ & 	$10$ & 	$5.38$ &  	$43$ & 	    $0.51$ &  	$8$ \\
+            $10$ & 	$6$ & 	$6.44$ &  	$58$ & 	    $0.56$ &  	$9$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$10$ & 	$6.88$ &  	$55$ & 	    $0.64$ &  	$8$ \\
+            $6$ & 	$10$ & 	$7.26$ &  	$58$ & 	    $0.51$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$8$ & 	$8.40$ &  	$84$ & 	    $0.50$ &  	$10$ \\
+            $6$ & 	$4$ & 	$10.13$ &  	$81$ & 	    $0.53$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$4$ & 	$13.50$ &  	$108$ & 	$0.64$ &  	$8$ \\
+            $10$ & 	$4$ & 	$15.63$ &  	$125$ & 	$0.67$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$8$ & 	$19.13$ &  	$153$ & 	$0.62$ &  	$8$ \\
+            $2$ & 	$6$ & 	$20.60$ &  	$206$ & 	$0.64$ &  	$10$ \\
+            \rowcolor{GruvGray!16}
+            $6$ & 	$6$ & 	$22.22$ &  	$209$ & 	$0.69$ &  	$9$ \\
+            \bottomrule
+        \end{tabular}
+        \caption{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
+                 Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
+                 Alle n-gramme sind \textit{Thread Aware}.
+                 Es wurden nur Konfigurationen mit $\ac{DR}>0.5$ einbezogen.}
+        \label{tab:LSTM_erg_FP}
+    \end{table}
+    
+    Hierbei ergibt sich ein ähnliches Bild wie zuvor, da es nur wenig mehr als zehn Konfigurationen ohne Extraparameter mit einer $\ac{DR}>0.5$ gibt.
+    Doch die Tabelle kann genutzt werden um noch einmal auf die Schwierigkeit der Auswahl der besten Konfigurationen hinzuweisen.
+    Ist eine Konfiguration mit hoher \ac{DR} oder eine Konfiguration mit wenigen \acp{FP} zu bevorzugen?
+    Oder konkret wie in diesem Fall, ist eine $\ac{DR}=0.69$ bei $22$ Fehlern in grob acht Stunden Testaufnahmen der Konfiguration mit einer $\ac{DR}=0.51$ bei ca. $5$ Fehlern zu bevorzugen?
+    Der Versuch eine beste Konfiguration auszuwählen soll nach Betrachtung der Konfigurationen mit Extraparametern unternommen werden.
+
+
+\section{Extra Parameter}\label{sec:erg_LSTM_extra}
+    In \autoref{tab:LSTM_par_erg} werden zusätzlich auch Konfigurationen mit Extraparametern angezeigt. 
+    Wieder werden die Ergebnisse nach der besten \ac{DR} eingestuft.
+    Als erstes fällt dabei ins Auge, dass alle zehn Ergebnisse besser sind als das beste Ergebnis aus \autoref{tab:LSTM_erg}.
+    Dies gibt einen Hinweis darauf, dass die Parameter im Einsatz mit einem \ac{LSTM} sehr nützlich sind.
+    Im Vergleich der besten Konfigurationen werden ohne Extraparameter wie beschrieben eine \ac{DR} von $0.69$ bei durchschnittlich $22.22$ Fehlern.
+    Die beste Konfiguration mit Extraparametern erreicht eine \ac{DR} von $0.88$ bei durchschnittlich $22.89$ Fehlern.
+    Also eine sehr deutliche Verbesserung.
+    Auffällig dabei ist, dass wie in \autoref{tab:LSTM_erg} keinerlei zusammenhang zwischen Eingangsneuronen und Ergebnisqualität zu erkennen ist.
+    Die Spanne wird sogar noch größer.
+    Bei der Konfiguration in Zeile zwei werden $10\cdot8 + 1 + 1=82$ Eingangsneuronen benötigt und in der sechsten Zeile  lediglich $2\cdot4 + 1 = 9$.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{ccccccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{9}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
+            \toprule
+            n-gram & embed & \textit{rv} & \ac{TCF} & \textit{time} & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $6$ & 	$8$ & 	$1$ & 	$1$ & 	$1$ & 	$22.89$ &  	$206$ & 	$0.88$ &  	$9$ \\
+            $10$ & 	$8$ & 	$0$ & 	$1$ & 	$1$ & 	$18.56$ &  	$167$ & 	$0.76$ &  	$9$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$4$ & 	$1$ & 	$1$ & 	$1$ & 	$22.33$ &  	$201$ & 	$0.74$ &  	$9$ \\
+            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5.03$ &   	$41$ & 	    $0.71$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $6$ & 	$8$ & 	$1$ & 	$1$ & 	$0$ & 	$9.00$ &   	$81$ & 	    $0.70$ &  	$9$ \\
+            $2$ & 	$4$ & 	$1$ & 	$0$ & 	$0$ & 	$12.50$ &  	$100$ & 	$0.70$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$12.63$ &  	$101$ & 	$0.70$ &  	$8$ \\
+            $10$ & 	$4$ & 	$1$ & 	$0$ & 	$0$ & 	$14.38$ &  	$115$ & 	$0.70$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$8$ & 	$1$ & 	$1$ & 	$1$ & 	$14.00$ &  	$140$ & 	$0.70$ &  	$10$ \\
+            $6$ & 	$4$ & 	$1$ & 	$1$ & 	$1$ & 	$10.89$ &  	$98$ & 	    $0.69$ &  	$9$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$6$ & 	$1$ & 	$0$ & 	$1$ & 	$15.70$ &  	$157$ & 	$0.69$ &  	$10$ \\
+            \bottomrule
+        \end{tabular}
+        \caption{Konfigurationen mit den $10$ höchsten \acp{DR}. 
+                 Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.
+                 Alle n-gramme sind \textit{Thread Aware}.
+                 Bei allen Konfigurationen kommen die Extraparameter zum Einsatz.}
+        \label{tab:LSTM_par_erg}
+    \end{table}
+
+    Beste Ergebnisse nach \ac{FP}-Rate
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{ccccccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{9}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
+            \toprule
+            n-gram & embed & \textit{rv} & \ac{TCF} & \textit{time} & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5.03$ & 	$41$ & 	$0.71$ & 	$8$ \\
+            $6$ & 	$8$ & 	$0$ & 	$0$ & 	$1$ & 	$4.66$ & 	$42$ & 	$0.67$ & 	$9$ \\
+            \rowcolor{GruvGray!16}
+            $6$ & 	$4$ & 	$0$ & 	$0$ & 	$1$ & 	$5.38$ & 	$43$ & 	$0.64$ & 	$8$ \\
+            $2$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
+            $10$ & 	$6$ & 	$0$ & 	$1$ & 	$0$ & 	$5.66$ & 	$51$ & 	$0.60$ & 	$9$ \\
+            \rowcolor{GruvGray!16}
+            $2$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$6.88$ & 	$55$ & 	$0.64$ & 	$8$ \\
+            $6$ & 	$6$ & 	$1$ & 	$1$ & 	$1$ & 	$6.33$ & 	$57$ & 	$0.66$ & 	$9$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$6$ & 	$1$ & 	$0$ & 	$0$ & 	$6.33$ & 	$57$ & 	$0.55$ & 	$9$ \\
+            $10$ & 	$6$ & 	$0$ & 	$0$ & 	$0$ & 	$6.44$ & 	$58$ & 	$0.56$ & 	$9$ \\
+            \rowcolor{GruvGray!16}
+            $6$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$7.26$ & 	$58$ & 	$0.51$ & 	$8$ \\
+            \bottomrule
+        \end{tabular}
+        \caption{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
+                 Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.  Alle n-gramme sind \textit{Thread Aware}.
+                 Auch hier kommen bei den meisten Konfigurationen die Extraparameter zum Einsatz.}
+        \label{tab:LSTM_FP}
+    \end{table}
+
+    Vergleich der zwei besten Konfigurationen (beste \ac{DR} vs beste \ac{FP}-Rate)
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{cccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{6}{c}{Vergleich Konfiguration mit höchster \ac{DR} vs niedrigste \ac{FP}-Rate}\\
+            \hline
+            Szenario & \ac{FP}-Rate & \ac{DR} & vs & \ac{FP}-Rate & \ac{DR}\\
+            \toprule
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307   & $29$ & $0.938776$ & x & $12$ & $0.642857$ \\
+            CVE-2012-2122 	      & $18$ & $0.987097$ & x & $14$ & $0.051613$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 	      & $13$ & $0.030000$ & x & $4$  & $0.010000$ \\
+            CVE-2017-7529 	      & $0$  & $0.988506$ & x & $1$  & $0.988506$ \\
+            \rowcolor{GruvGray!16} CVE-2018-3760 	      & $4$  & $1.000000$ & x & $1$  & $1.000000$ \\
+            CVE-2019-5418 	      & $7$  & $1.000000$ & x & $1$  & $0.951456$ \\
+            \rowcolor{GruvGray!16}
+            PHP CWE-434 	      & $24$ & $1.000000$ & x & $3$  & $1.000000$\\
+            SQL Injection CWE-89 &	$82$ & $1.000000$ & x & $5$  & $1.000000$\\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 	      & $29$ & $1.000000$ & x & xxx  & xxx \\
+            ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
+            \bottomrule
+        \end{tabular}
+        \caption{Vergleich bester Ergebnisse.
+                Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
+                Niedrigste \ac{FP}-Rate rechts mit folgenden Parametern: $n=10, e=4, rv=0, \ac{TCF}=1, time=0$}
+        \label{tab:LSTM_vs}
+    \end{table}
+
+    Vergleich mit anderen LSTM Ansätzen:
+
+    Vergleich mit \ac{STIDE} von Grimmer et al.~\cite{IDSTHREADGRIMMER2021}.
+
+    Dabei wird im \ac{STIDE} ein \ac{SW} verwendet, dabei wird der Anomaliescore über die Größe de \ac{SW} gemittelt.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{lcccccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{9}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
+            \toprule
+            Algorithmus & n-gram & embed & \ac{SW} & \textit{rv} & \ac{TCF} & \textit{time} & \overline{\ac{FP}} & \overline{\ac{DR}} \\
+            \midrule
+            \ac{STIDE} & $5$ & int & $1000$ & $0$ & $0$ & $0$ & $61.5$ & $0.986$ \\
+            \rowcolor{GruvGray!16}
+            best \ac{DR} LSTM & $6$ & 	$8$ & $1$ & 	$1$ & 	$1$ & 	$1$ & 	$22.89$& 	$0.88$ \\
+            \rowcolor{GruvGray!16}
+            best \ac{FP} LSTM & $10$ & 	$4$ & $1$ &	$0$ & 	$1$ & 	$0$ & 	$5.03$ & 	$0.71$ \\
+            \bottomrule
+        \end{tabular}
+        \caption{}
+        \label{tab:LSTM_stide_erg}
+    \end{table}
+
+\section{Vergleich anderer Arbeiten}\label{sec:erg_vgl}
+Diese arbeitet allerdings mit einer anderen Verteilung der Test- und Trainigsdaten sowie anderen Metriken.
+\iffalse
+    Durchschnittliche Veränderung bei Hinzunahme time delta
+    Durchschnittliche Veränderung bei Hinzunahme \ac{TCF}
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|c|c|c}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{4}{c}{Vergleich Nutzung von \textit{time}}\\
+            \hline
+            Szenario & \textit{time} & $\overline{FP}$ & \overline{\ac{DR}}\\
+            \hline
+            \hline
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 &  	$1$ & 	$29.28$ &  	$0.324546$ \\
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 & 	$0$ & 	$21.78$ & 	$0.251867$ \\
+            CVE-2012-2122 & 	        $1$ & 	$10.19$ & 	$0.039606$ \\
+            CVE-2012-2122 &      	$0$ & 	$12.29$ & 	$0.018725$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 & 	        $1$ & 	$6.48$ &  	$0.011111$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 & 	        $0$ & 	$4.71$ &  	$0.005854$ \\
+            CVE-2017-7529 &       	$1$ & 	$1.50$ &  	$0.906290$ \\
+            CVE-2017-7529 & 	        $0$ & 	$0.83$ &  	$0.868517$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2018-3760 & 	        $1$ & 	$10.14$ & 	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2018-3760 &       	$0$ & 	$10.04$ & 	$1.000000$ \\
+            CVE-2019-5418 &       	$1$ & 	$7.89$ &  	$0.584184$ \\
+            CVE-2019-5418 &       	$0$ & 	$7.75$ &  	$0.575255$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 &        	$0$ & 	$14.92$ & 	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 & 	        $1$ & 	$20.96$ & 	$0.965517$ \\
+            PHP CWE-434 &         	$0$ & 	$10.81$ & 	$0.935591$ \\
+            PHP CWE-434 & 	        $1$ & 	$14.91$ & 	$0.887810$ \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 & 	$1$ & 	$21.39$ & 	$0.990278$ \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 & 	$0$ & 	$24.90$ & 	$0.974000$ \\
+            ZipSlip & 	            $1$ & 	$8.26$ &  	$0.187500$ \\
+            ZipSlip & 	            $0$ & 	$21.01$ & 	$0.176020$ \\
+        \end{tabular}
+        \caption{}
+        \label{tab:LSTM_time_erg}
+    \end{table}
+
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|c|c|c}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{4}{c}{Vergleich Nutzung von \textit{rv}}\\
+            \hline
+            Szenario & \textit{rv} & $\overline{FP}$ & \overline{\ac{DR}}\\
+            \hline
+            \hline
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 & 	$1$ & 	$24.13$ & 	$0.311094$ \\
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 & 	$0$ & 	$23.32$ & 	$0 	0.259936$ \\
+            CVE-2012-2122 & 	$1$ & 	$13.24$ & 	$0.039728$ \\
+            CVE-2012-2122 & 	$0$ & 	$8.51$ & 	$0.017535$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 & 	$1$ & 	$7.34$ & 	$0.011842$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 & 	$0$ & 	$3.49$ & 	$0.004872$ \\
+            CVE-2017-7529 & 	$1$ & 	$0.92$ & 	$0.910617$ \\
+            CVE-2017-7529 & 	$0$ & 	$1.36$ & 	$0.862364$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2018-3760 & 	$1$ & 	$9.18$ & 	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2018-3760 & 	$0$ & 	$9.92$ & 	$1.000000$ \\
+            CVE-2019-5418 & 	$1$ & 	$7.47$ & 	$0.684211$ \\
+            CVE-2019-5418 & 	$0$ & 	$7.89$ & 	$0.474758$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 & 	    $0$ & 	$18.46$ & 	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 & 	    $1$ & 	$17.56$ & 	$0.962963$ \\
+            PHP CWE-434 & 	    $0$ & 	$11.87$ & 	$0.919343$ \\
+            PHP CWE-434 &   	$1$ & 	$12.13$ & 	$0.907001$ \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 & 	$1$ & 	$22.95$ & 	$0.984211$ \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 & 	$0$ & 	$22.11$ & 	$0 	0.979211$ \\
+            ZipSlip & 	$0$ & 	$18.25$ & 	$0.196429$ \\
+            ZipSlip & 	$1$ & 	$10.50$ & 	$0.167092$ \\
+        \end{tabular}
+        \caption{}
+        \label{tab:LSTM_rv_erg}
+    \end{table}
+
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c|c|c|c}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{4}{c}{Vergleich Nutzung von \ac{TCF}}\\
+            \hline
+            Szenario & \ac{TCF} & $\overline{FP}$ & \overline{\ac{DR}}\\
+            \hline
+            \hline
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 & 	$1$ & 	$29.67$ & 	$0.402494$ \\
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 & 	$0$ & 	$21.44$ & 	$0.183425$ \\
+            CVE-2012-2122 & 	        $1$ & 	$4.91$ &  	$0.042652$ \\
+            CVE-2012-2122 & 	        $0$ & 	$16.92$ & 	$0.016050$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 & 	        $1$ & 	$4.67$ &  	$0.008333$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 & 	        $0$ & 	$6.29$ &  	$0.008293$ \\
+            CVE-2017-7529 & 	        $1$ & 	$1.50$ &  	$0.933589$ \\
+            CVE-2017-7529 &      	$0$ & 	$0.83$ &  	$0.844547$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2018-3760 &       	$1$ & 	$8.22$ &  	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2018-3760 &       	$0$ & 	$11.73$ & 	$1.000000$ \\
+            CVE-2019-5418 &       	$0$ & 	$9.73$ &  	$0.707317$ \\
+            CVE-2019-5418 &       	$1$ & 	$5.57$ &  	$0.429738$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 & 	        $0$ & 	$17.54$ & 	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 &         	$1$ & 	$18.79$ & 	$0.965517$ \\
+            PHP CWE-434 &         	$1$ & 	$13.72$ & 	$0.935545$ \\
+            PHP CWE-434 &        	$0$ & 	$11.86$ & 	$0.893677$ \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 & 	$1$ & 	$32.06$ & 	$1.000000$ \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 & 	$0$ & 	$15.30$ & 	$0.965250$ \\
+            ZipSlip &               $0$ & 	$17.76$ &   $0.196429$ \\
+            ZipSlip & 	            $1$ & 	$11.51$ & 	$0.167092$ \\
+        \end{tabular}
+        \caption{}
+        \label{tab:LSTM_tcf_erg}
+    \end{table}
+    \fi
+
+
 \iffalse
     \section{Optimale Parameter}
 
@@ -100,8 +478,6 @@ In \autoref{ch:folgerungen} soll dann eine Einschätzung und Einordnung der besp
     \section{LSTM Ansatz}
 \fi
 
-\section{Extra Parameter}
-    \subsection{Timing}\label{sec:Ergebnis_timing}
-    \subsection{Return Value}\label{sec:Ergebnis_return}
-
+    %\subsection{Timing}\label{sec:Ergebnis_timing}
+    %\subsection{Return Value}\label{sec:Ergebnis_return}
 

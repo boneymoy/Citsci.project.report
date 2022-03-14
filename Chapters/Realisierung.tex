@@ -10,13 +10,13 @@
     soll in~\autoref{sec:Preprocessing} betrachtet werden.
     Zuvor in~\autoref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
     Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird dann im~\autoref{sec:Algorithmus} beschrieben.
-    Nachdem so also der verarbeitende Teil betrachtet wurde, soll in~\autoref{sec:StrukExp} die Strukturierung der Experimente präsentiert werden.
-    Diese Strukturierung hat zum Ziel früh wenig vielversprechende Konfigurationen auszuschließen um ressourcenschonend Auswertungen durchzuführen.
-    Speziell die Ressource Zeit, wie sich später zeigen wird, ist dabei im Rahmen dieser Arbeit eine Entscheidende.
+    Dabei soll erst eine Allgemeine Beschreibung des Ablaufes gegeben werden und anschließend Training, die Anomalieerkennung besprochen werden.
+    In diesem Abschnitt werden ebenfalls die festgelegten und zu ermittelnden Parameter präsentiert.
     Abschließen soll dieses Kapitel dann in~\autoref{sec:Metriken} die Untersuchung von Metriken, welche dann für die Auswertung der Experimente benötigt wird.
 
     \section{Verwendete Tools}\label{sec:Tools}
         Berechnungen für diese Arbeit wurden (z.T.) mit Ressourcen des Universitätsrechenzentrums Leipzig durchgeführt.
+        PyTorch
 
     \section{Vorverarbeitung}\label{sec:Preprocessing}
         %In dem kommenden Abschnitt~\ref{sec:struktur} wird die erste Vorverarbeitung des Datensatzes vorgestellt.
@@ -442,13 +442,14 @@
                 Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht tragbaren Laufzeiten geführt hat, muss dies bei der Findung vieler Parameter bedacht werden.
                 Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \texit{Accuracy} führen.\cite{LSTMHYPERAUFA2020}
                 Die Anzahl der Neuronen dieser Layer wird wie bereits in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
+                Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
+                Außerdem wird der für \acp{LSTM} häufig eingesetzte Adam-Optimizer verwendet.
+                Diese Einstellungen wurden auch in der Arbeit von Dymshits et al.~\cite{LSTMDYMSHITS2017} eingesetzt.
+                Als Loss Funktion wird für das $k+1$ Klassen Klassifizierungsproblem die \texit{Cross-Entropy} gewählt.
+                Wie auch in \autoref{fig:learning_rate} erkennbar ist stagniert der Fehler bei verschiedenen Szenarien nach nur wenigen Epochen, weshalb für die Epochenanzahl ein Maximum von $20$ festgelegt wird.
                 Der Einfluss der Batch size auf die Ergebnisqualität wird unter anderem in~\cite{LSTMBENCHBREUEL2015} als gering eingestuft und wird auf $1024$ festgelegt.
                  
-                Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
                 
-                Als Loss Funktion wird für das $k+1$ Klassen Klassifizierungsproblem die \texit{Cross-Entropy} gewählt.
-                Außerdem wird der für \acp{LSTM} häufig eingesetzte Adam-Optimizer verwendet.
-                Wie auch in \autoref{fig:learning_rate} erkennbar ist stagniert der Fehler bei verschiedenen Szenarien nach nur wenigen Epochen, weshalb für die Epochenanzahl ein Maximum von $20$ festgelegt wird.
                 \begin{figure}
                     \centering
                     \includegraphics[width=\textwidth]{images/learning_rate.pdf}
@@ -462,6 +463,7 @@
             \paragraph{Zu ermittelnde Parameter}
                 Kann eine Konfiguration gefunden werden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
                 Dafür gilt es speziell verschiedene \textbf{n-gram Größe}n in Kombination mit verschiedenen \textbf{Größe}n für das \textbf{\ac{W2V}-Embedding} zu finden.
+                Für die n-gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
                 Zusätzlich soll untersucht werden ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
                 Speziell wird getestet ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
                 
@@ -592,11 +594,15 @@
     Also muss jeder System Call nach dem Angriffszeitpunkt als bösartig eingestuft werden, obwohl gleichzeitig noch Normalverhalten stattfindet.
     Wird von einem optimalen Fall ausgegangen, dass alle dem Angriff zugehörigen System Calls einen Alarm auslösen, wird der Recall immer noch sehr niedrig sein und damit keinen realistischen Wert liefern.
     Somit ist auch der F1-Score wenig nützlich, da sich dieser aus Recall und Precision zusammensetzt.
-    Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen, diese sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
-    Die Grundidee der verwendeten Metriken besteht darin, Aufnahmen mit Angriffsverhalten welche nach dem Angriffszeitpunkt einen Alarm auslösen als korrekt zu werten.
+    Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen. 
+    % Das sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
+    Damit wird versucht einen klaren Praxisbezug zu finden, denn dort ist vor allem interessant wieviele Angriffe erkannt werden und nicht wieviele System Calls der Angriffe als bösartig eingestuft werden.
+    Zum anderen entscheidet die Anzahl, beziehungsweise die Häufigkeit von Fehlalarmen über die Nutzbarkeit der \acp{IDS}.
+    Die Grundidee der verwendeten Metriken besteht darin, Aufnahmen mit Angriffsverhalten welche nach dem Angriffszeitpunkt einen Alarm auslösen als korrekt erkannten Angriff einzustufen.
     Werden alle Aufnahmen mit Angriffsverhalten korrekt erkannt gilt: $\ac{DR}=1$.
     Dabei wird außer Acht gelassen, dass ein Alarm nach dem Angriffszeitpunkt wie in \autoref{sec:prob_LIDDS} beschrieben theoretisch auch ein Fehlalarm sein kann.
     Nur ein Alarm vor dem Angriffszeitpunkt oder in einer Aufnahme ohne Angriffsverhalten wird als Fehlalarm beziehungsweise als \ac{FP} gewertet.
+    Zusätzlich gelten alle System Calls solange zu einem Alarm, bis der $ascore$ wieder unter dem Schwellwert $\theta$liegt.
     Ziel ist es also eine hohe \ac{DR} und eine möglichst geringe \ac{FP}-Rate zu erreichen.
     Um einschätzen zu können welche Konfiguration am besten abgeschnitten hat, ergibt sich eine neue Schwierigkeit.
     Werden alle System Calls aus dem Datensatz als Angriff erkannt ist die \ac{DR} wie gewünscht $1$.
