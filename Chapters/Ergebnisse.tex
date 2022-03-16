@@ -8,7 +8,53 @@ Dabei soll zusätzlich eine beste Konfiguration gefunden werden welche nicht ent
 Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit dieser Arbeit verglichen.
 Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit die ebenfalls ein \ac{LSTM} auf demselben Datensatz verwenden.
 
+\section{Berechnungsdauer}\label{sec:erg_time}
+    Wie bereits in mehreren Kapiteln erwähnt besteht eine große Schwierigkeit beim Einsatz dieses auf \ac{LSTM} basierenden Algorithmus in der \ac{HIDS} in der Berechnungszeit.
+    Für die Berechnungen wurden zwei verschiedene Grafikkarten auf dem Galaxy Cluster der Universität Leipzig genutzt.
+    Das EPS CWE-$434$ sowie das ZipSlip Szenario wurden auf einer NVIDIA Tesla V100 Graphikkarte berechnet und für die restlichen kleineren Szenarien wurde eine NVIDIA RTX 2080 Ti verwendet.
+    Die Trainingszeit spielt dabei eine untergeordnete Rolle, da diese für den Live-Betrieb keine Rolle spielt.
+    Im Folgenden werden die durchschnittlichen Berechnungszeiten für die verschiedenen Szenarien gelistet.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{lr}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{2}{c}{Berechnungszeiten der verschiedenen Szenarien}\\
+            \toprule
+            Szenario & Detection Time in min\\
+            \midrule
+            \rowcolor{GruvGray!16}
+            CVE-2017-7529 & $16.22$ \\
+            CVE-2014-0160 & $34.48$ \\
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307 & $53.69$ \\
+            CVE-2012-2122 & $55.87$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2019-5418 & $155.69$ \\
+            CVE-2018-3760 & $171.56$ \\
+            \rowcolor{GruvGray!16}
+            PHP CWE-434 & $193.55$ \\
+            SQL Injection CWE-89 & $212.00$ \\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 & $1157.83$ \\	
+            ZipSlip & $2253.75$ \\	
+            \hline
+        \end{tabular}
+        \caption{Berechnungszeiten der Testdaten einzelner Szenarien}
+        \label{tab:LSTM_erg_time}
+    \end{table}
+    Wie zu erkennen benötigen die beiden großen Szenarien trotz der besseren Grafikkarte wesentlich länger.
+    Um die in \autoref{tab:LSTM_erg_time} beschriebenen Ergebnisse zu erzielen wurden bereits einige Abstriche gemacht.
+    So wurde kein Vergleich des \ac{OHE} mit dem \ac{W2V} gezogen, aufgrund der Größe des \ac{OHE}.
+    Auch wurden die möglichen Parameter, sowie Parametergrößen stark eingeschränkt um die Anzahl der zu Berechnenden Konfigurationen klein zu halten.
+    Für die Auswahl wurden Tests auf kleineren Szenarien durchgeführt.
+    
+    Bei besonders großen Eingaben, also n-grammen größer $2$ oder Embedding Größen größer als $8$ bei einer n-gram Größe von $2$ reicht auch der Speicher der NVIDIA Tesla V100 Grafikkarte für das ZipSlip Szenario nicht mehr aus.
+    Das mindert leider die Vergleichbarkeit.
+    Konfigurationen welche kein Ergebnis für das ZIPSlip Szenario lieferten sind mit Sternchen markiert.
 
+
+    
 \section{LSTM Ansatz}\label{sec:erg_LSTM}
     Im ersten Schritt der Auswertung wird die \ac{DR} isoliert für Konfigurationen betrachtet welche keine weiteren Extraparameter der System Calls enthalten.
     Alle Konfigurationen verwenden dabei \textit{Thread Aware} n-gramme.
@@ -22,10 +68,10 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 
     \begin{table}[ht]
         \centering
-        \begin{tabular}{cccccc}
+        \begin{tabular}{rrrrrr}
             \hline
             \rowcolor{GruvGray!36}
-            \multicolumn{6}{c}{Ergebnisse für \ac{LSTM} ohne Extraparameter}\\
+            \multicolumn{6}{c}{Ergebnisse für \ac{LSTM} ohne Extraparameter, nach \ac{DR}}\\
             \toprule
             n-gram & embed & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
             \midrule
@@ -44,9 +90,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \rowcolor{GruvGray!16}
             $10$ & 	$10$ & 	$5.38$ &  	$43$ & 	    $0.51$ &  	$8$ \\
             $6$ & 	$10$ & 	$7.26$ &  	$58$ & 	    $0.51$ &  	$8$ \\
-            \rowcolor{GruvGray!16}
-            $2$ & 	$8$ & 	$8.40$ &  	$84$ & 	    $0.50$ &  	$10$ \\
-            \bottomrule
+            \hline
         \end{tabular}
         \caption{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
@@ -59,10 +103,10 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 
     \begin{table}[ht]
         \centering
-        \begin{tabular}{cccccc}
+        \begin{tabular}{rrrrrr}
             \hline
             \rowcolor{GruvGray!36}
-            \multicolumn{6}{c}{Ergebnisse für \ac{LSTM} ohne Extraparameter}\\
+            \multicolumn{6}{c}{Ergebnisse für \ac{LSTM} ohne Extraparameter, nach \ac{FP}}\\
             \toprule
             n-gram & embed & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
             \midrule
@@ -81,9 +125,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \rowcolor{GruvGray!16}
             $10$ & 	$8$ & 	$19.13$ &  	$153$ & 	$0.62$ &  	$8$ \\
             $2$ & 	$6$ & 	$20.60$ &  	$206$ & 	$0.64$ &  	$10$ \\
-            \rowcolor{GruvGray!16}
-            $6$ & 	$6$ & 	$22.22$ &  	$209$ & 	$0.69$ &  	$9$ \\
-            \bottomrule
+            \hline
         \end{tabular}
         \caption{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
@@ -98,21 +140,23 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Oder konkret wie in diesem Fall, ist eine $\ac{DR}=0.69$ bei $22$ Fehlern in grob acht Stunden Testaufnahmen der Konfiguration mit einer $\ac{DR}=0.51$ bei ca. $5$ Fehlern zu bevorzugen?
     Der Versuch eine beste Konfiguration auszuwählen soll nach Betrachtung der Konfigurationen mit Extraparametern unternommen werden.
 
-
 \section{Extra Parameter}\label{sec:erg_LSTM_extra}
-    In \autoref{tab:LSTM_par_erg} werden zusätzlich auch Konfigurationen mit Extraparametern angezeigt. 
-    Wieder werden die Ergebnisse nach der besten \ac{DR} eingestuft.
+    In \autoref{tab:LSTM_par_erg} werden die Ergebnisse der Konfigurationen mit Extraparametern angezeigt. 
+    Wieder werden die Ergebnisse zunächst nach der besten \ac{DR} eingestuft.
     Als erstes fällt dabei ins Auge, dass alle zehn Ergebnisse besser sind als das beste Ergebnis aus \autoref{tab:LSTM_erg}.
     Dies gibt einen Hinweis darauf, dass die Parameter im Einsatz mit einem \ac{LSTM} sehr nützlich sind.
-    Im Vergleich der besten Konfigurationen werden ohne Extraparameter wie beschrieben eine \ac{DR} von $0.69$ bei durchschnittlich $22.22$ Fehlern.
-    Die beste Konfiguration mit Extraparametern erreicht eine \ac{DR} von $0.88$ bei durchschnittlich $22.89$ Fehlern.
+    Im Vergleich der besten Konfigurationen, werden ohne Extraparameter wie beschrieben eine \ac{DR} von $0.69$ bei durchschnittlich $22.22$ Fehlern erreicht.
+    Mit Extraparametern beträgt die \ac{DR} $0.88$ bei durchschnittlich $22.89$ Fehlern.
     Also eine sehr deutliche Verbesserung.
-    Auffällig dabei ist, dass wie in \autoref{tab:LSTM_erg} keinerlei zusammenhang zwischen Eingangsneuronen und Ergebnisqualität zu erkennen ist.
-    Die Spanne wird sogar noch größer.
-    Bei der Konfiguration in Zeile zwei werden $10\cdot8 + 1 + 1=82$ Eingangsneuronen benötigt und in der sechsten Zeile  lediglich $2\cdot4 + 1 = 9$.
+    Auffällig dabei ist, dass wie in \autoref{tab:LSTM_erg} keinerlei Zusammenhang zwischen Eingangsneuronen und Ergebnisqualität zu erkennen ist.
+    Im Vergleich wird die Spanne wird sogar noch größer.
+    Die Konfiguration in Zeile zwei benötigt $10\cdot8 + 1 + 1=82$ Eingangsneuronen und in die Konfiguration in der sechsten Zeile  lediglich $2\cdot4 + 1 = 9$.
+    In den sechs besten Ergebnissen nach der \ac{DR} wird die \ac{TCF} eingesetzt.
+    Die Zeitabstände zwischen den System Calls werden in den drei besten Ergebnissen eingebunden.
+    Nur zwei der besten zehn Ergebnisse verwenden keine Rückgabewerte.
     \begin{table}[ht]
         \centering
-        \begin{tabular}{ccccccccc}
+        \begin{tabular}{rrrrrrrrr}
             \hline
             \rowcolor{GruvGray!36}
             \multicolumn{9}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
@@ -121,22 +165,20 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \midrule
             \rowcolor{GruvGray!16}
             $6$ & 	$8$ & 	$1$ & 	$1$ & 	$1$ & 	$22.89$ &  	$206$ & 	$0.88$ &  	$9$ \\
+            $10$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$14.00$ &  	$140$ & 	$0.76$ &  	$10$ \\
+            \rowcolor{GruvGray!16}
             $10$ & 	$8$ & 	$0$ & 	$1$ & 	$1$ & 	$18.56$ &  	$167$ & 	$0.76$ &  	$9$ \\
+            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5$ &   	$45$ & 	    $0.74$ &  	$9$ \\
             \rowcolor{GruvGray!16}
+            $10$ & 	$4$ & 	$1$ & 	$0$ & 	$0$ & 	$13.78$ &  	$124$ & 	$0.74$ &  	$9$ \\
             $10$ & 	$4$ & 	$1$ & 	$1$ & 	$1$ & 	$22.33$ &  	$201$ & 	$0.74$ &  	$9$ \\
-            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5.03$ &   	$41$ & 	    $0.71$ &  	$8$ \\
             \rowcolor{GruvGray!16}
+            $10$ & 	$4$ & 	$0$ & 	$0$ & 	$0$ & 	$14.56$ &  	$131$ & 	$0.71$ &  	$9$ \\
             $6$ & 	$8$ & 	$1$ & 	$1$ & 	$0$ & 	$9.00$ &   	$81$ & 	    $0.70$ &  	$9$ \\
-            $2$ & 	$4$ & 	$1$ & 	$0$ & 	$0$ & 	$12.50$ &  	$100$ & 	$0.70$ &  	$8$ \\
-            \rowcolor{GruvGray!16}
-            $10$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$12.63$ &  	$101$ & 	$0.70$ &  	$8$ \\
-            $10$ & 	$4$ & 	$1$ & 	$0$ & 	$0$ & 	$14.38$ &  	$115$ & 	$0.70$ &  	$8$ \\
             \rowcolor{GruvGray!16}
             $2$ & 	$8$ & 	$1$ & 	$1$ & 	$1$ & 	$14.00$ &  	$140$ & 	$0.70$ &  	$10$ \\
-            $6$ & 	$4$ & 	$1$ & 	$1$ & 	$1$ & 	$10.89$ &  	$98$ & 	    $0.69$ &  	$9$ \\
-            \rowcolor{GruvGray!16}
-            $2$ & 	$6$ & 	$1$ & 	$0$ & 	$1$ & 	$15.70$ &  	$157$ & 	$0.69$ &  	$10$ \\
-            \bottomrule
+            $6$ & 	$4$ & 	$1$ & 	$0$ & 	$1$ & 	$18.22$ &  	$164$ & 	$0.70$ &  	$9$ \\
+            \hline
         \end{tabular}
         \caption{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.
@@ -145,11 +187,14 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \label{tab:LSTM_par_erg}
     \end{table}
 
-    Beste Ergebnisse nach \ac{FP}-Rate
+    Doch mit Betrachtung der Ergebnisse nach den wenigsten \acp{FP} in \autoref{tab:LSTM_FP} ist dieses Bild nicht mehr so klar.
+    Zwar wird die \ac{DR} des besten Ergebnisses bei ähnlich vielen Fehlalarmen um $0.2$ gesteigert, so ist die Dominanz der Konfigurationen nicht mehr ganz so deutlich.
+    Zwei der besten zehn Ergebnisse enthalten mehr als einen Parameter, im Vergleich zu sieben in \autoref{tab:LSTM_par_erg}.
+    Aber auch nur eins der besten acht Ergebnisse enthält keinen Parameter.
 
     \begin{table}[ht]
         \centering
-        \begin{tabular}{ccccccccc}
+        \begin{tabular}{rrrrrrrrr}
             \hline
             \rowcolor{GruvGray!36}
             \multicolumn{9}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
@@ -157,8 +202,8 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             n-gram & embed & \textit{rv} & \ac{TCF} & \textit{time} & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
             \midrule
             \rowcolor{GruvGray!16}
-            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5.03$ & 	$41$ & 	$0.71$ & 	$8$ \\
             $6$ & 	$8$ & 	$0$ & 	$0$ & 	$1$ & 	$4.66$ & 	$42$ & 	$0.67$ & 	$9$ \\
+            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5$    & 	$45$ & 	$0.74$ & 	$9$ \\
             \rowcolor{GruvGray!16}
             $6$ & 	$4$ & 	$0$ & 	$0$ & 	$1$ & 	$5.38$ & 	$43$ & 	$0.64$ & 	$8$ \\
             $2$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
@@ -166,14 +211,12 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $10$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
             $10$ & 	$6$ & 	$0$ & 	$1$ & 	$0$ & 	$5.66$ & 	$51$ & 	$0.60$ & 	$9$ \\
             \rowcolor{GruvGray!16}
-            $2$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$6.88$ & 	$55$ & 	$0.64$ & 	$8$ \\
             $6$ & 	$6$ & 	$1$ & 	$1$ & 	$1$ & 	$6.33$ & 	$57$ & 	$0.66$ & 	$9$ \\
-            \rowcolor{GruvGray!16}
             $10$ & 	$6$ & 	$1$ & 	$0$ & 	$0$ & 	$6.33$ & 	$57$ & 	$0.55$ & 	$9$ \\
-            $10$ & 	$6$ & 	$0$ & 	$0$ & 	$0$ & 	$6.44$ & 	$58$ & 	$0.56$ & 	$9$ \\
             \rowcolor{GruvGray!16}
-            $6$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$7.26$ & 	$58$ & 	$0.51$ & 	$8$ \\
-            \bottomrule
+            $10$ & 	$6$ & 	$0$ & 	$0$ & 	$0$ & 	$6.44$ & 	$58$ & 	$0.56$ & 	$9$ \\
+            $2$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$6.88$ & 	$55$ & 	$0.64$ & 	$8$ \\
+            \hline
         \end{tabular}
         \caption{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.  Alle n-gramme sind \textit{Thread Aware}.
@@ -181,32 +224,36 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \label{tab:LSTM_FP}
     \end{table}
 
-    Vergleich der zwei besten Konfigurationen (beste \ac{DR} vs beste \ac{FP}-Rate)
+    In \autoref{tab:LSTM_vs} werden die zwei Gewinnerkonfigurationen aus \autoref{tab:LSTM_par_erg} und \autoref{tab:LSTM_FP} gegenübergestellt.
+    Dabei werden die Ergebnisse jedes Szenarios angegeben. 
+    %TODO
+    {\color{red} Ergebnisse abwarten}
 
     \begin{table}[ht]
         \centering
-        \begin{tabular}{cccccc}
+        \begin{tabular}{lrrrrr}
             \hline
             \rowcolor{GruvGray!36}
             \multicolumn{6}{c}{Vergleich Konfiguration mit höchster \ac{DR} vs niedrigste \ac{FP}-Rate}\\
             \hline
-            Szenario & \ac{FP}-Rate & \ac{DR} & vs & \ac{FP}-Rate & \ac{DR}\\
+            Szenario & \ac{FP} & \ac{DR} & vs & \acp{FP} & \ac{DR}\\
             \toprule
             \rowcolor{GruvGray!16}
-            Bruteforce CWE-307   & $29$ & $0.938776$ & x & $12$ & $0.642857$ \\
-            CVE-2012-2122 	      & $18$ & $0.987097$ & x & $14$ & $0.051613$ \\
+            Bruteforce CWE-307   & $29$ & $0.939$ & x & $12$ & $0.643$ \\
+            CVE-2012-2122 	      & $18$ & $0.987$ & x & $14$ & $0.052$ \\
             \rowcolor{GruvGray!16}
-            CVE-2014-0160 	      & $13$ & $0.030000$ & x & $4$  & $0.010000$ \\
-            CVE-2017-7529 	      & $0$  & $0.988506$ & x & $1$  & $0.988506$ \\
-            \rowcolor{GruvGray!16} CVE-2018-3760 	      & $4$  & $1.000000$ & x & $1$  & $1.000000$ \\
-            CVE-2019-5418 	      & $7$  & $1.000000$ & x & $1$  & $0.951456$ \\
+            CVE-2014-0160 	      & $13$ & $0.030$ & x & $4$  & $0.010$ \\
+            CVE-2017-7529 	      & $0$  & $0.989$ & x & $1$  & $0.989$ \\
+            \rowcolor{GruvGray!16} 
+            CVE-2018-3760 	      & $4$  & $1$ & x & $1$  & $1$ \\
+            CVE-2019-5418 	      & $7$  & $1$ & x & $1$  & $0.951$ \\
             \rowcolor{GruvGray!16}
-            PHP CWE-434 	      & $24$ & $1.000000$ & x & $3$  & $1.000000$\\
-            SQL Injection CWE-89 &	$82$ & $1.000000$ & x & $5$  & $1.000000$\\
+            PHP CWE-434 	      & $24$ & $1$ & x & $3$  & $1$\\
+            SQL Injection CWE-89 &	$82$ & $1$ & x & $5$  & $1$\\
             \rowcolor{GruvGray!16}
-            EPS CWE-434 	      & $29$ & $1.000000$ & x & xxx  & xxx \\
+            EPS CWE-434 	      & $29$ & $1$ & x & $4$  & $1$ \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
-            \bottomrule
+            \hline
         \end{tabular}
         \caption{Vergleich bester Ergebnisse.
                 Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
@@ -214,14 +261,50 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \label{tab:LSTM_vs}
     \end{table}
 
-    Vergleich mit anderen LSTM Ansätzen:
-
-    Vergleich mit \ac{STIDE} von Grimmer et al.~\cite{IDSTHREADGRIMMER2021}.
-
-    Dabei wird im \ac{STIDE} ein \ac{SW} verwendet, dabei wird der Anomaliescore über die Größe de \ac{SW} gemittelt.
     \begin{table}[ht]
         \centering
-        \begin{tabular}{lcccccccc}
+        \begin{tabular}{lrrrrr}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{6}{c}{Vergleich Konfiguration mit höchster \ac{DR} vs niedrigste \ac{FP}-Rate}\\
+            \hline
+            Szenario & \ac{FP} & \ac{DR} & vs & \acp{FP} & \ac{DR}\\
+            \toprule
+            \rowcolor{GruvGray!16}
+            Bruteforce CWE-307   & $29$ & $0.939$ & x & $10$ & $0.071$ \\
+            CVE-2012-2122 	      & $18$ & $0.987$ & x & $10$ & $0.019$ \\
+            \rowcolor{GruvGray!16}
+            CVE-2014-0160 	      & $13$ & $0.030$ & x & $5$  & $0$ \\
+            CVE-2017-7529 	      & $0$  & $0.989$ & x & $3$  & $0.989$ \\
+            \rowcolor{GruvGray!16} 
+            CVE-2018-3760 	      & $4$  & $1$ & x & $0$  & $1$ \\
+            CVE-2019-5418 	      & $7$  & $1$ & x & $3$  & $0.990$ \\
+            \rowcolor{GruvGray!16}
+            PHP CWE-434 	      & $24$ & $1$ & x & $1$  & $1$\\
+            SQL Injection CWE-89 &	$82$ & $1$ & x & $1$  & $1$\\
+            \rowcolor{GruvGray!16}
+            EPS CWE-434 	      & $29$ & $1$ & x & $9$  & $1$ \\
+            ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
+            \hline
+        \end{tabular}
+        \caption{Vergleich bester Ergebnisse.
+                Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
+                Niedrigste \ac{FP}-Rate rechts mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=1$}
+        \label{tab:LSTM_vs_alternative}
+    \end{table}
+
+\section{Vergleich anderer Arbeiten}\label{sec:erg_vgl}
+    Um die Ergebnisse einordnen zu können soll im Folgenden ein Vergleich zu anderen Arbeiten die den \ac{LID-DS} verwenden gezogen werden.
+    Dafür steht der \ac{STIDE} von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} zur Verfügung.
+    Der Vergleich der beiden besten \ac{LSTM} Konfigurationen und dem \ac{STIDE} Algorithmus wird in \autoref{tab:LSTM_stide_erg} dargestellt.
+    Dabei wird im \ac{STIDE} ein \ac{SW} verwendet.
+    Ein \ac{SW} wird ähnlich zu einem n-gram aufgenommen.
+    Dafür werden aber nur die Anomaliescores der einzelnen n-gramme genommen und gemittelt.
+    Ein Alarm beinhaltet dann wie in diesem speziellen Fall $1000$ n-gramme. 
+    
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{lrrrrrrrr}
             \hline
             \rowcolor{GruvGray!36}
             \multicolumn{9}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
@@ -233,14 +316,50 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             best \ac{DR} LSTM & $6$ & 	$8$ & $1$ & 	$1$ & 	$1$ & 	$1$ & 	$22.89$& 	$0.88$ \\
             \rowcolor{GruvGray!16}
             best \ac{FP} LSTM & $10$ & 	$4$ & $1$ &	$0$ & 	$1$ & 	$0$ & 	$5.03$ & 	$0.71$ \\
-            \bottomrule
+            \hline
         \end{tabular}
         \caption{}
         \label{tab:LSTM_stide_erg}
     \end{table}
 
-\section{Vergleich anderer Arbeiten}\label{sec:erg_vgl}
-Diese arbeitet allerdings mit einer anderen Verteilung der Test- und Trainigsdaten sowie anderen Metriken.
+    Um eine weitere Einschätzung zu bekommen welche Konfigurationen am besten funktionieren werden in~\cite{IDSTHREADGRIMMER2021} fünf Anforderungslevel für Fehlalarme erstellt.
+    Diese lauten: Level $1$ \acp{FP}<40, Level $2$ \acp{FP}<20, Level $3$ \acp{FP}<10, Level $4$ \acp{FP}<5, Level $5$ \acp{FP}<2.5.
+    In \autoref{tab:LSTM_lvl} wird für jedes Level die beste Konfiguration dieser Arbeit, links, mit der Arbeit von~\cite{IDSTHREADGRIMMER2021}, rechts, verglichen.
+    Dabei werden auch die noch andere Algorithmen wie \ac{BOSC}, \ac{AE} und \ac{MLP} untersucht.
+
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{llcccccccc}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{10}{c}{Ergebnisse für \ac{LSTM} mit Extraparameter}\\
+            \toprule
+            lvl & Algorithmus & n-gram & embed & \ac{SW} & \textit{rv} & \ac{TCF} & \textit{time} & \overline{\ac{FP}} & \overline{\ac{DR}} \\
+            \midrule
+            1 & \ac{STIDE} & $5$ & int & $100$  & $0$ & $0$ & $0$ & $23.7$ & $0.983$ \\
+            2 & \ac{BOSC}  & $3$ & int & $10$ & $0$ & $0$ & $0$ & $18.9$ & $0.982$ \\
+            3 & \ac{MLP}   & $7$ & \ac{OHE} & $1$ & $0$ & $0$ & $0$ & $4.2$ & $0.788$ \\
+            4 & \ac{MLP}   & $7$ & \ac{OHE} & $1$ & $0$ & $0$ & $0$ & $4.2$ & $0.788$ \\
+            5 & \ac{AE}    & $7$ & \ac{W2V} & $1$ & $0$ & $0$ & $0$ & $2.2$ & $0.622$ \\
+            \rowcolor{GruvGray!16}
+            1 & \ac{LSTM} &  $6$ & 	$8$ & $1$ &	$1$ & 	$1$ & 	$1$ & 	$22.89$& 	$0.88$ \\
+            \rowcolor{GruvGray!16}
+            2 & \ac{LSTM} &  $10$ & $4$ & $1$ &	$1$ &	$1$ & 	$0$ & 	$14$& 	$0.76$ \\
+            \rowcolor{GruvGray!16}
+            3 & \ac{LSTM} &  $10$ & $4$ & $1$ &	$0$ &	$1$ & 	$0$ & 	$5$& 	$0.74$ \\
+            \rowcolor{GruvGray!16}
+            4 & \ac{LSTM} &  $6$ & $8$ & $1$ &	$0$ &	$0$ & 	$1$ & 	$4.66$& 	$0.67$ \\
+            \rowcolor{GruvGray!16}
+            5 & x &  x & x & x &	x &	x & 	x & 	x   & 	x \\
+            \hline
+        \end{tabular}
+        \caption{}
+        \label{tab:LSTM_lvl}
+    \end{table}
+
+
+
 \iffalse
     Durchschnittliche Veränderung bei Hinzunahme time delta
     Durchschnittliche Veränderung bei Hinzunahme \ac{TCF}

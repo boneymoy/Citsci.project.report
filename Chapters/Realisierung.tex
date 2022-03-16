@@ -65,8 +65,8 @@
                 Schwierigkeiten wie das häufige auftreten von Wörtern in der englischen Sprache wie \textit{the}, treten in der System Call Domäne nicht auf.
                 Die Vorteile der dichtbesetzten und dimensionsreduzierten Vektoren machen sich auch bereits~\cite{IDSTHREADGRIMMER2021} in der anomaliebasierten \ac{HIDS} mit System Calls zu nutzen.
 
-                Wie in~\cite{W2VWUNDERLICH2019} beschrieben bevorzugen sie das \ac{OHE}, wobei auch das \ac{W2V} geeignet ist.
-                In dieser Arbeit überwiegt allerdings der zeitliche Vorteil durch die Dimensionsreduktion des \ac{W2V}.
+                In~\cite{W2VWUNDERLICH2019} wird beschrieben dass das \ac{OHE} laut Ergebnissen bevorzugt werden sollte, wobei auch das \ac{W2V} geeignet ist.
+                In dieser Arbeit überwiegt allerdings der zeitliche Vorteil\marginpar{mehr dazu in \autoref{sec:erg_time}} durch die Dimensionsreduktion des \ac{W2V}.
                 Neben den eigentlichen Namen der System Call enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
                 Wie zumindest Teile dieser die Embeddings der System Calls erweitern können soll im folgenden Abschnitt untersucht werden.
 
@@ -582,7 +582,7 @@
 
 \section{Metriken}\label{sec:Metriken}
 
-    Typische Metriken für die Auswertung von neuronalen Netzen und damit auch für \acp{LSTM} die in der Anomalieerkennung eingesetzt werden umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
+    Typische Metriken für die Auswertung von neuronalen Netzen und damit auch für \acp{LSTM} welche auch in der Anomalieerkennung eingesetzt werden, umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
     \begin{figure}
         \centering
         \includegraphics[width=0.75\textwidth]{images/Illustrationen/Precision.pdf}
@@ -590,21 +590,26 @@
     \end{figure}
     Diese werden wie in \autoref{fig:metriken} dargestellt berechnet.
     Da der Datensatz aus System Calls besteht bedeutet Recall in diesem Fall, der Anteil an korrekt erkannten bösartigen System Calls, an allen bösartigen System Calls.
-    Wie in \autoref{sec:prob_LIDDS} beschrieben liefert der Datensatz allerdings nur den Angriffszeitpunkt.
-    Also muss jeder System Call nach dem Angriffszeitpunkt als bösartig eingestuft werden, obwohl gleichzeitig noch Normalverhalten stattfindet.
+    Wie in \autoref{sec:prob_LIDDS} beschrieben liefert der Datensatz allerdings nur den Angriffszeitpunkt und keine Label für jeden einzelnen System Call.
+    Also muss jeder System Call nach dem Angriffszeitpunkt als bösartig eingestuft werden, obwohl neben dem Angriffsverhalten noch Normalverhalten stattfindet.
     Wird von einem optimalen Fall ausgegangen, dass alle dem Angriff zugehörigen System Calls einen Alarm auslösen, wird der Recall immer noch sehr niedrig sein und damit keinen realistischen Wert liefern.
     Somit ist auch der F1-Score wenig nützlich, da sich dieser aus Recall und Precision zusammensetzt.
-    Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen. 
-    % Das sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
-    Damit wird versucht einen klaren Praxisbezug zu finden, denn dort ist vor allem interessant wieviele Angriffe erkannt werden und nicht wieviele System Calls der Angriffe als bösartig eingestuft werden.
+    Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen um einheitliche und vom Datensatz unabhängige Messwerte bereitstellen zu können. 
+    Da der \ac{LID-DS} aus vielen verschiedenen Aufnahmen besteht kann die Berechnung der Precision und des Recalls auch auf Dateiebene stattfinden.
+    Falls mehrere Angriffe in einer Datei vorkommen wird die Berechnung jedoch umständlicher, dies ist im \ac{LID-DS} nicht der Fall.  
+    Grundgedanke der Findung einer neuen Metrik muss dabei sein auch einen klaren Praxisbezug zu finden. 
+    Dort ist vor allem interessant wieviele Angriffe erkannt werden und nicht wieviele System Calls der Angriffe als bösartig eingestuft werden.
     Zum anderen entscheidet die Anzahl, beziehungsweise die Häufigkeit von Fehlalarmen über die Nutzbarkeit der \acp{IDS}.
-    Die Grundidee der verwendeten Metriken besteht darin, Aufnahmen mit Angriffsverhalten welche nach dem Angriffszeitpunkt einen Alarm auslösen als korrekt erkannten Angriff einzustufen.
+    Die \ac{DR} steht für den zuvor beschriebenen Recall auf Dateiebene, also der Anteil der erkannten Angriffe an allen vorkommenden Angriffen.
     Werden alle Aufnahmen mit Angriffsverhalten korrekt erkannt gilt: $\ac{DR}=1$.
     Dabei wird außer Acht gelassen, dass ein Alarm nach dem Angriffszeitpunkt wie in \autoref{sec:prob_LIDDS} beschrieben theoretisch auch ein Fehlalarm sein kann.
     Nur ein Alarm vor dem Angriffszeitpunkt oder in einer Aufnahme ohne Angriffsverhalten wird als Fehlalarm beziehungsweise als \ac{FP} gewertet.
-    Zusätzlich gelten alle System Calls solange zu einem Alarm, bis der $ascore$ wieder unter dem Schwellwert $\theta$liegt.
+    Zusätzlich gelten alle System Calls solange zu einem Alarm, bis der $ascore$ wieder unter dem Schwellwert $\theta$ liegt.
     Ziel ist es also eine hohe \ac{DR} und eine möglichst geringe \ac{FP}-Rate zu erreichen.
     Um einschätzen zu können welche Konfiguration am besten abgeschnitten hat, ergibt sich eine neue Schwierigkeit.
     Werden alle System Calls aus dem Datensatz als Angriff erkannt ist die \ac{DR} wie gewünscht $1$.
     Eine hohe \ac{DR} alleine ist also wenig aussagekräftig.
-    Es muss eine Abwägung zwischen \ac{FP}-Rate und \ac{DR} stattfinden, dies wird in der Auswertung mit einbezogen.
+    Es muss eine Abwägung zwischen \ac{FP}-Rate und \ac{DR} stattfinden, in der Auswertung wird dies versucht.
+    %Eine Angriff gilt dann als erkannt, sofern ein Alarm nach dem Angriffszeitpunkt ausgelöst wird. 
+    %Wie in \autoref{sec:LIDDS} beschrieben werden dabei potentiell Fehlalarme als korrekt eingestuft.
+    % Das sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
