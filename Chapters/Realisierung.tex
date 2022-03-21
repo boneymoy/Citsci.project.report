@@ -82,7 +82,6 @@
                 Ziel dieses Abschnitts ist es die Überlegungen und Umsetzungen von zwei Verfahren zur Darstellung von zusätzlichen System Call Informationen zu präsentieren.
 
                 \paragraph{Zeitliche Abstände von System Calls}
-
                     Wie bereits in \autoref{sec:related_sys_arg} beschrieben verwenden Lucket et al.~\cite{TIMINGLUCKETT2016} die Timing-Information von System Calls für das Aufspüren von Rootkits.
                     In diesem Abschnitt wird diese Idee wieder aufgegriffen.
                     Die Grundidee besteht darin, dass durch ein Angriffsverhalten eine zumindest kurzzeitige Veränderung im Timing der auftretenden System Calls eintritt.
@@ -115,11 +114,10 @@
                     Falls $\tau\geq\tau_{max}$ gilt, kann dieser Wert auch größer als $1$ werden.
 
                     Doch treten mit der Verwendung dieser Information als Extraparameter zwei Probleme auf.
-
                     Zum einen stellt sich die Frage, ob eine Verbesserung eines Szenarios mit abweichenden Abständen\marginpar{zw. Normal- und Angriffsverhalten} eine Verschlechterung in Szenarien in welchen dies nicht der Fall ist zur Folge hat.
                     Und zum anderen stellt sich die generelle Frage ob diese Information den möglichen Ergebnisraum wesentlich vergrößert worunter die Ergebnisqualität im Gesamten leidet.
                     Denn das Betriebssystem selbst beeinflusst die Timings der System Calls, so kann Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
-                    Ob dies das Lernen des Normalverhaltens verbessert oder verschlechtert wird in \autoref{sec:Ergebnis_timing} untersucht.
+                    Ob dies das Lernen des Normalverhaltens verbessert oder verschlechtert wird in \autoref{sec:erg_LSTM_extra} untersucht.
                     %\begin{figure}
                         %\centering
                         %\includegraphics[width=\textwidth]{images/CVE-2012--Test-data-time_delta.pdf}
@@ -134,15 +132,19 @@
 
                     Wie in \autoref{sec:syscall_allg} angemerkt, besteht ein System Call aus zwei \glqq Phasen\grqq.
                     Wobei die zweite Phase den Rückgabewert des Betriebssystemskernel beinhaltet.
-                    Bei erfolgreicher Durchführung ist dieser Rückgabewert positiv, ansonsten negativ.
-                    So gibt der Rückgabewert eines \textit{write} System Calls an wieviele Bytes gelesen wurden.
-                    Der Rückgabewert enthält in diesem Beispiel also wertvolle Informationen über den tatsächlichen Ablauf des spezifischen System Calls.
+                    Bei erfolgreicher Durchführung besteht dieser Rückgabewert bei verschiedenen System Calls aus einem positiven Integerwert.
+                    Ist die Durchführung jedoch nicht erfolgreich wird ein Fehler zurückgegeben.
+                    Dieser besteht aus einem negativen Integerwert und in manchen Fällen noch einem zusätzlichem Fehlercode.
+                    So gibt der Rückgabewert eines \textit{write} System Calls an, wieviele Bytes gelesen wurden.
                     Auch weitere schreibende und lesende System Calls geben die gelesene oder geschriebene Bytes zurück.
                     Für manche System Calls die im Zusammenhang mit Sockets stehen gilt dies ebenfalls.
-                    Deswegen soll in diesem Abschnitt die Kodierung von System Call Rückgabewerten betrachtet werden welche Daten schreiben oder lesen und Daten über Sockets empfangen oder senden. 
-                    Dabei wurden nur System Calls betrachtet, die auch im Datensatz vorkommen und einen Byte Rückgabewert haben.
+                    Der Rückgabewert enthält in diesen Beispielen also Informationen über den tatsächlichen Ablauf des spezifischen System Calls.
+                    Im Folgenden wird beschrieben wie diese Zusatzinformation der Rückgabewerte kodiert werden kann.
+                    Dabei werden nur System Calls betrachtet welche Daten schreiben oder lesen und Daten über Sockets empfangen oder senden. 
+                    Zusätzlich wird dies nur für System Calls welche auch im Datensatz vorkommen und einen Byte Rückgabewert haben untersucht.
                     Leider fallen dabei System Calls wie \textit{send} heraus, da der Rückgabewert die Anzahl der gesendeten Charaktere angibt und nicht die Anzahl an geschriebenen Bytes.
-                    In \autoref{tab:syscall_return} werden die ausgewählten System Calls mit einer Kurzbeschreibung vorgestellt.
+                    Es kann also nicht davon ausgegangen werden, dass jegliche schreibende oder lesende Aktion damit abgedeckt ist.
+                    In \autoref{tab:syscall_return} werden die den Anforderungen entsprechenden System Calls mit einer Kurzbeschreibung vorgestellt.
 
                     \begin{table}[ht]
                         \small
@@ -157,38 +159,41 @@
                             \hline
                             \rowcolor{GruvGray!16}
                             %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
-                            write   & Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die Datei, welche über den Filedeskriptor $fd$ definiert wird. & Geschriebene Bytes oder $-1$ bei Fehler\\
-                            pwrite  & Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die Datei, welche über den Filedeskriptor $fd$ definiert wird. Dabei wird der Datei Offset nicht geändert.& Geschriebene Bytes oder $-1$ bei Fehler\\
+                            write   & Schreibt angegebene Anzahl an Bytes aus dem Buffer in die Datei, welche über den Filedeskriptor $fd$ definiert wird. & Geschriebene Bytes oder $-1$ bei Fehler\\
+                            pwrite  & Schreibt angegebene Anzahl an Bytes aus dem Buffer in die Datei, welche über den Filedeskriptor $fd$ definiert wird. Dabei wird der Datei Offset nicht geändert.& Geschriebene Bytes oder $-1$ bei Fehler\\
                             \rowcolor{GruvGray!16}
                             writev  & Schreibt \textit{iovcnt} Vektor in die Datei, welche über den Filedeskriptor $fd$ definiert wird.& Geschriebene Bytes oder $-1$ bei Fehler\\
 
-                            read    & Versucht bis zu \textit{count} Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset an.                                              & Filedeskriptor oder $-1$ bei Fehler\\
+                            read    & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset an.                                              & Filedeskriptor oder $-1$ bei Fehler\\
                             \rowcolor{GruvGray!16}
-                            pread   & Versucht bis zu \textit{count} Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset nicht an.                                        & Filedeskriptor oder $-1$ bei Fehler\\
+                            pread   & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset nicht an.                                        & Filedeskriptor oder $-1$ bei Fehler\\
                             readv   & Liest spezifizierten \textit{iovcnt} Vektor aus Filedeskriptor \textit{fd} & Gelesene Bytes oder $-1$ Fehler\\
 
                             \rowcolor{GruvGray!16}
 
-                            \makecell{sendfile, sendmsg} & Sende Nachricht über Socket    & Gesendete Bytes oder $-1$ bei Fehler\\
-                            \makecell{recvfrom, recv,\\ recvmsg}& Erhalte Nachricht über Socket     & Empfangene Bytes oder $-1$ bei Fehler\\
+                            sendfile & Kopiert Daten zwischen zwei Filedeskriptoren. Kopiervorgang findet im Kernel statt.& Geschriebene Bytes oder $-1$ bei Fehler\\
+                            sendmsg & Übermitteln einer Nachricht an einen anderen Socket. & Gesendete Bytes oder $-1$ bei Fehler\\
+                            recv & Empfängt Daten von einem Socket. & Empfangene Bytes oder $-1$ bei Fehler\\
+                            \makecell{recvfrom, recvmsg}& Empfängt Daten auf einem Socket welcher nicht zwingend verbindungsorientiert sein muss. & Empfangene Bytes oder $-1$ bei Fehler\\
                             \hline
                         \end{tabular}
                         \caption{Kurzbeschreibung ausgewählter System Calls.~\cite{SYSCALL_MANPAGE}}
                         \label{tab:syscall_return}
                     \end{table}
                     Diese werden in ihrer Häufigkeit in Prozent an allen auftretenden Rückgabewertgrößen in dem Plot eingetragen. 
-                    Für die beschriebenen System Calls werden in \autoref{fig:return_values} die normalisierten Byte Rückgabewerte.                
+                    Für die beschriebenen System Calls werden in \autoref{fig:return_values} die normalisierten Byte Rückgabewerte dargestellt.                
                     Beispielhaft wird dafür das $CVE-2017-7529$ Szenario genutzt.
                     Für die System Calls read, pread und readv sind die Rückgabewertgrößen im Normalverhalten wie im Normalverhalten mit zusätzlichem Angriffsverhalten gleich und zwar ca.\ $615$ Bytes.
                     Bei allen anderen betrachteten Rückgabewerten ist ein Unterschied in den auftretenden Größen bei zusätzlichem Angriffsverhalten zu erkennen.
                     So zum Beispiel bei den write, pwrite, und writev System Calls.
                     Im Normalverhalten werden entweder $100$ oder ca. $250$ Bytes geschrieben, im Angriffsverhalten kommen noch weitere sehr selten auftretende Größen vor.
-                    Auch hier gilt analog zu den Zeitabständen für die Normalisierung $\rho_{norm}$ mit einem Rückgabewert $\rho$ und dem Maximalwert $\rho_{max}$ aus den Trainingsdaten:
+                    Auch hier gilt analog zu den Zeitabständen für die Normalisierung $\rho_{norm}$ mit einem Rückgabewert $\rho$ und dem Maximalwert aus den Trainingsdaten $\rho_{max}$ aus den Trainingsdaten:
                     \begin{equation}\label{eq:return_norm}
                         \rho_{norm} = \frac{\rho}{\rho_{max}}
                     \end{equation}
                     Neben dem normalisierten Rückgabewert kann aber auch ein Fehlerwert Details über den Ablauf, eines System Calls liefern.
-                    Weshalb $\rho_{norm} = -1$, falls ein System Call aus \autoref{tab:syscall_return} einen Fehlerwert liefert und damit $\rho = -1$ gilt.
+                    Wie in \autoref{tab:syscall_return} beschrieben wird bei diesen System Calls bei nicht erfolgreicher Durchführung eine $-1$ zurückgegeben.
+                    Weshalb $\rho_{norm} = -1$ gilt, falls ein System Call aus \autoref{tab:syscall_return} einen Fehlerwert liefert.
                     %TODO noch mehr schreiben?
                     Wie sich die Verwendung der normalisierten Rückgabewerte spezieller System Calls auf die Ergebnisse auswirkt wird in \autoref{sec:Ergebnis_return} behandelt.
                     
