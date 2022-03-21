@@ -1,78 +1,79 @@
-
 %*****************************************
 \chapter{Realisierung}\label{ch:Realisierung}
 %*****************************************
-    Bei der Realisierung einer AIDS müssen wie in~\autoref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
+    Bei der Realisierung einer anomaliebasierten \ac{IDS} müssen wie in~\autoref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
     Die Trainingsphase und die Testphase.
-    Diesen beiden Phasen liegt allerdings schon ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des \ac{LSTM} zu Grunde. 
+    Diesen beiden Phasen muss ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des \acp{LSTM} zu Grunde liegen. 
     Welche Datensätze überhaupt in Frage kommen wurde bereits in~\autoref{sec:Datensatz} untersucht.
-    Wie dieser weiterverarbeitet, für das \ac{LSTM} vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden kann, 
-    soll in~\autoref{sec:Preprocessing} betrachtet werden.
+    Wie dieser weiterverarbeitet, für das \ac{LSTM} vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden kann soll in~\autoref{sec:Preprocessing} betrachtet werden.
     Zuvor in~\autoref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
-    Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird dann im~\autoref{sec:Algorithmus} beschrieben.
-    Dabei soll erst eine Allgemeine Beschreibung des Ablaufes gegeben werden und anschließend Training, die Anomalieerkennung besprochen werden.
-    In diesem Abschnitt werden ebenfalls die festgelegten und zu ermittelnden Parameter präsentiert.
-    Abschließen soll dieses Kapitel dann in~\autoref{sec:Metriken} die Untersuchung von Metriken, welche dann für die Auswertung der Experimente benötigt wird.
+    Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird in~\autoref{sec:Algorithmus} beschrieben.
+    Dabei wird erst eine allgemeine Beschreibung des Ablaufes gegeben und anschließend detailliert auf Training und Anomalieerkennung eingegangen.
+    In \autoref{sec:parameterwahl} werden die festgelegten Parameter und die Parameter welche in den Experimenten untersucht werden vorgestellt.
+    Abschließen wird dieses Kapitel dann in~\autoref{sec:Metriken} die Untersuchung von Metriken, welche für die Auswertung der Experimente benötigt wird.
 
-    \section{Verwendete Tools}\label{sec:Tools}
+    \section{Verwendete Bibliotheken}\label{sec:Tools}
+        Für die Implementierung der folgenden beschriebenen Verfahren kommen verschiedene Bibliotheken zum Einsatz.
+        Die Gesamte Implementierung wurde in Python $3.7$ umgesetzt.
+        Um das \ac{W2V}-Verfahren einzubinden wird die \ac{W2V} Implementierung der GENSIM Bibliothek~\cite{GENSIM} genutzt.
+        Für die Implementierung des \acp{LSTM} wird die PyTorch Bibliothek~\cite{PYTORCH} angewandt. 
         Berechnungen für diese Arbeit wurden (z.T.) mit Ressourcen des Universitätsrechenzentrums Leipzig durchgeführt.
-        PyTorch
 
     \section{Vorverarbeitung}\label{sec:Preprocessing}
         %In dem kommenden Abschnitt~\ref{sec:struktur} wird die erste Vorverarbeitung des Datensatzes vorgestellt.
-        Im kommenden~\autoref{sec:syscalldarstellung} soll untersucht werden, welche Darstellungsformen für die eigentlichen System Calls interessant und sinnvoll sind.
-        In dieser Arbeit werden die System Call Daten als Datenstream betrachtet.
+        Im kommenden~\autoref{sec:syscalldarstellung} soll untersucht werden, welche Darstellungsformen für System Calls im Rahmen dieser Arbeit interessant und sinnvoll sind.
+        Dabei werden die System Call Daten praxisnah als Datenstream betrachtet.
         Weshalb in~\autoref{sec:streamdarstellung} die Frage geprüft, wie dieser für das \ac{LSTM} dargestellt wird.
-        Ein weiterer wichtiger Teil der Arbeit besteht darin, zu klären welche Metadaten neben dem Namen des System Calls noch verwendet werden können,
-        um die Erkennungsrate zu erhöhen, bzw.\ die Fehlerrate zu verringern.
-        Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, soll in~\autoref{sec:Meta}
+        Ein weiterer wichtiger Teil der Arbeit besteht darin, zu klären welche Metadaten neben dem Namen des System Calls noch verwendet werden können um die Erkennungsrate der Angriffe zu erhöhen, bzw.\ die Fehlerrate zu verringern.
+        Die Frage welche Informationen dafür verwendet werden können und wie diese dargestellt werden, wird in~\autoref{sec:Meta} behandelt.
 
         \subsection{Darstellung eines System Calls}\label{sec:syscalldarstellung}
-            Neuronale Netze benötigen numerische werte deswegen Umwandlung von Namen der System Calls. 
+            Neuronale Netze benötigen numerische Werte weswegen eine Umwandlung der Namen der System Calls stattfinden muss sodass die Sequenz dem neuronalen Netz als Eingabe dienen kann. 
             Eine einfache Kodierung dieser Strings bestünde darin die System Calls in Integer Werte umzuwandeln.
             Allerdings entstehen dabei künstliche Zusammenhänge und Ordnungen, welche für den Lernvorgang unvorteilhaft sein können~\cite{NEURALBISHOP1995}.
-            Werden die System Calls als kategorische Daten betrachtet bietet sich das für neuronale Netze typische \ac{OHE} an.
+            Doch es bieten sich verschiedene Alternativen um diese künstlichen Zusammenhänge zu verhindern.
+            Zwei mögliche Verfahren werden im folgenden behandelt.
+
             \paragraph{One-Hot-Encoding}
-                Für die Darstellung eines System Calls mit dem \ac{OHE}, muss zunächst die Anzahl $n$ der unterschiedlichen System Calls ermittelt werden.
-                Der System Call $sc_i$ aus der Menge der möglichen System Calls $ SC = \{sc_1,sc_2,\dots,sc_k\}$ 
-                wird dann als Bit-Vektor $v_i$ der Länge $k$ kodiert.
-                Dabei nehmen alle Stellen bis auf $i$ den Wert $0$ an und dort den Wert $1$.
-                So wird aus dem System Call \textit{open} aus der Menge $SC = \{open, close, read\}$ der Vektor $v_1 = (1, 0, 0)$
-                Da die Anzahl der möglichen System Calls und damit auch $n$ begrenzt ist, scheint diese Darstellung für einen System Call denkbar.
+                Für die Darstellung eines System Calls mit dem \ac{OHE}, muss zunächst die Anzahl $k$ der unterschiedlichen System Calls ermittelt werden.
+                Der System Call $sc_i$ aus der Menge der möglichen System Calls $ SC = \{sc_1,sc_2,\dots,sc_k\}$ wird dann als Bit-Vektor $v_i$ der Länge $k$ kodiert.
+                Dabei nehmen alle Stellen bis auf $i$ den Wert $0$ an und sonst den Wert $1$.
+                So wird aus dem System Call \textit{open} aus der Menge $SC = \{open, close, read\}$ der Vektor $v_1 = (1, 0, 0)$.
+                Und für \textit{close} gilt dann $v_2 = (0,1,0)$.
+                Da die Anzahl der möglichen System Calls, also $k$ begrenzt ist, scheint diese Darstellung für einen System Call denkbar.
                 Allerdings bringt sie auch zwei neue Probleme mit sich.
                 Zum einen führt das \ac{OHE} eines System Calls bei großem $k$ zu einem langen und spärlich besetzten Vektor $v_i$.
                 Gerade bei neuronalen Netzen führt das zu längeren Rechenzeiten.
-                Und der neu gewonnen Vorteil, dass keine künstlichen Ordnungen vorhanden ist birgt den Nachteil, dass tatsächlich ebenso vorhandene Zusammenhänge verloren gehen.
-                So besteht mindestens ein semantischer Zusammenhang zwischen \textit{open} und \textit{close} in der englischen Sprache, dieser ist in dem \ac{OHE} verloren gegangen. 
-                Optimaler Weise gilt es also eine Darstellung zu finden die kurz ist und in der nur gewollte Ordnungen vorhanden sind.
-                In der \ac{NLP} gilt es ähnliche Probleme durch die Darstellungen der Wörter zu lösen, zum Beispiel mit dem \ac{W2V} Verfahren.
-
+                Und der neu gewonnen Vorteil, dass keine künstlichen Ordnungen vorhanden ist birgt den Nachteil, dass ebenso tatsächlich vorhandene Zusammenhänge verloren gehen.
+                So besteht ein Zusammenhang zwischen \textit{open} und \textit{close} da zum Beispiel Dateien welche geöffnet werden in der Regel auch wieder geschlossen werden müssen
+                Dieser Zusammenhang ist in dem \ac{OHE} verloren gegangen. 
+                Optimaler Weise gilt es also eine Darstellung zu finden die kurz ist und in welcher nur gewollte Ordnungen vorhanden sind.
             \paragraph{Word2Vec}
-                Das \ac{W2V} Verfahren ist ein auf feedforward neuronalen Netzen basierender Ansatz, welcher häufig in der \ac{NLP} eingesetzt wird~\cite{W2VAYYADEVARA2018}.
+                In der \ac{NLP} gilt es ähnliche Probleme durch die Darstellungen der Wörter zu lösen.
+                Das \ac{W2V} Verfahren ist ein auf feedforward neuronalen Netzen basierender Ansatz, welcher in der \ac{NLP} häufig eingesetzt wird~\cite{W2VAYYADEVARA2018}.
                 Dabei werden Wörter aus einem gegebenen Satz an möglichen Wörtern anhand eines Trainingsdatensatzes in dichte Vektoren $v_{w2v}$ fester Länge $e$ kodiert beziehungsweise \textit{embedded}\marginpar{zu dt.\ eingebettet}.
-                Also ein System Call $sc_i$ aus der Menge $SC = \{sc_1,sc_2,\dots,sc_n\}$ wird umgewandelt in einen Vektor $v_{w2v}$ mit gegebener Länge $e$.
+                Also ein System Call $sc_i$ aus der Menge $SC = \{sc_1,sc_2,\dots,sc_k\}$ wird umgewandelt in einen Vektor $v_{w2v}$ mit gegebener Länge $e$.
                 Ziel des von~\cite{W2VMIKOLOV2013} eingeführten \ac{W2V} Verfahrens ist es eine Dimensionsreduktion durchzuführen, bei welcher möglichst viel Kontextinformationen erhalten bleiben.
                 So sollen also die Vektordarstellungen von ähnlichen Wörtern ebenso ähnlich sein.
                 Dies wird erreicht, indem Worte für das Erstellen der Kodierung nicht einzeln betrachtet werden, sondern immer in einem Kontext.
                 Es wird angenommen, dass Wörter die häufig in einem ähnlichen Kontext auftreten, auch ähnlich sind.
                 Dabei ist mit Kontext die Wörter vor und nach dem aktuellen Wort gemeint.
                 Wie umfangreich dieser Kontext für jedes Wort sein soll, wird mit der Fenstergröße $w$ festgelegt.
-
                 In der Trainingsphase gibt es zwei verschiedene Architekturen.
-                \textit{Continuous Bag-Of-Words} versucht eine Vorhersage über ein Wort anhand des Kontextes zu machen.
-                Hingegen wird unter Verwendung von \textit{Skip-gram}, eine Vorhersage des Kontextes aufgrund des Wortes vorgenommen.~\cite{EMBEDDINGPILEHVAR2020}
-
-                Schwierigkeiten wie das häufige auftreten von Wörtern in der englischen Sprache wie \textit{the}, treten in der System Call Domäne nicht auf.
+                \textit{Continuous Bag-Of-Words} versucht das feedforward Netzwerk darauf zu trainieren eine Vorhersage über ein Wort anhand des Kontextes zu machen.
+                Hingegen wird unter Verwendung von \textit{Skip-gram}, eine Vorhersage des Kontextes aufgrund des Wortes trainiert.~\cite{EMBEDDINGPILEHVAR2020}
+                Schwierigkeiten wie das häufige Auftreten von Wörtern in der englischen Sprache wie \textit{the}, treten in der System Call Domäne nicht auf.
                 Die Vorteile der dichtbesetzten und dimensionsreduzierten Vektoren machen sich auch bereits~\cite{IDSTHREADGRIMMER2021} in der anomaliebasierten \ac{HIDS} mit System Calls zu nutzen.
 
-                In~\cite{W2VWUNDERLICH2019} wird beschrieben dass das \ac{OHE} laut Ergebnissen bevorzugt werden sollte, wobei auch das \ac{W2V} geeignet ist.
-                In dieser Arbeit überwiegt allerdings der zeitliche Vorteil\marginpar{mehr dazu in \autoref{sec:erg_time}} durch die Dimensionsreduktion des \ac{W2V}.
-                Neben den eigentlichen Namen der System Call enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
-                Wie zumindest Teile dieser die Embeddings der System Calls erweitern können soll im folgenden Abschnitt untersucht werden.
+            In~\cite{W2VWUNDERLICH2019} wird beschrieben dass das \ac{OHE} laut Ergebnissen bevorzugt werden sollte, wobei auch das \ac{W2V} geeignet ist.
+            In dieser Arbeit überwiegt allerdings der zeitliche Vorteil\marginpar{mehr dazu in \autoref{sec:erg_time}} durch die Dimensionsreduktion des \ac{W2V}.
+            Neben den eigentlichen Namen der System Call enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
+            Wie zumindest Teile dieser die Embeddings der System Calls erweitern können soll im folgenden Abschnitt untersucht werden.
 
         \subsection{Darstellung weiterer Parameter}\label{sec:Meta}
                 Wie zusätzliche Informationen der System Calls genutzt werden können ist auch Gegenstand bestehender Forschung.
                 In \autoref{sec:related_sys_arg} wurden die verschiedenen bestehenden Ansätze untersucht.
+
                 Im Folgenden soll es speziell darum gehen neue Darstellungsformen der System Call Argumente zu finden.
                 Dabei soll noch einmal kurz auf die in \autoref{sec:syscalls} besprochenen Grundlagen zurückgegriffen werden um einen ersten Anhaltspunkt für wichtige Informationsquellen zu finden.
 
@@ -87,9 +88,9 @@
                     Die Grundidee besteht darin, dass durch ein Angriffsverhalten eine zumindest kurzzeitige Veränderung im Timing der auftretenden System Calls eintritt.
                     Dabei gelten System Calls in diesem Ansatz nur als aufeinanderfolgend, sofern sie auch aus dem selben Thread stammen.
                     Eine genauere Erläuterung dazu erfolgt in \autoref{sec:streamdarstellung}.
-                    Um den Unterschied in den Normaldaten und Angriffsdaten zu untersuchen wurden in \autoref{fig:time_delta} die zeitlichen Abstände zwischen aufeinanderfolgenden System Calls aus dem Bruteforce und dem CVE-2019-5418 Szenario des \ac{LID-DS} geplottet.
+                    Um den Unterschied in den Normaldaten und Angriffsdaten zu untersuchen wurden in \autoref{fig:time_delta} die Häufigkeit zeitlicher Abstände zwischen aufeinanderfolgenden System Calls aus dem Bruteforce und dem CVE-2019-5418 Szenario des \ac{LID-DS} geplottet.
                     In Blau sind die Abstände der System Calls während des Normalverhaltens eingetragen und in Rot die des Normalverhaltens mit zusätzlichen Angriffsverhalten.
-                    Im rechten Plot kein sichtlicher Unterschied zwischen Angriffsverhalten und dem Normalverhalten zu erkennen.
+                    Im rechten Plot ist kein sichtlicher Unterschied zwischen Angriffsverhalten und dem Normalverhalten zu erkennen.
                     Der in diesem Szenario durchgeführte Angriff scheint nicht zu einer Abweichung der Zeitabstände zwischen System Calls zu führen.
                     Im linken Plot hingegen ist eine Abweichung im Bereich ab ca. $0.05*10^{6}$\textit{ns} zu erkennen.
 
@@ -104,7 +105,8 @@
                         \label{fig:time_delta}
                     \end{figure}
 
-                    Die Umsetzung der beschriebenen Idee wird erreicht indem der zeitlichen Abstand $\tau$ zwischen zwei aufeinanderfolgenden System Calls berechnet wird und diesen als weiteren Eingabeparameter für den verarbeitenden Algorithmus verwendet wird.
+                    Die Umsetzung der beschriebenen Idee wird erreicht indem der zeitlichen Abstand $\tau$ zwischen zwei aufeinanderfolgenden System Calls berechnet wird.
+                    Dieser wird normalisiert als weiterer Eingabeparameter für den verarbeitenden Algorithmus verwendet.
                     In der Trainingsphase wird zunächst nur der größte Abstand $\tau_{max}$ aus den Trainingsdaten ermittelt.
                     Mithilfe dieses Wertes werden dann in der Testphase alle Werte wie in \autoref{eq:time_norm} beschrieben normalisiert.
                     \begin{equation}\label{eq:time_norm}
@@ -322,35 +324,34 @@
                 \label{fig:lstm}
         \end{figure}
 
-        Der Allgemeine Aufbau des \acp{LSTM} wird in \autoref{fig:lstm} präsentiert.
-        Wie dargestellt, wird für die Initialisierung der für diese Arbeit entwickelten Implementierung des \acp{LSTM} die Anzahl an Input und Output Neuronen benötigt.
+        Die Architektur wird ebenfalls in \autoref{fig:lstm} dargestellt und besteht aus der Eingabe-Layer, der \ac{LSTM}-Layer, einer \textit{fully-connected} Linear-Layer und der Output-Layer.
+        Wie dargestellt, wird für die Initialisierung der Implementierung des \acp{LSTM} die Anzahl an Input und Output Neuronen benötigt.
         Für die Eingangsgröße gilt:
         \begin{equation}
             input\_dim = (e + ret + time) \cdot n
         \end{equation}
-        Mit $e$ für die Größe des \ac{W2V}-Embeddings.
+        Mit $e$ für die gewählte Größe des \ac{W2V}-Embeddings.
         Falls der zuvor beschriebene Zusatzparameter für die Rückgabewerte verwendet wird gilt $ret=1$ ansonsten $ret=0$.
         Gleiches gilt für den Extraparameter welcher die Zeitabstände kodiert.
         Für die Ausgangsgröße gilt:
         \begin{equation}
             output\_dim = k + 1
         \end{equation}
-        Dabei ist $k$ die Anzahl an System Calls aus dem Trainingsdatensatz, eins wird addiert für unbekannte System Calls.
+        Dabei ist $k$ die Anzahl an System Calls aus dem Trainingsdatensatz, eins wird addiert für unbekannte System Calls, also System Calls in den Testdaten welche noch nicht im Trainingsdatensatz auftraten.
         Nötig ist diese Variabilität, da für die Initialisierung des \acp{LSTM} die Anzahl der verschiedenen System Calls im Trainingsdatensatz für die Ausgangsgröße, sowie die Eingangsgröße des System Calls eine Rolle entscheidende Rolle spielt.
 
-        Festgelegt werden hingegen Größen für die \textit{Hidden Layer} Dimension, \textit{Batch Size}, den \textit{Optimizer} die \textit{Loss}-Funktion und die Lernrate.
+        Festgelegt werden hingegen Größen für die \textit{Hidden Layer} Dimension, \textit{Batch Size}, den \textit{Optimizer}, die \textit{Loss}-Funktion und die Lernrate.
         Die Dimension der \ac{LSTM}-Layer wird auf $64$ gesetzt, die \textit{Batch Size} auf $1024$.
         Es wird der für \acp{LSTM} gängige \textit{Adam Optimizer} gewählt.
         Da es sich um eine Klassifikation mit $k+1$ Klassen handelt wird die \textit{Cross-Entropy} Loss-Funktion des PyTorch Frameworks genutzt.
         Die Lernrate wird auf $0.001$ festgelegt.
-
-        Die Architektur wird ebenfalls in \autoref{fig:lstm} dargestellt und besteht aus der Eingabe-Layer, der \ac{LSTM}-Layer, einer \textit{fully-connected} Linear-Layer und der Output-Layer.
+        Details zu der Parameterwahl wird in \autoref{sec:parameterwahl} erläutert.
 
         Entgegen der typischen Implementierungen von \acp{LSTM} wird der \textit{Hidden State} nach einem Batch gespeichert und dem nächsten Batch  übergeben. 
-        Ansonsten geht die Kontextinformation zwischen den Batches verloren.
+        Der Hauptgrund dafür ist die Länge der System Call Streams.
+        Diese können länger als ein Batch sein, werden die Hidden States nicht übergeben, geht die Kontextinformation zwischen den Batches verloren.
         Diese Idee ist allerdings ausgelegt für einen kontinuierlichen Stream an System Calls, der Datensatz besteht aber aus vielen Dateien.
         Deswegen wird der \textit{Hidden State} zum Ende einer Aufnahme zurückgesetzt.
-        Details zu der Parameterwahl wird in \autoref{sec:parameterwahl} erläutert.
 
         Ausgaben des \acp{LSTM} sind durch die Verwendung der PyTorch CrossEntropy Loss-Funktion sogenannte \textit{Logits}.
         Auf diese kann mithilfe der \textit{Softmax}-Funktion eine Liste an Wahrscheinlichkeiten für jeden System Call sowie den Platzhalter erstellt werden.
@@ -367,15 +368,16 @@
             Wie bereits in \autoref{sec:related_nlp} beschrieben, werden verschiedene Verfahren der \ac{NLP} auch in der anomaliebasierten \ac{HIDS} eingesetzt.
             Neben den bereits beschriebenen \ac{W2V} Verfahren kommen auch die in der \ac{NLP} verbreiteten \ac{LSTM} Netzwerke zum Einsatz.
             Mit dem \ac{LSTM} soll in der Trainingsphase ein Sprachmodell der System Calls erstellt werden.
-            Anhand dieses Modells soll dann in der Testphase eine Vorhersage über den nächsten System Call gemacht werden.
+            Dabei bestehen die Trainingsdaten nur aus Normalverhalten, enthalten also keine Angriffe.
+            Anhand dieses gelernten Modells soll dann in der Testphase eine Vorhersage über den nächsten System Call gemacht werden.
             Diese Vorhersage besteht aus den Wahrscheinlichkeiten für alle aus dem Training gesehenen System Calls, plus einem Platzhalter für noch unbekannte System Calls.
-            Die Wahrscheinlichkeit des tatsächlich auftretenden System Calls stellt dann den Anomaliescore dar.
+            Die Wahrscheinlichkeit des tatsächlich auftretenden System Calls von eins abgezogen stellt dann den Anomaliescore dar.
             Ob dieser Anomaliescore zu einem Alarm führt oder nicht, hängt von einem zuvor bestimmten Schwellwert ab.
             Dieser wird bestimmt, indem nach dem Training die Anomaliescores für einen Ausschnitt des Datensatzes bestimmt werden.
-            In diesem Ausschnitt, auch Validierungsdaten genannt, darf kein Angriffsverhalten enthalten sein.
+            In diesem Ausschnitt, auch Validierungsdaten genannt, darf wie in den Trainingsdaten kein Angriffsverhalten enthalten sein.
             Eine Garantie die in der echten Welt nie komplett gegeben werden kann.
             In den Validierungsdaten soll folglich kein Alarm ausgelöst werden, weshalb der höchste Anomaliescore der Validierungsdaten als Schwellwert der Anomalieerkennung verwendet wird.
-            Dies ist definitiv nur eine Annäherung an einen optimalen Schwellwert.
+            Dies ist eine Annäherung an einen optimalen Schwellwert.
 
             Die System Calls werden wie zuvor beschrieben durch das \ac{W2V} Verfahren in einen Vektor umgewandelt und durch die zwei zuvor beschriebenen Verfahren, die Normalisierung der Zeitabstände und der Rückgabewerte bestimmter System Calls, angereichert.
             Der Stream der System Calls wird dann mit Betrachtung der Threads in n-gramme zusammengetragen.
@@ -394,8 +396,8 @@
                         Aufgrund dieser Information werden die Gewichte im \ac{LSTM} angepasst}\label{fig:training}
             \end{figure}
             % Für das Training des \ac{LSTM} Netzwerkes werden nur Normaldaten aus dem Trainingsdatensatz verwendet.
-            Pro Szenario werden $200$, der insgesamt ca.\ $1100$ Aufnahmen,  welche nur Normalverhalten enthalten für das Training ausgewählt.
-            Die Grundidee besteht darin mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$, in diesem Fall ein n-gram, den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
+            Pro Szenario werden $200$ Aufnahmen ohne Angriffsverhalten, der insgesamt ca.\ $1100$ Aufnahmen, für das Training ausgewählt.
+            Die Grundidee besteht darin mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$ den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
             Da der nächste System Call aus dem Datensatz stets bekannt ist, kann als Feedback für das Netzwerk die Information genommen werden, ob $sc_{x_{n+1}}$ korrekt vorhergesagt wurde, also dem Label entspricht.
             Das \ac{LSTM} gibt wie in \autoref{fig:training} dargestellt diese Information an das \ac{LSTM} zurück.
 
@@ -406,9 +408,9 @@
             Nach dieser Idee ist das erste n-gram $ngram_0$ mit Label $l_0$.
             Dabei werden die System Call Namen für die Label durch Integerwerte ersetzt. 
             Das \ac{LSTM} Netzwerk bekommt $ngram_0$ und gibt einen Vektor der Länge $k+1$ zurück.
-            Für jeden der $k$ möglichen System Calls aus den Trainingsdaten eine Auftrittswahrscheinlichkeit angegeben.
+            Dieser Vektor gibt für jeden der $k$ möglichen System Calls aus den Trainingsdaten eine Auftrittswahrscheinlichkeit an.
             Zusätzlich wird $1$ addiert, da in den Testdaten unbekannte System Calls auftreten können.
-            Diese bekommen den \ac{W2V}-Vektor $(0,0)^e$, wobei $e$ die Länge des \ac{W2V}-Vektoren ist und für das Label einen Integerwert von $0$. 
+            Diese bekommen den \ac{W2V}-Vektor $(0)^e$, wobei $e$ die Länge des \ac{W2V}-Vektoren ist oder für das Label einen Integerwert von $0$. 
             Die Ausgabe des \acp{LSTM} sind \textit{PyTorch Logits}, diese werden mithilfe der \textit{Softmax}-Funktion in die gewünschten Wahrscheinlichkeiten umgewandelt.
             Der Index der Liste der so berechneten Wahrscheinlichkeiten wird mit dem aus den Trainingsdaten gezogenen Label verglichen.
             Dieser Vergleich dient dann als Feedback für das \ac{LSTM}.
@@ -420,7 +422,8 @@
                 \includegraphics[width=0.8\textwidth]{images/Validation_overview.pdf}
                 \caption{Ähnlich zu \autoref{fig:training} wird hier der Validierungsablauf beschrieben.
                          Dabei wird wie zuvor ein Datenauszug dargestellt sowie die Auftrittswahrscheinlichkeiten für den folgenden System Call.
-                         In der Test-, wie in der Validierungsphase dient die Wahrscheinlichkeit des Integerwerts des tatsächlich als nächstes auftretende System Call als Berechnungsgrundlage für den Anomliescore. Die Werte für $ascore$ werden wie beschrieben berechnet und wie unten in der Abbildung dargestellt wird das Maximum der $ascore$ der gesamten Validierungsdaten als Schwellwert festgelegt.}
+                         In der Test-, wie in der Validierungsphase dient die Wahrscheinlichkeit des Integerwerts des tatsächlich als nächstes auftretende System Call als Berechnungsgrundlage für den Anomaliescore.
+                     Die Werte für $ascore$ werden wie beschrieben. Wie unten in der Abbildung dargestellt wird das Maximum der $ascore$ der gesamten Validierungsdaten als Schwellwert festgelegt.}
                 \label{fig:validierung}
             \end{figure}
             Es kann also bei Auftreten des System Calls $sc_i$ überprüft werden mit welcher Wahrscheinlichkeit $p_i$ dieser vorhergesagt wurde.
@@ -432,11 +435,13 @@
 
             \paragraph{Schwellwertbestimmung}\label{sec:Schwellung}
                 Für die Berechnung des Schwellwertes $\theta$ wird für alle System Calls der Validierungsdaten $ascore$ berechnet.
-                Die Valiedierungsdaten bestehen aus $50$ Aufnahmen und enthalten ebenfalls wie die Trainingsdaten nur das Normalverhalten.
+                Die Validierungsdaten bestehen aus $50$ Aufnahmen und enthalten ebenfalls wie die Trainingsdaten nur das Normalverhalten.
                 Da in den Validierungsdaten kein Angriffsverhalten integriert ist, darf keiner der $ascore$s einen Alarm auslösen.
                 Weshalb der höchste Wert der $ascore$s den Validierungs als Schwellwert $\theta$ genutzt wird.
-                Bei Scores über diesem Wert kann keine Aussage getroffen werden.
-                Der Ablauf der Schwellwertfindung wir zusätzlich in \autoref{fig:validierung} dargestellt.
+                Der Ablauf der Schwellwertfindung wird zusätzlich in \autoref{fig:validierung} dargestellt.
+                Dabei ist ähnlich zu \autoref{fig:training} dargestellt wie ein System Call n-gram kodiert wird und als Eingabe in das \ac{LSTM} dient.
+                Zusätzlich wird die Berechnung des $ascores$ dargestellt, indem das Label als Index für die Softmax  Ausgabe des \acp{LSTM} dient.
+                Das Maximum der $ascores$ wird wie beschrieben dann als Schwellwert $\theta$ genutzt.
 
         \subsection{Parameterwahl}\label{sec:parameterwahl}
             Das Aufsetzen des beschriebenen Algorithmus bedarf der Festlegung einiger Parameter.
@@ -463,11 +468,11 @@
                 \end{figure}
 
                 Da das Berechnen des \ac{W2V} im Vergleich zum Training und Testen des \acp{LSTM} nur einen geringen Zeitaufwand benötigt wird eine Epochenanzahl von $500$ festgelegt. 
-                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nach verschiedenen Tests mit alten Konfigurationen nur n-gramme aufgebaut mit Betrachtung der Thread Information.
+                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nach verschiedenen Tests mit alten Konfigurationen nur n-gramme mit Betrachtung der Thread Information aufgebaut.
 
             \paragraph{Zu ermittelnde Parameter}
-                Kann eine Konfiguration gefunden werden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
-                Dafür gilt es speziell verschiedene \textbf{n-gram Größe}n in Kombination mit verschiedenen \textbf{Größe}n für das \textbf{\ac{W2V}-Embedding} zu finden.
+            Ziel der zu ermittelnden Parametern ist es eine Konfiguration zu finden, mit welcher alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können
+            Dafür gilt es speziell verschiedene \textbf{n-gram} Größen in Kombination mit verschiedenen Größen für das \textbf{\ac{W2V}-Embedding} zu finden.
                 Für die n-gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
                 Zusätzlich soll untersucht werden ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
                 Speziell wird getestet ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
@@ -602,7 +607,7 @@
     Es scheint deshalb sinnvoller andere Metriken zur Hand zu nehmen um einheitliche und vom Datensatz unabhängige Messwerte bereitstellen zu können. 
     Da der \ac{LID-DS} aus vielen verschiedenen Aufnahmen besteht kann die Berechnung der Precision und des Recalls auch auf Dateiebene stattfinden.
     Falls mehrere Angriffe in einer Datei vorkommen wird die Berechnung jedoch umständlicher, dies ist im \ac{LID-DS} nicht der Fall.  
-    Grundgedanke der Findung einer neuen Metrik muss dabei sein auch einen klaren Praxisbezug zu finden. 
+    Grundgedanke der Findung einer neuen Metrik muss dabei auch sein einen klaren Praxisbezug zu finden. 
     Dort ist vor allem interessant wieviele Angriffe erkannt werden und nicht wieviele System Calls der Angriffe als bösartig eingestuft werden.
     Zum anderen entscheidet die Anzahl, beziehungsweise die Häufigkeit von Fehlalarmen über die Nutzbarkeit der \acp{IDS}.
     Die \ac{DR} steht für den zuvor beschriebenen Recall auf Dateiebene, also der Anteil der erkannten Angriffe an allen vorkommenden Angriffen.
@@ -614,7 +619,7 @@
     Um einschätzen zu können welche Konfiguration am besten abgeschnitten hat, ergibt sich eine neue Schwierigkeit.
     Werden alle System Calls aus dem Datensatz als Angriff erkannt ist die \ac{DR} wie gewünscht $1$.
     Eine hohe \ac{DR} alleine ist also wenig aussagekräftig.
-    Es muss eine Abwägung zwischen \ac{FP}-Rate und \ac{DR} stattfinden, in der Auswertung wird dies versucht.
+    In der Auswertung muss deswegen eine Abwägung zwischen \ac{FP}-Rate und \ac{DR} stattfinden.
     %Eine Angriff gilt dann als erkannt, sofern ein Alarm nach dem Angriffszeitpunkt ausgelöst wird. 
     %Wie in \autoref{sec:LIDDS} beschrieben werden dabei potentiell Fehlalarme als korrekt eingestuft.
     % Das sind im Folgenden die \ac{DR} und die \ac{FP}-Rate
