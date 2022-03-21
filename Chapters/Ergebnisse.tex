@@ -53,8 +53,6 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Das mindert leider die Vergleichbarkeit.
     Konfigurationen welche kein Ergebnis für das ZIPSlip Szenario lieferten sind mit Sternchen markiert.
 
-
-    
 \section{LSTM Ansatz}\label{sec:erg_LSTM}
     Im ersten Schritt der Auswertung wird die \ac{DR} isoliert für Konfigurationen betrachtet welche keine weiteren Extraparameter der System Calls enthalten.
     Alle Konfigurationen verwenden dabei \textit{Thread Aware} n-gramme.
@@ -76,20 +74,20 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             n-gram & embed & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
             \midrule
             \rowcolor{GruvGray!16}
+            $10$ & 	$4$ & 	$14.56$ &  	$131$ & 	$0.71$ &  	$9$ \\
             $6$ & 	$6$ & 	$22.22$ &  	$209$ & 	$0.69$ &  	$9$ \\
-            $10$ & 	$4$ & 	$15.63$ &  	$125$ & 	$0.67$ &  	$8$ \\
             \rowcolor{GruvGray!16}
-            $2$ & 	$10$ & 	$6.88$ &  	$55$ & 	    $0.64$ &  	$8$ \\
-            $2$ & 	$4$ & 	$13.50$ &  	$108$ & 	$0.64$ &  	$8$ \\
+            $2$ & 	$10$ & 	$9.22$  &  	$83$ & 	    $0.68$ &  	$9$ \\
+            $2$ & 	$4$ & 	$12.89$ &  	$116$ & 	$0.68$ &  	$9$ \\
             \rowcolor{GruvGray!16}
+            $10$ & 	$8$ & 	$17.78$ &  	$160$ & 	$0.67$ &  	$9$ \\
             $2$ & 	$6$ & 	$20.60$ &  	$206$ & 	$0.64$ &  	$10$ \\
-            $10$ & 	$8$ & 	$19.13$ &  	$153$ & 	$0.62$ &  	$8$ \\
+            \rowcolor{GruvGray!16}
+            $6$ & 	$4$ & 	$11.34$ &  	$102$ & 	$0.58$ &  	$9$ \\
+            $10$ & 	$10$ & 	$5.78$ &  	$52$ & 	    $0.56$ &  	$9$ \\
             \rowcolor{GruvGray!16}
             $10$ & 	$6$ & 	$6.44$ &  	$58$ & 	    $0.56$ &  	$9$ \\
-            $6$ & 	$4$ & 	$10.13$ &  	$81$ & 	    $0.53$ &  	$8$ \\
-            \rowcolor{GruvGray!16}
-            $10$ & 	$10$ & 	$5.38$ &  	$43$ & 	    $0.51$ &  	$8$ \\
-            $6$ & 	$10$ & 	$7.26$ &  	$58$ & 	    $0.51$ &  	$8$ \\
+            $6$ & 	$10$ & 	$7.33$ &  	$66$ & 	    $0.56$ &  	$9$ \\
             \hline
         \end{tabular}
         \caption{Konfigurationen mit den $10$ höchsten \acp{DR}. 
@@ -111,19 +109,19 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             n-gram & embed & \overline{\ac{FP}} & \ac{FP}\_sum & \overline{\ac{DR}} & count\\
             \midrule
             \rowcolor{GruvGray!16}
-            $10$ & 	$10$ & 	$5.38$ &  	$43$ & 	    $0.51$ &  	$8$ \\
+            $10$ & 	$10$ & 	$5.78$ &  	$52$ & 	    $0.56$ &  	$9$ \\
             $10$ & 	$6$ & 	$6.44$ &  	$58$ & 	    $0.56$ &  	$9$ \\
             \rowcolor{GruvGray!16}
-            $2$ & 	$10$ & 	$6.88$ &  	$55$ & 	    $0.64$ &  	$8$ \\
-            $6$ & 	$10$ & 	$7.26$ &  	$58$ & 	    $0.51$ &  	$8$ \\
-            \rowcolor{GruvGray!16}
+            $6$ & 	$10$ & 	$7.33$ &  	$66$ & 	    $0.56$ &  	$9$ \\
             $2$ & 	$8$ & 	$8.40$ &  	$84$ & 	    $0.50$ &  	$10$ \\
-            $6$ & 	$4$ & 	$10.13$ &  	$81$ & 	    $0.53$ &  	$8$ \\
             \rowcolor{GruvGray!16}
-            $2$ & 	$4$ & 	$13.50$ &  	$108$ & 	$0.64$ &  	$8$ \\
-            $10$ & 	$4$ & 	$15.63$ &  	$125$ & 	$0.67$ &  	$8$ \\
+            $2$ & 	$10$ & 	$9.22$ &  	$83$ & 	    $0.68$ &  	$9$ \\
+            $6$ & 	$4$ & 	$11.34$ &  	$102$ & 	$0.58$ &  	$9$ \\
             \rowcolor{GruvGray!16}
-            $10$ & 	$8$ & 	$19.13$ &  	$153$ & 	$0.62$ &  	$8$ \\
+            $2$ & 	$4$ & 	$12.89$ &  	$116$ & 	$0.68$ &  	$9$ \\
+            $10$ & 	$4$ & 	$14.56$ &  	$131$ & 	$0.71$ &  	$9$ \\
+            \rowcolor{GruvGray!16}
+            $10$ & 	$8$ & 	$17.78$ &  	$160$ & 	$0.67$ &  	$9$ \\
             $2$ & 	$6$ & 	$20.60$ &  	$206$ & 	$0.64$ &  	$10$ \\
             \hline
         \end{tabular}
@@ -208,14 +206,14 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $6$ & 	$4$ & 	$0$ & 	$0$ & 	$1$ & 	$5.38$ & 	$43$ & 	$0.64$ & 	$8$ \\
             $2$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
             \rowcolor{GruvGray!16}
-            $10$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
             $10$ & 	$6$ & 	$0$ & 	$1$ & 	$0$ & 	$5.66$ & 	$51$ & 	$0.60$ & 	$9$ \\
+            $10$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$5.78$ & 	$52$ & 	$0.56$ & 	$9$ \\
             \rowcolor{GruvGray!16}
             $6$ & 	$6$ & 	$1$ & 	$1$ & 	$1$ & 	$6.33$ & 	$57$ & 	$0.66$ & 	$9$ \\
             $10$ & 	$6$ & 	$1$ & 	$0$ & 	$0$ & 	$6.33$ & 	$57$ & 	$0.55$ & 	$9$ \\
             \rowcolor{GruvGray!16}
             $10$ & 	$6$ & 	$0$ & 	$0$ & 	$0$ & 	$6.44$ & 	$58$ & 	$0.56$ & 	$9$ \\
-            $2$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$6.88$ & 	$55$ & 	$0.64$ & 	$8$ \\
+            $6$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$7.33$ & 	$66$ & 	$0.56$ & 	$9$ \\
             \hline
         \end{tabular}
         \caption{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
