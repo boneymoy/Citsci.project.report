@@ -166,15 +166,16 @@
                             \rowcolor{GruvGray!16}
                             writev  & Schreibt \textit{iovcnt} Vektor in die Datei, welche über den Filedeskriptor $fd$ definiert wird.& Geschriebene Bytes oder $-1$ bei Fehler\\
 
-                            read    & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset an.                                              & Filedeskriptor oder $-1$ bei Fehler\\
+                            read    & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset an.                                              & Gelesene Bytes oder $-1$ bei Fehler\\
                             \rowcolor{GruvGray!16}
-                            pread   & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset nicht an.                                        & Filedeskriptor oder $-1$ bei Fehler\\
+                            pread   & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset nicht an.                                        & Gelesene Bytes oder $-1$ bei Fehler\\
                             readv   & Liest spezifizierten \textit{iovcnt} Vektor aus Filedeskriptor \textit{fd} & Gelesene Bytes oder $-1$ Fehler\\
 
                             \rowcolor{GruvGray!16}
 
                             sendfile & Kopiert Daten zwischen zwei Filedeskriptoren. Kopiervorgang findet im Kernel statt.& Geschriebene Bytes oder $-1$ bei Fehler\\
                             sendmsg & Übermitteln einer Nachricht an einen anderen Socket. & Gesendete Bytes oder $-1$ bei Fehler\\
+                            \rowcolor{GruvGray!16}
                             recv & Empfängt Daten von einem Socket. & Empfangene Bytes oder $-1$ bei Fehler\\
                             \makecell{recvfrom, recvmsg}& Empfängt Daten auf einem Socket welcher nicht zwingend verbindungsorientiert sein muss. & Empfangene Bytes oder $-1$ bei Fehler\\
                             \hline
@@ -276,20 +277,19 @@
                 Die Vorstellung dabei ist, dass eine \ac{TCF}$= 1$ dem \ac{LSTM} die Information gibt, dass der zuvor gesehene n-gramme nur eine untergeordnete Rolle für den Kontext spielen, da diese aus einem anderen Thread stammen.
                 Falls dies der Fall ist, kann ein häufiger Kontextwechsel dafür sorgen, dass der Vorteil der \ac{LSTM}s abgeschwächt wird, da immer dafür gesorgt wird, dass potentiell wenige Informationen im Kontext enthalten sind.
                 In \autoref{tab:tcf} wird dargestellt wie oft so ein Kontextwechsel stattfindet.
-                Dabei ist zu erkennen, dass in den Szenarien aus dem \ac{LID-DS} bei einer Länge von $n=6$ nur bis zu $13.8\%$ der n-gramme eine \ac{TCF}$=1$ haben.
+                Dabei ist zu erkennen, dass in den Szenarien aus dem \ac{LID-DS} bei einer Länge von $n=6$ nur bis zu $13.8\%$ der n-gramme eine $\ac{TCF}=1$ haben.
                 Die zuvor geschilderte Gefahr scheint also für die gegebenen Szenarien keine Rolle zu spielen, ist aber für andere Einsatzbereiche mit nicht kontextfreien verarbeitenden Algorithmen zu beachten.
 
                 \begin{table}[ht]
                     \small
                     \centering
-                    \begin{tabular}{c|c|c|c}
+                    \begin{tabular}{lrrr}
                         \hline
                         \rowcolor{GruvGray!36}
                         \multicolumn{4}{c}{Thread Change Flag}\\
-                        \hline
+                        \toprule
                         Szenario & #\ac{TCF}$=1$ & #\ac{TCF}$=0$ & \makecell{Anteil \ac{TCF}$=1$ \\an allen n-grammen \\ in \%}\\
-                        \hline
-                        \hline
+                        \midrule
                         \rowcolor{GruvGray!16}
                         $Bruteforce\_CWE\_307$ & $2,534,165$ & $20,383,314$ & $11.1$ \\
                         $CVE-2012-2122$ & $1,206,151$ & $10,365,309$ & $10.4$ \\
