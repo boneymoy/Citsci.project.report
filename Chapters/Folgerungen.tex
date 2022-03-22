@@ -30,15 +30,6 @@ Wie dies unter der Verwendung von Extraparametern aussieht wird im Folgenden bet
 Wie in \autoref{sec:erg_LSTM_extra} beschrieben kann eine deutliche Verbesserung der \ac{DR} sowie  der \ac{FP}-Rate mit dem Einsatz verschiedener Extraparameter erzielt werden.
 So sind unter $9$ von $10$ der besten Ergebnisse nach \ac{DR} und $7$ von $10$ nach \ac{FP}-Rate Konfigurationen mit mindestens einem Extraparameter.
 Im Vergleich zu den Ergebnissen ohne Extraparametern scheint hier ein Trend zu größeren n-grammen zu gehen.
-Es ist jeweils nur noch eine Konfiguration unter den besten zehn mit einer n-gram Größe von $2$, im Vergleich zu $3$ bzw.$4$ der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.\marginpar{jeweils auf höchste \ac{DR} und niedrigste \ac{FP}-Rate bezogen}
-
-
-\section{Ausblick}
-Extraparameter können deutliche Verbesserung der Ergebnisse bringen.
-Nur unter Einsatz der Extraparameter kann der \ac{LSTM} Ansatz mit anderen Algorithmen mithalten.
-Evtl können diese Extraparameter auch Verbesserung der Ergebnisse bei anderen Algorithmen erzielen.
-
-Evtl helfen Transformer dabei die Berechnungszeit zu verringern und bei gleichzeitigem Erhalt von Kontextwissen.
-Sie ermöglichen parallele Ausführung der Sequenz.
-Also speziell auch längere Sequenzen möglich.
-
+Es ist jeweils nur noch eine Konfiguration unter den besten zehn mit einer n-gram Größe von $2$.
+Im Vergleich zu drei bzw.\ vier der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.\marginpar{jeweils auf höchste \ac{DR} und niedrigste \ac{FP}-Rate bezogen}
+Dies spiegelt eventuell die zunehmende Komplexität der Eingaben wieder.  

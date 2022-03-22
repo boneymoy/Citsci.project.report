@@ -1,9 +1,43 @@
-\chapter{Zusammenfassung und Iwas}
+\chapter{Zusammenfassung und Ausblick}
+
+Informationssicherheit in der IT-Welt ist vielen Angriffen einen Schritt hinterher.
+Denn die Verteidigungssysteme beruhen darauf Signaturen von Angriffen auf Computersystemen wiederzuerkennen.
+Sind die  Angriffe nicht bekannt können sie auch nicht erkannt werden.
+Gleiches gilt bei Abwandlungen von bekannten Angriffen.
+Um den Angriffen nicht immer hinterher zu sein wird versucht mit anomaliebasierten Verteidigungssysteme auch unbekannte Angriffe zu erkennen.
+Statt eine Liste von Angriffen ständig up to date zu halten, wird das Normalverhalten eines oder mehrerer Systeme betrachtet.
+Führt ein Angriff zu einer Abweichung des Normalverhaltens wird dieser erkannt und es können weitere Schritte eingeleitet werden.
 
 \section{Zusammenfassung}
- 
 
+\acp{IDS} kommen in vielen Bereichen der IT-Welt zum Einsatz.
+Häufig werden \ac{NIDS} verwendet, welche Netzwerkdaten untersuchen und damit mehrere Hosts gleichzeitig überwachen.
+Um auch Angriffe auf einzelnen Hosts zu erkennen, reichen diese meist nicht aus.
+Mithilfe von \acp{HIDS} kann dies erreicht werden.
+Diese Arbeit beschäftigt sich mit \acp{HIDS} welche Anomalien in Sytem Call Streams erkennen. 
+Da im ersten Schritt die lediglich die Sequenz der System Calls betrachtet wird, bietet es sich an von etablierte Verfahren der Mustererkennung zu profitieren.
+Ein Bereich der Mustererkennung welcher sehr viel Fortschritt erfahren hat ist die \ac{NLP}.
+Es stellt sich also die Frage ob bestimmte Verfahren die in der \ac{NLP} Verwendung finden sich auch in der Domäne der \ac{HIDS} als erfolgreich erweisen.
+\acp{LSTM} zeigten sich in der Sprachverarbeitung sowie auch in verschiedenen Ansätzen der Zeitreihendaten als effektiv.
+Es konnte in diese Arbeit gezeigt werden, dass sich diese Fortschritte in der \ac{NLP} auf die anomaliebasierte \ac{HIDS} übertragen lässt.
+Dafür wurde mit dem \ac{W2V}-Verfahren ein ebenfalls aus der \ac{NLP} stammendes Embedding Verfahren verwendet um eine kontexterhaltende Kodierung der System Call Namen zu erhalten.
+Des Weiteren wurden neue Verfahren zur Kodierung zusätzliche Informationen der System Calls entwickelt.
+Diese zielen darauf ab zum einen die Rückgabewerte bestimmter lesender und schreibender System Calls zu überwachen, sowie den zeitliche Abstand zwischen zwei System Calls innerhalb eines Threads darzustellen. 
+Zusätzlich wurden die von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} \textit{Thread aware} n-gramme für Algorithmen mit Kontextwissen erweitert, indem ein Wechsel des Threads als solcher gekennzeichnet wird.
+Um zu überprüfen ob sich die beschriebenen Verfahren als erfolgreich erweisen wurden ausführliche Experimente auf dem \ac{LID-DS} durchgeführt.
+Dabei wurden verschiedene Parameter für die Eingabedaten untersucht.
+Eine klare Tendenz für bestimmte Parameterkombinationen waren dabei nicht zu erkennen.
+Allerdings wurde gezeigt, dass die \acp{LSTM} speziell mit Hinzunahme der Extraparameter konkurrenzfähige Ergebnisse liefern kann.
+Der Größte Nachteil des präsentierten \ac{HIDS} Verfahren besteht in der aufwendigen Berechnung der \acp{LSTM}.
 
+\section{Ausblick}
+Einen Alternativen \ac{NLP} Ansatz, welcher sich bereits bei den meisten Übersetzungs und Sprachgenerierungsprogrammen durchgesetzt hat sind die Transformer.
+Diese ermöglichen eine Verarbeitung der System Calls mit Einbindung des Kontexts die zusätzlich parallel Berechnet werden kann.
 
+So kann eventuell der Vorteil der derExtraparameter können deutliche Verbesserung der Ergebnisse bringen.
+Nur unter Einsatz der Extraparameter kann der \ac{LSTM} Ansatz mit anderen Algorithmen mithalten.
+Evtl können diese Extraparameter auch Verbesserung der Ergebnisse bei anderen Algorithmen erzielen.
 
-
+Evtl helfen Transformer dabei die Berechnungszeit zu verringern und bei gleichzeitigem Erhalt von Kontextwissen.
+Sie ermöglichen parallele Ausführung der Sequenz.
+Also speziell auch längere Sequenzen möglich.

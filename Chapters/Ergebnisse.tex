@@ -141,16 +141,15 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 \section{Extra Parameter}\label{sec:erg_LSTM_extra}
     In \autoref{tab:LSTM_par_erg} werden die Ergebnisse der Konfigurationen mit Extraparametern angezeigt. 
     Wieder werden die Ergebnisse zunächst nach der besten \ac{DR} eingestuft.
-    Als erstes fällt dabei ins Auge, dass alle zehn Ergebnisse besser sind als das beste Ergebnis aus \autoref{tab:LSTM_erg}.
-    Dies gibt einen Hinweis darauf, dass die Parameter im Einsatz mit einem \ac{LSTM} sehr nützlich sind.
-    Im Vergleich der besten Konfigurationen, werden ohne Extraparameter wie beschrieben eine \ac{DR} von $0.69$ bei durchschnittlich $22.22$ Fehlern erreicht.
+    Als erstes fällt dabei ins Auge, dass die besten sechs der zehn Konfigurationen Extraparameter verwenden.
+    % Dies gibt einen Hinweis darauf, dass die Parameter im Einsatz in Kombination mit einem \ac{LSTM} sehr nützlich sind.
+    Im Vergleich der besten Konfigurationen, werden ohne Extraparameter wie beschrieben eine \ac{DR} von $0.71$ bei durchschnittlich $14.56$ Fehlern erreicht.
     Mit Extraparametern beträgt die \ac{DR} $0.88$ bei durchschnittlich $22.89$ Fehlern.
     Also eine sehr deutliche Verbesserung.
     Auffällig dabei ist, dass wie in \autoref{tab:LSTM_erg} keinerlei Zusammenhang zwischen Eingangsneuronen und Ergebnisqualität zu erkennen ist.
-    Im Vergleich wird die Spanne wird sogar noch größer.
-    Die Konfiguration in Zeile zwei benötigt $10\cdot8 + 1 + 1=82$ Eingangsneuronen und in die Konfiguration in der sechsten Zeile  lediglich $2\cdot4 + 1 = 9$.
+    Im Vergleich wird die Spanne sogar noch größer.
+    Die Konfiguration in Zeile drei benötigt $10\cdot8 + 1 + 1=82$ Eingangsneuronen und in die Konfiguration in der neunten Zeile  lediglich $2\cdot4 + 1 = 9$.
     In den sechs besten Ergebnissen nach der \ac{DR} wird die \ac{TCF} eingesetzt.
-    Die Zeitabstände zwischen den System Calls werden in den drei besten Ergebnissen eingebunden.
     Nur zwei der besten zehn Ergebnisse verwenden keine Rückgabewerte.
     \begin{table}[ht]
         \centering
