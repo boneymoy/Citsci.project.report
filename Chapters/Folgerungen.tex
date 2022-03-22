@@ -1,17 +1,44 @@
 %*****************************************
 \chapter{Folgerungen}\label{ch:folgerungen}
 %*****************************************
-\section{Schlüsse}
+Nachdem die Ergebnisse der Versuchsreihen präsentiert wurden sollen im Folgenden Einschätzungen der Ergebnisse erfolgen.
+Neben dem Vergleich zu bestehenden Arbeiten soll dabei auch ein Bezug auf den Einsatz in der Praxis gemacht werden.
+\section{LSTM Ansatz}
 
-LSTM funktionier io.
-Größte Schwierigkeit mit LSTM ist, dass keine Parallelisierbarkeit möglich ist, deswegen sehr lange Berechnungszeit.
-Extraparameter können deutliche verbesserung der Ergebnisse bringen.
-Im Vergleich zu anderen Algorithmen wie zum Beispiel \ac{STIDE} keine klare Verbesserung. 
-Evtl auch Verbesserung bei anderen Ergebnissen.
-Evtl helfen dabei Transformer, die in der NLP auch zum Einsatz kommen.
-Sie ermöglichen parallele Ausführung.
+Die Ergebnisse beim Einsatz von \ac{LSTM} in der anomaliebasierten \ac{HIDS} zeigen zwei Dinge sehr deutlich.
+Der aus der \ac{NLP} Ansatz kann erfolgreich in der \ac{HIDS} eingesetzt werden.
+Das \ac{LSTM} kann ein Sprachmodell der System Calls erstellen und damit erfolgreich System Calls vorhersagen.
+Dies konnten auch andere Arbeiten zeigen, doch wie zuvor in \autoref{sec:related_nlp} beschrieben erfolgten die Auswertungen bisher auf veralteten Datensätzen, mit praxisfernen Metriken und oft ohne detaillierte Beschreibung des Aufbaus.
+Zusätzlich kann aufgrund dessen kein direkter Vergleich der Architekturen der \acp{LSTM} gezogen werden.
+
+Zumindest ohne Parameter konnten die Ergebnisse der Experimente dabei für die n-gram und der Embidding Größe keinen klarern Trend abbilden.
+So können bei einer n-gram Größe von $n=10$ und einer Embedding Größe von $e=4$ ähnlich gute Ergebnisse erzielt werden wie bei $n=2$ und $e=4$.
+Allerdings ist der Berechnungsaufwand gerade bei großem $n$.
+Speziell bei sehr großen Szenarien hat dies in dieser Arbeit zu Ressourcenengpässen geführt.
+So konnten wie zuvor Beschrieben einige Konfigurationen nicht auf dem größten Szenario des \acp{LID-DS} berechnet werden.
+Ein weiterer Nachteil der Anomalieerkennung durch ein \ac{LSTM} besteht darin, dass ein GPU für eine effiziente Berechnung nötig ist.
+Die größte Schwierigkeit mit einem \ac{LSTM} ist dabei, dass Parallelisierung nur geringfügigen Einfluss auf die Berechnungszeit hat.
+Grundproblem dabei ist die Rekurrenz des Netzes. 
+Die Ausgabe des letzten Zeitschrittes muss bekannt sein um die Ausgabe des aktuellen Zeitschrittes berechnen zu können.
+So kann daraus gefolgert werden, dass der reine Einsatz von \acp{LSTM} nur auf der Sequenz der System Call Namen keine Verbesserung im Vergleich mit zum Beispiel der \ac{STIDE} Implementierung von Grimmer et al.\cite{IDSTHREADGRIMMER2021} erreicht werden kann.
+Das liegt wahrscheinlich daran, dass die Muster in den Sequenzen nicht komplex genug sind, dass die Vorteile der \acp{LSTM} zu trage kommen.
+
+Wie dies unter der Verwendung von Extraparametern aussieht wird im Folgenden betrachtet.
+
+\section{Einsatz von Extraparametern}
+
+Wie in \autoref{sec:erg_LSTM_extra} beschrieben kann eine deutliche Verbesserung der \ac{DR} sowie  der \ac{FP}-Rate mit dem Einsatz verschiedener Extraparameter erzielt werden.
+So sind unter $9$ von $10$ der besten Ergebnisse nach \ac{DR} und $7$ von $10$ nach \ac{FP}-Rate Konfigurationen mit mindestens einem Extraparameter.
+Im Vergleich zu den Ergebnissen ohne Extraparametern scheint hier ein Trend zu größeren n-grammen zu gehen.
+Es ist jeweils nur noch eine Konfiguration unter den besten zehn mit einer n-gram Größe von $2$, im Vergleich zu $3$ bzw.$4$ der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.\marginpar{jeweils auf höchste \ac{DR} und niedrigste \ac{FP}-Rate bezogen}
+
 
 \section{Ausblick}
+Extraparameter können deutliche Verbesserung der Ergebnisse bringen.
+Nur unter Einsatz der Extraparameter kann der \ac{LSTM} Ansatz mit anderen Algorithmen mithalten.
+Evtl können diese Extraparameter auch Verbesserung der Ergebnisse bei anderen Algorithmen erzielen.
 
-Doch eventuell können die verwendeten Extraparameter Verbesserungen in den Ergebnissen  
+Evtl helfen Transformer dabei die Berechnungszeit zu verringern und bei gleichzeitigem Erhalt von Kontextwissen.
+Sie ermöglichen parallele Ausführung der Sequenz.
+Also speziell auch längere Sequenzen möglich.
 
