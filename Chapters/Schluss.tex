@@ -19,7 +19,7 @@ Da im ersten Schritt die lediglich die Sequenz der System Calls betrachtet wird,
 Ein Bereich der Mustererkennung welcher sehr viel Fortschritt erfahren hat ist die \ac{NLP}.
 Es stellt sich also die Frage ob bestimmte Verfahren die in der \ac{NLP} Verwendung finden sich auch in der Domäne der \ac{HIDS} als erfolgreich erweisen.
 \acp{LSTM} zeigten sich in der Sprachverarbeitung sowie auch in verschiedenen Ansätzen der Zeitreihendaten als effektiv.
-Es konnte in diese Arbeit gezeigt werden, dass sich diese Fortschritte in der \ac{NLP} auf die anomaliebasierte \ac{HIDS} übertragen lässt.
+Es konnte in diese Arbeit gezeigt werden, dass sich diese Fortschritte in der \ac{NLP} in Form von \acp{LSTM} auf die anomaliebasierte \ac{HIDS} übertragen lässt.
 Dafür wurde mit dem \ac{W2V}-Verfahren ein ebenfalls aus der \ac{NLP} stammendes Embedding Verfahren verwendet um eine kontexterhaltende Kodierung der System Call Namen zu erhalten.
 Des Weiteren wurden neue Verfahren zur Kodierung zusätzliche Informationen der System Calls entwickelt.
 Diese zielen darauf ab zum einen die Rückgabewerte bestimmter lesender und schreibender System Calls zu überwachen, sowie den zeitliche Abstand zwischen zwei System Calls innerhalb eines Threads darzustellen. 
@@ -29,12 +29,19 @@ Dabei wurden verschiedene Parameter für die Eingabedaten untersucht.
 Eine klare Tendenz für bestimmte Parameterkombinationen waren dabei nicht zu erkennen.
 Allerdings wurde gezeigt, dass die \acp{LSTM} speziell mit Hinzunahme der Extraparameter konkurrenzfähige Ergebnisse liefern kann.
 Der Größte Nachteil des präsentierten \ac{HIDS} Verfahren besteht in der aufwendigen Berechnung der \acp{LSTM}.
+Die Forschungsfragen ob der Erfolg von \acp{LSTM} auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen werden kann, kann also definitiv mit ja beantworten lassen.
+Auch ob die Zunahme von Parametern der System Calls eine Verbesserung erzielen kann, kann abschließend bejaht werden.
 
 \section{Ausblick}
-Einen Alternativen \ac{NLP} Ansatz, welcher sich bereits bei den meisten Übersetzungs und Sprachgenerierungsprogrammen durchgesetzt hat sind die Transformer.
-Diese ermöglichen eine Verarbeitung der System Calls mit Einbindung des Kontexts die zusätzlich parallel Berechnet werden kann.
+Einen Alternativen \ac{NLP} Ansatz, welcher sich bereits bei den meisten Übersetzungs-  und Sprachgenerierungsprogrammen  gegenüber den \acp{LSTM} durchgesetzt hat sind die Transformer.
+Diese ermöglichen wie die \acp{LSTM} eine Verarbeitung der System Calls mit Einbindung des Kontexts.
+Allerdings können die Eingaben in Transformer besser parallelisiert berechnet werden.
+Dies könnte ähnlichen Ergebnissen einen erheblichen Geschwindigkeitsvorteil bringen.
 
-So kann eventuell der Vorteil der derExtraparameter können deutliche Verbesserung der Ergebnisse bringen.
+Die Erkenntnisse der Arbeit bezüglich des Entwurfs neuer Kodierungen für Extraparameter der System Calls könnte sich hingegen leichter direkt auf weitere Arbeiten auswirken.
+Es konnte zwar im Ergebnisteil keine klare Verbesserung der Ergebnisse gegenüber dem \ac{STIDE} Algorithmus nachgewiesen werden, doch vielleicht kann der Einsatz der Extraparameter in Zukunft eine Verbesserung der Ergebnisse des \ac{STIDE} oder anderen Algorithmen erzielen.
+%Es kann zwar davon Ausgegangen werden, dass sich die Erfolge der Extraparametern im Zusammenhang mit den \ac{LSTM} Ansatz nicht eins zu eins auf Ansätze wie den \ac{STIDE} Algorithmus übertragen lassen.
+So kann eventuell der Vorteil der der Extraparameter können deutliche Verbesserung der Ergebnisse bringen.
 Nur unter Einsatz der Extraparameter kann der \ac{LSTM} Ansatz mit anderen Algorithmen mithalten.
 Evtl können diese Extraparameter auch Verbesserung der Ergebnisse bei anderen Algorithmen erzielen.
 
