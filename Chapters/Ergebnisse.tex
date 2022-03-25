@@ -8,6 +8,20 @@ Dabei soll zusätzlich eine beste Konfiguration gefunden werden welche nicht ent
 Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit dieser Arbeit verglichen.
 Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit die ebenfalls ein \ac{LSTM} auf demselben Datensatz verwenden.
 
+\section{Strukturierung der Experimente}
+    Ziel der Experimente soll es sein eine Konfiguration zu finden, die bei allen Szenarien des \ac{LID-DS} gut abschneidet.
+    Dafür werden wie zuvor beschrieben die n-gram und Embedding Größe sowie verschiedene Kombinationen der Extraparameter getestet. 
+    Wieso nicht zusätzlich verschiedene Architekturen, Batchgrößen oder andere Einstellungen in die Konfigurationen einfließen, liegt im Wesentlichen an den vorhandenen Ressourcen.
+    Dies wird in \autoref{sec:erg_time} genauer untersucht.
+    Anhand der Experimente wird zunächst untersucht ob es Konfigurationen des \acp{LSTM} ohne zusätzliche Parameter gibt, welche konkurrenzfähige Ergebnisse liefern können.
+    Danach sollen auch die zusätzlichen Parameter eingebunden werden und es soll untersucht werden inwiefern sich die Extraparameter auf die Ergebnisse auswirken.
+    Dies zu untersuchen, erweist sich jedoch als nicht so einfach.
+    Eine Möglichkeit besteht darin dieselben Konfigurationen mit und ohne Extraparametern zu testen und die Ergebnisse zu vergleichen.
+    Doch die Hinzunahme von Extraparametern wird die optimale Konfiguration der \acp{LSTM} voraussichtlich beeinflussen, was den Vergleich negativ beeinflusst.
+    Eine weitere Möglichkeit könnte es sein den Mittelwert aller Ergebnisse für jede Extraparameterkonfiguration zu vergleichen.
+    Da aber eine beste Konfiguration gesucht wird, könnte es sein, dass viele Konfiguration bis auf die Beste schlecht abschneiden und damit den Mittelwert entscheidend verschlechtert.
+    Nichtsdestotrotz wird in \autoref{sec:erg_LSTM_extra} versucht durch verschiedene Darstellungen einen sinnvollen Vergleich zu ziehen. 
+
 \section{Berechnungsdauer}\label{sec:erg_time}
     Wie bereits in mehreren Kapiteln erwähnt besteht eine große Schwierigkeit beim Einsatz dieses auf \ac{LSTM} basierenden Algorithmus in der \ac{HIDS} in der Berechnungszeit.
     Für die Berechnungen wurden zwei verschiedene Grafikkarten auf dem Galaxy Cluster der Universität Leipzig genutzt.
@@ -54,7 +68,8 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Konfigurationen welche kein Ergebnis für das ZIPSlip Szenario lieferten sind mit Sternchen markiert.
 
 \section{LSTM Ansatz}\label{sec:erg_LSTM}
-    Im ersten Schritt der Auswertung wird die \ac{DR} isoliert für Konfigurationen betrachtet welche keine weiteren Extraparameter der System Calls enthalten.
+
+    Im ersten Schritt der Auswertung wird die \ac{DR} isoliert für Konfigurationen betrachtet, die keine zusätzlichen Parameter der System Calls enthalten.
     Alle Konfigurationen verwenden dabei \textit{Thread Aware} n-gramme.
     In \autoref{tab:LSTM_erg} werden die zehn besten Ergebnisse dargestellt.
     Die Durchschnittliche \ac{DR} von $0.69$ des besten Ergebnisses zeigt, dass es generell möglich ist mit \acp{LSTM} eine Anomalieerkennung auf Basis von System Calls umzusetzen.
@@ -62,7 +77,6 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     So hat die Konfiguration in Zeile $2$ mit einer n-gram Größe von $10$ und einer Embedding Größe von $4$ das \ac{LSTM} $10 \cdot 4=40$ Eingangsneuronen.
     Hingegen hat die Konfiguration aus Zeile $4$ nur $2 \cdot 4 = 8$ Eingangsneuronen.
     Beide Konfigurationen erzielen dabei sehr ähnliche Ergebnisse mit einer durchschnittlichen \ac{DR} von $0.67$ und $15.63$ \acp{FP} beziehungsweise $0.64$ und $13.50$.
-
 
     \begin{table}[ht]
         \centering
@@ -143,14 +157,14 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Wieder werden die Ergebnisse zunächst nach der besten \ac{DR} eingestuft.
     Als erstes fällt dabei ins Auge, dass die besten sechs der zehn Konfigurationen Extraparameter verwenden.
     % Dies gibt einen Hinweis darauf, dass die Parameter im Einsatz in Kombination mit einem \ac{LSTM} sehr nützlich sind.
-    Im Vergleich der besten Konfigurationen, werden ohne Extraparameter wie beschrieben eine \ac{DR} von $0.71$ bei durchschnittlich $14.56$ Fehlern erreicht.
-    Mit Extraparametern beträgt die \ac{DR} $0.88$ bei durchschnittlich $22.89$ Fehlern.
-    Also eine sehr deutliche Verbesserung.
-    Auffällig dabei ist, dass wie in \autoref{tab:LSTM_erg} keinerlei Zusammenhang zwischen Eingangsneuronen und Ergebnisqualität zu erkennen ist.
+    Im Vergleich der besten Konfigurationen werden ohne Extraparameter wie oben beschrieben eine \ac{DR} von $0.71$ bei durchschnittlich $14.56$ Fehlern erreicht.
+    Mit Extraparametern beträgt die höchste \ac{DR} $0.88$ bei durchschnittlich $22.89$ Fehlern.
+    Also auf die \ac{DR} bezogen eine deutliche Verbesserung.
+    Auffällig dabei ist, dass wie in \autoref{tab:LSTM_erg} kein ersichtlicher Zusammenhang zwischen der Anzahl der Eingangsneuronen und Ergebnisqualität zu erkennen ist.
     Im Vergleich wird die Spanne sogar noch größer.
     Die Konfiguration in Zeile drei benötigt $10\cdot8 + 1 + 1=82$ Eingangsneuronen und in die Konfiguration in der neunten Zeile  lediglich $2\cdot4 + 1 = 9$.
-    In den sechs besten Ergebnissen nach der \ac{DR} wird die \ac{TCF} eingesetzt.
-    Nur zwei der besten zehn Ergebnisse verwenden keine Rückgabewerte.
+    %In den sechs besten Ergebnissen nach der \ac{DR} wird die \ac{TCF} eingesetzt.
+    Nur drei der besten zehn Ergebnisse verwenden keine Rückgabewerte.
     \begin{table}[ht]
         \centering
         \begin{tabular}{rrrrrrrrr}
@@ -187,7 +201,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Doch mit Betrachtung der Ergebnisse nach den wenigsten \acp{FP} in \autoref{tab:LSTM_FP} ist dieses Bild nicht mehr so klar.
     Zwar wird die \ac{DR} des besten Ergebnisses bei ähnlich vielen Fehlalarmen um $0.2$ gesteigert, so ist die Dominanz der Konfigurationen nicht mehr ganz so deutlich.
     Zwei der besten zehn Ergebnisse enthalten mehr als einen Parameter, im Vergleich zu sieben in \autoref{tab:LSTM_par_erg}.
-    Aber auch nur eins der besten acht Ergebnisse enthält keinen Parameter.
+    Und wieder nur drei der besten zehn Ergebnisse enthält keinen Parameter.
 
     \begin{table}[ht]
         \centering
@@ -288,6 +302,62 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
                 Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
                 Niedrigste \ac{FP}-Rate rechts mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=1$}
         \label{tab:LSTM_vs_alternative}
+    \end{table}
+
+    In \autoref{tab:LSTM_para_vgl} wird jeweils der Mittelwert der besten fünf Konfigurationen, ausgewählt nach der besten \ac{DR}, für die verschiedenen Kombinationen der Extraparametern.
+    Einmal aufgestellt nach der höchsten \ac{DR} und einmal nach der niedrigsten \ac{FP}-Rate.
+    Zu erkennen ist, dass in beiden Fällen Konfigurationen mit Extraparametern mindestens die ersten beiden Plätze belegen.
+
+    \begin{table}[ht]
+        \parbox{.45\linewidth}{\centering
+            \begin{tabular}{lrrrl}
+                \hline
+                \rowcolor{GruvGray!36}
+                \multicolumn{5}{c}{Sortiert nach \overline{\ac{DR}}}\\
+                \hline
+                td  & \ac{TCF} & rv & \overline{\ac{FP}} & \overline{\ac{DR}} \\
+                \toprule
+                \rowcolor{GruvGray!16}
+                $1$ & $1$ & $1$ & $16.5$ & $0.736$ \\
+                $0$ & $1$ & $1$ & $11.8$ & $0.688$ \\
+                \rowcolor{GruvGray!16}
+                $0$ & $0$ & $0$ & $15.5$ & $0.686$ \\
+                $1$ & $0$ & $1$ & $15.6$ & $0.680$ \\
+                \rowcolor{GruvGray!16}
+                $0$ & $1$ & $0$ & $13.8$ & $0.664$ \\
+                $0$ & $0$ & $1$ & $6.7$ & $0.652$ \\
+                \rowcolor{GruvGray!16}
+                $1$ & $0$ & $0$ & $9.2$ & $0.650$ \\
+                $1$ & $1$ & $0$ & $13.5$ & $0.636$ \\
+                \hline
+            \end{tabular}
+        }
+        \hfill
+        \parbox{.45\linewidth}{\centering
+            \begin{tabular}{lrrrl}
+                \hline
+                \rowcolor{GruvGray!36}
+                \multicolumn{5}{c}{Sortiert nach \overline{\ac{FP}}}\\
+                \hline
+                td  & \ac{TCF} & rv & \overline{\ac{FP}} & \overline{\ac{DR}} \\
+                \toprule
+                \rowcolor{GruvGray!16}
+                $0$ & $0$ & $1$ & $6.7$ & $0.652$ \\
+                $1$ & $0$ & $0$ & $9.2$ & $0.650$ \\
+                \rowcolor{GruvGray!16}
+                $0$ & $1$ & $1$ & $11.8$ & $0.688$ \\
+                $1$ & $1$ & $0$ & $13.5$ & $0.636$ \\
+                \rowcolor{GruvGray!16}
+                $0$ & $1$ & $0$ & $13.8$ & $0.664$ \\
+                $0$ & $0$ & $0$ & $15.5$ & $0.686$ \\
+                \rowcolor{GruvGray!16}
+                $1$ & $0$ & $1$ & $15.6$ & $0.680$ \\
+                $1$ & $1$ & $1$ & $16.5$ & $0.736$ \\
+                \hline
+            \end{tabular}
+        }
+        \caption[Parameter Vergleich]{Vergleich Parameter, Auswahl jeweils beste 5 Ergebnisse nach \ac{DR}. Einmal nach \ac{DR} sortiert links und nach \ac{FP} sortiert rechts}
+        \label{tab:LSTM_para_vgl}
     \end{table}
 
 \section{Vergleich anderer Arbeiten}\label{sec:erg_vgl}
