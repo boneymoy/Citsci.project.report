@@ -288,7 +288,7 @@
                         \rowcolor{GruvGray!36}
                         \multicolumn{4}{c}{Thread Change Flag}\\
                         \toprule
-                        Szenario & #\ac{TCF}$=1$ & #\ac{TCF}$=0$ & \makecell{Anteil \ac{TCF}$=1$ \\an allen n-grammen \\ in \%}\\
+                        Szenario & \#\ac{TCF}$=1$ & \#\ac{TCF}$=0$ & \makecell{Anteil \ac{TCF}$=1$ \\an allen n-grammen \\ in \%}\\
                         \midrule
                         \rowcolor{GruvGray!16}
                         $Bruteforce\_CWE\_307$ & $2,534,165$ & $20,383,314$ & $11.1$ \\
@@ -450,12 +450,12 @@
             \paragraph{Festgelegte Parameter}
                 Entscheidende Parameter der \acp{LSTM} sind die Anzahl der Neuronen pro Layer sowie die Anzahl der \ac{LSTM}-Layer in dem Netzwerk.
                 Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht tragbaren Laufzeiten geführt hat, muss dies bei der Findung vieler Parameter bedacht werden.
-                Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \texit{Accuracy} führen.\cite{LSTMHYPERAUFA2020}
+                Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \textit{Accuracy} führen.\cite{LSTMHYPERAUFA2020}
                 Die Anzahl der Neuronen dieser Layer wird wie bereits in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
                 Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
                 Außerdem wird der für \acp{LSTM} häufig eingesetzte Adam-Optimizer verwendet.
                 Diese Einstellungen wurden auch in der Arbeit von Dymshits et al.~\cite{LSTMDYMSHITS2017} eingesetzt.
-                Als Loss Funktion wird für das $k+1$ Klassen Klassifizierungsproblem die \texit{Cross-Entropy} gewählt.
+                Als Loss Funktion wird für das $k+1$ Klassen Klassifizierungsproblem die \textit{Cross-Entropy} gewählt.
                 Wie auch in \autoref{fig:learning_rate} erkennbar ist stagniert der Fehler bei verschiedenen Szenarien nach nur wenigen Epochen, weshalb für die Epochenanzahl ein Maximum von $20$ festgelegt wird.
                 Der Einfluss der Batch size auf die Ergebnisqualität wird unter anderem in~\cite{LSTMBENCHBREUEL2015} als gering eingestuft und wird auf $1024$ festgelegt.
                  
