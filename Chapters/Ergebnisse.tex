@@ -8,7 +8,7 @@ Dabei soll zusätzlich eine beste Konfiguration gefunden werden welche nicht ent
 Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit dieser Arbeit verglichen.
 Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit die ebenfalls ein \ac{LSTM} auf demselben Datensatz verwenden.
 
-\section{Strukturierung der Experimente}
+\section{Strukturierung der Experimente}\label{sec:erg_struk}
     Ziel der Experimente soll es sein eine Konfiguration zu finden, die bei allen Szenarien des \ac{LID-DS} gut abschneidet.
     Dafür werden wie zuvor beschrieben die n-gram und Embedding Größe sowie verschiedene Kombinationen der Extraparameter getestet. 
     Wieso nicht zusätzlich verschiedene Architekturen, Batchgrößen oder andere Einstellungen in die Konfigurationen einfließen, liegt im Wesentlichen an den vorhandenen Ressourcen.
@@ -153,13 +153,80 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \label{tab:LSTM_erg_FP}
     \end{table}
     
-    Hierbei kommen viele gleiche Kongigurationen vor, da es nur wenig mehr als zehn Konfigurationen ohne Extraparameter mit einer $\ac{DR}>0.5$ gibt.
+    Hierbei kommen viele gleiche Konfigurationen vor, da es nur wenig mehr als zehn Konfigurationen ohne Extraparameter mit einer $\ac{DR}>0.5$ gibt.
     Doch die Tabelle kann genutzt werden um noch einmal auf die Schwierigkeit der Auswahl der besten Konfigurationen hinzuweisen.
     Ist eine Konfiguration mit hoher \ac{DR} oder eine Konfiguration mit wenigen \acp{FP} zu bevorzugen?
     Oder konkret wie in diesem Fall, ist eine $\ac{DR}=0.71$ bei ca. $15$ Fehlern in grob acht Stunden Testaufnahmen der Konfiguration mit einer $\ac{DR}=0.56$ bei ca. $6$ Fehlern zu bevorzugen?
     Der Versuch eine beste Konfiguration auszuwählen soll nach Betrachtung der Konfigurationen mit Extraparametern unternommen werden.
 
-    %TODO Ergebnisse pro Szenario
+    Im \autoref{tab:LSTM_pro_szenario} werden für die beiden besten Konfigurationen alle Szenarien aufgeschlüsselt.
+    Zu erkennen ist dabei, dass in dem $CVE-2014-0160$ wie auch dem $CVE-2012-2122$ Szenario auch bei der Konfiguration mit der besten \ac{DR} insgesamt keine Angriffe erkannt werden. 
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{lrrcrr}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{6}{c}{Ohne Extraparameter - pro Szenario}\\
+            \toprule
+            Szenario & $\overline{\ac{FP}}$ & $\overline{\ac{DR}}$ & vs & $\overline{\ac{FP}}$ & $\overline{\ac{DR}}$ \\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $Bruteforce\_CWE-307$   &$60$ &$0.94$ & x & $15$ & 	$1.00$ \\
+            $CVE-2012-2122$        &$8$  &$0.01$ & x & $4$ & 	$0.03$ \\
+            \rowcolor{GruvGray!16}
+            $CVE-2014-0160$        &$3$  &$0.00$ & x & $1$ & 	$0.99$ \\
+            $CVE-2017-7529$        &$1$  &$0.99$ & x & $0$ & 	$0.05$ \\
+            \rowcolor{GruvGray!16}
+            $CVE-2018-3760$        &$11$ &$1.00$ & x & $9$ & 	$0.01$ \\
+            $CVE-2019-5418$        &$32$ &$1.00$ & x & $12$ & 	$1.00$ \\
+            \rowcolor{GruvGray!16}
+            $EPS\_CWE-434$          &$14$ &$1.00$ & x & $9$ & 	$1.00$ \\
+            $PHP\_CWE-434$          &$4$  &$0.96$ & x & $1$ & 	$1.00$ \\
+            \rowcolor{GruvGray!16}
+            $SQL\_Injection\_CWE-89$ &$1$  &$0.46$ & x & $1$ & 	$0.00$ \\
+            $ZipSlip$                & x & x & x & x & x \\
+            \hline
+        \end{tabular}
+        \caption[Ergebnisse auf Szenarien aufgeschlüsselt]{Auflistung der einzelnen Szenarien für die Konfiguration mit der höchsten \ac{DR} ($n=10$, $e=4$) links und der wenigsten \acp{FP} ($n=10$, $e=10$)}
+        \label{tab:LSTM_pro_szenario}
+    \end{table}
+    Dies lässt sich auch in \autoref{tab:LSTM_pro_szenario_allg} wiedererkennen. 
+    Hier wird die durchschnittliche \ac{DR} für alle Szenarien dargestellt.
+    Dabei werden bei vier Szenarien im Schnitt nur sehr wenige Angriffe erkannt.
+    Dazu gehören das $ZipSlip$ Szenario sowie $CVE-2012-2122$, $CVE-2014-0160$ und das $Bruteforce\_CWE-307$.
+    Problematisch sind dabei speziell das $ZipSlip$ Szenario sowie das $Bruteforce\_CWE-307$ Szenario, da sie zusätzlich zu einer geringen \ac{DR} auch zu vielen Fehlalarmen führen.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{lrr}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{3}{c}{Ohne Extraparameter - pro Szenario}\\
+            \toprule
+            Szenario & $\overline{\ac{FP}}$ & $\overline{\ac{DR}}$ \\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $Bruteforce\_CWE-307$  &$22.09$ & 	$0.29$ \\
+            $CVE-2012-2122$        &$14.00$ & 	$0.02$ \\
+            \rowcolor{GruvGray!16}
+            $CVE-2014-0160$        &$3.25$ & 	$0.08$ \\
+            $CVE-2017-7529$       &$0.58$  & 	$0.82$ \\
+            \rowcolor{GruvGray!16}
+            $CVE-2018-3760$        &$17.00$ & 	$1.00$ \\
+            $CVE-2019-5418$       &$12.17$  & 	$0.58$ \\
+            \rowcolor{GruvGray!16}
+            $EPS\_CWE-434$         &$14.80$ & 	$1.00$ \\
+            $PHP\_CWE-434$         &$10.09$ & 	$0.91$ \\
+            \rowcolor{GruvGray!16}
+            $SQL\_Injection\_CWE-89$&$9.81$ & 	$0.95$ \\
+            \rowcolor{CTurl!16}
+            $ZipSlip$              &$35.5$ & $0.15$ \\
+            \hline
+        \end{tabular}
+        \caption[Ergebnisse auf Szenarien aufgeschlüsselt]{Darstellung der durchschnittlichen \ac{DR} und \acp{FP} für alle Szenarien mit Konfigurationen ohne Extraparametern.
+        Dabei muss beachtet werden, dass bei den ZipSlip Ergebnissen weitaus weniger Konfigurationen in den Durchschnitt eingeflossen sind.}
+        \label{tab:LSTM_pro_szenario_allg}
+    \end{table}
+
 
 \section{Extra Parameter}\label{sec:erg_LSTM_extra}
     In \autoref{tab:LSTM_par_erg} werden die Ergebnisse der Konfigurationen mit Extraparametern angezeigt. 
@@ -210,35 +277,34 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \label{tab:LSTM_par_erg}
     \end{table}
 
-    Auch bei den Ergebnissen nach den geringsten \acp{FP} ist eine klare Verbesserung durch die Hinzunahme der Extraparametern zu erkennen.
+    Auch bei den Ergebnissen nach den geringsten \acp{FP} in \autoref{tab:LSTM_FP} ist eine klare Verbesserung durch die Hinzunahme der Extraparametern zu erkennen.
     So kann mit nur durchschnittlich $4.66$ Fehlalarmen bei einer \ac{DR} von $0.67$ eine deutliche Steigerung gegenüber durchschnittlich $5.78$ Fehlern bei einer \ac{DR} von $0.56$  erreicht werden.
-    Zusätzlich enthalten die besten fünf Ergebnisse Extraparameter. 
-    Interessant ist, dass auch hier wieder die Konfiguration $n=10$ und $e=4$ unter den besten Ergebnissen auftaucht.
+    Interessant ist, dass auch hier wieder die Konfiguration $n=10$ und $e=4$ unter den besten Ergebnissen auftaucht und das beide besten Ergebnisse durch Konfiguration $n=6$ und $e=8$ erreicht wurden.
 
     \begin{table}[ht]
         \centering
-        \begin{tabular}{rrrrrrrrr}
+        \begin{tabular}{rrrrrlr}
             \hline
             \rowcolor{GruvGray!36}
-            \multicolumn{9}{c}{Mit Extraparametern nach \ac{FP}}\\
+            \multicolumn{7}{c}{Mit Extraparametern nach \ac{FP}}\\
             \toprule
-            n-gram & embed & \textit{rv} & \ac{TCF} & \textit{time} & $\overline{\ac{FP}}$ & \ac{FP}\_sum & $\overline{\ac{DR}}$ & count\\
+            n-gram & embed & \textit{rv} & \ac{TCF} & \textit{time} & $\overline{\ac{FP}}$ & $\overline{\ac{DR}}$ \\
             \midrule
             \rowcolor{GruvGray!16}
-            $6$ & 	$8$ & 	$0$ & 	$0$ & 	$1$ & 	$4.66$ & 	$42$ & 	$0.67$ & 	$9$ \\
-            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5$    & 	$45$ & 	$0.74$ & 	$9$ \\
+            $6$ & 	$8$ & 	$0$ & 	$0$ & 	$1$ & 	$4.66$ & 	 	$0.67$ \\
+            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5$    & 	$0.74$\\
             \rowcolor{GruvGray!16}
-            $6$ & 	$4$ & 	$0$ & 	$0$ & 	$1$ & 	$5.38$ & 	$43$ & 	$0.64$ & 	$8$ \\
-            $2$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$5.38$ & 	$43$ & 	$0.51$ & 	$8$ \\
+            $10$ & 	$6$ & 	$0$ & 	$1$ & 	$0$ & 	$5.66$ & 	 	$0.60$ \\
+            $10$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$5.78$ & 	 	$0.56$ \\
             \rowcolor{GruvGray!16}
-            $10$ & 	$6$ & 	$0$ & 	$1$ & 	$0$ & 	$5.66$ & 	$51$ & 	$0.60$ & 	$9$ \\
-            $10$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$5.78$ & 	$52$ & 	$0.56$ & 	$9$ \\
+            $6$ & 	$4$ & 	$0$ & 	$0$ & 	$1$ & 	$5.80$ & 	 	$0.64$ \\
+            $6$ & 	$6$ & 	$1$ & 	$1$ & 	$1$ & 	$6.33$ & 	 	$0.66$ \\
             \rowcolor{GruvGray!16}
-            $6$ & 	$6$ & 	$1$ & 	$1$ & 	$1$ & 	$6.33$ & 	$57$ & 	$0.66$ & 	$9$ \\
-            $10$ & 	$6$ & 	$1$ & 	$0$ & 	$0$ & 	$6.33$ & 	$57$ & 	$0.55$ & 	$9$ \\
+            $10$ & 	$6$ & 	$1$ & 	$0$ & 	$0$ & 	$6.33$ & 	 	$0.55$ \\
+            $10$ & 	$6$ & 	$0$ & 	$0$ & 	$0$ & 	$6.44$ & 	 	$0.56$ \\
             \rowcolor{GruvGray!16}
-            $10$ & 	$6$ & 	$0$ & 	$0$ & 	$0$ & 	$6.44$ & 	$58$ & 	$0.56$ & 	$9$ \\
-            $6$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$7.33$ & 	$66$ & 	$0.56$ & 	$9$ \\
+            $6$ & 	$10$ & 	$0$ & 	$0$ & 	$0$ & 	$7.33$ & 	 	$0.56$ \\
+            $6$ & 	$6$ & 	$0$ &  	$0$ &  	$1$ &  	$7.89$ &   		$0.64$ \\ 
             \hline
         \end{tabular}
         \caption[Ergebnisse mit Extraparametern nach FP]{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
@@ -247,42 +313,83 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \label{tab:LSTM_FP}
     \end{table}
 
-    %TODO Ergebnisse pro Szenario
+    Wie in \autoref{sec:erg_struk} beschrieben kann die Betrachtung des Mittelwertes auch für nicht repräsentative Ergebnisse sorgen.
+    Dadurch können gute Konfigurationen übersehen werden.
+    Denn wie in \autoref{tab:LSTM_pro_szenario_allg_param} dargestellt werden die Ergebnisse mit Hinzunahme im Schnitt nicht deutlich besser.
+    Dies kann zu einem frühzeitigen Ausschluss bestimmter Konfigurationen führen.
+    Die Verbesserungen zu \autoref{tab:LSTM_pro_szenario_allg} werden mit blau und die Verschlechterungen mit rot dargestellt.
+    Eine deutliche Verbesserungen ist dabei nicht zu erkennen.
 
-    In \autoref{tab:LSTM_vs} werden die zwei Gewinnerkonfigurationen aus \autoref{tab:LSTM_par_erg} und \autoref{tab:LSTM_FP} gegenübergestellt.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{lrrrr}
+            \hline
+            \rowcolor{GruvGray!36}
+            \multicolumn{5}{c}{Mit Extraparameter - pro Szenario}\\
+            \toprule
+            Szenario & $\overline{\ac{FP}}$ & $\Delta$ & $\overline{\ac{DR}}$ & $\Delta$ \\
+            \midrule
+            \rowcolor{GruvGray!16}
+            $Bruteforce\_CWE-307$  &$25.82$ &{\color{CTurl} $3.73$} & 	$0.30$  &{\color{CTurl}$0.01$}\\ 
+            $CVE-2012-2122$        &$11.82$ &{\color{CTlink}$2.19$} & 	$0.03$  &{\color{CTlink}$0.01$}\\
+            \rowcolor{GruvGray!16}
+            $CVE-2014-0160$        &$5.95$ &{\color{CTurl}$2.7$}  & 	$0.01$  &{\color{CTurl}$0.07$}\\
+            $CVE-2017-7529$        &$1.25$  &{\color{CTlink}$0.67$} & 	$0.90$  &{\color{CTlink}$0.08$}\\
+            \rowcolor{GruvGray!16}
+            $CVE-2018-3760$        &$8.82$ &{\color{CTlink}$8.18$}  &	$1.00$  &{\color{CTlink}$0.00$}\\
+            $CVE-2019-5418$       &$7.00$  &{\color{CTlink}$5.17$}  &	$0.58$  &{\color{CTlink}$0.00$}\\
+            \rowcolor{GruvGray!16}
+            $EPS\_CWE-434$         &$18.56$ &{\color{CTurl}$3.76$} & 	$0.97$  &{\color{CTurl}$0.03$}\\
+            $PHP\_CWE-434$         &$13.22$ &{\color{CTurl}$3.13$} & 	$0.91$  &{\color{CTlink}$0.00$}\\
+            \rowcolor{GruvGray!16}
+            $SQL\_Injection\_CWE-89$&$25.51$ &{\color{CTurl}$15.70$}& 	$0.99$  &{\color{CTlink}$0.04$}\\
+            \rowcolor{CTurl!16}
+            $ZipSlip$              &$11.64$ &{\color{CTlink}$23.86$} &   $0.19$ &{\color{CTlink}$0.04$}\\
+            \hline
+        \end{tabular}
+        \caption[Ergebnisse auf Szenarien aufgeschlüsselt]{Darstellung der durchschnittlichen \ac{DR} und \acp{FP} für alle Szenarien mit Konfigurationen ohne Extraparametern.
+        Dabei muss bei den ZipSlip beachtet werden, dass weitaus weniger Konfigurationen in den Durchschnitt eingeflossen sind.}
+        \label{tab:LSTM_pro_szenario_allg_param}
+    \end{table}
+
+    In \autoref{tab:LSTM_vs} werden die zwei Gewinnerkonfigurationen aus \autoref{tab:LSTM_par_erg} und \autoref{tab:LSTM_FP} mit jeweils den Gewinnerkonfigurationen ohne Extraparametern gegenübergestellt.
     Dabei werden die Ergebnisse jedes Szenarios angegeben. 
-    {\color{red} Ergebnisse abwarten}
+    Auffällig dabei ist die unterschiedliche Verteilung welche Szenarien vergleichsweise gut gelöst werden.
+    In \autoref{tab:LSTM_vs} ist zu erkennen, dass ohne Extraparameter das $CVE-2014-0160$ Szenario gut gelöst wird.
+    Diese ist wie in \autoref{tab:LSTM_pro_szenario_allg} beschrieben im Schnitt eines der am schlechtesten gelösten Szenarien.
+    Hingegen werden die vermeintlich einfachen Szenarien wie das $CVE-2018-5418$ nicht gut gelöst.
+    Im Vergleich werden mit Extraparametern das Bruteforce, $CVE-2012-2122$ und das $CVE-2014-0160$ Szenario nicht gut gelöst und alle anderen haben eine sehr hohe \ac{DR} bei einer geringen Anzahl an Fehlalarmen.
 
     \begin{table}[ht]
         \centering
         \begin{tabular}{lrrrrr}
             \hline
             \rowcolor{GruvGray!36}
-            \multicolumn{6}{c}{Vergleich Konfiguration mit höchster \ac{DR} vs niedrigste \ac{FP}-Rate}\\
+            \multicolumn{6}{c}{Vergleich beste Konfiguration nach \ac{DR}}\\
             \hline
-            Szenario & \ac{FP} & \ac{DR} & vs & \acp{FP} & \ac{DR}\\
+            Szenario & \ac{FP} & \ac{DR} & vs.\ & \acp{FP} & \ac{DR}\\
             \toprule
             \rowcolor{GruvGray!16}
-            Bruteforce CWE-307   & $29$ & $0.939$ & x & $12$ & $0.643$ \\
-            CVE-2012-2122 	      & $18$ & $0.987$ & x & $14$ & $0.052$ \\
+            Bruteforce CWE-307    & $60$ & $0.94$ & x & {\color{CTlink}$29$} &{\color{CTlink}$0.94$} \\
+            CVE-2012-2122 	      & $8$ & $0.01$ & x & {\color{CTurl}$18$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16}
-            CVE-2014-0160 	      & $13$ & $0.030$ & x & $4$  & $0.010$ \\
-            CVE-2017-7529 	      & $0$  & $0.989$ & x & $1$  & $0.989$ \\
+            CVE-2014-0160 	      & $3$ & $0.00$ & x & {\color{CTurl}$13$} &{\color{CTlink}$0.03$} \\
+            CVE-2017-7529 	      & $1$  & $0.99$ & x & {\color{CTlink}$0$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16} 
-            CVE-2018-3760 	      & $4$  & $1$ & x & $1$  & $1$ \\
-            CVE-2019-5418 	      & $7$  & $1$ & x & $1$  & $0.951$ \\
+            CVE-2018-3760 	      & $11$  & $1.00$ & x & {\color{CTlink}$4$} &{\color{CTlink}$1.00$} \\
+            CVE-2019-5418 	      & $32$  & $1.00$ & x & {\color{CTlink}$7$} &{\color{CTlink}$1.00$} \\
             \rowcolor{GruvGray!16}
-            PHP CWE-434 	      & $24$ & $1$ & x & $3$  & $1$\\
-            SQL Injection CWE-89 &	$82$ & $1$ & x & $5$  & $1$\\
+            EPS CWE-434 	      & $14$ & $1.00$ & x & {\color{CTurl}$29$} &{\color{CTlink}$1.00$} \\
+            PHP CWE-434 	      & $4$ & $0.96$ & x & {\color{CTurl}$24$} &{\color{CTlink}$.1.00$} \\
             \rowcolor{GruvGray!16}
-            EPS CWE-434 	      & $29$ & $1$ & x & $4$  & $1$ \\
+            SQL Injection CWE-89 &	$1$ & $0.46$ & x & {\color{CTurl}$82$} &{\color{CTlink}$1.00$} \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}
-        \caption[Vergleich DR vs FP]{Vergleich bester Ergebnisse.
-                Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
-                Niedrigste \ac{FP}-Rate rechts mit folgenden Parametern: $n=10, e=4, rv=0, \ac{TCF}=1, time=0$}
-        \label{tab:LSTM_vs}
+        \caption[Vergeleich DR ohne Extraparameter vs.\ mit Extraparameter ]{Vergleich bester Ergebnisse. Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=0$.
+                Höchste \ac{DR} rechts mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
+                Eine Verschlechterung wird mit Rot hervorgehoben, ansonsten Blau.}
+        \label{tab:LSTM_vs_alternative}
     \end{table}
 
     \begin{table}[ht]
@@ -290,31 +397,32 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \begin{tabular}{lrrrrr}
             \hline
             \rowcolor{GruvGray!36}
-            \multicolumn{6}{c}{Vergleich Konfiguration mit höchster \ac{DR} vs niedrigste \ac{FP}-Rate}\\
+            \multicolumn{6}{c}{Vergleich beste Konfiguration nach \ac{FP}}\\
             \hline
             Szenario & \ac{FP} & \ac{DR} & vs & \acp{FP} & \ac{DR}\\
             \toprule
             \rowcolor{GruvGray!16}
-            Bruteforce CWE-307   & $29$ & $0.939$ & x & $10$ & $0.071$ \\
-            CVE-2012-2122 	      & $18$ & $0.987$ & x & $10$ & $0.019$ \\
+            Bruteforce CWE-307    & $15$ & $1.00$ & x & {\color{CTlink}$10$} &{\color{CTurl}$0.07$} \\
+            CVE-2012-2122 	      & $4$ & $0.03$& x & {\color{CTurl}$10$} &{\color{CTlink}$0.02$} \\
             \rowcolor{GruvGray!16}
-            CVE-2014-0160 	      & $13$ & $0.030$ & x & $5$  & $0$ \\
-            CVE-2017-7529 	      & $0$  & $0.989$ & x & $3$  & $0.989$ \\
+            CVE-2014-0160 	      & $1$ & $0.99$ & x & {\color{CTurl}$5$} &{\color{CTurl}$0.00$} \\
+            CVE-2017-7529 	      & $0$  & $0.05$ & x & {\color{CTurl}$3$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16} 
-            CVE-2018-3760 	      & $4$  & $1$ & x & $0$  & $1$ \\
-            CVE-2019-5418 	      & $7$  & $1$ & x & $3$  & $0.990$ \\
+            CVE-2018-3760 	      & $9$  & $0.01$ & x & {\color{CTlink}$0$} &{\color{CTlink}$1.00$} \\
+            CVE-2019-5418 	      & $12$  & $1.00$ & x & {\color{CTlink}$3$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16}
-            PHP CWE-434 	      & $24$ & $1$ & x & $1$  & $1$\\
-            SQL Injection CWE-89 &	$82$ & $1$ & x & $1$  & $1$\\
+            EPS CWE-434 	      & $9$ & $1.00$ & x & {\color{CTlink}$9$} &{\color{CTlink}$1.00$} \\
+            SQL Injection CWE-89 &	$1$ & $1.00$ & x & {\color{CTlink}$1$} &{\color{CTlink}$1.00$} \\
             \rowcolor{GruvGray!16}
-            EPS CWE-434 	      & $29$ & $1$ & x & $9$  & $1$ \\
+            PHP CWE-434 	      & $1$ & $0.00$ & x & {\color{CTlink}$1$} &{\color{CTlink}$1.00$} \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}
-        \caption[Vergeleich DR vs FP für spezifische Konfiguration]{Vergleich bester Ergebnisse.
-                Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
-                Niedrigste \ac{FP}-Rate rechts mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=1$}
-        \label{tab:LSTM_vs_alternative}
+        \caption[Vergeleich FP ohne Extraparameter vs.\ mit Extraparameter ]{Vergleich bester Ergebnisse.
+                Niedrigste \acp{FP} links mit folgenden Parametern: $n=10, e=10, rv=0, \ac{TCF}=0, time=0$.
+                Niedrigste \acp{FP} rechts mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=1$.
+                Eine Verschlechterung wird mit Rot hervorgehoben, ansonsten Blau.}
+        \label{tab:LSTM_vs}
     \end{table}
 
     In \autoref{tab:LSTM_para_vgl} wird jeweils der Mittelwert der besten fünf Konfigurationen, ausgewählt nach der besten \ac{DR}, für die verschiedenen Kombinationen der Extraparametern.
@@ -367,7 +475,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
                 $1$ & $1$ & $1$ & $16.5$ & $0.736$ \\
                 \hline
             \end{tabular}}
-        \caption[Parameter Vergleich]{Vergleich Parameter, Auswahl jeweils beste 5 Ergebnisse nach \ac{DR}. Einmal nach \ac{DR} sortiert links und nach \ac{FP} sortiert rechts}
+        \caption[Parameter Vergleich]{Vergleich Parameter, Auswahl jeweils Mittelwert der besten fünf Ergebnisse nach \ac{DR}. Einmal nach \ac{DR} sortiert links und nach \ac{FP} sortiert rechts}
         \label{tab:LSTM_para_vgl}
     \end{table}
 
@@ -380,6 +488,8 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Ein \ac{SW} wird ähnlich zu einem n-gram aufgenommen.
     Dafür werden aber nur die Anomaliescores der einzelnen n-gramme genommen und gemittelt.
     Ein Alarm beinhaltet dann wie in diesem speziellen Fall $1000$ n-gramme. 
+    Nach dieser Darstellung ist die \ac{DR} wesentlich geringer, als die des \ac{STIDE}.
+    Hingegen kann eine klare Verminderung der \acp{FP} erreicht werden.
     
     \begin{table}[ht]
         \centering
@@ -394,10 +504,10 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \rowcolor{GruvGray!16}
             best \ac{DR} LSTM & $6$ & 	$8$ & $1$ & 	$1$ & 	$1$ & 	$1$ & 	$22.89$& 	$0.88$ \\
             \rowcolor{GruvGray!16}
-            best \ac{FP} LSTM & $10$ & 	$4$ & $1$ &	$0$ & 	$1$ & 	$0$ & 	$5.03$ & 	$0.71$ \\
+            best \ac{FP} LSTM & $6$ & 	$8$ & $1$ &	$0$ & 	$0$ & 	$1$ & 	$4.66$ & 	$0.67$ \\
             \hline
         \end{tabular}
-        \caption{}
+        \caption[Vergeich mit STIDE]{Vergleich mit nach Grimmer et al.~\cite{IDSTHREADGRIMMER2021} besten STIDE Konfiguration mit den besten Ergebnissen dieser Arbeit.}
         \label{tab:LSTM_stide_erg}
     \end{table}
 
@@ -405,6 +515,8 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Diese lauten: Level $1$ \acp{FP}<40, Level $2$ \acp{FP}<20, Level $3$ \acp{FP}<10, Level $4$ \acp{FP}<5, Level $5$ \acp{FP}<2.5.
     In \autoref{tab:LSTM_lvl} wird für jedes Level die beste Konfiguration dieser Arbeit, links, mit der Arbeit von~\cite{IDSTHREADGRIMMER2021}, rechts, verglichen.
     Dabei werden auch die noch andere Algorithmen wie \ac{BOSC}, \ac{AE} und \ac{MLP} untersucht.
+    Insgesamt erkennbar, dass der \ac{LSTM}-Ansatz auf allen Leveln bis auf Level $5$ ähnlich  gut abschneidet, aber stets schlechter.
+    Was daraus zu schließen ist soll im nächste Kapitel besprochen werden.
 
 
     \begin{table}[ht]
@@ -433,11 +545,12 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             5 & x &  x & x & x &	x &	x & 	x & 	x   & 	x \\
             \hline
         \end{tabular}
-        \caption{}
+        \caption[Vergleich mit Ergebnissen aus anderen Arbeiten, nach FP-Level]{Vergleich weiterer Algorithmen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021}.
+                Dabei werden wie in~\cite{IDSTHREADGRIMMER2021} die Ergebnisse nach verschiedenen Leveln von \ac{FP} Grenzwerten eingeteilt.
+                Level 1 \acp{FP}<40,Level 2 \acp{FP}<20, Level 3 \acp{FP}<10, Level 4 \acp{FP}<5, Level 5 \acp{FP}<1.5.}
         \label{tab:LSTM_lvl}
     \end{table}
 
-%TODO Betrachtung 2014 Szenario??
 
 
 
