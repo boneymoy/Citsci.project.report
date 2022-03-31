@@ -20,7 +20,7 @@ Ein weiterer Nachteil der Anomalieerkennung durch ein \ac{LSTM} besteht darin, d
 Die größte Schwierigkeit mit einem \ac{LSTM} ist dabei, dass Parallelisierung nur geringfügigen Einfluss auf die Berechnungszeit hat.
 Grundproblem dabei ist die Rekurrenz des Netzes. 
 Die Ausgabe des letzten Zeitschrittes muss bekannt sein um die Ausgabe des aktuellen Zeitschrittes berechnen zu können.
-So kann daraus gefolgert werden, dass der reine Einsatz von \acp{LSTM} nur auf der Sequenz der System Call Namen keine Verbesserung im Vergleich mit zum Beispiel der \ac{STIDE} Implementierung von Grimmer et al.\cite{IDSTHREADGRIMMER2021} erreicht werden kann.
+So kann daraus gefolgert werden, dass der reine Einsatz von \acp{LSTM} nur auf der Sequenz der System Call Namen keine Verbesserung im Vergleich mit zum Beispiel der \ac{STIDE} Implementierung von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} erreicht werden kann.
 Das liegt wahrscheinlich daran, dass die Muster in den Sequenzen nicht komplex genug sind, dass die Aufwendige Implementierung der \acp{LSTM} zu trage kommen.
 
 Wie dies unter der Verwendung von Extraparametern aussieht wird im Folgenden betrachtet.
@@ -35,7 +35,7 @@ Es ist jeweils nur noch eine Konfiguration unter den besten zehn mit einer n-gra
 Im Vergleich zu drei bzw.\ vier der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.\marginpar{jeweils auf höchste \ac{DR} und niedrigste \ac{FP}-Rate bezogen}
 Dies spiegelt eventuell die zunehmende Komplexität der Eingaben wieder.  
 
-Konfiguration $n=10$ und $e=4$ kommt häufig vor.
+Konfiguration $n=10$ und $e=4$ kommt häufig vor und $6$ und $8$.
 
 Nach leveln schlechter. 
 Aber nach bester Konfiguration selber schneidet es besser ab als \ac{STIDE}
