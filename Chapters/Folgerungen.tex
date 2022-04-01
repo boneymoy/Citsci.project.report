@@ -1,31 +1,36 @@
 %*****************************************
 \chapter{Folgerungen}\label{ch:folgerungen}
 %*****************************************
-Nachdem die Ergebnisse der Versuchsreihen präsentiert wurden sollen im Folgenden Einschätzungen der Ergebnisse erfolgen.
-Neben dem Vergleich zu bestehenden Arbeiten soll dabei auch ein Bezug auf den Einsatz in der Praxis gemacht werden.
-\section{LSTM Ansatz}
+Nachdem die Ergebnisse der Versuchsreihen vorgestellt wurden, folgt nun eine Bewertung der Ergebnisse.
+Dafür wird in \autoref{sec:folgerungen_LSTM} zunächst nur die Ergebnisse des \ac{LSTM} Ansatz besprochen.
+Im Anschluß wird in \autoref{sec:folgerungen_extra} die Folgerungen aus den Experimenten mit Extraparametern erörtert. 
+Schließlich werden in \autoref{sec:conclusions_vgl} die Ergebnisse des Vergleichs anderer Arbeiten mit demselben Datensatz besprochen
+
+\section{LSTM Ansatz}\label{sec:folgerungen_LSTM}
 
 Die Ergebnisse beim Einsatz von \ac{LSTM} in der anomaliebasierten \ac{HIDS} zeigen zwei Dinge sehr deutlich.
-Der aus der \ac{NLP} Ansatz kann erfolgreich in der \ac{HIDS} eingesetzt werden.
+%Der aus der \ac{NLP} bekannte Ansatz kann erfolgreich in der \ac{HIDS} eingesetzt werden.
 Das \ac{LSTM} kann ein Sprachmodell der System Calls erstellen und damit erfolgreich System Calls vorhersagen.
-Dies konnten auch andere Arbeiten zeigen, doch wie zuvor in \autoref{sec:related_nlp} beschrieben erfolgten die Auswertungen bisher auf veralteten Datensätzen, mit praxisfernen Metriken und oft ohne detaillierte Beschreibung des Aufbaus.
+Dies konnten auch andere Arbeiten zeigen, doch wie zuvor in \autoref{sec:related_nlp} beschrieben, erfolgten die Auswertungen bisher auf veralteten Datensätzen, mit praxisfernen Metriken und oft ohne detaillierte Beschreibung des Aufbaus.
 Aufgrund dessen kann leider kein direkter Vergleich der Architekturen der \acp{LSTM} gezogen werden.
 
-Zumindest ohne Parameter konnten die Ergebnisse der Experimente dabei für die n-gram und der Embidding Größe keinen klaren Trend abbilden.
+Die Ergebnisse der Experimente konnten für die n-gram und Embidding Größe keinen klaren Trend abbilden.
 So können bei einer n-gram Größe von $n=10$ und einer Embedding Größe von $e=4$ ähnlich gute Ergebnisse erzielt werden wie bei $n=2$ und $e=4$.
 Allerdings ist der Berechnungsaufwand gerade bei großem $n$ sehr hoch.
 Speziell bei sehr großen Szenarien hat dies in dieser Arbeit zu Ressourcenengpässen geführt.
 So konnten wie zuvor Beschrieben einige Konfigurationen nicht auf dem größten Szenario des \acp{LID-DS} berechnet werden.
 Ein weiterer Nachteil der Anomalieerkennung durch ein \ac{LSTM} besteht darin, dass ein GPU für eine effiziente Berechnung nötig ist.
-Die größte Schwierigkeit mit einem \ac{LSTM} ist dabei, dass Parallelisierung nur geringfügigen Einfluss auf die Berechnungszeit hat.
+Hinzu kommt, dass mit einem \ac{LSTM} eine Parallelisierung nur geringfügigen Einfluss auf die Berechnungszeit hat.
 Grundproblem dabei ist die Rekurrenz des Netzes. 
 Die Ausgabe des letzten Zeitschrittes muss bekannt sein um die Ausgabe des aktuellen Zeitschrittes berechnen zu können.
 So kann daraus gefolgert werden, dass der reine Einsatz von \acp{LSTM} nur auf der Sequenz der System Call Namen keine Verbesserung im Vergleich mit zum Beispiel der \ac{STIDE} Implementierung von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} erreicht werden kann.
-Das liegt wahrscheinlich daran, dass die Muster in den Sequenzen nicht komplex genug sind, dass die Aufwendige Implementierung der \acp{LSTM} zu trage kommen.
+Aus den vorliegenden Ergebnissen kann der Einsatz von \acp{LSTM} in der beschriebenen Architektur, ohne die Verwendung von zusätzlichen Parametern keine Verbesserung erzielen.
+Daraus lässt sich schließen, dass \acp{LSTM} ohne die Verwendung zusätzlicher Parameter aufgrund des mit der Berechnung verbundenen Mehraufwands keine nennenswerten Vorteile bringen konnte.
+% Das liegt wahrscheinlich daran, dass die Muster in den Sequenzen nicht komplex genug sind, dass die Aufwendige Implementierung der \acp{LSTM} zu trage kommen.
 
 Wie dies unter der Verwendung von Extraparametern aussieht wird im Folgenden betrachtet.
 
-\section{Einsatz von Extraparametern}
+\section{Einsatz von Extraparametern}\label{sec:folgerungen_extra}
 
 Wie in \autoref{sec:erg_LSTM_extra} beschrieben kann eine deutliche Verbesserung der \ac{DR} sowie  der \ac{FP}-Rate mit dem Einsatz verschiedener Extraparameter erzielt werden.
 So sind unter $9$ von $10$ der besten Ergebnisse nach \ac{DR} und $7$ von $10$ nach \ac{FP}-Rate Konfigurationen mit mindestens einem Extraparameter.
@@ -39,3 +44,6 @@ Konfiguration $n=10$ und $e=4$ kommt häufig vor und $6$ und $8$.
 
 Nach leveln schlechter. 
 Aber nach bester Konfiguration selber schneidet es besser ab als \ac{STIDE}
+
+\section{Vergleich anderer Arbeiten}\label{sec:folgerungen_extra}
+

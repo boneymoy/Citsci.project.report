@@ -100,7 +100,7 @@
                     \begin{figure}
                         \centering
                         \includegraphics[width=\textwidth]{images/CVE-2012--Test-data-time_delta.eps}
-                        \caption[ass]{Dargestellt ist der zeitliche Abstand zwischen zwei System Calls aus dem selben Thread.
+                        \caption[Zeitliche Abstände zwischen System Calls]{Dargestellt ist der zeitliche Abstand zwischen zwei System Calls aus dem selben Thread.
                                  Diese werden in ihrer Häufigkeit in Prozent an allen auftretenden Abstände in dem Plot eingetragen.
                                  Verwendet wurden dafür nur die Testdaten. Links für das Bruteforce Szenario und rechts für das CVE-2019-5418 Szenario.
                                  Blau: Nur Normalverhalten, Rot: Normalverhalten und Angriffsverhalten}
@@ -206,7 +206,7 @@
                     \begin{figure}[ht]
                         \centering
                         \includegraphics[width=\textwidth]{images/return_2017_plot.pdf}
-                        \caption[ass1]{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des \ac{LID-DS}~\cite{LID-DS} $CVE-2017-7529$ Szenarios.
+                        \caption[Histogramm der geschriebenen und gelesenen Bytewerte]{Histogramm der gelesenen/erhaltenen Bytes für die Testdaten des \ac{LID-DS}~\cite{LID-DS} $CVE-2017-7529$ Szenarios.
                         Dargestellt wird dabei immer der Anteil einer Rückgabewertgröße in Byte an allen Rückgabewertgrößen der besagten System Calls.
                         Links oben für die von den System Calls \textit{write, pwrite} und \textit{writev} geschriebenen Bytes.
                         Rechts oben für die von \textit{read, pread} und \textit{readv} gelesenen Bytes.
@@ -244,7 +244,7 @@
                 \begin{figure}
                     %thread ngram image
                     \includegraphics[width=\textwidth]{images/ngram.pdf}
-                    \caption[ass2]{Erstellung der N-Gramme mit $n=2$ aus einem Datenstream von System Calls.
+                    \caption[Erstellung N-Gramme]{Erstellung der N-Gramme mit $n=2$ aus einem Datenstream von System Calls.
                         Links ohne und rechts mit der Beachtung der Threadinformation.
                         Die dabei entstehenden N-Gramme dienen als Eingabe für den bewertenden Algorithmus.
                         Die Reihenfolge der entstehenden N-Gramme als Eingaben ist dabei von oben nach unten.
@@ -270,7 +270,7 @@
                     %thread ngram image
                     \centering
                     \includegraphics[width=0.6\textwidth]{images/tcf.pdf}
-                    \caption[ass3]{Analog zu \autoref{fig:ngram_thread} werden N-Gramme erzeugt.
+                    \caption[Erstellung Thread Aware N-Gramme]{Analog zu \autoref{fig:ngram_thread} werden N-Gramme erzeugt.
                              Diese werden nun mit der \ac{TCF} angereichert.
                              Initial ist die \ac{TCF} $0$.
                              Ist das zuvor ausgegeben n-gram aus demselben Thread, ist die \ac{TCF} ebenfalls $0$.
@@ -318,7 +318,7 @@
         \begin{figure}[ht]
             \centering
             \includegraphics[width=0.7\textwidth]{images/lstm.pdf}
-            \caption[ass4]{Aufbau des \ac{LSTM} mit $64$ Neuronen für die \ac{LSTM}- und Linear-Layer.
+            \caption[Aufbau des \ac{LSTM}]{Aufbau des \ac{LSTM} mit $64$ Neuronen für die \ac{LSTM}- und Linear-Layer.
                 Die Input Layer besitzt $(e + ret + time) * n$ Neuronen, mit $e$ für die Größe des \ac{W2V}-Embeddings,
                 $ret=1$ falls Rückgabewerte verwendet werden und $time=1$ falls die Zeitabstände verwendet werden.
                 Ansonsten sind $ret=0$ und $time=0$.
@@ -391,7 +391,7 @@
             \begin{figure}
                 \centering
                 \includegraphics[width=0.75\textwidth]{images/Process_overview.pdf}
-                \caption[ass44]{Ablauf der Trainingsphase mit Beispieldaten.
+                \caption[Algorithmus - Ablauf Trainingsphase]{Ablauf der Trainingsphase mit Beispieldaten.
                         Aus Trainingsdaten wird ein n-gram aus \ac{W2V}, Rückgabewert (\textit{ret}) und Zeitabstand (\textit{time}) erstellt.
                         Diese beiden Extraparameter sind bläulich hervorgehoben.
                         Zusätzlich wird die \ac{TCF} an das n-gram gefügt.
@@ -423,7 +423,7 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=0.8\textwidth]{images/Validation_overview.pdf}
-                \caption[ass2]{Ähnlich zu \autoref{fig:training} wird hier der Validierungsablauf beschrieben.
+                \caption[Algorithmus - Ablauf Validierungsphase]{Ähnlich zu \autoref{fig:training} wird hier der Validierungsablauf beschrieben.
                          Dabei wird wie zuvor ein Datenauszug dargestellt sowie die Auftrittswahrscheinlichkeiten für den folgenden System Call.
                          In der Test-, wie in der Validierungsphase dient die Wahrscheinlichkeit des Integerwerts des tatsächlich als nächstes auftretende System Call als Berechnungsgrundlage für den Anomaliescore.
                         Wie unten in der Abbildung dargestellt, wird das Maximum der $ascore$s der gesamten Validierungsdaten als Schwellwert festgelegt.}
@@ -466,7 +466,7 @@
                 \begin{figure}
                     \centering
                     \includegraphics[width=\textwidth]{images/learning_rate.pdf}
-                    \caption[ass]{Darstellung der Lernrate für zwei Szenarien.
+                    \caption[Parameterwahl - Fehler während des Trainings]{Darstellung des Fehlers während des Trainingsvorgangs für zwei Szenarien.
                              Zum einen ist ein Lernfortschritt zu erkennen und zum anderen tritt dieser bereits nach wenigen Epochen ein.}\label{fig:learning_rate}
                 \end{figure}
 
@@ -476,9 +476,9 @@
             \paragraph{Zu ermittelnde Parameter}
             Ziel ist es eine Konfiguration der Parameter zu finden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
             Dafür gilt es speziell verschiedene \textbf{n-gram} Größen in Kombination mit verschiedenen Größen für das \textbf{\ac{W2V}-Embedding} zu finden.
-                Für die n-gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
-                Zusätzlich soll untersucht werden ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
-                Speziell wird getestet ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
+            Für die n-gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
+            Zusätzlich soll untersucht werden ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
+            Speziell wird getestet ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
                 
 \iffalse
     \section{Strukturierung der Experimente}\label{sec:StrukExp}
@@ -599,7 +599,7 @@
     \begin{figure}
         \centering
         \includegraphics[width=0.75\textwidth]{images/Illustrationen/Precision.pdf}
-        \caption[ass]{Visualisierung der Berechnung der häufig verwendeten Metriken der Precision und des Recalls, bezogen auf die Domäner der \textit{Intrusion Detection}.}\label{fig:metriken}
+        \caption[Darstellung Precision und Recall]{Visualisierung der Berechnung der häufig verwendeten Metriken der Precision und des Recalls, bezogen auf die Domäner der \textit{Intrusion Detection}.}\label{fig:metriken}
     \end{figure}
     Diese werden wie in \autoref{fig:metriken} dargestellt berechnet.
     Da der Datensatz aus System Calls besteht bedeutet Recall in diesem Fall, der Anteil an korrekt erkannten bösartigen System Calls, an allen bösartigen System Calls.

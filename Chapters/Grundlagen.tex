@@ -2,20 +2,8 @@
 \chapter{Grundlagen}\label{ch:Grundlagen}
 %*****************************************
     In den folgenden Abschnitten werden die Grundlagen betrachtet, welche für die Umsetzung eines \ac{IDS} nötig sind.
-    Zu Beginn soll in~\autoref{sec:Datenanalyse} geklärt werden welche Analysetechniken für die Überwachung von Systemen zur Verfügung stehen.
+    Zu Beginn soll in~\autoref{sec:Datenanalyse} besprochen werden welche Analysetechniken für die Überwachung von Systemen zur Verfügung stehen.
     In~\autoref{sec:Datenerfassung} wird dann auf mögliche Orte der Erfassung und in~\autoref{sec:syscalls} auf die eigentliche Daten für die Überwachung, die System Calls, eingegangen.
-
-                \begin{figure}[ht]
-                    %thread ngram image
-                    \centering
-                    \includegraphics[width=0.6\textwidth]{images/tcf.pdf}
-                    \caption[ass3]{Analog zu \autoref{fig:ngram_thread} werden N-Gramme erzeugt.
-                             Diese werden nun mit der \ac{TCF} angereichert.
-                             Initial ist die \ac{TCF} $0$.
-                             Ist das zuvor ausgegeben n-gram aus demselben Thread, ist die \ac{TCF} ebenfalls $0$.
-                             Findet ein Wechsel des Threads statt, wird dieser Kontextwechsel durch das Setzen der \ac{TCF} auf $1$ signalisiert.}\label{fig:ngram_tcf}
-                \end{figure}
-
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des in der Arbeit verwendeten Algorithmus untersucht werden.
     Dazu werden in~\autoref{sec:KNN} \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen beschrieben.
@@ -166,7 +154,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.7\textwidth]{images/Illustrationen/IDS/IDSOverview}
-                    \caption[ass]{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
+                    \caption[Einordnung der Arbeit in die Struktur der \ac{IDSs}]{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
                 \end{figure}
                 Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
                 in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
@@ -209,7 +197,7 @@
                 write& Schreibt bis zu \textit{count} Bytes aus dem Buffer (ab Stelle \textit{buf}) in die File, welche über den \textit{file descriptor}$fd$ definiert wird. & $fd$, $*buf$, \textit{count} & Geschriebene Bytes oder Fehlerwert\\
                 \hline
             \end{tabular}
-            \caption[ass]{Kurzbeschreibung ausgewählter System Calls}
+            \caption{Kurzbeschreibung ausgewählter System Calls}
             \label{tab:syscall}
         \end{table}
 
@@ -227,7 +215,7 @@
         \begin{figure}[ht]
             \centering
             \includegraphics[width=1\textwidth]{images/Illustrationen/IDS/syscalls}
-            \caption[ass]{Darstellung der Kommunikation zwischen Applikationen aus dem User space mit dem System Kernel und dem Kernel mit Dateien/Netzwerk/Hardware/\dots}
+            \caption[Abstrahierte Darstellung eines System Calls innerhalb eines Computers]{Darstellung der Kommunikation zwischen Applikationen aus dem User space mit dem System Kernel und dem Kernel mit Dateien/Netzwerk/Hardware/\dots}
             \label{fig:syscallAblauf}
         \end{figure}
 
@@ -342,7 +330,7 @@
                         ZipSlip & \makecell[l]{\textbf{Setup:} Uploading Portal für Zip Dateien\\ \textbf{Schwachstelle:} Dateien werden ohne Überprüfung \\ dekomprimiert} \\
                         \hline
                     \end{tabular}
-                    \caption[ass]{Kurzbeschreibung der in dem Datensatz vorkommenden Szenarien und den dazugehörigen Sicherheitslücken~\cite{LIDDS}}
+                    \caption[Kurzbeschreibung der Szenarien des \ac{LID-DS}]{Kurzbeschreibung der in dem Datensatz vorkommenden Szenarien und den dazugehörigen Sicherheitslücken~\cite{LIDDS}}
                     \label{tab:scenarien}
                 \end{table}
 
@@ -371,7 +359,7 @@
                         recording\_time& 53 & 40 \\
                         exploit\_start\_time &-1 & 15\\
                     \end{tabular}
-                    \caption[ass]{Ausschnitt aus der runs.csv des \ac{LID-DS}, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
+                    \caption[Ausschnitt der runs.csv des \ac{LID-DS}]{Ausschnitt aus der runs.csv des \ac{LID-DS}, welche unter anderem die Labels für Angriffsfiles und Normalfiles enthalten.~\cite{LIDDS}}
                     \label{tab:runsfile}
                 \end{table}
                 \begin{table}[ht]
@@ -395,7 +383,7 @@
                         evtent args & $res=612$, $offset=1225$ & &\makecell{$fd=12(<4t>172.131.12.1:123 $\\ $\rightarrow172.13.231.2:123)$, $size=2392$} \\
                         \hline
                     \end{tabular}
-                    \caption[ass]{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem \ac{LID-DS}~\cite{LIDDS}}
+                    \caption[Ausschnitt aus dem \ac{LID-DS}]{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem \ac{LID-DS}~\cite{LIDDS}}
                     \label{tab:syscallfile}
                 \end{table}
                 \paragraph{Problem des LID-DS}\label{sec:prob_LIDDS}
@@ -409,7 +397,7 @@
                     \begin{figure}[ht]
                         \centering
                         \includegraphics[width=0.8\textwidth]{images/q_problem.eps}
-                        \caption[ass]{Illustration des Quadrantenproblems (Abwandlung von~\cite{IDSTHREADGRIMMER2021}).
+                        \caption[Quadrantenproblem]{Illustration des Quadrantenproblems (Abwandlung von~\cite{IDSTHREADGRIMMER2021}).
                         Es beschreibt die Problematik, dass Alle System Calls nach $t_{Angriff}$ als bösartig eingestuft werden müssen, obwohl auch Normalverhalten stattfindet.}
                         \label{fig:quadrant}
                     \end{figure}
@@ -475,13 +463,13 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.8\textwidth]{images/Illustrationen/RNN_simple}
-                    \caption[ass]{Darstellung einer RNN Zelle}
+                    \caption{Darstellung einer RNN Zelle}
                     \label{fig:RNN}
                 \end{figure}
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=1\textwidth]{images/Illustrationen/RNN_enrolled}
-                    \caption[ass]{Darstellung einer \glqq ausgerollten\grqq \ und vereinfachten RNN Zelle}
+                    \caption[Alternative Darstellung einer RNN Zelle]{Darstellung einer \glqq ausgerollten\grqq \ und vereinfachten RNN Zelle}
                     \label{fig:RNN_enroled}
                 \end{figure}
             Doch auch die RNNs haben ein Problem bei Merkmalen, die sich über einen längeren Zeitraum strecken.
@@ -502,7 +490,7 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=1\textwidth]{images/Illustrationen/LSTM}
-                \caption[ass]{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (Abwandlung von \cite{OLAH2015}).}
+                \caption[Schematische Darstellung einer \ac{LSTM} Zelle - Memory Cell]{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (Abwandlung von \cite{OLAH2015}).}
                 \label{fig:LSTM}
             \end{figure}
 
@@ -516,7 +504,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_MC}
-                    \caption[ass]{Weitergabe des Zellstatus innerhalb eines Knotens (Abwandlung von \cite{OLAH2015}).}
+                    \caption[Schematische Darstellung einer \ac{LSTM} Zelle - Zellstatus]{Weitergabe des Zellstatus innerhalb eines Knotens (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Status}
                 \end{figure}
                 
@@ -537,7 +525,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_FG}
-                    \caption[ass]{Einfluss des Forget Gates auf den Zellstatus (Abwandlung von \cite{OLAH2015}).}
+                    \caption[Schematische Darstellung einer \ac{LSTM} Zelle - Forget Gate]{Einfluss des Forget Gates auf den Zellstatus (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Forget}
                 \end{figure}
                 
@@ -563,7 +551,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_IG}
-                    \caption[ass]{Einfluss des Input Gates auf den Zellstatus (Abwandlung von \cite{OLAH2015}).}
+                    \caption[Schematische Darstellung einer \ac{LSTM} Zelle - Input Gate]{Einfluss des Input Gates auf den Zellstatus (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Input}
                 \end{figure}
             
@@ -579,7 +567,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/Illustrationen/LSTM_OG}
-                    \caption[ass]{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (Abwandlung von \cite{OLAH2015}).}
+                    \caption[Schematische Darstellung einer \ac{LSTM} Zelle - Input Gate]{Das Output Gate regelt den Einfluss des Zellstatus auf die Ausgabe des Neurons (Abwandlung von \cite{OLAH2015}).}
                     \label{fig:LSTM_Output}
                 \end{figure}
             
