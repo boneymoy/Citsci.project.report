@@ -40,8 +40,8 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         1999 untersuchten Warrender et al.~\cite{STIDE_Alternatives} wie verschiedene Algorithmen auf System Call Daten abschneiden.
         Dazu gehören die bereits erwähnten Verfahren \ac{TIDE}, \ac{STIDE}, \ac{RIPPER}, sowie ein \ac{HMM}.
         Dabei schienen alle Verfahren erfolgreich wobei das \ac{HMM} als sehr rechenintensiv hervorgehoben wird.
-        %Speziell interessant an dieser Arbeit ist auch die Verwendung von n-grammen aus der Textverarbeitung.
-        %Ein n-gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
+        %Speziell interessant an dieser Arbeit ist auch die Verwendung von N-Grammen aus der Textverarbeitung.
+        %Ein N-Gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
         %Oft wird diese Art der Vorverarbeitung bei Datenstreams eingesetzt.
  
         % Auch in moderneren Arbeiten werden die Abfolge von System Calls beziehungsweise speziell nur die Funktionsnamen verwendet.
@@ -56,10 +56,10 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Die Wahrscheinlichkeiten für das Auftreten von Zustandssequenzen wird dann zur Identifizierung von Anomalien genutzt.
 
         2018 interpretieren Grimmer et al.~\cite{SYSCALL_GRAPHS} System Call Sequenzen als einen sogenannten \textit{System Call Graph}.
-        Dabei werden wie in~\cite{STIDE_Alternatives} n-gramme verwendet.
-        Die n-gramme stellen einen Knoten dar und der Übergang eines n-gramms zu einem weiteren wird mit einer gerichteten Kante dargestellt.
+        Dabei werden wie in~\cite{STIDE_Alternatives} N-Gramme verwendet.
+        Die N-Gramme stellen einen Knoten dar und der Übergang eines N-Gramms zu einem weiteren wird mit einer gerichteten Kante dargestellt.
         Zusammen mit den Häufigkeiten des Auftretens eines Überganges und dem Ausgangsgrad eines Knotens ergeben sich die Übergangswahrscheinlichkeiten für alle Knoten.
-        Der Anomaliescore eines Fensters von n-grammen aus den Testdaten wird anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
+        Der Anomaliescore eines Fensters von N-Grammen aus den Testdaten wird anhand der Übergangswahrscheinlichkeiten aus dem im Training aufgebauten Graphen abgelesen.
 
         % (2015) Einsatz in Linux Containern~\cite{FREQUENCY1} oder (2018) in Cloud Lösungen~\cite{VM}
 
@@ -126,7 +126,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt kodieren, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
         Der Ausgangspunkt ihrer Überlegungen liegt darin, dass moderne Prozesse Multi-Threaded sind.
         Das heißt die Sequenz der System Calls beschreibt die Aktionen mehrere Threads gleichzeitig.
-        Um diese Vermischung der Threads in den n-grammen zu verhindern, bilden sie sie nur aus System Calls desselben Threads.
+        Um diese Vermischung der Threads in den N-Grammen zu verhindern, bilden sie sie nur aus System Calls desselben Threads.
         So konnten sie in den meisten Fällen eine Verringerung der Fehlalarme und eine Erhöhung der Erkennungsrate erreichen.\cite{IDSTHREADGRIMMER2021}
 
     %\subsection{LSTM/RNNs für HIDS mit System Calls}

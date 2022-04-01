@@ -27,7 +27,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 \section{Berechnungsdauer}\label{sec:erg_time}
     Wie bereits in mehreren Kapiteln erwähnt ist die Berechnungszeit eine der größten Schwierigkeiten bei der Verwendung dieses \ac{LSTM}-basierten Algorithmus in der \ac{HIDS}.
     Für die Berechnungen wurden zwei verschiedene Grafikkarten auf dem Galaxy Cluster der Universität Leipzig genutzt.
-    Das EPS CWE-$434$ sowie das ZipSlip Szenario wurden auf einer NVIDIA Tesla V100 Graphikkarte berechnet und für die restlichen kleineren Szenarien wurde eine NVIDIA RTX 2080 Ti verwendet.
+    Das EPS CWE-$434$ sowie das ZipSlip Szenario wurden auf einer NVIDIA Tesla V100 Grafikkarte berechnet und für die restlichen kleineren Szenarien wurde eine NVIDIA RTX 2080 Ti verwendet.
     Die Trainingszeit spielt für den Live-Betrieb eine untergeordnete Rolle, da das Training nur einmalig durchgeführt werden muss.
     Relevanter ist die Berechnungszeit die für die Auswertung der Testdaten benötigt wird.
     Diese durchschnittlichen Berechnungszeiten werden im Folgenden für die verschiedenen Szenarien gelistet.
@@ -66,7 +66,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Auch wurden die möglichen Parameter sowie Parametergrößen stark eingeschränkt, um die Anzahl der zu berechnenden Konfigurationen möglichst gering zu halten.
     Für die Auswahl wurden Tests auf kleineren Szenarien durchgeführt.
     
-    Bei größeren Eingaben, also n-grammen größer $2$ oder Embedding Größen größer als $8$ bei einer n-gram Größe von größer $2$ reicht auch der Speicher der NVIDIA Tesla V100 Grafikkarte für das ZipSlip Szenario nicht mehr aus.
+    Bei größeren Eingaben, also N-Grammen größer $2$ oder Embedding Größen größer als $8$ bei einer n-gram Größe von größer $2$ reicht auch der Speicher der NVIDIA Tesla V100 Grafikkarte für das ZipSlip Szenario nicht mehr aus.
     Das mindert leider die Vergleichbarkeit der Ergebnisse, was die Erkenntnisse dieser Arbeit aber nur geringfügig beeinflusst.
     Konfigurationen welche ein Ergebnis für das ZIPSlip Szenario beinhalten sind extra blau markiert.
 
@@ -74,7 +74,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 
     Im ersten Schritt der Auswertung wird die \ac{DR} isoliert betrachtet.
     Dabei werden nur Konfigurationen einbezogen, die keine zusätzlichen Parameter der System Calls enthalten.
-    Alle Konfigurationen verwenden dabei \textit{Thread Aware} n-gramme, also nur System Calls mit derselben ThreadID werden in ein n-gram aufgenommen.
+    Alle Konfigurationen verwenden dabei \textit{Thread Aware} N-Gramme, also nur System Calls mit derselben ThreadID werden in ein n-gram aufgenommen.
     In \autoref{tab:LSTM_erg} werden die zehn besten Ergebnisse dargestellt.
     Die durchschnittliche \ac{DR} von $0.71$ bei $14.56$ Fehlern pro Szenario zeigt, dass es generell möglich ist mit \acp{LSTM} eine Anomalieerkennung auf Basis von System Calls umzusetzen.
     Eine klarer Zusammenhang zwischen Embedding Größe ($e$) oder n-gram Größe ($n$) und der \ac{DR} ist dabei nicht direkt zu erkennen.
@@ -111,13 +111,13 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \end{tabular}
         \caption[Ergebnisse DR ohne Extraparameter]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
-                 Alle n-gramme sind \textit{Thread Aware}.
+                 Alle N-Gramme sind \textit{Thread Aware}.
                  Nur blaue Zeilen enthalten Ergebnisse des ZipSlip Szenarios.}
         \label{tab:LSTM_erg}
     \end{table}
 
     Im zweiten Schritt der Auswertung sollen die besten Ergebnisse nur im Bezug auf die Anzahl der Fehlalarme, also \acp{FP} untersucht werden.
-    In \autoref{tab:LSTM_erg_FP} werden wieder \textit{Thread Aware} n-gramme genutzt und nur Ergebnisse mit $\ac{DR}>0.5$ einbezogen.
+    In \autoref{tab:LSTM_erg_FP} werden wieder \textit{Thread Aware} N-Gramme genutzt und nur Ergebnisse mit $\ac{DR}>0.5$ einbezogen.
 
     \begin{table}[ht]
         \centering
@@ -149,7 +149,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \end{tabular}
         \caption[Ergebnisse FP ohne Extraparameter]{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
-                 Alle n-gramme sind \textit{Thread Aware}.
+                 Alle N-Gramme sind \textit{Thread Aware}.
                  Es wurden nur Konfigurationen mit $\ac{DR}>0.5$ einbezogen.
                  Nur blaue Zeilen enthalten Ergebnisse des ZipSlip Szenarios.}
         \label{tab:LSTM_erg_FP}
@@ -278,7 +278,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \end{tabular}
         \caption[Ergebnisse mit Extraparametern nach DR]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.
-                 Alle n-gramme sind \textit{Thread Aware}.
+                 Alle N-Gramme sind \textit{Thread Aware}.
                  Nur blaue Zeilen enthalten Ergebnisse des ZipSlip Szenarios.}
         \label{tab:LSTM_par_erg}
     \end{table}
@@ -314,7 +314,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \hline
         \end{tabular}
         \caption[Ergebnisse mit Extraparametern nach FP]{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
-                 Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.  Alle n-gramme sind \textit{Thread Aware}.
+                 Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.  Alle N-Gramme sind \textit{Thread Aware}.
                  Auch hier kommen bei den meisten Konfigurationen die Extraparameter zum Einsatz.}
         \label{tab:LSTM_FP}
     \end{table}
@@ -493,8 +493,8 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Der Vergleich der beiden besten \ac{LSTM} Konfigurationen und dem \ac{STIDE} Algorithmus wird in \autoref{tab:LSTM_stide_erg} dargestellt.
     Dabei wird im \ac{STIDE} ein \ac{SW} verwendet.
     %Ein \ac{SW} wird ähnlich zu einem n-gram aufgebaut.
-    %Dafür werden aber nur die Anomaliescores der einzelnen n-gramme genommen und gemittelt.
-    Ein Anomaliescore mit \ac{SW} beinhaltet in diesem speziellen Fall den Mittelwert von $1000$ Anomaliewerten der n-gramme. 
+    %Dafür werden aber nur die Anomaliescores der einzelnen N-Gramme genommen und gemittelt.
+    Ein Anomaliescore mit \ac{SW} beinhaltet in diesem speziellen Fall den Mittelwert von $1000$ Anomaliewerten der N-Gramme. 
     Die \ac{DR} des \ac{STIDE} von $0.986$ wird nicht erreicht, allerdings werden die \acp{FP} um ca. $40\%$ von durchschnittlich $61.5$ auf $22.89$ reduziert.
     
     \begin{table}[ht]

@@ -1,18 +1,18 @@
 %*****************************************
 \chapter{Realisierung}\label{ch:Realisierung}
 %*****************************************
-    Bei der Realisierung einer anomaliebasierten \ac{IDS} müssen wie in~\autoref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
+    Bei der Realisierung eines anomaliebasierten \ac{IDS} müssen wie in~\autoref{ch:Grundlagen} beschrieben zwei Phasen durchlaufen werden.
     Die Trainingsphase und die Testphase.
     Diesen beiden Phasen muss ein präparierter Datensatz und die Definition der exakten Eingaben und Ausgaben des \acp{LSTM} zu Grunde liegen. 
     Welche Datensätze überhaupt in Frage kommen wurde bereits in~\autoref{sec:Datensatz} untersucht.
+    In~\autoref{sec:Tools} werden verschiedene Tools und Ressourcen betrachtet, die für die Vorverarbeitung des Datensatzes und weitere Implementierungen nötig sind.
     Wie dieser weiterverarbeitet, für das \ac{LSTM} vorbereitet wird und welche Informationen neben dem Namen des System Calls verwendet werden kann soll in~\autoref{sec:Preprocessing} betrachtet werden.
-    Zuvor in~\autoref{sec:Tools} werden verschiedene Tools betrachtet, die für die Vorverarbeitung und weitere Implementierungen nötig sind.
     Der eigentliche Algorithmus, also das Finden von Anomalien in den Daten wird in~\autoref{sec:Algorithmus} beschrieben.
     Dabei wird erst eine allgemeine Beschreibung des Ablaufes gegeben und anschließend detailliert auf Training und Anomalieerkennung eingegangen.
     In \autoref{sec:parameterwahl} werden die festgelegten Parameter und die Parameter welche in den Experimenten untersucht werden vorgestellt.
-    Abschließen wird dieses Kapitel dann in~\autoref{sec:Metriken} die Untersuchung von Metriken, welche für die Auswertung der Experimente benötigt wird.
+    Dieses Kapitel wird dann in~\autoref{sec:Metriken} mit einer Untersuchung der Metriken abgeschlossen, die für die Auswertung der Experimente benötigt werden. 
 
-    \section{Verwendete Bibliotheken}\label{sec:Tools}
+    \section{Verwendete Bibliotheken und Ressourcen}\label{sec:Tools}
         Für die Implementierung der folgenden beschriebenen Verfahren kommen verschiedene Bibliotheken zum Einsatz.
         Die Gesamte Implementierung wurde in Python $3.7$ umgesetzt.
         Um das \ac{W2V}-Verfahren einzubinden wird die \ac{W2V} Implementierung der GENSIM Bibliothek~\cite{GENSIM} genutzt.
@@ -55,6 +55,8 @@
                 Also ein System Call $sc_i$ aus der Menge $SC = \{sc_1,sc_2,\dots,sc_k\}$ wird umgewandelt in einen Vektor $v_{w2v}$ mit gegebener Länge $e$.
                 Ziel des von~\cite{W2VMIKOLOV2013} eingeführten \ac{W2V} Verfahrens ist es eine Dimensionsreduktion durchzuführen, bei welcher möglichst viel Kontextinformationen erhalten bleiben.
                 So sollen also die Vektordarstellungen von ähnlichen Wörtern ebenso ähnlich sein.
+                Ähnlich meint in diesem Zusammenhang eine semantische Ähnlichkeit.
+                Ziel ist es also, dass die Vektordarstellungen von zwei schreibenden System Calls näher beieinander liegen, als die Darstellung eines schreibenden System Calls und einem System Call zur Prozesskontrolle. 
                 Dies wird erreicht, indem Worte für das Erstellen der Kodierung nicht einzeln betrachtet werden, sondern immer in einem Kontext.
                 Es wird angenommen, dass Wörter die häufig in einem ähnlichen Kontext auftreten, auch ähnlich sind.
                 Dabei ist mit Kontext die Wörter vor und nach dem aktuellen Wort gemeint.
@@ -63,7 +65,7 @@
                 \textit{Continuous Bag-Of-Words} versucht das feedforward Netzwerk darauf zu trainieren eine Vorhersage über ein Wort anhand des Kontextes zu machen.
                 Hingegen wird unter Verwendung von \textit{Skip-gram}, eine Vorhersage des Kontextes aufgrund des Wortes trainiert.~\cite{EMBEDDINGPILEHVAR2020}
                 Schwierigkeiten wie das häufige Auftreten von Wörtern in der englischen Sprache wie \textit{the}, treten in der System Call Domäne nicht auf.
-                Die Vorteile der dichtbesetzten und dimensionsreduzierten Vektoren machen sich auch bereits~\cite{IDSTHREADGRIMMER2021} in der anomaliebasierten \ac{HIDS} mit System Calls zu nutzen.
+                Auch Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nutzen bereits die Vorteile der dicht besetzten und dimensionsreduzierten Vektoren in anomaliebasierten \ac{HIDS} mit System Calls.
 
             In~\cite{W2VWUNDERLICH2019} wird beschrieben dass das \ac{OHE} laut Ergebnissen bevorzugt werden sollte, wobei auch das \ac{W2V} geeignet ist.
             In dieser Arbeit überwiegt allerdings der zeitliche Vorteil\marginpar{mehr dazu in \autoref{sec:erg_time}} durch die Dimensionsreduktion des \ac{W2V}.
@@ -118,7 +120,8 @@
                     Doch treten mit der Verwendung dieser Information als Extraparameter zwei Probleme auf.
                     Zum einen stellt sich die Frage, ob eine Verbesserung eines Szenarios mit abweichenden Abständen\marginpar{zw. Normal- und Angriffsverhalten} eine Verschlechterung in Szenarien in welchen dies nicht der Fall ist zur Folge hat.
                     Und zum anderen stellt sich die generelle Frage ob diese Information den möglichen Ergebnisraum wesentlich vergrößert worunter die Ergebnisqualität im Gesamten leidet.
-                    Denn das Betriebssystem selbst beeinflusst die Timings der System Calls, so kann Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
+                    Denn das Betriebssystem selbst beeinflusst die Timings der System Calls.
+                    So können Informationen eingebettet werden welche wenig Aussagekraft über das Normalverhalten eines Prozesses haben.
                     Ob dies das Lernen des Normalverhaltens verbessert oder verschlechtert wird in \autoref{sec:erg_LSTM_extra} untersucht.
                     %\begin{figure}
                         %\centering
@@ -162,13 +165,13 @@
                             \rowcolor{GruvGray!16}
                             %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
                             write   & Schreibt angegebene Anzahl an Bytes aus dem Buffer in die Datei, welche über den Filedeskriptor $fd$ definiert wird. & Geschriebene Bytes oder $-1$ bei Fehler\\
-                            pwrite  & Schreibt angegebene Anzahl an Bytes aus dem Buffer in die Datei, welche über den Filedeskriptor $fd$ definiert wird. Dabei wird der Datei Offset nicht geändert.& Geschriebene Bytes oder $-1$ bei Fehler\\
+                            pwrite  & Schreibt angegebene Anzahl an Bytes aus dem Buffer in die Datei, welche über den Filedeskriptor $fd$ definiert wird. Dabei wird der Datei-Offset nicht geändert.& Geschriebene Bytes oder $-1$ bei Fehler\\
                             \rowcolor{GruvGray!16}
                             writev  & Schreibt \textit{iovcnt} Vektor in die Datei, welche über den Filedeskriptor $fd$ definiert wird.& Geschriebene Bytes oder $-1$ bei Fehler\\
 
-                            read    & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset an.                                              & Gelesene Bytes oder $-1$ bei Fehler\\
+                            read    & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei-Offset an.                                              & Gelesene Bytes oder $-1$ bei Fehler\\
                             \rowcolor{GruvGray!16}
-                            pread   & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei Offset nicht an.                                        & Gelesene Bytes oder $-1$ bei Fehler\\
+                            pread   & Versucht angegebene Anzahl an Bytes von Filedeskriptor \textit{fd} zu lesen und passt den Datei-Offset nicht an.                                        & Gelesene Bytes oder $-1$ bei Fehler\\
                             readv   & Liest spezifizierten \textit{iovcnt} Vektor aus Filedeskriptor \textit{fd} & Gelesene Bytes oder $-1$ Fehler\\
 
                             \rowcolor{GruvGray!16}
@@ -218,10 +221,10 @@
             Dabei werden die Abfolge der System Calls des Datensatzes als ein kontinuierlicher Stream betrachtet.
             Dies ermöglicht den Einsatz der entwickelten Vorgehensweise in der Praxis auch im Live-Betrieb, sofern die Verarbeitung entsprechend schnell stattfindet.
             Für viele Algorithmen wie zum Beispiel auch neuronale Netze ist es sinnvoll und teilweise unausweichlich eine feste Eingangsgröße festzulegen.
-            Um dies für einen Stream zu ermöglichen werden in der \ac{NLP} schon seit langer Zeit n-gramme verwendet~\cite{NGRAMSUEN1979}.
-            Auch in der auf System Call basierten Anomalieerkennung kommen n-gramme zum Einsatz~\cite{STIDE_Alternatives, SYSCALL_GRAPHS, IDSTHREADGRIMMER2021}.
-            Ein n-gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
-            Diese werden wie in der linken Graphik in \autoref{fig:ngram_thread} Beispielhaft dargestellt aufgebaut.
+            Um dies für einen Stream zu ermöglichen werden in der \ac{NLP} schon seit langer Zeit N-Gramme verwendet~\cite{NGRAMSUEN1979}.
+            Auch in der auf System Call basierten Anomalieerkennung kommen N-Gramme zum Einsatz~\cite{STIDE_Alternatives, SYSCALL_GRAPHS, IDSTHREADGRIMMER2021}.
+            Ein N-Gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
+            Diese werden wie in der linken Grafik in \autoref{fig:ngram_thread} Beispielhaft dargestellt aufgebaut.
 
             Dabei wird ein Buffer der Länge $n$ erzeugt, welcher das erste n-gram liefert sofern sich $n$ Elemente in dem Buffer befinden.
             Kommt ein neues Element in den Buffer fällt das älteste heraus.
@@ -233,24 +236,24 @@
             \paragraph{Thread Awareness}
                 Grimmer et al.~\cite{IDSTHREADGRIMMER2021} beschreiben in ihrer Arbeit wie sie die Thread Information der System Calls verwenden um die verwundenen Sequenzen zu entwirren.
                 Dabei werden für jeden Thread ein eigener Buffer erzeugt. 
-                Die Ausgabe dieser Buffer wird in der rechten Graphik in \autoref{fig:ngram_thread} veranschaulicht. 
-                Also nur System Calls aus demselben Thread bilden ein n-gram, weshalb sie von \textit{Thread aware n-grams}\marginpar{zu dt.\ Thread bewusst} sprechen.
+                Die Ausgabe dieser Buffer wird in der rechten Grafik in \autoref{fig:ngram_thread} veranschaulicht. 
+            Also nur System Calls aus demselben Thread bilden ein n-gram, weshalb sie von \textit{Thread aware} N-Grammen\marginpar{zu dt.\ Thread bewusst} sprechen.
                 Grimmer et al.\ konnten zeigen, dass dies speziell auch für diesen Datensatz eine Verbesserung der Ergebnisse erzielt.
-                Zusätzlich zeigen sie, dass dies für jedes einzelne Szenario mindestens so gute Ergebnisse erzielt wurden.
+                Darüber hinaus zeigen sie, dass bei der Verwendung von \textit{Thread aware} N-Grammen im Vergleich zu n-grammen ohne Berücksichtigung von Threads in keinem Szenario eine Verschlechterung der Ergebnisse auftritt.
 
                 \begin{figure}
                     %thread ngram image
                     \includegraphics[width=\textwidth]{images/ngram.pdf}
-                    \caption[ass2]{Erstellung der n-gramme mit $n=2$ aus einem Datenstream von System Calls.
+                    \caption[ass2]{Erstellung der N-Gramme mit $n=2$ aus einem Datenstream von System Calls.
                         Links ohne und rechts mit der Beachtung der Threadinformation.
-                        Die dabei entstehenden n-gramme dienen als Eingabe für den bewertenden Algorithmus.
-                        Die Reihenfolge der entstehenden n-gramme als Eingaben ist dabei von oben nach unten.
+                        Die dabei entstehenden N-Gramme dienen als Eingabe für den bewertenden Algorithmus.
+                        Die Reihenfolge der entstehenden N-Gramme als Eingaben ist dabei von oben nach unten.
                     }\label{fig:ngram_thread}
                 \end{figure}
 
             \paragraph{Thread Change Flag}
                 Sie verwenden in der Auswertung aber ausschließlich Algorithmen welche kontextfrei arbeiten.
-                Dies bedeutet, dass zuvor gesehene n-gramme keinen Einfluss auf das aktuelle haben.
+                Dies bedeutet, dass zuvor gesehene N-Gramme keinen Einfluss auf das aktuelle haben.
                 Wie in~\autoref{sec:LSTM} beschrieben wird, ist das bei \ac{LSTM} Netzwerken nicht der Fall.
                 Es gilt also den benötigten Kontext in die von Grimmer et al.\ beschriebene Methodik zu integrieren.
 
@@ -267,17 +270,17 @@
                     %thread ngram image
                     \centering
                     \includegraphics[width=0.6\textwidth]{images/tcf.pdf}
-                    \caption[ass3]{Analog zu \autoref{fig:ngram_thread} werden n-gramme erzeugt.
+                    \caption[ass3]{Analog zu \autoref{fig:ngram_thread} werden N-Gramme erzeugt.
                              Diese werden nun mit der \ac{TCF} angereichert.
                              Initial ist die \ac{TCF} $0$.
                              Ist das zuvor ausgegeben n-gram aus demselben Thread, ist die \ac{TCF} ebenfalls $0$.
                              Findet ein Wechsel des Threads statt, wird dieser Kontextwechsel durch das Setzen der \ac{TCF} auf $1$ signalisiert.}\label{fig:ngram_tcf}
                 \end{figure}
 
-                Die Vorstellung dabei ist, dass eine \ac{TCF}$= 1$ dem \ac{LSTM} die Information gibt, dass der zuvor gesehene n-gramme nur eine untergeordnete Rolle für den Kontext spielen, da diese aus einem anderen Thread stammen.
+                Die Vorstellung dabei ist, dass eine \ac{TCF}$= 1$ dem \ac{LSTM} die Information gibt, dass der zuvor gesehene N-Gramme nur eine untergeordnete Rolle für den Kontext spielen, da diese aus einem anderen Thread stammen.
                 Falls dies der Fall ist, kann ein häufiger Kontextwechsel dafür sorgen, dass der Vorteil der \ac{LSTM}s abgeschwächt wird, da immer dafür gesorgt wird, dass potentiell wenige Informationen im Kontext enthalten sind.
                 In \autoref{tab:tcf} wird dargestellt wie oft so ein Kontextwechsel stattfindet.
-                Dabei ist zu erkennen, dass in den Szenarien aus dem \ac{LID-DS} bei einer Länge von $n=6$ nur bis zu $13.8\%$ der n-gramme eine $\ac{TCF}=1$ haben.
+                Dabei ist zu erkennen, dass in den Szenarien aus dem \ac{LID-DS} bei einer Länge von $n=6$ nur bis zu $13.8\%$ der N-Gramme eine $\ac{TCF}=1$ haben.
                 Die zuvor geschilderte Gefahr scheint also für die gegebenen Szenarien keine Rolle zu spielen, ist aber für andere Einsatzbereiche mit nicht kontextfreien verarbeitenden Algorithmen zu beachten.
 
                 \begin{table}[ht]
@@ -288,7 +291,7 @@
                         \rowcolor{GruvGray!36}
                         \multicolumn{4}{c}{Thread Change Flag}\\
                         \toprule
-                        Szenario & \#\ac{TCF}$=1$ & \#\ac{TCF}$=0$ & \makecell{Anteil \ac{TCF}$=1$ \\an allen n-grammen \\ in \%}\\
+                        Szenario & \#\ac{TCF}$=1$ & \#\ac{TCF}$=0$ & \makecell{Anteil \ac{TCF}$=1$ \\an allen N-Grammen \\ in \%}\\
                         \midrule
                         \rowcolor{GruvGray!16}
                         $Bruteforce\_CWE\_307$ & $2,534,165$ & $20,383,314$ & $11.1$ \\
@@ -328,11 +331,11 @@
         Wie dargestellt, wird für die Initialisierung der Implementierung des \acp{LSTM} die Anzahl an Input und Output Neuronen benötigt.
         Für die Eingangsgröße gilt:
         \begin{equation}
-            input\_dim = (e + ret + time) \cdot n
+            input\_dim = (e + ret + time) \cdot n + \ac{TCF}
         \end{equation}
         Mit $e$ für die gewählte Größe des \ac{W2V}-Embeddings.
         Falls der zuvor beschriebene Zusatzparameter für die Rückgabewerte verwendet wird gilt $ret=1$ ansonsten $ret=0$.
-        Gleiches gilt für den Extraparameter welcher die Zeitabstände kodiert.
+        Gleiches gilt für den Extraparameter welcher die Zeitabstände kodiert und Kontextwechsel angebende \ac{TCF}.
         Für die Ausgangsgröße gilt:
         \begin{equation}
             output\_dim = k + 1
@@ -343,7 +346,7 @@
         Festgelegt werden hingegen Größen für die \textit{Hidden Layer} Dimension, \textit{Batch Size}, den \textit{Optimizer}, die \textit{Loss}-Funktion und die Lernrate.
         Die Dimension der \ac{LSTM}-Layer wird auf $64$ gesetzt, die \textit{Batch Size} auf $1024$.
         Es wird der für \acp{LSTM} gängige \textit{Adam Optimizer} gewählt.
-        Da es sich um eine Klassifikation mit $k+1$ Klassen handelt wird die \textit{Cross-Entropy} Loss-Funktion des PyTorch Frameworks genutzt.
+        Da es sich um eine Klassifikation mit $k+1$ Klassen handelt, wird die \textit{Cross-Entropy} Loss-Funktion des PyTorch Frameworks genutzt.
         Die Lernrate wird auf $0.001$ festgelegt.
         Details zu der Parameterwahl wird in \autoref{sec:parameterwahl} erläutert.
 
@@ -361,13 +364,13 @@
         In den kommenden Abschnitten werden diese Schritte zu einem Ablauf zusammengeführt.
         Zunächst soll in \autoref{sec:Allgemein} ein allgemeiner Überblick gegeben werden.
         Anschließend wird in \autoref{sec:Training} behandelt was das \ac{LSTM} Netzwerk lernt.
-        Wie aus dem Gelernten dann die Einstufung in Normal- oder Angriffsverhalten stattfindet, wird dann in \autoref{sec:Anomalieerkennung} und \autoref{sec:Schwellung}.
-        Abschließend werden dann grobe Richtlinien für die Parameterwahl in \autoref{sec:StrukExp} erstellt.
+        Schließlich erklären \autoref{sec:Anomalieerkennung} und \autoref{sec:Schwellung}, wie aus dem Gelernten die Klassifizierung in normales oder Angriffsverhalten erfolgt.
 
         \subsection{Allgemein}\label{sec:Allgemein}
             Wie bereits in \autoref{sec:related_nlp} beschrieben, werden verschiedene Verfahren der \ac{NLP} auch in der anomaliebasierten \ac{HIDS} eingesetzt.
             Neben den bereits beschriebenen \ac{W2V} Verfahren kommen auch die in der \ac{NLP} verbreiteten \ac{LSTM} Netzwerke zum Einsatz.
             Mit dem \ac{LSTM} soll in der Trainingsphase ein Sprachmodell der System Calls erstellt werden.
+            Dieses Sprachmodell soll mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$ den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
             Dabei bestehen die Trainingsdaten nur aus Normalverhalten, enthalten also keine Angriffe.
             Anhand dieses gelernten Modells soll dann in der Testphase eine Vorhersage über den nächsten System Call gemacht werden.
             Diese Vorhersage besteht aus den Wahrscheinlichkeiten für alle aus dem Training gesehenen System Calls, plus einem Platzhalter für noch unbekannte System Calls.
@@ -380,7 +383,7 @@
             Dies ist eine Annäherung an einen optimalen Schwellwert.
 
             Die System Calls werden wie zuvor beschrieben durch das \ac{W2V} Verfahren in einen Vektor umgewandelt und durch die zwei zuvor beschriebenen Verfahren, die Normalisierung der Zeitabstände und der Rückgabewerte bestimmter System Calls, angereichert.
-            Der Stream der System Calls wird dann mit Betrachtung der Threads in n-gramme zusammengetragen.
+            Der Stream der System Calls wird dann mit Betrachtung der Threads in N-Gramme zusammengetragen.
             Zusätzlich wird zu jedem n-gram die Information über einen Kontextwechsel durch die \ac{TCF} angegeben.
             % Im Folgenden wird der Trainingsablauf detaillierter bestimmt.
 
@@ -397,13 +400,13 @@
             \end{figure}
             % Für das Training des \ac{LSTM} Netzwerkes werden nur Normaldaten aus dem Trainingsdatensatz verwendet.
             Pro Szenario werden $200$ Aufnahmen ohne Angriffsverhalten, der insgesamt ca.\ $1100$ Aufnahmen, für das Training ausgewählt.
-            Die Grundidee besteht darin mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$ den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
+            Die Grundidee besteht wie zuvor beschrieben darin, mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$ den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
             Da der nächste System Call aus dem Datensatz stets bekannt ist, kann als Feedback für das Netzwerk die Information genommen werden, ob $sc_{x_{n+1}}$ korrekt vorhergesagt wurde, also dem Label entspricht.
             Das \ac{LSTM} gibt wie in \autoref{fig:training} dargestellt diese Information an das \ac{LSTM} zurück.
 
             Seien die System Calls aus den Trainingsdaten aus der Menge $SC = \{sc_1,sc_2,\dots,sc_k\}$.
             Womit $k$ die Anzahl der in den Trainingsdaten vorkommenden System Call Namen angibt.
-            Die Trainingsdaten werden durchlaufen und n-gramme $ngram_i$ erstellt.
+            Die Trainingsdaten werden durchlaufen und N-Gramme $ngram_i$ erstellt.
             Der auf das $ngram_i$ folgenden System Call dient als Label $l_i$.
             Nach dieser Idee ist das erste n-gram $ngram_0$ mit Label $l_0$.
             Dabei werden die System Call Namen für die Label durch Integerwerte ersetzt. 
@@ -423,7 +426,7 @@
                 \caption[ass2]{Ähnlich zu \autoref{fig:training} wird hier der Validierungsablauf beschrieben.
                          Dabei wird wie zuvor ein Datenauszug dargestellt sowie die Auftrittswahrscheinlichkeiten für den folgenden System Call.
                          In der Test-, wie in der Validierungsphase dient die Wahrscheinlichkeit des Integerwerts des tatsächlich als nächstes auftretende System Call als Berechnungsgrundlage für den Anomaliescore.
-                     Die Werte für $ascore$ werden wie beschrieben. Wie unten in der Abbildung dargestellt wird das Maximum der $ascore$ der gesamten Validierungsdaten als Schwellwert festgelegt.}
+                        Wie unten in der Abbildung dargestellt, wird das Maximum der $ascore$s der gesamten Validierungsdaten als Schwellwert festgelegt.}
                 \label{fig:validierung}
             \end{figure}
             Es kann also bei Auftreten des System Calls $sc_i$ überprüft werden mit welcher Wahrscheinlichkeit $p_i$ dieser vorhergesagt wurde.
@@ -445,7 +448,7 @@
 
         \subsection{Parameterwahl}\label{sec:parameterwahl}
             Das Aufsetzen des beschriebenen Algorithmus bedarf der Festlegung einiger Parameter.
-            Dazu gehören allgemeine Parameter für neuronale Netze, aber auch spezifischere Parameter wie die Länge der n-gramme.
+            Dazu gehören allgemeine Parameter für neuronale Netze, aber auch spezifischere Parameter wie die Länge der N-Gramme.
             Da nicht alle Parameter experimentell untersucht werden können werden sie im Folgenden in festgelegte und zu ermittelnde Parameter unterteilt.
             \paragraph{Festgelegte Parameter}
                 Entscheidende Parameter der \acp{LSTM} sind die Anzahl der Neuronen pro Layer sowie die Anzahl der \ac{LSTM}-Layer in dem Netzwerk.
@@ -468,10 +471,10 @@
                 \end{figure}
 
                 Da das Berechnen des \ac{W2V} im Vergleich zum Training und Testen des \acp{LSTM} nur einen geringen Zeitaufwand benötigt wird eine Epochenanzahl von $500$ festgelegt. 
-                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nach verschiedenen Tests mit alten Konfigurationen nur n-gramme mit Betrachtung der Thread Information aufgebaut.
+                Es werden aufgrund der Ergebnissen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} nach verschiedenen Tests mit alten Konfigurationen nur N-Gramme mit Betrachtung der Thread Information aufgebaut.
 
             \paragraph{Zu ermittelnde Parameter}
-            Ziel der zu ermittelnden Parametern ist es eine Konfiguration zu finden, mit welcher alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können
+            Ziel ist es eine Konfiguration der Parameter zu finden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
             Dafür gilt es speziell verschiedene \textbf{n-gram} Größen in Kombination mit verschiedenen Größen für das \textbf{\ac{W2V}-Embedding} zu finden.
                 Für die n-gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
                 Zusätzlich soll untersucht werden ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
@@ -592,7 +595,7 @@
 
 \section{Metriken}\label{sec:Metriken}
 
-    Typische Metriken für die Auswertung von neuronalen Netzen und damit auch für \acp{LSTM} welche auch in der Anomalieerkennung eingesetzt werden, umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
+    Typische Metriken für die Auswertung von neuronalen Netzen und damit auch für \acp{LSTM}, welche auch in der Anomalieerkennung eingesetzt werden, umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
     \begin{figure}
         \centering
         \includegraphics[width=0.75\textwidth]{images/Illustrationen/Precision.pdf}
@@ -617,7 +620,7 @@
     Zusätzlich gelten alle System Calls solange zu einem Alarm, bis der $ascore$ wieder unter dem Schwellwert $\theta$ liegt.
     Ziel ist es also eine hohe \ac{DR} und eine möglichst geringe \ac{FP}-Rate zu erreichen.
     Um einschätzen zu können welche Konfiguration am besten abgeschnitten hat, ergibt sich eine neue Schwierigkeit.
-    Werden alle System Calls aus dem Datensatz als Angriff erkannt ist die \ac{DR} wie gewünscht $1$.
+    Es ist schwierig zu beurteilen welche Konfiguration am besten funktioniert, denn wenn alle System Calls aus dem Datensatz als Angriff erkannt werden, ist $\ac{DR}=1$.
     Eine hohe \ac{DR} alleine ist also wenig aussagekräftig.
     In der Auswertung muss deswegen eine Abwägung zwischen \ac{FP}-Rate und \ac{DR} stattfinden.
     %Eine Angriff gilt dann als erkannt, sofern ein Alarm nach dem Angriffszeitpunkt ausgelöst wird. 
