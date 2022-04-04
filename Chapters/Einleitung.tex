@@ -6,34 +6,21 @@
 %*****************************************
 %*****************************************
 \section{Einleitung}\label{sec:einleitung}
-Notes:
-
-\begin{itemize}
-    \item solarwinds as introduction
-    \item use advances of sequence detection from NLP
-    \item NIDS vs. HIDS
-    \item signature vs.\ anomaly based
-    \item Forrest et al 1996 erstmals syscall traces
-    \item low level interactions between program and kernel
-    \item syscall traces dont stop execution contrary to debuggers
-    \item tracing virtually every linux without modifying source code
-    \item whole system behaviour visible in kernel
-\end{itemize}
-
-https://www.ibm.com/security/data-breach/threat-intelligence/
-
-Angriffe auf Computersysteme werden frequenter.
-Die häufig verwendeten auf Signaturen basierenden Abwehrmechanismen reichen nicht aus um viele drohende Gefahren abzuwenden.
-Dies liegt hauptsächlich daran, dass weder Abwandlungen von bekannten Angriffen, noch unbekannte Angriffe erkannt werden können.
-Zusätzlich müssen die Signaturen für jeden Angriffsvektor einzeln eingefügt werden\marginpar{vgl. \autoref{sec:Datenanalyse}}.
-Ein wesentlicher Vorteil liefert hier die Angriffserkennung über Anomalien.
+Laut des \textit{X-Force Thread Intelligence Index 2022} von IBM~\cite{IBM} gibt es eine klare Steigerung von Malware mit einzigartigem Quelltext.
+Dies gilt auch speziell für Linux Systeme, wobei der größte Anstieg bei den Banking-Trojanern zu beobachten ist.
+Dort konnte eine Verzehnfachung von neuartigen Angriffen Verzeichnet werden.
+Die Zunahme der Angriffe auf Linux Systeme könnte damit zusammenhängen, dass Organisationen zunehmend auf Cloud-Umgebungen setzen, welche häufig auf Linux Systeme angewiesen sind.
+Diese noch unbekannten Angriffe abzuwehren stellt Unternehmen vor große Schwierigkeiten, mit potentiell hohen Verlusten.
+Die häufig verwendeten auf Signaturen basierenden Abwehrmechanismen reichen nicht aus diese drohende Gefahren abzuwenden.
+Laut einem weiteren Bericht von IBM~\cite{IBM2} konnten durch den Einsatz von Security-\ac{AI} und Automatisierung die durchschnittlichen Kosten eines erfolgreichen Angriffs von $6,71$mio USD auf $2,9$mio USD gesenkt werden.
+Dies ist ein wesentlicher Punkt für die Entwicklung von \ac{AI}-basierter Angriffserkennung über Anomalien.
 Im Gegensatz zu dem erwähnten signaturbasierten Ansatz, muss nicht jeder Angriff der abgewehrt werden soll bekannt sein.
 %Stattdessen wird versucht das Normalverhalten eines Systems zu ermitteln und jegliche Abweichung als Anomalie und damit als Angriff einzustufen.
 Stattdessen wird versucht ein Modell des zu erwartenden Normalverhalten des Systems zu erstellen.
 Mit dem erstellten Modell sollen dann, möglichst in Echtzeit, Abweichungen bzw. Anomalien des erwarteten Verhalten signalisiert werden.
 
-Die Bedeutsamkeit der Erkennung von bisher unbekannten Angriffe wird ebenfalls durch das \ac{BSI} bestätigt.
-Das \ac{BSI} berichtet, dass im Berichtzeitraum\marginpar{Juni 2020 bis Mai 2021} die Schadprogramm-Varianten um rund 144 Millionen zugenommen haben\marginpar{vgl.\autoref{ch:zero-day}}, was einer Steigerung von 22\% gegenüber dem Zeitraum des vorigen Berichts bedeutet.~\cite{BSI}.
+Die Bedeutsamkeit der Erkennung von bisher unbekannten Angriffen wird ebenfalls durch das \ac{BSI} bestätigt.
+Das \ac{BSI} berichtet, dass im Berichtzeitraum\marginpar{Juni 2020 bis Mai 2021} die Schadprogramm-Varianten um rund 144 Millionen zugenommen haben, was einer Steigerung von 22\% gegenüber dem Zeitraum des vorigen Berichts bedeutet.~\cite{BSI}.
 
 % \begin{chart}
 
@@ -71,36 +58,45 @@ Das \ac{BSI} berichtet, dass im Berichtzeitraum\marginpar{Juni 2020 bis Mai 2021
 
 % Laut eines Berichts von Symantec aus dem Jahr 2013 werden die von den Angriffen ausgenuetzten Sicherheitsluecken im Schnitt erst nach 312 Tagen geschlossen.
 
-Speziell werden in dieser Arbeit \ac{HIDS} verwendet, das sie gegenueber den \ac{NIDS} feingranularer sind und auch interne Attacken erkennen koennen.
-Nun bieten verschiedene Systeme unterschiedliche Möglichkeiten das ihnen zugrunde liegende Verhalten zu beschreiben. 
-Eine häufig verwendete Information für die Charakterisierung bieten zum Beispiel System-Logs~\cite{HE}.
+Speziell werden in dieser Arbeit \acp{HIDS} verwendet, da sie gegenüber den \acp{NIDS} auch interne Attacken erkennen können.
+Ein Computersystem bietet verschiedene Möglichkeiten das ihnen zugrunde liegende Verhalten zu beschreiben.
+Eine häufig verwendete Information für die Charakterisierung bieten zum Beispiel System Logs~\cite{HE}.
+In dieser Arbeit werden hingegen System Calls verwendet.
+Denn jegliche Nutzerprogramme lösen betriebssystemspezifische System Calls aus, welche über verschiedene Tools wie zum Beispiel Sysdig~\cite{SYSDIG} ausgelesen werden können.
+Sie bieten somit eine sehr abstrakte Beschreibung des Systems auf Betriebssystemebene, zudem sind sie im Gegensatz zu den System Logs nicht durch die Einstellungen der Entwicklerinnen abhängig.
+Eine Schwierigkeit besteht jedoch mit dem Umgang großer Datenmengen, die selbst bei kleineren Anwendungen entstehen.
 
-In dieser Arbeit werden System-Calls verwendet.
-Sie bieten eine sehr abstrakte Betrachtung auf Betriebssystemebene.
-Programme auf einer Festplatte können meist erst Schaden anrichten, sobald sie ausgeführt werden.
-Dabei führen sie betriebssystemspezifische System-Calls aus, welche über verschiedene Tools wie zum Beispiel Sysdig~\cite{SYSDIG} ausgelesen werden können.
-Die Schwierigkeit im Vergleich zu dem Untersuchen der Logs besteht darin, die großen Datenmengen zu bewältigen, welche schon bei kleineren Anwendungen anfallen.
-Die Probleme in der Verarbeitung von sehr großen Datenmengen konnten unter anderem durch die Verwendung selbst lernender Algorithmen erfolgreich angegangen werden.
-Im realen Einsatz solcher Verteidigungsmechanismen besteht eine weitere Schwierigkeit darin, dass das \ac{IDS} Zugriff auf den Kernel des zu überwachenden Systems benötigt.
-Diese wird in dieser Arbeit allerdings nicht behandelt, da lediglich die Algorithmen selbst, jedoch nicht die praktische Umsetzung in einem potentiellen Betrieb betrachtet wird.
+Die Probleme in der Verarbeitung von sehr großen Datenmengen konnten allerdings, unter anderem durch die Verwendung selbst lernender Algorithmen, erfolgreich angegangen werden.
+Gerade in der \ac{NLP} gab es große Fortschritte in der Verarbeitung von sehr großen Datenmengen, in diesem Fall mit Textkorpora.
+System Calls haben ebenso ein begrenztes Vokabular und sie besitzen einen semantischen Zusammenhang, womit ihnen eine gewisse Ähnlichkeiten zu natürlichen Sprachen zugesprochen werden kann.
 
-In verschiedenen Arbeiten wurden bereits die Abfolge von System-Calls betrachtet, doch nur in wenigen Arbeiten werden auch die Parameter zur Anomalieerkennung verwendet. Eine der ersten Arbeiten von Forrest et al.~\cite{FORREST} betrachtet lediglich die Sequenzen der System-Calls.
-Maggi et al.\ verwenden zusätzlich auch Parameter und verweisen in ihrer Arbeit~\cite{MAGGI} auf diverse verschiedene Ansätze.
-In dieser Arbeit soll versucht werden die Hinzunahme eines Parameters, wie zum Beispiel den Dateipfad (sofern vorhanden) bei schreibenden und lesenden Befehlen, mit Hinblick auf die Erkennungsquote des \ac{IDS} zu untersuchen.
+Bereits in verschiedenen Arbeiten wurden die Abfolge von System Calls betrachtet.
+Eine der ersten Arbeiten welche die Sequenzen von System Calls betrachtet, stammt aus dem Jahr $1996$ und wurde von Forrest et al.~\cite{FORREST} veröffentlicht.
+Maggi et al.\ verwenden zusätzlich auch Parameter und verweisen in ihrer Arbeit~\cite{MAGGI} auf verschiedene Ansätze.
+Mit der Verwendung von zusätzlichen Parametern wie zum Beispiel Dateipfaden oder Rückgabewerten können die Sequenzen der System Call Namen erweitert werden.
+Zwar wird der Informationsgehalt jedes System Calls erhöht, jedoch nimmt die Komplexität der Sequenzen damit wesentlich zu. 
+Es muss also eine Abwägung zwischen Informationsgehalt und Komplexität bei der Entwicklung der zusätzlichen Parameter erfolgen.
+Wie auf Grundlage der bereits erfolgten Forschung ein neuer Ansatz zur Erkennung von Abweichungen des System Normalverhaltens entwickelt wir soll im Folgenden zusammengefasst werden.
 
-Nachdem definiert wurde welche Information untersucht wird, stellt sich zu Beginn der Entwicklung einer Anomalieerkennung die Frage, wie das Normalverhalten der Systeme erfasst werden soll.
-Abstrakt betrachtet werden bei der Untersuchung von System-Calls zeitvariante und potentiell multivariate Datenstreams betrachtet, sofern neben der eigentlichen Sequenz noch weitere Parameter betrachtet werden.
-Besonders erfolgreich haben sich dabei Long-Short-Term-Memory (LSTM) Netzwerke gezeigt.
-Sie haben den Vorteil auch Zusammenhänge mit größerer zeitlicher Verzögerung noch zu erkennen~\cite{HOCHREITER} und können in unterschiedlichsten Architekturen einen Nutzen bringen. %\cite{SMAGULOVA}.
+%Viele bisher verwendeten Algorithmen können davon wahrscheinlich nicht so profitieren wie es komplexere Algorithmen können.
+% Diese wird in dieser Arbeit allerdings nicht behandelt, da lediglich die Algorithmen selbst, jedoch nicht die praktische Umsetzung in einem potentiellen Betrieb betrachtet wird.
 
-\section{Zielsetzung/Forschungsfrage}\label{sec:Forschungsfrage}
 
-In dieser Arbeit sollen zwei Forschungsfragen verfolgt werden.
+
+
+\section{Zielsetzung}\label{sec:Forschungsfrage}
+
+\acp{LSTM} sind in der \ac{NLP} aber auch in der Analyse von Zeitreihendaten ein etabliertes Verfahren.
+Sie haben den Vorteil auch Zusammenhänge mit größerer zeitlicher Verzögerung zu erkennen~\cite{HOCHREITER}.
+In dieser Arbeit soll ein Verfahren entwickelt werden, mit dem \acp{LSTM} genutzt werden um ein Sprachmodell der System Call Daten zu erstellen.
+Anhand dieses gelernten Modells soll dann eine Einstufung in Normalverhalten und Angriffsverhalten erfolgen.
+Des Weiteren wird die Hinzunahme von Parametern, wie zum Beispiel den Rückgabewert, mit Hinblick auf die Erkennungsquote und die Anzahl der Fehlalarme des \ac{IDS} untersucht.
+
+Zusammenfassen lässt sich diese Zielsetzung mit den folgenden Forschungsfragen:
 \begin{itemize}
-    \item Kann der Erfolg von LSTM-Netzwerken in verschiedenen Bereichen auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen werden?
-    \item Kann die Zunahme von Parametern bei der Anomalieerkennung mittels System-Calls eine Verbesserung bringen?
-
-        $\rightarrow$ Welche Parameter kommen in Frage?
+    \item Kann der Erfolg von LSTM-Netzwerken auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen werden?
+    \item Kann die Zunahme von Parametern bei der Anomalieerkennung mittels System Calls eine Verbesserung bringen?
+        $\rightarrow$ Welche Parameter kommen dafür in Frage?
 \end{itemize}
 %Des Weiteren wird, je nach Erfolg der ersteren Fragen noch optional folgendes untersucht:
 %\begin{itemize}
@@ -111,21 +107,23 @@ In dieser Arbeit sollen zwei Forschungsfragen verfolgt werden.
 %    \end{itemize}
 %\end{itemize}
 
-Um diese Forschungsfragen angemessen behandeln zu können müssen zunächst Grundlagen aus verschiedenen Bereichen gelegt werden.
-Zum einen werden unterschiedliche Herangehensweisen zur Überwachung von Systemen betrachtet und erläutert wieso es für diese Anwendung sinnvoll ist eine Host-Based Intrusion Detection zu wählen.
-Speziell soll auch beschrieben werden, warum sich System-Calls zur Überwachung von Computersystemen eignen.
-Des Weiteren müssen Grundlagen für die in dem verwendeten Algorithmus verwendeten Techniken gelegt werden.
-Dazu gehören Hauptsächlich Grundlagen zu rekurrenten neuronalen Netzen (RNN) sowie die Erweiterungen der LSTM Netzwerke.
+Um diese Forschungsfragen angemessen behandeln zu können, müssen zunächst Grundlagen aus verschiedenen Bereichen gelegt werden.
+Zum einen werden in \autoref{ch:Grundlagen} unterschiedliche Herangehensweisen zur Überwachung von Systemen betrachtet.
+Dabei wird erläutert wieso es für diese Anwendung sinnvoll ist einen Host-basierten Ansatz zu wählen.
+Speziell soll auch beschrieben werden, warum sich System Calls zur Überwachung von Computersystemen eignen.
+Des Weiteren müssen Grundlagen für die in dem Algorithmus verwendeten Techniken gelegt werden.
+Dazu gehören Hauptsächlich Grundlagen zu \acp{RNN} sowie die Erweiterungen dieser, die \acp{LSTM}.
 
 Ein großer Teil der Implementierungsarbeit jedoch wird die Vorverarbeitung der Daten darstellen.
-Diese soll mit der genaueren Untersuchung der Zusammensetzung der Techniken für den Algorithmus in einem weiteren Kapitel dargestellt werden.
-Nachdem die verwendete Software analysiert wurde, wird eine Auswertung auf dem LID-DS~\cite{LID-DS} Datensatz durchgeführt.
-Dieser bietet den Vorteil, dass in einer reproduzierbaren Art System Calls aufgenommen wurden.
-Des Weiteren werden zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID} zur Verfügung gestellt.
+Diese soll mit der genaueren Untersuchung der Zusammensetzung der Techniken für den Algorithmus in \autoref{ch:Realisierung} dargestellt werden.
+Nachdem die verwendete Software analysiert wurde, wird in \autoref{ch:erg} eine Auswertung auf dem LID-DS~\cite{LID-DS} Datensatz präsentiert.
+Dieser Datensatz bietet den Vorteil, dass zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID} zur Verfügung gestellt werden.
 
-Im letzten Teil der Arbeit soll dann eine Schlussfolgerung aus den zuvor gewonnenen Ergebnissen gezogen werden. 
+In \autoref{ch:folgerungen} der Arbeit soll dann eine Schlussfolgerung aus den zuvor gewonnenen Ergebnissen gezogen werden. 
 Hauptsächlich sollen die gestellten Forschungsfragen untersucht werden.
 Konnte mit einem hinzugezogenen Parameter ein Mehrwert erzielt werden?
 Bieten sich LSTM-Netzwerke auch für die Anomalieerkennung im IT-Sicherheitsbereich an?
 
-\section{Beitrag}
+Abschließend werden die Vorgehensweisen und Erkenntnisse in \autoref{ch:schluss} zusammengefasst.
+Auf Grundlage dieser Erkenntnisse wird dann ein Ausblick auf mögliche Entwicklungen und identifizierte Chancen gegeben. 
+
