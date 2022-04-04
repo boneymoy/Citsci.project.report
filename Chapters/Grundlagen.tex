@@ -36,7 +36,7 @@
 
             \paragraph{Anomaliebasiert}
                 Der wesentliche Vorteil Gegenüber den \ac{SIDS} besteht darin, dass auch bisher unbekannte Angriffe erkannt werden können.
-                Denn anstatt sich auf bekannte Angriffe zu berufen, werten \ac{AIDS} lediglich eine Abweichung eines wohldefinierten Normalverhaltens als Angriff.
+                Denn anstatt sich auf bekannte Angriffe zu berufen, werten anomaliebasierte \acp{IDS} lediglich eine Abweichung eines wohldefinierten Normalverhaltens als Angriff.
                 Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand soll möglichst akkurat das zu erwartende und damit gewollte Systemverhalten beschreiben~\cite{ANOMALYBOOKKISHAN2017}.
                 Anomalien oder auch \textit{\glqq outlier\grqq\ }\marginpar{zu dt. Ausreißer} wurden unter anderem schon 1969 definiert.
 
@@ -52,17 +52,18 @@
                 Zusammengefasst besteht also die Grundannahme dieser Methode darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
 
 
-                \ac{AIDS} werden im Einsatz in zwei Phasen aufgeteilt, die \textit{Trainingsphase} sowie die \textit{Testphase}.
-                Im ersten Schritt der \ac{AIDS} wird ein Modell des Normalverhaltens erstellt.
+                Anomaliebasierte \acp{IDS} werden im Einsatz in zwei Phasen aufgeteilt, die \textit{Trainingsphase} sowie die \textit{Testphase}.
+                Im ersten Schritt wird ein Modell des Normalverhaltens erstellt.
                 Dieser Schritt wird in \ac{ML}-basierte, Statistik-basierte~\cite{IDSPIETRO2008} oder auch 
                 wie in manchen Arbeiten~\cite{IDSsurvey} zusätzlich in \textit{Knowledge}-basierten \marginpar{zu dt. Wissens-basierte} Algorithmen untergliedert.
                 In der zweiten Phase muss dieses Modell dann überprüft werden.
                 Speziell soll dabei mit noch nicht betrachteten Daten getestet werden ob Normalverhalten und Anomalien auch als solche eingestuft werden.
-                Dabei liefert der Algorithmus für jede Eingabe entweder einen Anomaliescore oder direkt ein Label\marginpar{Intrusion oder keine Intrusion}.
+                Dabei liefert der Algorithmus für jede Eingabe entweder einen Anomaliescore oder direkt ein Label.
+                Das Label gibt an ob es sich um eine tatsächliche Intrusion handelt oder nicht.
                 Liegt der Score über einem festgelegten Schwellwert so gilt die Eingabe als anormal ansonsten als normal.~\cite{IDSPIETRO2008}
 
                 Jedoch ergibt sich hier im Vergleich zu den \ac{SIDS} eine Problematik.
-                Der erwähnte Schwellwert entscheidet über die Ergebnisqualität der \ac{AIDS} und sollte daher sorgfältig und am besten automatisch ermittelt werden, um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in~\autoref{sec:Algorithmus}}
+                Der erwähnte Schwellwert entscheidet über die Ergebnisqualität der anomaliebasierten \acp{IDS} und sollte daher sorgfältig und am besten automatisch ermittelt werden, um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in~\autoref{sec:Algorithmus}}
 
                 Die Trainingsphase wird von Chandola et al.~\cite{ANOMALYSURVEY} weiter unterteilt in \textit{Supervised}\marginpar{zu dt. überwacht, unüberwacht},
                 \textit{Semi-supervised} sowie \textit{Unsupervised Anomaly Detection}.
@@ -108,9 +109,9 @@
                         Festlegung eines Schwellwertes, welcher die eigentliche Unterscheidung zwischen Normalverhalten und Angriffsverhalten umsetzt.
                 \end{itemize}
 
-                Die Funktionalität eines \ac{AIDS} steht und fällt also mit den für das Training bereitgestellten Daten.
+                Die Funktionalität eines anomaliebasierten \ac{IDS} steht und fällt also mit den für das Training bereitgestellten Daten.
                 % Ist das Normalverhalten im Gänze und in seiner Dynamik richtig dargestellt?
-                Daher ist eine entscheidende Frage bei Verwendung von \ac{AIDS}\@: Woher kommen die Daten die für das Training des Normalverhalten benötigt werden.
+                Daher ist eine entscheidende Frage bei Verwendung von anomaliebasierten \acp{IDS}\@: Woher kommen die Daten die für das Training des Normalverhalten benötigt werden.
                 Und kann gewährleistet werden, dass diese Daten auch das Normalverhalten genügend präzise beschreiben können.
 
         \subsection{Datenerfassung}\label{sec:Datenerfassung}
@@ -154,7 +155,7 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.7\textwidth]{images/Illustrationen/IDS/IDSOverview}
-                    \caption[Einordnung der Arbeit in die Struktur der \ac{IDSs}]{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
+                    \caption[Einordnung der Arbeit in die Struktur der \acp{IDS}]{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
                 \end{figure}
                 Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
                 in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
@@ -177,7 +178,7 @@
 
     \section{System Calls}\label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen, müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
-        Diese Interaktion findet in Form von \textit{System Calls}\marginpar{zu dt. Systemaufrufe} statt und kann mit einem gewöhnlichen \ac{API} verglichen werden.
+        Diese Interaktion findet in Form von \textit{System Calls}\marginpar{zu dt. Systemaufrufe} statt und kann mit einer gewöhnlichen Programm Schnittstelle verglichen werden.
         Beispielhaft werden in \autoref{tab:syscall} zwei System Calls von Linux Betriebssystemen, ihre Argumente und die Art ihrer Rückgabewerte beschrieben.
 
         \begin{table}[ht]
@@ -407,7 +408,7 @@
                     Befindet sich der Anomaliescore vor dem Angriffszeitpunkt $t_{Angriff}$ über dem Schwellwert, also im Quadrant 2, liegt ein \ac{FP} vor.
                     Es wurde ein Alarm gemeldet an einer Stelle an dem (noch) kein Angriff stattfand.
                     Nach dem angegebenen Angriffszeitpunkt $t_{Angriff}$ wird es allerdings schwieriger.
-                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem \ac{TP}, also einem korrektem Alarm ausgegangen.
+                    Denn liegt der Anomaliescore nach dem Angriffszeitpunkt über dem Schwellwert, also im Quadranten 1, wird von einem korrektem Alarm ausgegangen.
                     Jedoch kann der Angriff zu diesem Zeitpunkt schon vorbei sein.
                     Also kann ein Alarm nach $t_{Angriff}$ theoretisch auch ein \ac{FP} sein. 
                     Genauso könnte umgekehrt ein Anomaliescore unter dem Schwellwert, also im Quadranten 4 korrekt sein obwohl er als \ac{FN} gewertet werden müsste.
@@ -441,12 +442,12 @@
         %Die Neuronen erhalten Eingangssignale und falls diese eine bestimmte Bedingung erfüllen (z.B. Schwellwertüberschreitung) wird das Ausgangssignal des Neurons verändert.
         %Wird die Bedingung nicht erfüllt, sendet das Neuron ein Signal, welches die nachfolgenden Neuronen nicht beeinflusst. Der schematische Aufbau wird in Abbildung \ref{fig:Neuron} gezeigt.
         \subsection{Rekurrente neuronale Netze}\label{sec:RNN}
-            Der entscheidende Unterschied von RNNs zu herkömmlichen neuronalen Netzen ist,
+        Der entscheidende Unterschied von \acp{RNN} zu herkömmlichen neuronalen Netzen ist,
             dass der Ausgang eines Knotens auf einer \textit{Layer} \marginpar{zu dt. Ebene} mit einer vorherigen oder derselben Layer verbunden ist.
             Ist dies der Fall spricht man von einem \textit{Feedback} oder \textit{Recurrent Neural Network}, sonst von einem \textit{Feedforward Neural Network}. 
             Mit Knoten, die eine extra Verbindung zu sich selbst haben, können frühere Eingaben Einfluss auf die Behandlung der nächsten Eingabe haben.
             Der einzelne Knoten merkt sich seine Ausgabe, welche im nächsten Zeitschritt als weiteres Eingabesignal dient.
-            Dadurch wird es ermöglicht auch zeitlich abhängige Sequenzen zu erlernen, da die Signalverarbeitung der RNNs auch vorherige Geschehnisse mit einbezieht.
+        Dadurch wird es ermöglicht auch zeitlich abhängige Sequenzen zu erlernen, da die Signalverarbeitung der \acp{RNN} auch vorherige Geschehnisse mit einbezieht.
             Im Gegensatz dazu steht zum Beispiel die Bilderkennung, bei welchem das vorherige Bild keinen Einfluss auf die Einschätzung des aktuellen Bildes hat.
             Dieser Zusammenhang lässt sich in der folgenden Gleichung darstellen.
             \begin{equation}
@@ -455,7 +456,7 @@
                     y_t &= h_t
                 \end{split}
             \end{equation}
-            Dabei beschreiben $x_t$, $h_t$ und $y_t$ den Eingang des Neurons, die rekurrente Information und den Ausgang des RNN\@.
+            Dabei beschreiben $x_t$, $h_t$ und $y_t$ den Eingang des Neurons, die rekurrente Information und den Ausgang des \ac{RNN}\@.
             $W_h$ und  $W_x$ beschreiben die Gewichte und $b$ den Bias.
             Ein einzelner Knoten wird ohne die Gewichte in~\autoref{fig:RNN} dargestellt,
             sowie in~\autoref{fig:RNN_enroled} in einer alternativen Darstellung, wie sich dieser Knoten $A$ über $t$ Zeitpunkte verhält.
@@ -463,16 +464,16 @@
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=0.8\textwidth]{images/Illustrationen/RNN_simple}
-                    \caption{Darstellung einer RNN Zelle}
+                    \caption{Darstellung einer \ac{RNN} Zelle}
                     \label{fig:RNN}
                 \end{figure}
                 \begin{figure}[ht]
                     \centering
                     \includegraphics[width=1\textwidth]{images/Illustrationen/RNN_enrolled}
-                    \caption[Alternative Darstellung einer RNN Zelle]{Darstellung einer \glqq ausgerollten\grqq \ und vereinfachten RNN Zelle}
+                    \caption[Alternative Darstellung einer \ac{RNN} Zelle]{Darstellung einer \glqq ausgerollten\grqq \ und vereinfachten \ac{RNN} Zelle}
                     \label{fig:RNN_enroled}
                 \end{figure}
-            Doch auch die RNNs haben ein Problem bei Merkmalen, die sich über einen längeren Zeitraum strecken.
+                Doch auch die \acp{RNN} haben ein Problem bei Merkmalen, die sich über einen längeren Zeitraum strecken.
             Denn dabei kommt es häufig vor, dass durch die \textit{Backpropagation} die berechneten Gradienten entweder verschwindend klein, oder sehr groß werden.
             Gerade bei Abhängigkeiten über einen größeren zeitlichen Abstand tendieren die Fehlersignale,
             die durch die Backpropagation durch das Netz gegeben werden, zu geringe Gewichtsänderungen auszulösen.
@@ -480,7 +481,7 @@
             Dies hat den Effekt, dass n dieser kleinen Zahlen multipliziert werden, um die Gradienten der \glqq vorderen\grqq \ Schichten in einem n-Schichten-Netzwerk zu berechnen, was bedeutet, dass der Gradient (Fehlersignal) exponentiell mit n abnimmt und die vorderen Schichten sehr langsam trainieren.
             Die von Sepp Hochreiter erstmals erwähnte \textit{Long Short-Term Memory} (LSTM) Zellen ermöglichen durch verbesserte Fehlerkorrektur stabilere Lernergebnisse sowie auch das Lernen von Mustern mit noch größeren zeitlichen Abständen.~\cite{HOCHREITER1998}
 
-            Diese Sonderform der RNNs, die auch in dieser Arbeit verwendet werden, sollen deshalb genauer untersucht werden.
+            Diese Sonderform der \acp{RNN}, die auch in dieser Arbeit verwendet werden, sollen deshalb genauer untersucht werden.
             %% TODO Batch Normalisation \cite{LSTMbatchnorm}
    	
         \subsection{Long Short-Term Memory}\label{sec:LSTM}
@@ -490,7 +491,7 @@
             \begin{figure}[ht]
                 \centering
                 \includegraphics[width=1\textwidth]{images/Illustrationen/LSTM}
-                \caption[Schematische Darstellung einer \ac{LSTM} Zelle - Memory Cell]{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (Abwandlung von \cite{OLAH2015}).}
+                \caption[Schematische Darstellung der Memory Cell eines \acp{LSTM}]{Schematische Darstellung eine Memory Cell $A$ in einem LSTM NN, mit Input, Output und Forget Gate (Abwandlung von \cite{OLAH2015}).}
                 \label{fig:LSTM}
             \end{figure}
 
@@ -510,7 +511,7 @@
                 
                 Einfluss auf den Zellstatus haben zwei verschiedene \textit{Gates} \marginpar{zu dt. Gatter/Tore}.
             Im ersten Schritt wird entschieden, welche Information aus dem vorherigen Zeitschritt keinen Einfluss mehr auf den Zellstatus haben sollen.
-            Dies wird mit dem \textit{Forget Gate} umgesetzt und ist in~\autoref{fig:LSTM_Forget} zu sehen und kann analog zur RNN Zelle folgendermaßen hergeleitet werden.
+            Dies wird mit dem \textit{Forget Gate} umgesetzt und ist in~\autoref{fig:LSTM_Forget} zu sehen und kann analog zur \ac{RNN} Zelle folgendermaßen hergeleitet werden.
 
             \begin{equation}
                 f_t = \sigma\left(W_{fh}h_{t-1} + W_{fx}x_t + b_f\right)

@@ -4,7 +4,7 @@
 Nachdem die Ergebnisse der Versuchsreihen vorgestellt wurden, folgt nun eine Bewertung der Ergebnisse.
 Dafür wird in \autoref{sec:folgerungen_LSTM} zunächst nur die Ergebnisse des \ac{LSTM} Ansatz besprochen.
 Im Anschluß wird in \autoref{sec:folgerungen_extra} die Folgerungen aus den Experimenten mit Extraparametern erörtert. 
-Schließlich werden in \autoref{sec:conclusions_vgl} die Ergebnisse des Vergleichs anderer Arbeiten mit demselben Datensatz besprochen
+Schließlich werden in \autoref{sec:folgerungen_vgl} die Ergebnisse des Vergleichs anderer Arbeiten mit demselben Datensatz besprochen
 
 \section{LSTM Ansatz}\label{sec:folgerungen_LSTM}
 
@@ -34,16 +34,28 @@ Wie dies unter der Verwendung von Extraparametern aussieht wird im Folgenden bet
 
 Wie in \autoref{sec:erg_LSTM_extra} beschrieben kann eine deutliche Verbesserung der \ac{DR} sowie  der \ac{FP}-Rate mit dem Einsatz verschiedener Extraparameter erzielt werden.
 So sind unter $9$ von $10$ der besten Ergebnisse nach \ac{DR} und $7$ von $10$ nach \ac{FP}-Rate Konfigurationen mit mindestens einem Extraparameter.
-Im Vergleich zu den Ergebnissen ohne Extraparametern scheint hier ein Trend zu größeren N-Grammen zu gehen.
-Dies liegt wahrscheinlich an der steigenden Komplexität der Eingaben.
-Es ist jeweils nur noch eine Konfiguration unter den besten zehn mit einer n-gram Größe von $2$.
-Im Vergleich zu drei bzw.\ vier der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.\marginpar{jeweils auf höchste \ac{DR} und niedrigste \ac{FP}-Rate bezogen}
-Dies spiegelt eventuell die zunehmende Komplexität der Eingaben wieder.  
+Im Vergleich zu den Ergebnissen ohne Extraparametern ist hier ein Trend zu größeren N-Grammen erkennbar.
+Es ist nur noch insgesamt eine Konfiguration unter den besten zehn Ergebnissen nach \ac{DR} und \ac{FP} mit einer n-gram Größe von $2$.
+Im Vergleich zu insgesamt sieben \marginpar{drei nach \ac{DR}, vier nach \ac{FP}} der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.
+Daraus lässt sich schließen, dass bei komplexeren Eingaben größere N-Gramme bessere Ergebnisse liefern. 
+Auffällig sind auch die Verteilungen der Embedding Größen.
+Dabei ist keine Abweichung der erfolgreichen Größen zwischen den Konfigurationen mit und ohne zusätzlichen Parametern zu erwarten gewesen.
+Doch so ist in \autoref{tab:LSTM_erg} zu erkennen, dass drei der Konfigurationen eine Größe $e=10$ und drei $e=6$ verwenden, während diese Größen mit zusätzlichen Parametern nicht mehr unter den besten zehn Konfigurationen vorkommen.
+Dort sind es entweder $e=4$ oder $e=8$.
+Da nach \ac{FP} in \autoref{tab:LSTM_FP} unter den besten zehn Konfigurationen wiederrum für fünf Konfigurationen $e=6$ gilt, kann keine beste Größe angegeben werden.
+Es kann aber zumindest vermutet werden, dass eine größere Einbettung nicht unbedingt mehr Informationsgehalt bedeutet.
+Dies kann jedoch nur definitiv festgestellt werden, wenn auch größere \ac{LSTM}-Architekturen in die Experimente einbezogen werden, ebenso wie unterschiedliche Kontextgrößen des \ac{W2V}-Verfahrens.
 
-Konfiguration $n=10$ und $e=4$ kommt häufig vor und $6$ und $8$.
+Abschließend kann festgestellt werden, dass unter Verwendung von den in dieser Arbeit entwickelten Extraparametern die Kombinationen von $n=10$ und $e=4$ sowie $n=6$ und $e=8$ nach \ac{DR} sowie \ac{FP} als sehr erfolgreich erwiesen haben.
+Zusätzlich konnte zwar keine eindeutig beste Konfiguration für die Kombination der zusätzlichen Parameter gefunden werden, aber fast alle Kombinationen konnten eine Verbesserung der Ergebnisse erzielen
 
-Nach leveln schlechter. 
-Aber nach bester Konfiguration selber schneidet es besser ab als \ac{STIDE}
+\section{Vergleich anderer Arbeiten}\label{sec:folgerungen_vgl}
 
-\section{Vergleich anderer Arbeiten}\label{sec:folgerungen_extra}
-
+Der Vergleich zu anderen Arbeiten, die ebenfalls \acp{LSTM} verwenden, ist wie bereits an verschiedenen Stellen erwähnt schwierig, da unter anderem andere Datensätze verwendet wurden.
+Dennoch kann ein Vergleich zu der Arbeit von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} gezogen werden.
+Speziell wurde hierfür die beste Konfiguration verglichen, sowie das von Grimmer et al.\ eingeführte 5 Level Modell.
+Im Direktvergleich der besten Konfiguration in \autoref{tab:LSTM_stide_erg} ist signifikanter Rückgang der \acp{FP} zu erkennen, in \autoref{tab:LSTM_lvl} ist dies nicht mehr erkennbar.
+Das \ac{LSTM} kann mit einer Auswahl an Algorithmen auf allen Leveln bis auf Level $5$ mithalten.
+Dabei verwenden diese Algorithmen keine Extraparameter.
+Der entworfene anomaliebasierte \ac{HIDS} Ansatz unter Verwendung eines \acp{LSTM} kann somit mit den in der Forschung verwendeten Algorithmen mithalten.
+Wie die erlangten Erkenntnisse in Zukunft weiter ihren Einsatz finden können, soll im folgenden Kapitel untersucht werden.

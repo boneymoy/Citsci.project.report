@@ -109,7 +109,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $6$ & 	$10$ & 	$7.33$ & 	    $0.56$  \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse DR ohne Extraparameter]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
+        \caption[Ergebnisse \ac{DR} ohne Extraparameter]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
                  Alle N-Gramme sind \textit{Thread Aware}.
                  Nur blaue Zeilen enthalten Ergebnisse des ZipSlip Szenarios.}
@@ -147,7 +147,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $2$ & 	$6$ & 	$20.60$ & 	$0.64$ \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse FP ohne Extraparameter]{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
+        \caption[Ergebnisse \ac{FP} ohne Extraparameter]{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
                  Alle N-Gramme sind \textit{Thread Aware}.
                  Es wurden nur Konfigurationen mit $\ac{DR}>0.5$ einbezogen.
@@ -224,7 +224,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $PHP\_CWE-434$         &$10.09$ & 	$0.91$ \\
             \rowcolor{GruvGray!16}
             $SQL\_Injection\_CWE-89$&$9.81$ & 	$0.95$ \\
-            \rowcolor{CTurl!16}
+            \rowcolor{CTred!16}
             $ZipSlip$              &$35.5$ & $0.15$ \\
             \hline
         \end{tabular}
@@ -276,7 +276,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $6$ & 	$4$ & 	$1$ & 	$0$ & 	$1$ & 	$18.22$ & 	$0.70$ \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse mit Extraparametern nach DR]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
+        \caption[Ergebnisse \ac{DR} mit Extraparametern]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.
                  Alle N-Gramme sind \textit{Thread Aware}.
                  Nur blaue Zeilen enthalten Ergebnisse des ZipSlip Szenarios.}
@@ -313,7 +313,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $6$ & 	$6$ & 	$0$ &  	$0$ &  	$1$ &  	$7.89$ &   		$0.64$ \\ 
             \hline
         \end{tabular}
-        \caption[Ergebnisse mit Extraparametern nach FP]{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
+        \caption[Ergebnisse \ac{FP} mit Extraparametern]{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.  Alle N-Gramme sind \textit{Thread Aware}.
                  Auch hier kommen bei den meisten Konfigurationen die Extraparameter zum Einsatz.}
         \label{tab:LSTM_FP}
@@ -336,20 +336,20 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             Szenario & $\overline{\ac{FP}}$ & $\Delta$ & $\overline{\ac{DR}}$ & $\Delta$ \\
             \midrule
             \rowcolor{GruvGray!16}
-            $Bruteforce\_CWE-307$  &$25.82$ &{\color{CTurl} $3.73$} & 	$0.30$  &{\color{CTurl}$0.01$}\\ 
+            $Bruteforce\_CWE-307$  &$25.82$ &{\color{CTred} $3.73$} & 	$0.30$  &{\color{CTred}$0.01$}\\ 
             $CVE-2012-2122$        &$11.82$ &{\color{CTlink}$2.19$} & 	$0.03$  &{\color{CTlink}$0.01$}\\
             \rowcolor{GruvGray!16}
-            $CVE-2014-0160$        &$5.95$ &{\color{CTurl}$2.70$}  & 	$0.01$  &{\color{CTurl}$0.07$}\\
+            $CVE-2014-0160$        &$5.95$ &{\color{CTred}$2.70$}  & 	$0.01$  &{\color{CTred}$0.07$}\\
             $CVE-2017-7529$        &$1.25$  &{\color{CTlink}$0.67$} & 	$0.90$  &{\color{CTlink}$0.08$}\\
             \rowcolor{GruvGray!16}
             $CVE-2018-3760$        &$8.82$ &{\color{CTlink}$8.18$}  &	$1.00$  &{\color{CTlink}$0.00$}\\
             $CVE-2019-5418$       &$7.00$  &{\color{CTlink}$5.17$}  &	$0.58$  &{\color{CTlink}$0.00$}\\
             \rowcolor{GruvGray!16}
-            $EPS\_CWE-434$         &$18.56$ &{\color{CTurl}$3.76$} & 	$0.97$  &{\color{CTurl}$0.03$}\\
-            $PHP\_CWE-434$         &$13.22$ &{\color{CTurl}$3.13$} & 	$0.91$  &{\color{CTlink}$0.00$}\\
+            $EPS\_CWE-434$         &$18.56$ &{\color{CTred}$3.76$} & 	$0.97$  &{\color{CTred}$0.03$}\\
+            $PHP\_CWE-434$         &$13.22$ &{\color{CTred}$3.13$} & 	$0.91$  &{\color{CTlink}$0.00$}\\
             \rowcolor{GruvGray!16}
-            $SQL\_Injection\_CWE-89$&$25.51$ &{\color{CTurl}$15.70$}& 	$0.99$  &{\color{CTlink}$0.04$}\\
-            \rowcolor{CTurl!16}
+            $SQL\_Injection\_CWE-89$&$25.51$ &{\color{CTred}$15.70$}& 	$0.99$  &{\color{CTlink}$0.04$}\\
+            \rowcolor{CTred!16}
             $ZipSlip$              &$11.64$ &{\color{CTlink}$23.86$} &   $0.19$ &{\color{CTlink}$0.04$}\\
             \hline
         \end{tabular}
@@ -377,22 +377,22 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \toprule
             \rowcolor{GruvGray!16}
             Bruteforce CWE-307    & $60$ & $0.94$ & x & {\color{CTlink}$29$} &{\color{CTlink}$0.94$} \\
-            CVE-2012-2122 	      & $8$ & $0.01$ & x & {\color{CTurl}$18$} &{\color{CTlink}$0.99$} \\
+            CVE-2012-2122 	      & $8$ & $0.01$ & x & {\color{CTred}$18$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16}
-            CVE-2014-0160 	      & $3$ & $0.00$ & x & {\color{CTurl}$13$} &{\color{CTlink}$0.03$} \\
+            CVE-2014-0160 	      & $3$ & $0.00$ & x & {\color{CTred}$13$} &{\color{CTlink}$0.03$} \\
             CVE-2017-7529 	      & $1$  & $0.99$ & x & {\color{CTlink}$0$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16} 
             CVE-2018-3760 	      & $11$  & $1.00$ & x & {\color{CTlink}$4$} &{\color{CTlink}$1.00$} \\
             CVE-2019-5418 	      & $32$  & $1.00$ & x & {\color{CTlink}$7$} &{\color{CTlink}$1.00$} \\
             \rowcolor{GruvGray!16}
-            EPS CWE-434 	      & $14$ & $1.00$ & x & {\color{CTurl}$29$} &{\color{CTlink}$1.00$} \\
-            PHP CWE-434 	      & $4$ & $0.96$ & x & {\color{CTurl}$24$} &{\color{CTlink}$.1.00$} \\
+            EPS CWE-434 	      & $14$ & $1.00$ & x & {\color{CTred}$29$} &{\color{CTlink}$1.00$} \\
+            PHP CWE-434 	      & $4$ & $0.96$ & x & {\color{CTred}$24$} &{\color{CTlink}$.1.00$} \\
             \rowcolor{GruvGray!16}
-            SQL Injection CWE-89 &	$1$ & $0.46$ & x & {\color{CTurl}$82$} &{\color{CTlink}$1.00$} \\
+            SQL Injection CWE-89 &	$1$ & $0.46$ & x & {\color{CTred}$82$} &{\color{CTlink}$1.00$} \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}
-        \caption[Vergeleich DR ohne Extraparameter vs.\ mit Extraparameter ]{Vergleich bester Ergebnisse. Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=0$.
+        \caption[Vergleich \ac{DR} ohne Extraparameter vs.\ mit Extraparameter ]{Vergleich bester Ergebnisse. Höchste \ac{DR} links mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=0$.
                 Höchste \ac{DR} rechts mit folgenden Parametern: $n=6, e=8, rv=1, \ac{TCF}=1, time=1$.
                 Eine Verschlechterung wird mit Rot hervorgehoben, ansonsten Blau.}
         \label{tab:LSTM_vs_alternative}
@@ -408,11 +408,11 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             Szenario & \ac{FP} & \ac{DR} & vs & \acp{FP} & \ac{DR}\\
             \toprule
             \rowcolor{GruvGray!16}
-            Bruteforce CWE-307    & $15$ & $1.00$ & x & {\color{CTlink}$10$} &{\color{CTurl}$0.07$} \\
-            CVE-2012-2122 	      & $4$ & $0.03$& x & {\color{CTurl}$10$} &{\color{CTlink}$0.02$} \\
+            Bruteforce CWE-307    & $15$ & $1.00$ & x & {\color{CTlink}$10$} &{\color{CTred}$0.07$} \\
+            CVE-2012-2122 	      & $4$ & $0.03$& x & {\color{CTred}$10$} &{\color{CTlink}$0.02$} \\
             \rowcolor{GruvGray!16}
-            CVE-2014-0160 	      & $1$ & $0.99$ & x & {\color{CTurl}$5$} &{\color{CTurl}$0.00$} \\
-            CVE-2017-7529 	      & $0$  & $0.05$ & x & {\color{CTurl}$3$} &{\color{CTlink}$0.99$} \\
+            CVE-2014-0160 	      & $1$ & $0.99$ & x & {\color{CTred}$5$} &{\color{CTred}$0.00$} \\
+            CVE-2017-7529 	      & $0$  & $0.05$ & x & {\color{CTred}$3$} &{\color{CTlink}$0.99$} \\
             \rowcolor{GruvGray!16} 
             CVE-2018-3760 	      & $9$  & $0.01$ & x & {\color{CTlink}$0$} &{\color{CTlink}$1.00$} \\
             CVE-2019-5418 	      & $12$  & $1.00$ & x & {\color{CTlink}$3$} &{\color{CTlink}$0.99$} \\
@@ -424,7 +424,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}
-        \caption[Vergeleich FP ohne Extraparameter vs.\ mit Extraparameter ]{Vergleich bester Ergebnisse.
+        \caption[Vergeleich \ac{FP} ohne Extraparameter vs.\ mit Extraparameter ]{Vergleich bester Ergebnisse.
                 Niedrigste \acp{FP} links mit folgenden Parametern: $n=10, e=10, rv=0, \ac{TCF}=0, time=0$.
                 Niedrigste \acp{FP} rechts mit folgenden Parametern: $n=6, e=8, rv=0, \ac{TCF}=0, time=1$.
                 Eine Verschlechterung wird mit Rot hervorgehoben, ansonsten Blau.}
@@ -506,14 +506,14 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \toprule
             Algorithmus & $n$ & $e$ & \ac{SW} & \textit{rv} & \ac{TCF} & \textit{time} & $\overline{\ac{FP}}$ & $\overline{\ac{DR}}$ \\
             \midrule
-            \ac{STIDE} & $5$ & int & $1000$ & $0$ & $0$ & $0$ & $61.5$ & $0.986$ \\
+            \ac{STIDE} & $5$ & int & $1000$ & $0$ & $0$ & $0$ & $61.50$ & $0.986$ \\
             \rowcolor{GruvGray!16}
             best \ac{DR} LSTM & $6$ & 	$8$ & $1$ & 	$1$ & 	$1$ & 	$1$ & 	$22.89$& 	$0.88$ \\
             \rowcolor{GruvGray!16}
             best \ac{FP} LSTM & $6$ & 	$8$ & $1$ &	$0$ & 	$0$ & 	$1$ & 	$4.66$ & 	$0.67$ \\
             \hline
         \end{tabular}
-        \caption[Vergeich mit STIDE]{Vergleich mit nach Grimmer et al.~\cite{IDSTHREADGRIMMER2021} besten STIDE Konfiguration mit den besten Ergebnissen dieser Arbeit.}
+        \caption[Vergeich mit \ac{STIDE}]{Vergleich mit nach Grimmer et al.~\cite{IDSTHREADGRIMMER2021} besten STIDE Konfiguration mit den besten Ergebnissen dieser Arbeit.}
         \label{tab:LSTM_stide_erg}
     \end{table}
 
@@ -552,9 +552,10 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             5 & x &  x & x & x &	x &	x & 	x & 	x   & 	x \\
             \hline
         \end{tabular}
-        \caption[Vergleich mit Ergebnissen aus anderen Arbeiten, nach FP-Level]{Vergleich weiterer Algorithmen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021}.
+        \caption[Vergleich mit Ergebnissen aus anderen Arbeiten, nach \ac{FP}-Level]{Vergleich weiterer Algorithmen von Grimmer et al.~\cite{IDSTHREADGRIMMER2021}.
                 Dabei werden wie in~\cite{IDSTHREADGRIMMER2021} die Ergebnisse nach verschiedenen Leveln von \ac{FP} Grenzwerten eingeteilt.
-                Level 1 \acp{FP}<40,Level 2 \acp{FP}<20, Level 3 \acp{FP}<10, Level 4 \acp{FP}<5, Level 5 \acp{FP}<1.5.}
+                Level 1 \acp{FP}<40,Level 2 \acp{FP}<20, Level 3 \acp{FP}<10, Level 4 \acp{FP}<5, Level 5 \acp{FP}<1.5.
+                int steht dabei für das Integerembedding bei dem die System Call Namen in Integerwerte übersetzt werden.}
         \label{tab:LSTM_lvl}
     \end{table}
 

@@ -18,21 +18,20 @@ Seit mehr als 20 Jahren werden \acp{HIDS} in der Forschung behandelt, wobei sich
 Seit dem Beginn der Forschung wurden verschiedene Algorithmen sowie Datensätze auf welchen diese ausgewertet werden können präsentiert.
 Da aber viele Datensätze Unzulänglichkeiten aufweisen leidet die Vergleichbarkeit der Ergebnisse stark.
 Der auf modernen Systemen aufgezeichnete \ac{LID-DS} beseitigt einige dieser Unzulänglichkeiten.
-Diese Arbeit beschäftigt speziell mit \acp{HIDS} welche Anomalien in Sytem Call Streams des \ac{LID-DS} erkennen. 
+Diese Arbeit beschäftigt sich speziell mit \acp{HIDS} welche Anomalien in Sytem Call Streams des \ac{LID-DS} erkennen. 
 In der  ersten Iteration werden die Sequenz der System Calls betrachtet, wobei dafür die Sequenz der System Call Namen verwendet wird.
 Dabei bietet es sich an von etablierten Verfahren der Mustererkennung zu profitieren.
 Ein Bereich der Mustererkennung welcher großen Fortschritt erfahren hat ist die \ac{NLP}.
-Es stellt sich also die Frage ob sich bestimmte Verfahren, welche in der \ac{NLP} Verwendung finden, auch in der Domäne der \ac{HIDS} als erfolgreich erweisen.
-Es stellt sich daher die Frage, ob sich bestimmte Verfahren, die in der \ac{NLP} eingesetzt werden, auch im Bereich der \ac{HIDS} bewähren.
+Es stellt sich also die Frage, ob bestimmte Verfahren, die in der \ac{NLP} eingesetzt werden, auch im Bereich der \ac{HIDS} erfolgreich sind.
 Speziell die \acp{LSTM} zeigten sich in der Sprachverarbeitung sowie in der Analyse von Zeitreihendaten als effektiv.
 \acp{LSTM} haben gegenüber vielen anderen Algorithmen die in der Forschung bisher eingesetzt wurden einen Vorteil.
 Sie beziehen zuvor gesehene Eingaben in die Klassifizierung der aktuellen Eingabe mit ein, kennen also den Kontext der aktuellen Eingabe.
 Es wird in dieser Arbeit gezeigt, dass sich die Fortschritte der \ac{NLP} in Form von \acp{LSTM} auf die anomaliebasierte \ac{HIDS} übertragen lassen.
 Um die System Call Namen sinnvoll für das \ac{LSTM} darzustellen, wird auf ein ebenfalls aus der \ac{NLP} stammendes Verfahren zurückgegriffen.
 Das \ac{W2V}-Verfahren stellt nicht nur ein Lookup-Table für System Calls dar, sondern kodiert auch Kontextinformationen der System Calls.
-Um die Ergebnisse des entworfenen Algorithmus weiter zu verbessern, werden neue Verfahren zur Kodierung zusätzliche Informationen der System Calls vorgestellt.
+Um die Ergebnisse des entworfenen Algorithmus weiter zu verbessern, werden neue Verfahren zur Kodierung zusätzlicher Informationen der System Calls vorgestellt.
 Zum einen werden dafür die Rückgabewerte bestimmter lesender und schreibender System Calls verwendet. 
-Dies wird erreicht in dem für jede Kategorie, zum Beispiel lesende System Calls, das Maximum aus den Trainingsdaten ermittelt wird.
+Dies wird erreicht in dem für jede Kategorie, zum Beispiel lesende System Calls, das Maximum der gelesenen Bytes aus den Trainingsdaten ermittelt wird.
 Mit dem ermittelten Maximum werden dann die Werte aus den Testdaten normalisiert.
 Und zum anderen werden auf gleiche Weise die zeitlichen Abstände zwischen zwei System Calls innerhalb eines Threads normalisiert und dienen so als Eingabe für das \ac{LSTM}.
 In einem weiteren Feature werden die von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} präsentierten \textit{Thread aware} n-gramme für Algorithmen mit Kontextwissen erweitert.
@@ -65,6 +64,9 @@ Dieser Ansatz könnte die Vorteile der \acp{LSTM} ausspielen und einen erheblich
 Die Erkenntnisse der Arbeit bezüglich des Entwurfs neuer Kodierungen für Extraparameter der System Calls könnte sich hingegen direkt auf weitere Arbeiten auswirken.
 So kann vielleicht der Einsatz der Extraparameter in Zukunft eine Verbesserung der Ergebnisse des \ac{STIDE} oder anderen Algorithmen erzielen.
 Insbesondere können weitere kontextsensitive Algorithmen durch die Erweiterung der \textit{Thread Aware} n-gramme profitieren. 
-%Es kann zwar davon Ausgegangen werden, dass sich die Erfolge der Extraparametern im Zusammenhang mit den \ac{LSTM} Ansatz nicht eins zu eins auf Ansätze wie den \ac{STIDE} Algorithmus übertragen lassen.
+Aber die präsentierten zusätzlichen Parameter sind ebenfalls noch erweiterbar.
+So können noch weitere Normalisierungen von System Call Rückgabewerten erfolgen.
+Zum Beispiel der System Call \textit{send} wurde bisher noch nicht mit einbezogen.
+Auch weitere Gruppierungen von System Calls oder eventuell sogar überhaupt keine Gruppierungen sollten in weiteren Arbeiten untersucht werden.
+Es kann zwar davon Ausgegangen werden, dass sich die Erfolge der Extraparameter im Zusammenhang mit den \ac{LSTM} Ansatz nicht eins zu eins auf Ansätze wie den \ac{STIDE} Algorithmus übertragen lassen, dennoch wurden in dieser Arbeit neue Kodierungsansätze präsentiert, die zur breiteren Nutzung von zusätzlichen Parametern beiträgt.
 
-Normalisierung Rückgabewerte erweitern auf send etc.

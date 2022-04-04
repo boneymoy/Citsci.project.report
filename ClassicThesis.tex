@@ -46,7 +46,7 @@
 % Bibliographies
 %*******************************************************
 \addbibresource{Bibliography.bib}
-\addbibresource[label=ownpubs]{AMiede_Publications.bib}
+%\addbibresource[label=ownpubs]{AMiede_Publications.bib}
 
 %********************************************************************
 % Hyphenation
@@ -56,10 +56,21 @@
 % ********************************************************************
 % GO!GO!GO! MOVE IT!
 %*******************************************************
+%\usepackage[ngerman]{babel}
+%\addto{\captionsngerman}{%
+  %\renewcommand*{\contentsname}{Inhalt}
+  %\renewcommand*{\listfigurename}{Abbildungen}
+  %\renewcommand*{\listtablename}{Tabellen}
+  %\renewcommand*{\figurename}{Abbildung}
+  %\renewcommand*{\tablename}{Tabelle}
+%}
+%\renewcommand{\listfigurename}{Abbildungsverzeichnis}
+%\renewcommand{\listtablename}{Tabellenverzeichnis}
+%\renewcommand{\contentsname}{Inhaltsverzeichnis}
 \begin{document}
 \frenchspacing
 \raggedbottom
-\selectlanguage{american} % american ngerman
+%\selectlanguage{ngerman, american} % american ngerman
 %\renewcommand*{\bibname}{new name}
 %\setbibpreamble{}
 \pagenumbering{roman}
@@ -78,9 +89,10 @@
 %\cleardoublepage\include{FrontBackmatter/Acknowledgments}
 %\cleardoublepage\include{FrontBackmatter/Contents}
 \tableofcontents
+\addcontentsline{toc}{section}{Tabellenverzeichnis}
+\listoftables
 \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \listoffigures
-\listoftables
 
 %********************************************************************
 % Mainmatter
