@@ -8,7 +8,7 @@
     soll im Anschluss die Grundlagen des in der Arbeit verwendeten Algorithmus untersucht werden.
     Dazu werden in~\autoref{sec:KNN} \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen beschrieben.
 
-    \section{Intrusion Detection System}\label{sec:IDS}
+    \section{\acl{IDS}}\label{sec:IDS}
         Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität welche zu Missbrauch eines Systems führen kann.
         Sie sorgt für ein zum Normalverhalten abweichendes, anormales Verhalten und kann durch diese Abweichung einem System großen Schaden zufügen.
         Ein \ac{IDS} überwacht Ressourcen, wie zum Beispiel Netzwerkdaten und versucht automatisch Missbrauch und anormales Verhalten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSPIETRO2008}
@@ -233,13 +233,14 @@
         Der folgende Abschnitt soll einen Überblick verschaffen, wie die System Calls für ein \ac{IDS} verwendet werden können.
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 
-        \subsection{System Calls für IDS}
+        \subsection{System Calls für \aclp{IDS}}
             Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}
             Häufig werden dabei aber nicht die in den Argumente der System Calls enthaltene Information mit einbezogen und bieten damit einen Spielraum für Angriffe.
             Verschiedene Arbeiten~\cite{Syscallseqexploit1, Syscallseqexploit2, Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
             Tan et al.~\cite{Syscallseqexploit3} erreichen dies durch die Veränderung eines zuvor von der \ac{IDS} erkannten Angriffes.
             % Sie beschreiben wie sie dem \ac{IDS} unbekannte System Call Sequenzen präsentierenI@derart Verändert werden können, dass sie als normal eingestuft werden.
-            Dabei werden die dem \ac{IDS} fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.\marginpar{Verwendeter Algorithmus: STIDE~\cite{FORREST}} 
+            Dabei werden die dem \ac{IDS} fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.
+            Zur Auswertung wurde der \acf{STIDE} Algorithmus verwendet.
             Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
             Was diese Beispiele jedoch zeigen, ist dass wenigstens einer dieser Faktoren, also entweder die Sequenz von System Calls verändert werden muss oder es werden die Argumente der System Calls verändert.
             So kann zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
@@ -277,7 +278,7 @@
                 Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
                 Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
                 Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
-            \paragraph{LID-DS}\label{sec:LIDDS}
+            \paragraph{\ac{LID-DS}}\label{sec:LIDDS}
                 2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (\ac{LID-DS}).
                 Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \ac{IDS} zu verwenden.
                 Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien auf welchen jeweils ein Angriff ausgeführt wird.
@@ -392,7 +393,7 @@
                     In den Testdaten mit enthaltenen Angriffen wird ein Angriffszeitpunkt angegeben.
                     Jedoch gibt es bei einer Datei mit Angriff im Gegensatz zu den normalen Dateien vier statt zwei mögliche Zuordnungen.
                     In den normalen sind das zum einen \ac{TN}, falls kein Alarm vorliegt, da in den normalen Dateien keine Angriffe stattfinden.
-                    Oder falls fälschlicherweise ein Angriff erkannt wird, die Zuordnung als \ac{FP}.
+                    Oder falls fälschlicherweise ein Angriff erkannt wird, die Zuordnung als \acf{FP}.
                     Die Zuordnungen der Dateien mit Angriff werden in~\autoref{fig:quadrant} dargestellt.
             
                     \begin{figure}[ht]
@@ -441,7 +442,7 @@
         %Neuronale Netze bestehen aus verschiedenen Ebenen von Knoten (auch Neuronen genannt), die miteinander verbunden sind.
         %Die Neuronen erhalten Eingangssignale und falls diese eine bestimmte Bedingung erfüllen (z.B. Schwellwertüberschreitung) wird das Ausgangssignal des Neurons verändert.
         %Wird die Bedingung nicht erfüllt, sendet das Neuron ein Signal, welches die nachfolgenden Neuronen nicht beeinflusst. Der schematische Aufbau wird in Abbildung \ref{fig:Neuron} gezeigt.
-        \subsection{Rekurrente neuronale Netze}\label{sec:RNN}
+        \subsection{\aclp{RNN}}\label{sec:RNN}
         Der entscheidende Unterschied von \acp{RNN} zu herkömmlichen neuronalen Netzen ist,
             dass der Ausgang eines Knotens auf einer \textit{Layer} \marginpar{zu dt. Ebene} mit einer vorherigen oder derselben Layer verbunden ist.
             Ist dies der Fall spricht man von einem \textit{Feedback} oder \textit{Recurrent Neural Network}, sonst von einem \textit{Feedforward Neural Network}. 
@@ -479,12 +480,12 @@
             die durch die Backpropagation durch das Netz gegeben werden, zu geringe Gewichtsänderungen auszulösen.
             Traditionelle Aktivierungsfunktionen wie die hyperbolische Tangensfunktion haben Gradienten im Bereich $(-1,1)$ oder $[0,1)$ und Backpropagation berechnet Gradienten durch die Kettenregel.
             Dies hat den Effekt, dass n dieser kleinen Zahlen multipliziert werden, um die Gradienten der \glqq vorderen\grqq \ Schichten in einem n-Schichten-Netzwerk zu berechnen, was bedeutet, dass der Gradient (Fehlersignal) exponentiell mit n abnimmt und die vorderen Schichten sehr langsam trainieren.
-            Die von Sepp Hochreiter erstmals erwähnte \textit{Long Short-Term Memory} (LSTM) Zellen ermöglichen durch verbesserte Fehlerkorrektur stabilere Lernergebnisse sowie auch das Lernen von Mustern mit noch größeren zeitlichen Abständen.~\cite{HOCHREITER1998}
+            Die von Sepp Hochreiter erstmals erwähnte  \ac{LSTM} Zellen ermöglichen durch verbesserte Fehlerkorrektur stabilere Lernergebnisse sowie auch das Lernen von Mustern mit noch größeren zeitlichen Abständen.~\cite{HOCHREITER1998}
 
             Diese Sonderform der \acp{RNN}, die auch in dieser Arbeit verwendet werden, sollen deshalb genauer untersucht werden.
             %% TODO Batch Normalisation \cite{LSTMbatchnorm}
    	
-        \subsection{Long Short-Term Memory}\label{sec:LSTM}
+        \subsection{\aclp{LSTM}}\label{sec:LSTM}
             Hauptziel der \acp{LSTM} ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
             Entscheidend dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant ist.
             
@@ -572,8 +573,8 @@
                     \label{fig:LSTM_Output}
                 \end{figure}
             
-            Die verschiedenen Gates können so als ein weiteres kleines NN in jedem Knoten der LSTM Netze betrachtet werden, welche einen zeitlichen Zusammenhang besser erkennen sollen.
-            Gesamt lässt sich eine LSTM Zelle mit den folgenden Formeln beschreiben:
+                Die verschiedenen Gates können so als ein weiteres kleines NN in jedem Knoten der \ac{LSTM} Netze betrachtet werden, welche einen zeitlichen Zusammenhang besser erkennen sollen.
+            Gesamt lässt sich eine \ac{LSTM} Zelle mit den folgenden Formeln beschreiben:
             \begin{equation}
                 \begin{split}
                     f_t &= \sigma\left(W_{fh}h_{t-1} + W_{fx}x_t + b_f\right) \\

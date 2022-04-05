@@ -70,7 +70,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Das mindert leider die Vergleichbarkeit der Ergebnisse, was die Erkenntnisse dieser Arbeit aber nur geringfügig beeinflusst.
     Konfigurationen welche ein Ergebnis für das ZIPSlip Szenario beinhalten sind extra blau markiert.
 
-\section{LSTM Ansatz}\label{sec:erg_LSTM}
+\section{\ac{LSTM} Ansatz}\label{sec:erg_LSTM}
 
     Im ersten Schritt der Auswertung wird die \ac{DR} isoliert betrachtet.
     Dabei werden nur Konfigurationen einbezogen, die keine zusätzlichen Parameter der System Calls enthalten.
@@ -99,7 +99,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $2$ & 	$4$ & 	$12.89$ & 	$0.68$  \\
             \rowcolor{GruvGray!16}
             $10$ & 	$8$ & 	$17.78$ & 	$0.67$  \\
-            \rowcolor{CTlink!16}
+            \rowcolor{CTblue!16}
             $2$ & 	$6$ & 	$20.60$ & 	$0.64$  \\
             \rowcolor{GruvGray!16}
             $6$ & 	$4$ & 	$11.34$ & 	$0.58$  \\
@@ -133,7 +133,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $10$ & 	$6$ & 	$6.44$ & 	    $0.56$ \\
             \rowcolor{GruvGray!16}
             $6$ & 	$10$ & 	$7.33$ & 	    $0.56$ \\
-            \rowcolor{CTlink!16}
+            \rowcolor{CTblue!16}
             $2$ & 	$8$ & 	$8.40$ & 	    $0.50$ \\
             \rowcolor{GruvGray!16}
             $2$ & 	$10$ & 	$9.22$ & 	    $0.68$ \\
@@ -143,11 +143,11 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $10$ & 	$4$ & 	$14.56$ & 	$0.71$ \\
             \rowcolor{GruvGray!16}
             $10$ & 	$8$ & 	$17.78$ & 	$0.67$ \\
-            \rowcolor{CTlink!16}
+            \rowcolor{CTblue!16}
             $2$ & 	$6$ & 	$20.60$ & 	$0.64$ \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse \ac{FP} ohne Extraparameter]{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
+        \caption[Ergebnisse \ac{FP}-Rate ohne Extraparameter]{Konfigurationen mit den $10$ niedrigsten \acp{FP}. 
                  Dabei wurden nur Konfigurationen betrachtet die keine Extraparameter nutzen.
                  Alle N-Gramme sind \textit{Thread Aware}.
                  Es wurden nur Konfigurationen mit $\ac{DR}>0.5$ einbezogen.
@@ -193,7 +193,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $ZipSlip$                & x & x & x & x & x \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse auf Szenarien aufgeschlüsselt]{Auflistung der einzelnen Szenarien für die Konfiguration mit der höchsten \ac{DR} ($n=10$, $e=4$) links und der wenigsten \acp{FP} ($n=10$, $e=10$)}
+        \caption[Ergebnisse bester Konfigurationen auf Szenarien aufgeschlüsselt]{Auflistung der einzelnen Szenarien für die Konfiguration mit der höchsten \ac{DR} ($n=10$, $e=4$) links und der wenigsten \acp{FP} ($n=10$, $e=10$)}
         \label{tab:LSTM_pro_szenario}
     \end{table}
     Dies zeigt sich auch in \autoref{tab:LSTM_pro_szenario_allg}. 
@@ -228,13 +228,13 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $ZipSlip$              &$35.5$ & $0.15$ \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse auf Szenarien aufgeschlüsselt]{Darstellung der durchschnittlichen \ac{DR} und \acp{FP} für alle Szenarien mit Konfigurationen ohne Extraparametern.
+        \caption[Durschnittliche Ergebnisse auf Szenarien aufgeschlüsselt]{Darstellung der durchschnittlichen \ac{DR} und \acp{FP} für alle Szenarien mit Konfigurationen ohne Extraparametern.
         Dabei muss beachtet werden, dass bei den ZipSlip Ergebnissen weitaus weniger Konfigurationen in den Durchschnitt eingeflossen sind.}
         \label{tab:LSTM_pro_szenario_allg}
     \end{table}
 
 
-\section{Extra Parameter}\label{sec:erg_LSTM_extra}
+\section{Einsatz von Extraparameter}\label{sec:erg_LSTM_extra}
     In \autoref{tab:LSTM_par_erg} werden die Ergebnisse der Konfigurationen mit und ohne Extraparametern angezeigt. 
     Wieder werden die Ergebnisse zunächst nach der besten \ac{DR} eingestuft.
     Als erstes fällt dabei ins Auge, dass die besten sechs der zehn Konfigurationen Extraparameter verwenden.
@@ -271,12 +271,12 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $10$ & 	$4$ & 	$0$ & 	$0$ & 	$0$ & 	$14.56$ & 	$0.71$ \\
             $6$ & 	$8$ & 	$1$ & 	$1$ & 	$0$ & 	$9.00$ & 	    $0.70$ \\
             \rowcolor{GruvGray!16}
-            \rowcolor{CTlink!16}
+            \rowcolor{CTblue!16}
             $2$ & 	$8$ & 	$1$ & 	$1$ & 	$1$ & 	$14.00$ & 	$0.70$ \\
             $6$ & 	$4$ & 	$1$ & 	$0$ & 	$1$ & 	$18.22$ & 	$0.70$ \\
             \hline
         \end{tabular}
-        \caption[Ergebnisse \ac{DR} mit Extraparametern]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
+        \caption[Ergebnisse nach \ac{DR} mit Extraparametern]{Konfigurationen mit den $10$ höchsten \acp{DR}. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.
                  Alle N-Gramme sind \textit{Thread Aware}.
                  Nur blaue Zeilen enthalten Ergebnisse des ZipSlip Szenarios.}
@@ -313,7 +313,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             $6$ & 	$6$ & 	$0$ &  	$0$ &  	$1$ &  	$7.89$ &   		$0.64$ \\ 
             \hline
         \end{tabular}
-        \caption[Ergebnisse \ac{FP} mit Extraparametern]{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
+        \caption[Ergebnisse nach \ac{FP} mit Extraparametern]{Konfigurationen mit den $10$ niedrigsten \ac{FP}-Raten. 
                  Es wurden Konfigurationen mit und ohne Extraparameter betrachtet.  Alle N-Gramme sind \textit{Thread Aware}.
                  Auch hier kommen bei den meisten Konfigurationen die Extraparameter zum Einsatz.}
         \label{tab:LSTM_FP}
@@ -337,20 +337,20 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             \midrule
             \rowcolor{GruvGray!16}
             $Bruteforce\_CWE-307$  &$25.82$ &{\color{CTred} $3.73$} & 	$0.30$  &{\color{CTred}$0.01$}\\ 
-            $CVE-2012-2122$        &$11.82$ &{\color{CTlink}$2.19$} & 	$0.03$  &{\color{CTlink}$0.01$}\\
+            $CVE-2012-2122$        &$11.82$ &{\color{CTblue}$2.19$} & 	$0.03$  &{\color{CTblue}$0.01$}\\
             \rowcolor{GruvGray!16}
             $CVE-2014-0160$        &$5.95$ &{\color{CTred}$2.70$}  & 	$0.01$  &{\color{CTred}$0.07$}\\
-            $CVE-2017-7529$        &$1.25$  &{\color{CTlink}$0.67$} & 	$0.90$  &{\color{CTlink}$0.08$}\\
+            $CVE-2017-7529$        &$1.25$  &{\color{CTblue}$0.67$} & 	$0.90$  &{\color{CTblue}$0.08$}\\
             \rowcolor{GruvGray!16}
-            $CVE-2018-3760$        &$8.82$ &{\color{CTlink}$8.18$}  &	$1.00$  &{\color{CTlink}$0.00$}\\
-            $CVE-2019-5418$       &$7.00$  &{\color{CTlink}$5.17$}  &	$0.58$  &{\color{CTlink}$0.00$}\\
+            $CVE-2018-3760$        &$8.82$ &{\color{CTblue}$8.18$}  &	$1.00$  &{\color{CTblue}$0.00$}\\
+            $CVE-2019-5418$       &$7.00$  &{\color{CTblue}$5.17$}  &	$0.58$  &{\color{CTblue}$0.00$}\\
             \rowcolor{GruvGray!16}
             $EPS\_CWE-434$         &$18.56$ &{\color{CTred}$3.76$} & 	$0.97$  &{\color{CTred}$0.03$}\\
-            $PHP\_CWE-434$         &$13.22$ &{\color{CTred}$3.13$} & 	$0.91$  &{\color{CTlink}$0.00$}\\
+            $PHP\_CWE-434$         &$13.22$ &{\color{CTred}$3.13$} & 	$0.91$  &{\color{CTblue}$0.00$}\\
             \rowcolor{GruvGray!16}
-            $SQL\_Injection\_CWE-89$&$25.51$ &{\color{CTred}$15.70$}& 	$0.99$  &{\color{CTlink}$0.04$}\\
+            $SQL\_Injection\_CWE-89$&$25.51$ &{\color{CTred}$15.70$}& 	$0.99$  &{\color{CTblue}$0.04$}\\
             \rowcolor{CTred!16}
-            $ZipSlip$              &$11.64$ &{\color{CTlink}$23.86$} &   $0.19$ &{\color{CTlink}$0.04$}\\
+            $ZipSlip$              &$11.64$ &{\color{CTblue}$23.86$} &   $0.19$ &{\color{CTblue}$0.04$}\\
             \hline
         \end{tabular}
         \caption[Ergebnisse auf Szenarien aufgeschlüsselt]{Darstellung der durchschnittlichen \ac{DR} und \acp{FP} für alle Szenarien mit Konfigurationen ohne Extraparametern.
@@ -376,19 +376,19 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             Szenario & \ac{FP} & \ac{DR} & vs.\ & \acp{FP} & \ac{DR}\\
             \toprule
             \rowcolor{GruvGray!16}
-            Bruteforce CWE-307    & $60$ & $0.94$ & x & {\color{CTlink}$29$} &{\color{CTlink}$0.94$} \\
-            CVE-2012-2122 	      & $8$ & $0.01$ & x & {\color{CTred}$18$} &{\color{CTlink}$0.99$} \\
+            Bruteforce CWE-307    & $60$ & $0.94$ & x & {\color{CTblue}$29$} &{\color{CTblue}$0.94$} \\
+            CVE-2012-2122 	      & $8$ & $0.01$ & x & {\color{CTred}$18$} &{\color{CTblue}$0.99$} \\
             \rowcolor{GruvGray!16}
-            CVE-2014-0160 	      & $3$ & $0.00$ & x & {\color{CTred}$13$} &{\color{CTlink}$0.03$} \\
-            CVE-2017-7529 	      & $1$  & $0.99$ & x & {\color{CTlink}$0$} &{\color{CTlink}$0.99$} \\
+            CVE-2014-0160 	      & $3$ & $0.00$ & x & {\color{CTred}$13$} &{\color{CTblue}$0.03$} \\
+            CVE-2017-7529 	      & $1$  & $0.99$ & x & {\color{CTblue}$0$} &{\color{CTblue}$0.99$} \\
             \rowcolor{GruvGray!16} 
-            CVE-2018-3760 	      & $11$  & $1.00$ & x & {\color{CTlink}$4$} &{\color{CTlink}$1.00$} \\
-            CVE-2019-5418 	      & $32$  & $1.00$ & x & {\color{CTlink}$7$} &{\color{CTlink}$1.00$} \\
+            CVE-2018-3760 	      & $11$  & $1.00$ & x & {\color{CTblue}$4$} &{\color{CTblue}$1.00$} \\
+            CVE-2019-5418 	      & $32$  & $1.00$ & x & {\color{CTblue}$7$} &{\color{CTblue}$1.00$} \\
             \rowcolor{GruvGray!16}
-            EPS CWE-434 	      & $14$ & $1.00$ & x & {\color{CTred}$29$} &{\color{CTlink}$1.00$} \\
-            PHP CWE-434 	      & $4$ & $0.96$ & x & {\color{CTred}$24$} &{\color{CTlink}$.1.00$} \\
+            EPS CWE-434 	      & $14$ & $1.00$ & x & {\color{CTred}$29$} &{\color{CTblue}$1.00$} \\
+            PHP CWE-434 	      & $4$ & $0.96$ & x & {\color{CTred}$24$} &{\color{CTblue}$.1.00$} \\
             \rowcolor{GruvGray!16}
-            SQL Injection CWE-89 &	$1$ & $0.46$ & x & {\color{CTred}$82$} &{\color{CTlink}$1.00$} \\
+            SQL Injection CWE-89 &	$1$ & $0.46$ & x & {\color{CTred}$82$} &{\color{CTblue}$1.00$} \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}
@@ -408,19 +408,19 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
             Szenario & \ac{FP} & \ac{DR} & vs & \acp{FP} & \ac{DR}\\
             \toprule
             \rowcolor{GruvGray!16}
-            Bruteforce CWE-307    & $15$ & $1.00$ & x & {\color{CTlink}$10$} &{\color{CTred}$0.07$} \\
-            CVE-2012-2122 	      & $4$ & $0.03$& x & {\color{CTred}$10$} &{\color{CTlink}$0.02$} \\
+            Bruteforce CWE-307    & $15$ & $1.00$ & x & {\color{CTblue}$10$} &{\color{CTred}$0.07$} \\
+            CVE-2012-2122 	      & $4$ & $0.03$& x & {\color{CTred}$10$} &{\color{CTblue}$0.02$} \\
             \rowcolor{GruvGray!16}
             CVE-2014-0160 	      & $1$ & $0.99$ & x & {\color{CTred}$5$} &{\color{CTred}$0.00$} \\
-            CVE-2017-7529 	      & $0$  & $0.05$ & x & {\color{CTred}$3$} &{\color{CTlink}$0.99$} \\
+            CVE-2017-7529 	      & $0$  & $0.05$ & x & {\color{CTred}$3$} &{\color{CTblue}$0.99$} \\
             \rowcolor{GruvGray!16} 
-            CVE-2018-3760 	      & $9$  & $0.01$ & x & {\color{CTlink}$0$} &{\color{CTlink}$1.00$} \\
-            CVE-2019-5418 	      & $12$  & $1.00$ & x & {\color{CTlink}$3$} &{\color{CTlink}$0.99$} \\
+            CVE-2018-3760 	      & $9$  & $0.01$ & x & {\color{CTblue}$0$} &{\color{CTblue}$1.00$} \\
+            CVE-2019-5418 	      & $12$  & $1.00$ & x & {\color{CTblue}$3$} &{\color{CTblue}$0.99$} \\
             \rowcolor{GruvGray!16}
-            EPS CWE-434 	      & $9$ & $1.00$ & x & {\color{CTlink}$9$} &{\color{CTlink}$1.00$} \\
-            SQL Injection CWE-89 &	$1$ & $1.00$ & x & {\color{CTlink}$1$} &{\color{CTlink}$1.00$} \\
+            EPS CWE-434 	      & $9$ & $1.00$ & x & {\color{CTblue}$9$} &{\color{CTblue}$1.00$} \\
+            SQL Injection CWE-89 &	$1$ & $1.00$ & x & {\color{CTblue}$1$} &{\color{CTblue}$1.00$} \\
             \rowcolor{GruvGray!16}
-            PHP CWE-434 	      & $1$ & $0.00$ & x & {\color{CTlink}$1$} &{\color{CTlink}$1.00$} \\
+            PHP CWE-434 	      & $1$ & $0.00$ & x & {\color{CTblue}$1$} &{\color{CTblue}$1.00$} \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}

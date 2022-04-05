@@ -8,14 +8,14 @@ Schließlich werden in \autoref{sec:folgerungen_vgl} die Ergebnisse des Vergleic
 
 \section{LSTM Ansatz}\label{sec:folgerungen_LSTM}
 
-Die Ergebnisse beim Einsatz von \ac{LSTM} in der anomaliebasierten \ac{HIDS} zeigen zwei Dinge sehr deutlich.
+Die Ergebnisse beim Einsatz von \acp{LSTM} in anomaliebasierten \acp{HIDS} zeigen zwei Dinge sehr deutlich.
 %Der aus der \ac{NLP} bekannte Ansatz kann erfolgreich in der \ac{HIDS} eingesetzt werden.
 Das \ac{LSTM} kann ein Sprachmodell der System Calls erstellen und damit erfolgreich System Calls vorhersagen.
-Dies konnten auch andere Arbeiten zeigen, doch wie zuvor in \autoref{sec:related_nlp} beschrieben, erfolgten die Auswertungen bisher auf veralteten Datensätzen, mit praxisfernen Metriken und oft ohne detaillierte Beschreibung des Aufbaus.
+Dies haben auch andere Arbeiten versucht zu zeigen, doch wie zuvor in \autoref{sec:related_nlp} beschrieben, erfolgten die Auswertungen bisher auf veralteten Datensätzen, mit praxisfernen Metriken und oft ohne detaillierte Beschreibung des Aufbaus.
 Aufgrund dessen kann leider kein direkter Vergleich der Architekturen der \acp{LSTM} gezogen werden.
 
-Die Ergebnisse der Experimente konnten für die n-gram und Embidding Größe keinen klaren Trend abbilden.
-So können bei einer n-gram Größe von $n=10$ und einer Embedding Größe von $e=4$ ähnlich gute Ergebnisse erzielt werden wie bei $n=2$ und $e=4$.
+Die Ergebnisse der Experimente konnten für die N-Gram und Embidding Größe keinen klaren Trend abbilden.
+So können bei einer N-Gram Größe von $n=10$ und einer Embedding Größe von $e=4$ ähnlich gute Ergebnisse erzielt werden wie bei $n=2$ und $e=4$.
 Allerdings ist der Berechnungsaufwand gerade bei großem $n$ sehr hoch.
 Speziell bei sehr großen Szenarien hat dies in dieser Arbeit zu Ressourcenengpässen geführt.
 So konnten wie zuvor Beschrieben einige Konfigurationen nicht auf dem größten Szenario des \acp{LID-DS} berechnet werden.
@@ -33,9 +33,9 @@ Wie dies unter der Verwendung von Extraparametern aussieht wird im Folgenden bet
 \section{Einsatz von Extraparametern}\label{sec:folgerungen_extra}
 
 Wie in \autoref{sec:erg_LSTM_extra} beschrieben kann eine deutliche Verbesserung der \ac{DR} sowie  der \ac{FP}-Rate mit dem Einsatz verschiedener Extraparameter erzielt werden.
-So sind unter $9$ von $10$ der besten Ergebnisse nach \ac{DR} und $7$ von $10$ nach \ac{FP}-Rate Konfigurationen mit mindestens einem Extraparameter.
+So sind $9$ unter den besten $10$ Ergebnissen nach \ac{DR} und $7$ nach \ac{FP}-Rate, Konfigurationen mit mindestens einem Extraparameter.
 Im Vergleich zu den Ergebnissen ohne Extraparametern ist hier ein Trend zu größeren N-Grammen erkennbar.
-Es ist nur noch insgesamt eine Konfiguration unter den besten zehn Ergebnissen nach \ac{DR} und \ac{FP} mit einer n-gram Größe von $2$.
+Es ist nur noch insgesamt eine Konfiguration unter den besten zehn Ergebnissen nach \ac{DR} und \ac{FP} mit einer N-Gram Größe von $2$.
 Im Vergleich zu insgesamt sieben \marginpar{drei nach \ac{DR}, vier nach \ac{FP}} der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.
 Daraus lässt sich schließen, dass bei komplexeren Eingaben größere N-Gramme bessere Ergebnisse liefern. 
 Auffällig sind auch die Verteilungen der Embedding Größen.
@@ -46,7 +46,7 @@ Da nach \ac{FP} in \autoref{tab:LSTM_FP} unter den besten zehn Konfigurationen w
 Es kann aber zumindest vermutet werden, dass eine größere Einbettung nicht unbedingt mehr Informationsgehalt bedeutet.
 Dies kann jedoch nur definitiv festgestellt werden, wenn auch größere \ac{LSTM}-Architekturen in die Experimente einbezogen werden, ebenso wie unterschiedliche Kontextgrößen des \ac{W2V}-Verfahrens.
 
-Abschließend kann festgestellt werden, dass unter Verwendung von den in dieser Arbeit entwickelten Extraparametern die Kombinationen von $n=10$ und $e=4$ sowie $n=6$ und $e=8$ nach \ac{DR} sowie \ac{FP} als sehr erfolgreich erwiesen haben.
+Abschießend lässt sich sagen, dass sich unter Verwendung der in dieser Arbeit entwickelten zusätzlichen Parameter die Kombinationen von $n=10$ und $e=4$ sowie $n=6$ und $e=8$ für die N-Gramm Größe und Embedding Größe, nach \ac{DR} sowie \ac{FP} als sehr erfolgreich erwiesen haben.
 Zusätzlich konnte zwar keine eindeutig beste Konfiguration für die Kombination der zusätzlichen Parameter gefunden werden, aber fast alle Kombinationen konnten eine Verbesserung der Ergebnisse erzielen
 
 \section{Vergleich anderer Arbeiten}\label{sec:folgerungen_vgl}

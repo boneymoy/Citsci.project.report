@@ -4,7 +4,7 @@
 
 Die Forschungsfrage mit der sich diese Arbeit beschäftigt, kann wie in~\autoref{sec:Forschungsfrage} beschrieben, weiter unterteilt werden.
 Zum einen soll untersucht werden inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen können.
-Und zum anderen wie die Sequenzen von System Calls angereichert werden können um die \ac{FP}-Rate sowie die \ac{DR} zu verbessern.
+Und zum anderen wie die Sequenzen von System Calls angereichert werden können um die \ac{FP}-Rate sowie die \acf{DR} zu verbessern.
 Um den Überblick über die verwandten Arbeiten zu bewahren sind diese im Folgenden untergliedert.
 Zunächst sollen Grundlagen der Anomalieerkennung und erste Ansätze der Anomalieerkennung mit System Calls aufgeführt werden, auf welchen diese Arbeit indirekt fußt.
 Im nächsten Schritt werden dann Arbeiten betrachtet, welche sich auf die Argumente der System Calls konzentrieren.
@@ -21,7 +21,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
     Speziell im Kontext der Angriffserkennung wird wie in~\autoref{sec:Datenerfassung} beschrieben die Anomalieerkennung in \ac{NIDS} und \ac{HIDS} eingeteilt.
     Da es wie in der Anomalieerkennung in diesen Bereichen eine große Anzahl an Arbeiten und auch Übersichtsarbeiten gibt~\cite{ANOMALYSURVEY, ANOMALYSURVEY2, ANOMALYSURVEY3}, soll im Folgenden nur auf bestehende Arbeiten im Bereich der \ac{HIDS} eingegangen werden, welche speziell System Calls verwenden.
 
-\section{Anomaliebasierte HIDS mit System Calls}
+    \section{Anomaliebasierte \ac{HIDS} mit System Calls}
 
     Zunächst soll im Folgenden \ac{HIDS} betrachtet werden die explizit nur die Sequenzen der System Call Namen betrachten und alle weiteren Informationen nicht beachten.
 
@@ -38,8 +38,8 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Im Gegensatz zu~\cite{FORREST} befinden sich bei diesem Ansatz normale sowie anormale Sequenzen in den Trainingsdaten.
 
         1999 untersuchten Warrender et al.~\cite{STIDE_Alternatives} wie verschiedene Algorithmen auf System Call Daten abschneiden.
-        Dazu gehören die bereits erwähnten Verfahren \ac{TIDE}, \ac{STIDE}, RIPPER, sowie ein \ac{HMM}.
-        Dabei schienen alle Verfahren erfolgreich wobei das \ac{HMM} als sehr rechenintensiv hervorgehoben wird.
+        Dazu gehören die bereits erwähnten Verfahren \ac{TIDE}, \ac{STIDE}, RIPPER, sowie ein Hidden Markov Modell.
+        Dabei schienen alle Verfahren erfolgreich wobei das Hidden Markov Modell als sehr rechenintensiv hervorgehoben wird.
         %Speziell interessant an dieser Arbeit ist auch die Verwendung von N-Grammen aus der Textverarbeitung.
         %Ein N-Gramm ist eine zusammenhängende Folge von $n$ Elementen aus einer gegebenen Eingabe.
         %Oft wird diese Art der Vorverarbeitung bei Datenstreams eingesetzt.
@@ -148,7 +148,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
             %\item weiteres
         %\end{itemize}
 
-\section{NLP in der Anomaliedetektion und HIDS}\label{sec:related_nlp}
+    \section{\ac{NLP} in der Anomaliedetektion und \acp{HIDS}}\label{sec:related_nlp}
 
         In den letzten Jahren wurden auch diverse Ansätze vorgestellt, in welchen ein \ac{HIDS} mit Hilfe von Verfahren aus der \ac{NLP} designt wurden.
         Einen Überblick der verschiedenen Transfers wurde in der Arbeit von Sworna et al.~\cite{NLPHIDSSWORNA2022} bereitgestellt.
