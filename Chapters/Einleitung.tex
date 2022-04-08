@@ -8,7 +8,7 @@
 \section{Einleitung}\label{sec:einleitung}
 Laut des \textit{X-Force Thread Intelligence Index 2022} von IBM~\cite{IBM} gibt es eine klare Steigerung von Malware mit einzigartigem Quelltext.
 Dies gilt auch speziell für Linux Systeme, wobei der größte Anstieg bei den Banking-Trojanern zu beobachten ist.
-Dort konnte eine Verzehnfachung von neuartigen Angriffen Verzeichnet werden.
+Dort konnte eine Verzehnfachung von neuartigen Angriffen verzeichnet werden.
 Die Zunahme der Angriffe auf Linux Systeme hängt laut IBM auch damit zusammen, dass Organisationen zunehmend auf Cloud-Umgebungen setzen, welche häufig auf Linux Systeme angewiesen sind.
 Einzigartige und damit meist unbekannte Angriffe abzuwehren stellt Unternehmen vor große Schwierigkeiten.
 Die häufig verwendeten, auf Signaturen basierenden Abwehrmechanismen reichen nicht aus diese drohende Gefahren abzuwenden.
@@ -74,12 +74,12 @@ System Calls haben ebenso ein begrenztes Vokabular und sie besitzen einen semant
 Die Übertragung von \ac{NLP}-Methoden auf anomaliebasierte \ac{HIDS} wurde bereits in einigen Arbeiten vorgenommen und soll auch hier weiter verfolgt werden.
 
 Bereits in verschiedenen Arbeiten wurden die Abfolge von System Calls betrachtet.
-Eine der ersten Arbeiten welche die Sequenzen von System Calls betrachtet, stammt aus dem Jahr $1996$ und wurde von Forrest et al.~\cite{FORREST} veröffentlicht.
+Eine der ersten Arbeiten, welche die Sequenzen von System Calls betrachtet, stammt aus dem Jahr $1996$ und wurde von Forrest et al.~\cite{FORREST} veröffentlicht.
 Maggi et al.\ verwenden zusätzlich auch Parameter und verweisen in ihrer Arbeit~\cite{MAGGI} auf verschiedene Ansätze.
-Mit der Verwendung von zusätzlichen Parametern wie zum Beispiel Dateipfaden oder Rückgabewerten können die Sequenzen der System Call Namen erweitert werden.
+Mit der Verwendung von zusätzlichen Parametern, wie zum Beispiel Dateipfaden oder Rückgabewerten, können die Sequenzen der System Call Namen erweitert werden.
 Zwar wird der Informationsgehalt jedes System Calls erhöht, jedoch nimmt die Komplexität der Sequenzen damit wesentlich zu. 
 Es muss also eine Abwägung zwischen Informationsgehalt und Komplexität bei der Entwicklung der zusätzlichen Parameter erfolgen.
-Wie auf Grundlage der bereits erfolgten Forschung ein neuer Ansatz zur Erkennung von Abweichungen des System Normalverhaltens entwickelt wird, soll im Folgenden zusammengefasst werden.
+Im Folgenden wird zusammengefasst, wie auf der Grundlage der bereits durchgeführten Forschung ein neuer Ansatz zur Erkennung von Abweichungen vom normalen Systemverhalten entwickelt wird.
 
 %Viele bisher verwendeten Algorithmen können davon wahrscheinlich nicht so profitieren wie es komplexere Algorithmen können.
 % Diese wird in dieser Arbeit allerdings nicht behandelt, da lediglich die Algorithmen selbst, jedoch nicht die praktische Umsetzung in einem potentiellen Betrieb betrachtet wird.
@@ -116,12 +116,12 @@ Zum einen werden in \autoref{ch:Grundlagen} unterschiedliche Herangehensweisen z
 Dabei wird erläutert wieso es für diese Anwendung sinnvoll ist einen Host-basierten Ansatz zu wählen.
 Speziell soll auch beschrieben werden, warum sich System Calls zur Überwachung von Computersystemen eignen.
 Des Weiteren müssen Grundlagen für die in dem Algorithmus verwendeten Techniken gelegt werden.
-Dazu gehören Hauptsächlich Grundlagen zu \acfp{RNN} sowie die Erweiterungen dieser, die \acp{LSTM}.
+Dazu gehören hauptsächlich Grundlagen zu \acfp{RNN} sowie die Erweiterungen dieser, die \acp{LSTM}.
 Der Kontext in welchem diese Arbeit steht wird in \autoref{ch:verwandte_arbeiten} vorgestellt.
 Ein großer Teil der Implementierungsarbeit stellt die Vorverarbeitung der Daten dar.
 Diese soll mit der genaueren Untersuchung der Zusammensetzung der Techniken für den Algorithmus in \autoref{ch:Realisierung} dargestellt werden.
 In \autoref{ch:erg} wird dann eine Auswertung auf dem \acf{LID-DS}~\cite{LID-DS} präsentiert.
-Dieser Datensatz bietet den Vorteil, dass zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID} zur Verfügung gestellt werden.
+Dieser Datensatz bietet den Vorteil, dass zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID}, zur Verfügung gestellt werden.
 
 In \autoref{ch:folgerungen} der Arbeit soll dann eine Schlussfolgerung aus den zuvor gewonnenen Ergebnissen gezogen werden. 
 Hauptsächlich sollen die gestellten Forschungsfragen untersucht werden.

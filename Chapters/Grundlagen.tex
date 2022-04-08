@@ -1,8 +1,8 @@
 %*****************************************
 \chapter{Grundlagen}\label{ch:Grundlagen}
 %*****************************************
-    In den folgenden Abschnitten werden die Grundlagen betrachtet, welche für die Umsetzung eines \ac{IDS} nötig sind.
-    Zu Beginn soll in~\autoref{sec:Datenanalyse} besprochen werden welche Analysetechniken für die Überwachung von Systemen zur Verfügung stehen.
+    In den folgenden Abschnitten wird die Grundlagen betrachtet, welche für die Umsetzung eines \ac{IDS} nötig sind.
+    Zu Beginn soll in~\autoref{sec:Datenanalyse} besprochen werden, welche Analysetechniken für die Überwachung von Systemen zur Verfügung stehen.
     In~\autoref{sec:Datenerfassung} wird dann auf mögliche Orte der Erfassung und in~\autoref{sec:syscalls} auf die eigentliche Daten für die Überwachung, die System Calls, eingegangen.
     Nachdem so eine allgemeine Herangehensweise an die Erkennung von Angriffen dargelegt wurde, 
     soll im Anschluss die Grundlagen des in der Arbeit verwendeten Algorithmus untersucht werden.
@@ -10,10 +10,10 @@
 
     \section{\acl{IDS}}\label{sec:IDS}
         Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität welche zu Missbrauch eines Systems führen kann.
-        Sie sorgt für ein zum Normalverhalten abweichendes, anormales Verhalten und kann durch diese Abweichung einem System großen Schaden zufügen.
-        Ein \ac{IDS} überwacht Ressourcen, wie zum Beispiel Netzwerkdaten und versucht automatisch Missbrauch und anormales Verhalten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSPIETRO2008}
+        Sie sorgt für ein zum Normalverhalten abweichendes, anomales Verhalten und kann durch diese Abweichung einem System großen Schaden zufügen.
+        Ein \ac{IDS} überwacht Ressourcen, wie zum Beispiel Netzwerkdaten und versucht automatisch Missbrauch und anomales Verhalten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSPIETRO2008}
 
-        Um solche unautorisierten Aktivitäten erkennen zu können müssen Daten erfasst und anschliessend analysiert werden.
+        Um solche unautorisierten Aktivitäten erkennen zu können, müssen Daten erfasst und anschliessend analysiert werden.
         In den folgenden beiden Abschnitten werden verschiedene Ansätze dieser beiden Schritte, also Datenanalyse und Datenerfassung, genauer untersucht.
 
         \subsection{Datenanalyse}\label{sec:Datenanalyse}
@@ -23,7 +23,7 @@
             \paragraph{Signaturbasiert} 
                 \ac{SIDS} versuchen zuvor bekannte Muster von Angriffen in den zu überwachenden Systemen wiederzuerkennen.
                 Dies basiert auf einer ausgeprägten Datenbank an Signaturen von bekannten Angriffen.
-                Die aktuelle Signatur von zum Beispiel einer Datei wird dann mit Datenbank verglichen.
+                Die aktuelle Signatur von zum Beispiel einer Datei wird dann mit einer Datenbank verglichen.
                 Es gibt diverse Möglichkeiten wie diese Signaturen erstellt werden. 
                 In mehreren Arbeiten werden dafür zum Beispiel Netzwerk Pakete betrachtet~\cite{IDSsurvey}
                 oder auch ein wenig ausgefeilter \textit{State Machines} erstellt~\cite{SIDSstate}\marginpar{zu dt. Zustandsautomaten}.
@@ -42,13 +42,13 @@
 
                 \blockquote{An outlying observation, or outlier, is one that appears to deviate markedly from other members of the sample in which it occurs.}~\cite{ANOMALYDEFINITION1969}
 
-                Also eine Anomalie oder wie hier beschrieben eine abweichende Beobachtung, ist eine Beobachtung die deutlich von den anderen Datenpunkten innerhalb der Stichprobe abweicht.
+                Also eine Anomalie oder wie hier beschrieben eine abweichende Beobachtung, ist eine Beobachtung, die deutlich von den anderen Datenpunkten innerhalb der Stichprobe abweicht.
                 Anomalien speziell in Daten von Computersystemen können aus verschiedenen Gründen entstehen, zum Beispiel durch böswillige Aktivitäten oder aber auch durch Programmfehler.
                 Anomalien dieses Verhaltens können also zu signifikanten und oft kritischen Veränderungen eines Systems führen.
                 So kann eine Anomalie in Netzwerkdaten dafür stehen, dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
-                Festzuhalten ist also, dass sie das Anomalien eines  Normalverhaltens darstellen und damit interessant für Analysen sind.
+                %Festzuhalten ist also, dass sie das Anomalien eines  Normalverhaltens darstellen und damit interessant für Analysen sind.
                 Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell (wohldefiniertes Normalverhalten) zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
-                Jede Anomalie gilt dann wiederrum als \textit{Intrusion}.
+                Jede Anomalie gilt dann wiederum als \textit{Intrusion}.
                 Zusammengefasst besteht also die Grundannahme dieser Methode darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
 
 
@@ -60,7 +60,7 @@
                 Speziell soll dabei mit noch nicht betrachteten Daten getestet werden ob Normalverhalten und Anomalien auch als solche eingestuft werden.
                 Dabei liefert der Algorithmus für jede Eingabe entweder einen Anomaliescore oder direkt ein Label.
                 Das Label gibt an ob es sich um eine tatsächliche Intrusion handelt oder nicht.
-                Liegt der Score über einem festgelegten Schwellwert so gilt die Eingabe als anormal ansonsten als normal.~\cite{IDSPIETRO2008}
+                Liegt der Score über einem festgelegten Schwellwert, gilt die Eingabe als anormal ansonsten als normal.~\cite{IDSPIETRO2008}
 
                 Jedoch ergibt sich hier im Vergleich zu den \ac{SIDS} eine Problematik.
                 Der erwähnte Schwellwert entscheidet über die Ergebnisqualität der anomaliebasierten \acp{IDS} und sollte daher sorgfältig und am besten automatisch ermittelt werden, um anwendungsspezifische Justierungen zu vermeiden.\marginpar{mehr dazu in~\autoref{sec:Algorithmus}}
@@ -69,15 +69,14 @@
                 \textit{Semi-supervised} sowie \textit{Unsupervised Anomaly Detection}.
                 Diese unterscheiden sich hauptsächlich in der Anforderung an die Trainingsdaten. 
                 
-                Bei einer \textit{Supervised} Anomalieerkennung werden Trainingsdaten verwendet 
-                in welchen Anomalien sowie auch Normalverhalten gelabelt sind.
+                Bei einer \textit{Supervised} Anomalieerkennung werden Trainingsdaten verwendet, in welchen Anomalien sowie auch Normalverhalten gelabelt sind.
                 Somit werden auch Muster von Angriffen gelernt.
-                Doch kann es dadurch beim Lernprozess zu Schwierigkeiten kommen, da häufig eine Ungleichgewicht zwischen der Datenmenge an Angriffs- und Normalverhalten besteht.~\cite{IMBALANCEPHUA2004}
-                Zusätzlich sind Anomalien meist unbekannt womit das Erstellen eines sinnvollen Datensatzes erschwertwird.
+                Doch kann es dadurch beim Lernprozess zu Schwierigkeiten kommen, da häufig ein Ungleichgewicht zwischen der Datenmenge an Angriffs- und Normalverhalten besteht.~\cite{IMBALANCEPHUA2004}
+                Zusätzlich sind Anomalien meist unbekannt, womit das Erstellen eines sinnvollen Datensatzes erschwert wird.
                 Auch deswegen ist diese Herangehensweise weniger verbreitet.~\cite{UNSUPERVISEDGOLDSTEIN2016}
 
                 
-                Hingegen wird beim \textit{Semi-supervised} Verfahren ein Trainingsdatensatz benötigt welcher lediglich das Normalverhalten kennzeichnet.
+                Hingegen wird beim \textit{Semi-supervised} Verfahren ein Trainingsdatensatz benötigt, welcher lediglich das Normalverhalten kennzeichnet.
                 Somit werden auch keine Angriffe zum Trainingszeitraum gesehen.
                 Die Grundidee besteht also darin Abweichungen eines Modells des Normalverhaltens zu erkennen.
             
@@ -85,7 +84,7 @@
                 Bei der \textit{Unsupervised Anomaly Detection} werden Daten verwendet welche keine Labels beinhalten.
                 Dabei wird davon ausgegangen, dass Normaldaten sehr viel umfangreicher in den Daten vertreten sind als Anomalien.
                 Sonst kann es zur Testphase zu häufigen Fehlalarmen kommen, wenn Anomalien fälschlicherweise als Normalverhalten eingestuft werden.~\cite{ANOMALYSURVEY2}.
-                Jedoch sind auch \textit{unsupervised} Trainingsverfahren umsetzbar welche keine Anomalien in den Daten enthalten.\cite{UNSUPERVISEDGOLDSTEIN2016}
+                Jedoch sind auch \textit{unsupervised} Trainingsverfahren umsetzbar, welche keine Anomalien in den Daten enthalten.\cite{UNSUPERVISEDGOLDSTEIN2016}
 
                 Die Wahl des Algorithmus zur Erkennung von Anomalien in den Daten ist dabei entscheidend für den Ablauf der Trainingsphase und wird deshalb auch im Bezug auf das verwendete Verfahren in~\autoref{sec:Training} beschrieben.
 
@@ -93,7 +92,7 @@
 
                 \begin{itemize}
                     \item \textit{Definition des Normalverhaltens}:
-                        Ziel ist es jegliches Verhalten, welches kein anormales beinhaltet, zu erfassen.
+                        Ziel ist es jegliches Verhalten, welches kein anomales beinhaltet, zu erfassen.
                         So muss dafür gesorgt werden,
                         dass das Normalverhalten auch tatsächlich in den Daten widergespiegelt wird. 
 
@@ -111,7 +110,7 @@
 
                 Die Funktionalität eines anomaliebasierten \ac{IDS} steht und fällt also mit den für das Training bereitgestellten Daten.
                 % Ist das Normalverhalten im Gänze und in seiner Dynamik richtig dargestellt?
-                Daher ist eine entscheidende Frage bei Verwendung von anomaliebasierten \acp{IDS}\@: Woher kommen die Daten die für das Training des Normalverhalten benötigt werden.
+                Daher ist eine entscheidende Frage bei Verwendung von anomaliebasierten \acp{IDS}\@: Woher kommen die Daten, die für das Training des Normalverhalten benötigt werden.
                 Und kann gewährleistet werden, dass diese Daten auch das Normalverhalten genügend präzise beschreiben können.
 
         \subsection{Datenerfassung}\label{sec:Datenerfassung}
@@ -129,8 +128,8 @@
                 Ein weiterer Nachteil bei der Untersuchung von Netzwerkpaketen oder ähnlichem besteht darin, dass der Netzwerkverkehr meist verschlüsselt ist und somit nicht auf den Inhalt der Pakete eingegangen werden kann.
 
             \paragraph{Host Based Intrusion Detection}
-                Wie der Name bereits impliziert konzentriert sich \ac{HIDS} auf die Untersuchung von Daten welche auf dem Host basieren.
-                Es wird versucht das dynamische Verhalten sowie den Zustand des Systems zu überwachen und dies nur mit Informationen die auf dem Host zugänglich sind.
+                Wie der Name bereits impliziert, konzentrieren sich \acp{HIDS} auf die Untersuchung von Daten, welche auf dem Host basieren.%KOMMA
+                Es wird versucht das dynamische Verhalten, sowie den Zustand des Systems zu überwachen und dies nur mit Informationen, die auf dem Host zugänglich sind.%KOMMA
                 In der Literatur werden hierfür verschiedene Informationsquellen genutzt.
                 Dazu gehören verschiedene Logs, z.B Firewall und Database Logs~\cite{IDSsurvey},
                 oder aber auch Daten aus dem Kernel wie z.B. System Calls~\cite{MAGGI}.
@@ -143,7 +142,7 @@
 
                 Log-Files können weiter aufgeteilt werden in System-Logs und programmspezifischen Logs.
                 Wobei System-Logs nur durch das Betriebssystem geschrieben werden.
-                Beide Log Arten beschreiben das Systemverhalten jedoch findet bei beiden bereits eine Filterung von Informationen des Normalverhaltens statt.
+                Beide Log Arten beschreiben das Systemverhalten, jedoch findet bei beiden bereits eine Filterung von Informationen des Normalverhaltens statt.%KOMMA
                 Denn es muss manuell bestimmt werden welche Aktionen überhaupt geloggt werden und stellen deshalb auch keine vertrauenswürdige Quelle dar~\cite{SEMANTICSCREECH2014}.
                 System Calls hingegen sind klar definiert und beschreiben das Systemverhalten zunächst ungefiltert, unterliegen dafür allerdings einer weitaus größeren Varianz.~\cite{HIDSSURVEY2019bridges}\marginpar{mehr dazu in~\autoref{sec:syscalls}}
                 Für die feingranulare Aufzeichnung von Log-Files sowie für System Calls gilt, dass die Aufzeichnung sehr rechenintensiv werden kann.
@@ -158,10 +157,10 @@
                     \caption[Einordnung der Arbeit in die Struktur der \acp{IDS}]{Einordnung des verwendeten \ac{IDS} (Relevant für diese Arbeit dicker markiert).}\label{fig:IDSOverview}
                 \end{figure}
                 Dabei gibt die Abbildung die Strukturierung der vorigen Abschnitte wieder,
-                in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird sowie die Datenanalyse
+                in welcher die Datenerfassung in die Host-basierte und Netzwerk-basierte Erfassung unterteilt wird, sowie die Datenanalyse %KOMMA
                 in die anomaliebasierten und signaturbasierten Verfahren eingeteilt wird.
                 Die dicker umrandeten Verfahren werden in dieser Arbeit verwendet.
-                Also zur Datenerfassung werden nur Informationen welche auf dem Host zugänglich sind verwendet 
+                Also zur Datenerfassung werden nur Informationen, welche auf dem Host zugänglich sind verwendet,
                 und die so erhaltenen Daten werden anomaliebasiert untersucht.
                 Es stellen sich beim designen von anomaliebasierten \ac{HIDS} zwei Hauptfragen:
                 \begin{itemize}
@@ -171,17 +170,17 @@
                         \end{itemize}
                     \item Wie wird die eigentliche Anomalie in den Daten erkannt?
                 \end{itemize}
-                Die letztere Frage soll speziell in~\autoref{sec:Algorithmus} beleuchtet werden, doch wie das Systemverhalten präzise dargestellt werden kann soll nun behandelt werden.
+                Die letztere Frage soll speziell in~\autoref{sec:Algorithmus} beleuchtet werden, doch wie das Systemverhalten präzise dargestellt werden kann, wird nun behandelt.
                 In dieser Arbeit werden System Calls als Beschreibung des Systemverhalten verwendet.
                 Im Folgenden sollen Grundlagen der System Calls besprochen werden.
-                Zusätzlich soll untersucht werden welche Informationen neben der eigentlichen Sequenz der System Calls zur Verfügung stehen.
+                Zusätzlich soll untersucht werden, welche Informationen neben der eigentlichen Sequenz der System Calls zur Verfügung stehen.
 
     \section{System Calls}\label{sec:syscalls}
         Jegliche Programme die auf einem Rechner mit einem Betriebssystem laufen, müssen mit diesem interagieren um Veränderungen am System vornehmen zu können.
         Diese Interaktion findet in Form von \textit{System Calls}\marginpar{zu dt. Systemaufrufe} statt und kann mit einer gewöhnlichen Programm Schnittstelle verglichen werden.
         Beispielhaft werden in \autoref{tab:syscall} zwei System Calls von Linux Betriebssystemen, ihre Argumente und die Art ihrer Rückgabewerte beschrieben.
 
-        \begin{table}[ht]
+        \begin{table}[H]
             \small
             \centering
             \begin{tabular}{cp{4cm}p{2cm}p{3cm}}
@@ -204,13 +203,13 @@
 
         \subsection{Allgemeines}\label{sec:syscall_allg}
 
-        Generell werden System Calls verwendet um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
-        Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems stellt verschiedene Services bereit, welche dann von Programmen genutzt werden können. 
+        Generell werden System Calls verwendet, um vom Betriebssystem zur Verfügung gestellte Funktionalitäten auszuführen.
+        Das Betriebssystem, oder noch genauer der \textit{Kernel} \marginpar{zu dt. Betriebssystemkern} des Betriebssystems, stellt verschiedene Services bereit, welche dann von Programmen genutzt werden können. 
         Die System Calls stellen dabei die Kommunikation zwischen dem Kernel und den darauf laufenden Programmen dar.
         Zu den Services gehören verschiedene Bereiche der Prozesskontrolle, das Datei- und Geräte-Management, Informationspflege und Kommunikationsaufbau und zugehörige Aufgaben.
         Geschrieben werden diese Funktionalitäten in C, C++ oder auch in Assembly.
         Üblicherweise können System Calls nur von Nutzerprozessen, also aus dem \textit{User space}\marginpar{zu dt. Benutzer-Modus/Benutzerprozesse}, aufgerufen werden, diese besitzen eine eingeschränkte Berechtigungen.
-        In~\autoref{fig:syscallAblauf} wird der Ablauf in welchem ein Programm aus dem User space über einen System Call eine privilegierte Aktion ausführen lassen kann dargestellt.
+        In~\autoref{fig:syscallAblauf} wird der Ablauf dargestellt, in welchem ein Programm aus dem User space über einen System Call eine privilegierte Aktion ausführen lassen kann.
         Dies ermöglicht es Nutzerprozessen auf eine limitierte Auswahl an privilegierten Funktionen aus dem Kernel zugreifen zu können.~\cite{SYSCALL_SILBERSCHATZ}
     
         \begin{figure}[ht]
@@ -221,7 +220,7 @@
         \end{figure}
 
         Wie in~\autoref{fig:syscallAblauf} ebenfalls angedeutet, besteht ein System Call aus einem Aufruf an das Betriebssystem und der Antwort des Betriebssystems.
-        In \autoref{tab:syscall} beschrieben besitzen System Calls Argumente die beim Aufrufen mitgegeben werden können.        
+        In \autoref{tab:syscall} wird beschrieben welche System Calls Argumente beim Aufrufen mitgegeben werden können.        
         Das können neben bestimmten Flags, welche die Funktion der System Calls bestimmen, auch zum Beispiel Dateipfade oder IP-Adressen sein.~\cite{SYSCALL_MANPAGE}
         Die Betriebssystemantworten auf einen System Call haben zusätzlich in den Argumenten einen Rückgabewert~\marginpar{Gekennzeichnet mit \glqq $res$\grqq}.
         Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
@@ -229,7 +228,7 @@
         Zu einem System Call gehört also mehr als nur der Funktionsname.
 
 
-        Ein Angreifer muss also um Schaden anzurichten Veränderungen an den System Calls vornehmen.
+        Ein Angreifer muss also, um Schaden anzurichten, Veränderungen an den System Calls vornehmen.%KOMMA
         Der folgende Abschnitt soll einen Überblick verschaffen, wie die System Calls für ein \ac{IDS} verwendet werden können.
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 
@@ -242,7 +241,7 @@
             Dabei werden die dem \ac{IDS} fremden Sequenzen auseinander gezogen und mit bekannten Sequenzen aufgefüllt.
             Zur Auswertung wurde der \acf{STIDE} Algorithmus verwendet.
             Ein weiterer Ansatz versucht lediglich die System Call Argumente zu verändern, ohne dabei die Sequenz zu beeinflussen~\cite{Syscallseqexploit1}.
-            Was diese Beispiele jedoch zeigen, ist dass wenigstens einer dieser Faktoren, also entweder die Sequenz von System Calls verändert werden muss oder es werden die Argumente der System Calls verändert.
+            Was diese Beispiele jedoch zeigen, ist, dass wenigstens einer dieser Faktoren, also entweder die Sequenz von System Calls, verändert werden muss oder es werden die Argumente der System Calls verändert.
             So kann zum Beispiel anstatt auf den Pfad \glqq /tmp/some/file\grqq \ auf \glqq /etc/passwd\grqq \ zugegriffen werden. 
             Welche dieser Argumente und wie diese genutzt werden können um die Anomalieerkennung zu verbessern soll in \autoref{sec:Meta} untersucht werden.
             In dem nachfolgenden Kapitel wird nun auf verschiedene Datensätze, welche System Call Sequenzen und teilweise Argumente und weiter Metadaten enthalten, eingegangen.

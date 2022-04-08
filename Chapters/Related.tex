@@ -5,7 +5,7 @@
 Die Forschungsfrage mit der sich diese Arbeit beschäftigt, kann wie in~\autoref{sec:Forschungsfrage} beschrieben, weiter unterteilt werden.
 Zum einen soll untersucht werden inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen können.
 Und zum anderen wie die Sequenzen von System Calls angereichert werden können um die \ac{FP}-Rate sowie die \acf{DR} zu verbessern.
-Um den Überblick über die verwandten Arbeiten zu bewahren sind diese im Folgenden untergliedert.
+Um den Überblick über die verwandten Arbeiten zu bewahren, sind diese im Folgenden untergliedert.
 Zunächst sollen Grundlagen der Anomalieerkennung und erste Ansätze der Anomalieerkennung mit System Calls aufgeführt werden, auf welchen diese Arbeit indirekt fußt.
 Im nächsten Schritt werden dann Arbeiten betrachtet, welche sich auf die Argumente der System Calls konzentrieren.
 Abschließend werden Arbeiten untersucht welche sich speziell mit der Übertragung von \ac{NLP} Verfahren in die \ac{HIDS} auseinandersetzen.
@@ -15,7 +15,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
     % Die Anomaliedetektion findet nicht nur in der IT-Sicherheit ihren Einsatz und kann .
     % Dazu gehören die Erkennung von Betrug, unter anderem bei Kreditkarten~\cite{CREDITBOLTON2001}, das Aufdecken von Unregelmäßigkeiten in medizinischen und Gesundheitsdaten~\cite{MEDIZINHORN2001} oder Schadenserkennung in der Industrie~\cite{INDUSTRIEBASU2007}.
-    Die Anfänge der Anomalieerkepnug werden von Huang et al.~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden sollen.
+    Die Anfänge der Anomalieerkennug werden von Huang et al.~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden sollen.
     Hingegen berufen sich Chandola et al.~\cite{ANOMALYSURVEY} bei den Anfängen der Anomalieerkennung auf eine Arbeit aus dem~\textit{Dublin Philosophical Magazine of Journal and Science} von 1887~\cite{ANOMALYDEFINITION1887}.
     Dort werden \textit{discordant observations}\marginpar{zu dt.\ nicht stimmige Beobachtung} anhand einer abweichenden gesetzmäßigen Frequenz isoliert. 
     Speziell im Kontext der Angriffserkennung wird wie in~\autoref{sec:Datenerfassung} beschrieben die Anomalieerkennung in \ac{NIDS} und \ac{HIDS} eingeteilt.
@@ -30,12 +30,12 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Dabei wird anhand einer Datenbank gültiger System Call Paare, \textit{lookahead pairs}, ermittelt ob eine System Call Sequenz eine Anomalie darstellt.
 
         In einer späteren Arbeit erweitern sie diesen Ansatz, indem sie die Datenbank mit zusammenhängenden Sequenzen von System Calls befüllen.
-        Kommt eine Sequenz nicht in der Datenbank vor wird diese als Anomalie eingestuft.
+        Kommt eine Sequenz nicht in der Datenbank vor, wird diese als Anomalie eingestuft.
         So wird \ac{TIDE} zu \ac{STIDE}.~\cite{STIDE}
 
         Ein anderen Ansatz wählten 1997 Lee et al.~\cite{LEE1997}, wobei sie sich auch auf die Pionierarbeit von~\cite{FORREST} berufen.
         Sie versuchen mit dem \ac{ML}-Programm RIPPER Regeln aus den System Call Daten abzuleiten.
-        Im Gegensatz zu~\cite{FORREST} befinden sich bei diesem Ansatz normale sowie anormale Sequenzen in den Trainingsdaten.
+        Im Gegensatz zu~\cite{FORREST} befinden sich bei diesem Ansatz normale sowie anomale Sequenzen in den Trainingsdaten.
 
         1999 untersuchten Warrender et al.~\cite{STIDE_Alternatives} wie verschiedene Algorithmen auf System Call Daten abschneiden.
         Dazu gehören die bereits erwähnten Verfahren \ac{TIDE}, \ac{STIDE}, RIPPER, sowie ein Hidden Markov Modell.
@@ -78,13 +78,13 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
         2003 wählen Kruegel et al.~\cite{ARGUMENTS} einen zu den bisherigen Arbeiten konträren Weg.
         Sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.
-        Sie erstellen in der Trainingsphase für jeden System Call verschiedene Modelle, welche in der Testphase die Wahrscheinlichkeit eines anormalen Verhaltens bestimmen.
+        Sie erstellen in der Trainingsphase für jeden System Call verschiedene Modelle, welche in der Testphase die Wahrscheinlichkeit eines anomalen Verhaltens bestimmen.
         Speziell nutzen sie aber auch zuvor gesammelte Informationen über mögliche Angriffe für die Erstellung der Modelle.
         Spannend dabei sind vor allem die vorgestellten Modelle, welche nun im Folgenden genauer beschrieben werden.
 
         \textit{String Length}: Die Annahme dieses Features besteht darin, dass sich bei einem Angriff die String-Länge der Argumente signifikant ändert.
         Dafür wird in der Trainingsphase versucht die Verteilung der String-Längen zu approximieren.
-        In der Testphase wird dann die Wahrscheinlichkeit dafür, dass die aktuelle String-Länge aus der Verteilung stammt mit der \textit{Tschebyschaffschen Ungleichheit} berechnet.
+        In der Testphase wird dann die Wahrscheinlichkeit dafür, dass die aktuelle String-Länge aus der Verteilung stammt mit der \textit{Tschebyscheffschen Ungleichheit} berechnet.
         
         \textit{String Character Distribution}: Hier wird angenommen, dass es unter legitimen System Calls Ähnlichkeiten unter den Frequenzen der auftretenden Zeichen eines Strings gibt.
         In der Trainingsphase wird für jedes gesehene Argument die Zeichenverteilung hinterlegt.
@@ -99,10 +99,10 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         \textit{Token Finder}: Es soll ermittelt werden ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
         Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
         Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
-        Falls dies nicht der Fall ist werden diese Werte in die Normaldatenbank aufgenommen.
+        Falls dies nicht der Fall ist, werden diese Werte in die Normaldatenbank aufgenommen.
         Für diese Werte wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt.
         Trifft dies zu, wird eine $1$ zurückgegeben und falls nicht eine $0$.
-        Folgt das Argument einer Zufallsverteilung wird immer eine $1$ zurückgegeben.
+        Folgt das Argument einer Zufallsverteilung, wird immer eine $1$ zurückgegeben.
         Für die erwähnten Modelle der System Call Argumente wurde von Kruegel et al.\ ein LibAnomlay Framework entworfen um die Nutzbarkeit auch für andere Arbeiten zu ermöglichen.~\cite{ARGUMENTS}
         Leider scheint das Framework aktuell nicht mehr nutzbar zu sein, da es online nicht mehr abrufbar ist.
 
@@ -120,7 +120,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
         Luckett et al.\ versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
         \textit{Rootkits} sind eine Klasse von Malware, welche die Fähigkeit haben Root-Zugriff zu erhalten und dabei unentdeckt zu bleiben~\cite{OSSECBRAY2008}.
-        Sie verwenden dafür nur das Timing von System Calls um mit neuronalen Netzen die Daten in normal oder anormal zu klassifizieren.
+        Sie verwenden dafür nur das Timing von System Calls um mit neuronalen Netzen die Daten in normal oder anomal zu klassifizieren.
         Dabei beschreiben sie aber nicht genauer wie sie das Timing der System Calls verwenden.~\cite{TIMINGLUCKETT2016}
 
         Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt kodieren, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
@@ -165,7 +165,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Mit diesen Modellen wollen sie dann für eine Sequenz von System Calls eine Vorhersage treffen und die Ergebnisse der verschiedenen Modelle kombiniert ergeben einen Anomaliescore.
         Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit, indem sie mehrere Sprachmodelle gleichzeitig aufzubauen und keine zusätzlichen Informationen der System Calls verwenden.
 
-        Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück welche in diesem Kontext nur wenig Aussagekraft besitzen, wie in~\autoref{sec:Metriken} beschrieben wird.
+        Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück, welche in diesem Kontext nur wenig Aussagekraft besitzen, wie in~\autoref{sec:Metriken} beschrieben wird.
         Zusätzlich ist die weitere Bewertung der Arbeiten erschwert, da sie nur auf koreanisch vorliegen.~\cite{PARK2021}
 
         2017 überwachen Dymshits et al.\ mit ihrer LSTM-Herangehensweise mehrere Hosts gleichzeitig.
