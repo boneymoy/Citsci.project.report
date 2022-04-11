@@ -7,19 +7,19 @@ Dabei werden diese speziell nur entweder nach \ac{DR} oder Anzahl der \acp{FP} e
 In \autoref{sec:erg_LSTM_extra} werden auch Ergebnisse mit Extraparametern hinzugezogen.
 % Dabei soll zusätzlich eine beste Konfiguration gefunden werden welche nicht entweder die \ac{DR} oder die \acp{FP} isoliert betrachtet.
 Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit dieser Arbeit verglichen.
-Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit die ebenfalls ein \ac{LSTM} auf demselben Datensatz verwenden.
+Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit, die ebenfalls ein \ac{LSTM} auf demselben Datensatz verwenden.
 
 \section{Strukturierung der Experimente}\label{sec:erg_struk}
     Ziel der Experimente soll es sein eine Konfiguration zu finden, die bei allen Szenarien des \ac{LID-DS} gut abschneidet.
     Dafür werden wie zuvor beschrieben die n-gram und Embedding Größe sowie verschiedene Kombinationen der Extraparameter getestet. 
     Wieso nicht zusätzlich verschiedene Architekturen, Batchgrößen oder andere Einstellungen in die Konfigurationen einfließen, liegt im Wesentlichen an den vorhandenen Ressourcen.
-    Dies wird in \autoref{sec:erg_time} genauer untersucht.
-    Anhand der Experimente wird zunächst untersucht ob es Konfigurationen des \acp{LSTM} ohne zusätzliche Parameter gibt, welche konkurrenzfähige Ergebnisse liefern können.
-    Danach sollen auch die zusätzlichen Parameter eingebunden werden und es wird untersucht inwiefern sich die Extraparameter auf die Ergebnisse auswirken.
+    Dies wird in \autoref{sec:erg_time} genauer betrachtet.
+    Anhand der Experimente wird zunächst untersucht, ob es Konfigurationen des \acp{LSTM} ohne zusätzliche Parameter gibt, welche konkurrenzfähige Ergebnisse liefern können.
+    Danach sollen auch die zusätzlichen Parameter eingebunden werden und es wird geprüft inwiefern sich die Extraparameter auf die Ergebnisse auswirken.
     Dies zu untersuchen, erweist sich jedoch als nicht so einfach.
     Eine Möglichkeit besteht darin dieselben Konfigurationen mit und ohne Extraparametern zu testen und die Ergebnisse zu vergleichen.
     Doch die Hinzunahme von Extraparametern wird die optimale Konfiguration der \acp{LSTM} voraussichtlich beeinflussen, was den Vergleich negativ beeinflusst.
-    Eine weitere Möglichkeit könnte es sein den Mittelwert aller Ergebnisse für jede Extraparameterkonfiguration zu vergleichen.
+    Eine weitere Möglichkeit könnte es sein, den Mittelwert aller Ergebnisse für jede Extraparameterkonfiguration zu vergleichen.
     Da aber eine beste Konfiguration gesucht wird, ist es möglich, dass viele Konfigurationen, außer der besten, schlecht abschneiden und damit den Mittelwert entscheidend verschlechtern.
     Mit dieser Herangehensweise kann es passieren, dass Konfigurationen fälschlicherweise nicht mehr berücksichtigt werden.
     Nichtsdestotrotz wird in \autoref{sec:erg_LSTM_extra} und \autoref{sec:erg_vgl} versucht durch verschiedene Darstellungen einen sinnvollen Vergleich zu ziehen, um so sinnvolle Konfigurationen darzulegen.
@@ -60,7 +60,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
         \caption[Ergebnisse Berechnungsdauer Szenarien]{Durchschnittliche Berechnungszeiten zur Bestimmung der Anomaliescores aller Testdaten der einzelnen Szenarien.}
         \label{tab:LSTM_erg_time}
     \end{table}
-    Wie zu erkennen ist benötigen die beiden größten Szenarien trotz der besseren Grafikkarte wesentlich länger.
+    Wie zu erkennen ist, benötigen die beiden größten Szenarien trotz der besseren Grafikkarte wesentlich länger.
     Um die in \autoref{tab:LSTM_erg_time} beschriebenen Ergebnisse zu erzielen wurden bereits einige Abstriche gemacht.
     So wurde kein Vergleich des \ac{OHE} mit dem \ac{W2V} gezogen, aufgrund der Größe des \ac{OHE}.
     Auch wurden die möglichen Parameter sowie Parametergrößen stark eingeschränkt, um die Anzahl der zu berechnenden Konfigurationen möglichst gering zu halten.
@@ -68,7 +68,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     
     Bei größeren Eingaben, also N-Grammen größer $2$ oder Embedding Größen größer als $8$ bei einer n-gram Größe von größer $2$ reicht auch der Speicher der NVIDIA Tesla V100 Grafikkarte für das ZipSlip Szenario nicht mehr aus.
     Das mindert leider die Vergleichbarkeit der Ergebnisse, was die Erkenntnisse dieser Arbeit aber nur geringfügig beeinflusst.
-    Konfigurationen welche ein Ergebnis für das ZIPSlip Szenario beinhalten sind extra blau markiert.
+    Konfigurationen, welche ein Ergebnis für das ZIPSlip Szenario beinhalten sind extra blau markiert.
 
 \section{\ac{LSTM} Ansatz}\label{sec:erg_LSTM}
 
@@ -321,7 +321,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 
     Wie in \autoref{sec:erg_struk} beschrieben kann die Betrachtung des Mittelwertes auch für nicht repräsentative Ergebnisse sorgen.
     Dadurch können gute Konfigurationen übersehen werden.
-    Denn wie in \autoref{tab:LSTM_pro_szenario_allg_param} dargestellt werden die Ergebnisse mit Hinzunahme im Schnitt nicht deutlich besser.
+    Denn wie in \autoref{tab:LSTM_pro_szenario_allg_param} dargestellt, werden die Ergebnisse mit Hinzunahme im Schnitt nicht deutlich besser.
     Dies kann zu einem frühzeitigen Ausschluss bestimmter Konfigurationen führen.
     Die Verbesserungen zu \autoref{tab:LSTM_pro_szenario_allg} werden mit blau und die Verschlechterungen mit rot dargestellt.
     Eine deutliche Verbesserungen ist dabei nicht zu erkennen.
@@ -521,9 +521,9 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Diese Anforderungen lauten für: Level $1$ \acp{FP}<40, Level $2$ \acp{FP}<20, Level $3$ \acp{FP}<10, Level $4$ \acp{FP}<5, Level $5$ \acp{FP}<2.5.
     In \autoref{tab:LSTM_lvl} wird für jedes Level die beste Konfiguration dieser Arbeit, links, mit der Arbeit von~\cite{IDSTHREADGRIMMER2021}, rechts, verglichen.
     Dabei werden auch die noch andere Algorithmen wie \ac{BOSC}, \ac{AE} und \ac{MLP} untersucht.
-    Insgesamt erkennbar, dass der \ac{LSTM}-Ansatz auf allen Leveln bis auf Level $5$ ähnlich gut abschneidet.
+    Insgesamt ist erkennbar, dass der \ac{LSTM}-Ansatz auf allen Leveln bis auf Level $5$ ähnlich gut abschneidet.
     Es gab keine Konfiguration mit welcher weniger als durchschnittlich $2.5$ Fehler pro Szenario erreicht werden konnten.
-    Was daraus zu schließen ist soll im nächste Kapitel besprochen werden.
+    Was daraus zu schließen ist, soll im nächste Kapitel besprochen werden.
     Wieder erzielen die in den vorigen Kapiteln speziell erwähnten Konfigurationen $n=10$ und $e=4$ bzw. $n=6$ und $e=8$ die besten Ergebnisse.
 
     \begin{table}[ht]
