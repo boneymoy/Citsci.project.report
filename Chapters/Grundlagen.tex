@@ -8,7 +8,7 @@
     soll im Anschluss die Grundlagen des in der Arbeit verwendeten Algorithmus untersucht werden.
     Dazu werden in~\autoref{sec:KNN} \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen beschrieben.
 
-    \section{\acl{IDS}}\label{sec:IDS}
+    \section{\NoCaseChange{\acfp{IDS}}}\label{sec:IDS}
         Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität welche zu Missbrauch eines Systems führen kann.
         Sie sorgt für ein zum Normalverhalten abweichendes, anomales Verhalten und kann durch diese Abweichung einem System großen Schaden zufügen.
         Ein \ac{IDS} überwacht Ressourcen, wie zum Beispiel Netzwerkdaten und versucht automatisch Missbrauch und anomales Verhalten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSPIETRO2008}
@@ -187,10 +187,9 @@
                 \hline
                 \rowcolor{GruvGray!36}
                 \multicolumn{4}{c}{System Calls}\\
-                \hline
+                \toprule
                 Name & Beschreibung & Argumente & Rückgabewerte\\
-                \hline
-                \hline
+                \midrule
                 \rowcolor{GruvGray!16}
                 %open& Öffnet die von \textit{pathname} spezifizierte File. Falls diese nicht existiert kann sie mit dem Zusatz \textit{O_CREAT} automatisch erstellt werden & path, asdklfjs, slddk\\
                 open& Öffnet die in \textit{path} spezifizierte File und gibt einen \textit{file descriptor} zurück.& \textit{path}, \textit{flags}, \textit{mode} & File descriptor oder Fehlerwert\\
@@ -232,7 +231,7 @@
         Der folgende Abschnitt soll einen Überblick verschaffen, wie die System Calls für ein \ac{IDS} verwendet werden können.
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 
-        \subsection{System Calls für \aclp{IDS}}
+        \subsection{System Calls für \NoCaseChange{\acp{IDS}}}
             Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}
             Häufig werden dabei aber nicht die in den Argumente der System Calls enthaltene Information mit einbezogen und bieten damit einen Spielraum für Angriffe.
             Verschiedene Arbeiten~\cite{Syscallseqexploit1, Syscallseqexploit2, Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
@@ -301,11 +300,10 @@
                         \rowcolor{GruvGray!36}
                         \hline
                         \multicolumn{2}{c}{Szenarien}\\
-                        \hline
+                        \toprule
                         \thead{Name} & \thead{Beschreibung} \\
                         \rowcolor{GruvGray!16}
-                        \hline
-                        \hline
+                        \midrule
                         Bruteforce-CWE-307 & \makecell[l]{\textbf{Setup:} Simple Wordpress Web-Applikation \\ \textbf{Schwachstelle:} Ungeeignete Einschränkung von \\übermäßigen Authentifizierungsversuchen} \\
                         \hline
                         CVE-2012-2122 & \makecell[l]{\textbf{Setup:} Oracle MySQL Datenbank \\ \textbf{Schwachstelle:} Mehrfacher falscher Loginversuch \\führt zu erfolgreichem Login} \\
@@ -344,15 +342,14 @@
                 \begin{table}[ht]
                     \small
                     \centering
-                    \begin{tabular}{l | g | l}
+                    \begin{tabular}{l | g  l}
                         \rowcolor{GruvGray!36}
                         \hline
                         \multicolumn{3}{c}{runs.csv}\\
-                        \hline
-                        \hline
+                        \toprule
                         \rowcolor{White}
                         Eintrag & Beispieldatei 1 & Beispieldatei 2 \\
-                        \hline
+                        \midrule
                         image\_name& file\_1 & file\_2\\
                         scenario\_name& scenario\_1 & scenario\_1 \\
                         is\_executing\_exploit& False & True \\
@@ -366,14 +363,14 @@
                 \begin{table}[ht]
                     \scriptsize
                     \centering
-                    \begin{tabular}{l || g | l | g}
+                    \begin{tabular}{l | g  l  g}
                         \rowcolor{GruvGray!36}
                         \hline
                         \multicolumn{4}{c}{System Call}\\
-                        \hline
+                        \toprule
                         \rowcolor{White}
                         Eintrag & System Call 1 & &System Call x \\
-                        \hline
+                        \midrule
                         evtent number & 26 & & 4012 \\
                         evtent time &$11:09:47.592865922$ & & $10:18:20.1231231231$ \\
                         user uid & 101 & & 33 \\
@@ -484,7 +481,7 @@
             Diese Sonderform der \acp{RNN}, die auch in dieser Arbeit verwendet werden, sollen deshalb genauer untersucht werden.
             %% TODO Batch Normalisation \cite{LSTMbatchnorm}
    	
-        \subsection{\aclp{LSTM}}\label{sec:LSTM}
+        \subsection{\NoCaseChange{\acfp{LSTM}}}\label{sec:LSTM}
             Hauptziel der \acp{LSTM} ist es, das Lernen der zeitlich abhängigen Muster zu verbessern.
             Entscheidend dafür ist die Einschätzung welche zuvor gesehenen Informationen für die aktuelle Eingabe relevant ist.
             
