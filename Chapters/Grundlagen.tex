@@ -28,7 +28,7 @@
                 Die aktuelle Signatur von zum Beispiel einer Datei wird dann mit einer Datenbank verglichen.
                 Es gibt diverse Möglichkeiten wie diese Signaturen erstellt werden. 
                 In mehreren Arbeiten werden dafür zum Beispiel Netzwerk Pakete betrachtet~\cite{IDSsurvey}
-                oder auch ein wenig ausgefeilter \textit{State Machines} erstellt~\cite{SIDSstate}\marginpar{zu dt. Zustandsautomaten}.
+                und in wenigen auch \textit{State Machines} erstellt~\cite{SIDSstate}\marginpar{zu dt. Zustandsautomaten}.
 
                 \ac{SIDS} haben meist eine sehr hohe Genauigkeit, doch ein wesentlicher Nachteil der signaturbasierten IDS liegt in der Tatsache begründet,
                 dass keinerlei neuartigen Angriffe, sowie viele Abwandlungen von schon bekannten Angriffen nicht erkannt werden.
@@ -49,7 +49,7 @@
                 Anomalien dieses Verhaltens können also zu signifikanten und oft kritischen Veränderungen eines Systems führen.
                 So kann eine Anomalie in Netzwerkdaten dafür stehen, dass ein gekaperter Computer sensitive Daten an ein unautorisiertes Ziel sendet~\cite{ANOMALYEXAMPLE}.
                 %Festzuhalten ist also, dass sie das Anomalien eines  Normalverhaltens darstellen und damit interessant für Analysen sind.
-                Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell (wohldefiniertes Normalverhalten) zu einem Zeitpunkt $t$ wird dann als Anomalie eingestuft.
+                Genau dieser signifikante Unterschied des aktuellen Systemzustand zu einem entworfenen Modell (wohldefiniertes Normalverhalten) zu einem bestimmten Zeitpunkt wird dann als Anomalie eingestuft.
                 Jede Anomalie gilt dann wiederum als \textit{Intrusion}.
                 Zusammengefasst besteht also die Grundannahme dieser Methode darin, dass Intrusions von dem gelernten Normalverhalten des Systems unterschieden werden können.
 
@@ -130,8 +130,8 @@
                 Ein weiterer Nachteil bei der Untersuchung von Netzwerkpaketen oder ähnlichem besteht darin, dass der Netzwerkverkehr meist verschlüsselt ist und somit nicht auf den Inhalt der Pakete eingegangen werden kann.
 
             \paragraph{Host Based Intrusion Detection}
-                Wie der Name bereits impliziert, konzentrieren sich \acp{HIDS} auf die Untersuchung von Daten, welche auf dem Host basieren.%KOMMA
-                Es wird versucht das dynamische Verhalten, sowie den Zustand des Systems zu überwachen und dies nur mit Informationen, die auf dem Host zugänglich sind.%KOMMA
+                Wie der Name bereits impliziert, konzentrieren sich \acp{HIDS} auf die Untersuchung von Daten, welche auf dem Host basieren. %KOMMA
+                Es wird versucht das dynamische Verhalten, sowie den Zustand des Systems zu überwachen und dies nur mit Informationen, die auf dem Host zugänglich sind. %KOMMA
                 In der Literatur werden hierfür verschiedene Informationsquellen genutzt.
                 Dazu gehören verschiedene Logs, z.B Firewall und Database Logs~\cite{IDSsurvey},
                 oder aber auch Daten aus dem Kernel wie z.B. System Calls~\cite{MAGGI}.
@@ -221,7 +221,7 @@
         \end{figure}
 
         Wie in~\autoref{fig:syscallAblauf} ebenfalls angedeutet, besteht ein System Call aus einem Aufruf an das Betriebssystem und der Antwort des Betriebssystems.
-        In \autoref{tab:syscall} wird beschrieben welche System Calls Argumente beim Aufrufen mitgegeben werden können.        
+        In \autoref{tab:syscall} wird an zwei Beispielen beschrieben welche System Calls Argumente beim Aufrufen mitgegeben werden können.        
         Das können neben bestimmten Flags, welche die Funktion der System Calls bestimmen, auch zum Beispiel Dateipfade oder IP-Adressen sein.~\cite{SYSCALL_MANPAGE}
         Die Betriebssystemantworten auf einen System Call haben zusätzlich in den Argumenten einen Rückgabewert~\marginpar{Gekennzeichnet mit \glqq $res$\grqq}.
         Zu den Rückgabewerten gehören unter anderem diverse Fehlerwerte, aber auch zum Beispiel bei \textit{read} oder \textit{write} System Calls die Menge an gelesenen oder geschriebenen Bytes.
@@ -229,7 +229,7 @@
         Zu einem System Call gehört also mehr als nur der Funktionsname.
 
 
-        Ein Angreifer muss also, um Schaden anzurichten, Veränderungen an den System Calls vornehmen.%KOMMA
+        Ein Angreifer muss also, um Schaden anzurichten, Veränderungen an den System Calls vornehmen. %KOMMA
         Der folgende Abschnitt soll einen Überblick verschaffen, wie die System Calls für ein \ac{IDS} verwendet werden können.
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 

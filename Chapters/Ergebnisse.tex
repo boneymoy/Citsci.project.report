@@ -79,7 +79,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     In \autoref{tab:LSTM_erg} werden die zehn besten Ergebnisse dargestellt.
     Die durchschnittliche \ac{DR} von $0.71$ bei $14.56$ Fehlern pro Szenario zeigt, dass es generell möglich ist mit \acp{LSTM} eine Anomalieerkennung auf Basis von System Calls umzusetzen.
     Eine klarer Zusammenhang zwischen Embedding Größe ($e$) oder n-gram Größe ($n$) und der \ac{DR} ist dabei nicht direkt zu erkennen.
-    So hat die beste Konfiguration mit einer n-gram Größe von $10$ und einer Embedding Größe von $4$ $10 \cdot 4=40$ Eingangsneuronen.
+    So hat die beste Konfiguration mit einer n-gram Größe von $10$ und einer Embedding Größe von $4$ also $10 \cdot 4=40$ Eingangsneuronen.
     Hingegen hat die Konfiguration aus Zeile $4$ nur $2 \cdot 4 = 8$ Eingangsneuronen.
     Beide Konfigurationen erzielen dabei sehr ähnliche Ergebnisse mit einer durchschnittlichen \ac{DR} von $0.71$ und $14.56$ \acp{FP} beziehungsweise $0.68$ und $12.89$.
 
@@ -246,9 +246,9 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
     Im Gegensatz zu \autoref{tab:LSTM_erg} ist diesmal ein Zusammenhang zwischen der Embedding sowie n-gram-Größe und der Ergebnisqualität zu erkennen.
     So liefert die Konfiguration mit $n=10$ und $e=4$ für viele Extraparameterkombinationen gute Ergebnisse.
     Sie kommt fünf mal unter den besten $7$ Ergebnissen vor.
-    Das beste Ergebnis liefert eine n-gram Größe von $6$ bei einer Embedding Größe von $8$.
     Zusätzlich ist sie auch die beste Konfiguration ohne Extraparameter.
     Es ist auch die einzige Konfiguration ohne Extraparametern, die es in unter die besten zehn geschafft hat.
+    Das beste Ergebnis hinsichtlich der \ac{DR} liefert allerdings eine n-gram Größe von $6$ bei einer Embedding Größe von $8$.
     %In den sechs besten Ergebnissen nach der \ac{DR} wird die \ac{TCF} eingesetzt.
     \begin{table}[ht]
         \centering
@@ -520,7 +520,7 @@ Dabei gibt es wie in \autoref{ch:verwandte_arbeiten} beschrieben nur eine Arbeit
 
     Um eine weitere Einschätzung zu bekommen welche Konfigurationen am besten funktionieren werden in~\cite{IDSTHREADGRIMMER2021} fünf Anforderungslevel für Fehlalarme erstellt.
     Diese Anforderungen lauten für: Level $1$ \acp{FP}<40, Level $2$ \acp{FP}<20, Level $3$ \acp{FP}<10, Level $4$ \acp{FP}<5, Level $5$ \acp{FP}<2.5.
-    In \autoref{tab:LSTM_lvl} wird für jedes Level die beste Konfiguration dieser Arbeit, links, mit der Arbeit von~\cite{IDSTHREADGRIMMER2021}, rechts, verglichen.
+    In \autoref{tab:LSTM_lvl} wird für jedes Level die beste Konfiguration dieser Arbeit, unten, mit der Arbeit von~\cite{IDSTHREADGRIMMER2021}, oben, verglichen.
     Dabei werden auch die noch andere Algorithmen wie \ac{BOSC}, \ac{AE} und \ac{MLP} untersucht.
     Insgesamt ist erkennbar, dass der \ac{LSTM}-Ansatz auf allen Leveln bis auf Level $5$ ähnlich gut abschneidet.
     Es gab keine Konfiguration mit welcher weniger als durchschnittlich $2.5$ Fehler pro Szenario erreicht werden konnten.
