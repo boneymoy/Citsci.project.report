@@ -1,4 +1,5 @@
 %*****************************************
+
 \chapter{Grundlagen}\label{ch:Grundlagen}
 %*****************************************
     In den folgenden Abschnitten wird die Grundlagen betrachtet, welche für die Umsetzung eines \ac{IDS} nötig sind.
@@ -9,6 +10,7 @@
     Dazu werden in~\autoref{sec:KNN} \ac{RNN}, sowie die Erweiterung der \ac{RNN}s die \ac{LSTM} neuronalen Netzen beschrieben.
 
     \section{\NoCaseChange{\acfp{IDS}}}\label{sec:IDS}
+    \sectionmark{IDS}
         Eine \textit{Intrusion} \marginpar{zu dt. Eindringen, Einbruch} ist eine unautorisierte Aktivität welche zu Missbrauch eines Systems führen kann.
         Sie sorgt für ein zum Normalverhalten abweichendes, anomales Verhalten und kann durch diese Abweichung einem System großen Schaden zufügen.
         Ein \ac{IDS} überwacht Ressourcen, wie zum Beispiel Netzwerkdaten und versucht automatisch Missbrauch und anomales Verhalten zu identifizieren, um dadurch die Sicherheit des Systems gewährleisten zu können.~\cite{IDSPIETRO2008}
@@ -232,6 +234,7 @@
         %Denn eine Veränderung der System Call Sequenz kann auch verhindert werden.
 
         \subsection{System Calls für \NoCaseChange{\acp{IDS}}}
+        \sectionmark{Sytem Calls für IDSs}
             Viele verschiedene \ac{IDS} Ansätze betrachten die Sequenz von System Calls und erzielen vielversprechende Ergebnisse.~\cite{MAGGI}
             Häufig werden dabei aber nicht die in den Argumente der System Calls enthaltene Information mit einbezogen und bieten damit einen Spielraum für Angriffe.
             Verschiedene Arbeiten~\cite{Syscallseqexploit1, Syscallseqexploit2, Syscallseqexploit3} zeigen, wie dieser Spielraum ausgenutzt werden kann um unerkannt Angriffe durchzuführen. 
@@ -262,21 +265,25 @@
                 So haben Tavallaee et al.\ alle mehrfach vorkommenden Aufnahmen entfernt und damit 78.05\% der Trainingsdaten und 17.15\% der Testdaten entfernt.
                 Gerade bei selbstlernenden Systeme kann dadurch ein ungewollter Bias entstehen.
                 Des Weiteren ist der Datensatz mittlerweile stark veraltet (1999/1998).
+
             \paragraph{UNM}
                 Der \textit{University of New Mexico} Datensatz stammt aus dem Jahr 2004 und beinhaltet die Aufzeichnung von System Calls diverser Programme, welche alle Administratorenrechte besitzen.
                 Dabei wurden verschiedene Angriffe, wie zum Beispiel \textit{Buffer  Overflows} ausgeführt.
                 Auch dieser Datensatz~\cite{UNM} ist mittlerweile veraltet und kommt für eine weitere Betrachtung nicht in Frage,
                 da er zusätzlich auch keine weiteren Kontextinformationen wie Thread IDs enthält~\cite{UNMcritic}.
+
             \paragraph{ADFA-LD}
                 Der \ac{ADFA-LD} wurde von Creech et al.~\cite{UNMcritic} im Jahre 2013 erstellt und ist damit wesentlich aktueller als die zuvor genannten.
                 Dieser wurde auf einem Linuxsystem aufgezeichnet, dessen Schwachstellen von verschiedenen \textit{Penetration Testing} Tools ausgenutzt werden.
                 Aufzeichnungen wurden auf dem Betriebssystem Ubuntu 11.04 durchgeführt, allerdings wurden diese nicht gut dokumentiert was ein Bearbeiten erschwert~\cite{ADFA-LDcritic}.
                 Hinzu kommt, dass lediglich Sequenzen von System Call IDs aufgezeichnet wurden und damit keine Metadaten im Datensatz enthalten sind.
+
             \paragraph{NGIDS-DS}
                 Der 2017 erstellte Datensatz NGIDS \cite{NGIDS} wurde mit Hilfe der dedizierten Security Hardware \textit{IXIA Perfect Storm} aufgezeichnet.
                 Er beinhaltet Thread Informationen, aber auch hier fehlen weitere Daten wie zum Beispiel System Call Argumente.
                 Ein weiteres großes Problem liegt in der Ungenauigkeit der Zeitstempel, welche nur auf die Sekunde genau sind und es ergeben sich Schwierigkeiten in der Zuordnung der beschriebenen Event ID und den Zeitstempeln~\cite{LIDDS}.
-            \paragraph{\ac{LID-DS}}\label{sec:LIDDS}
+
+            \paragraph{LID-DS}\label{sec:LIDDS}
                 2019 veröffentlichten Grimmer et al.~\cite{LIDDS} das \textit{Leipzig Intrusion Detection-Data Set} (\ac{LID-DS}).
                 Sie erkannten, dass die bisherigen Datensätze entweder veraltet oder nicht ausreichend waren um zum Beispiel Thread IDs oder System Call Argumente für ein \ac{IDS} zu verwenden.
                 Er wurde auf einem modernen Betriebssystem Ubuntu 18.04 aufgenommen und besteht aus 10 verschiedenen Szenarien auf welchen jeweils ein Angriff ausgeführt wird.
@@ -384,6 +391,7 @@
                     \caption[Ausschnitt aus dem \ac{LID-DS}]{Ausschnitt aus den eigentlichen Aufzeichnungen von System Calls aus dem \ac{LID-DS}~\cite{LIDDS}}
                     \label{tab:syscallfile}
                 \end{table}
+
                 \paragraph{Problem des LID-DS}\label{sec:prob_LIDDS}
 
                     In den Testdaten mit enthaltenen Angriffen wird ein Angriffszeitpunkt angegeben.
