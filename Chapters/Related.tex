@@ -3,12 +3,12 @@
 %*****************************************
 
 Die Forschungsfrage mit der sich diese Arbeit beschäftigt, kann wie in~\autoref{sec:Forschungsfrage} beschrieben, weiter unterteilt werden.
-Zum einen soll untersucht werden inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen können.
-Und zum anderen wie die Sequenzen von System Calls angereichert werden können um die \ac{FP}-Rate sowie die \acf{DR} zu verbessern.
+Zum einen soll untersucht werden, inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen können.
+Und zum anderen, wie die Sequenzen von System Calls angereichert werden können, um die \ac{FP}-Rate sowie die \acf{DR} zu verbessern.
 Um den Überblick über die verwandten Arbeiten zu bewahren, sind diese im Folgenden untergliedert.
 Zunächst sollen Grundlagen der Anomalieerkennung und erste Ansätze der Anomalieerkennung mit System Calls aufgeführt werden, auf welchen diese Arbeit indirekt fußt.
 Im nächsten Schritt werden dann Arbeiten betrachtet, welche sich auf die Argumente der System Calls konzentrieren.
-Abschließend werden Arbeiten untersucht welche sich speziell mit der Übertragung von \ac{NLP} Verfahren in die \ac{HIDS} auseinandersetzen.
+Abschließend werden Arbeiten untersucht, welche sich speziell mit der Übertragung von \ac{NLP} Verfahren in die \ac{HIDS} auseinandersetzen.
 Dazu zählen auch Ansätze mit \acp{LSTM}.
 
     \section{Grundlagen Anomaliedetektion}
@@ -18,13 +18,13 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Die Anfänge der Anomalieerkennug werden von Huang et al.~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden sollen.
         Hingegen berufen sich Chandola et al.~\cite{ANOMALYSURVEY} bei den Anfängen der Anomalieerkennung auf eine Arbeit aus dem~\textit{Dublin Philosophical Magazine of Journal and Science} von 1887~\cite{ANOMALYDEFINITION1887}.
         Dort werden \textit{discordant observations}\marginpar{zu dt.\ nicht stimmige Beobachtung} anhand einer abweichenden gesetzmäßigen Frequenz isoliert. 
-        Speziell im Kontext der Angriffserkennung wird wie in~\autoref{sec:Datenerfassung} beschrieben die Anomalieerkennung in \ac{NIDS} und \ac{HIDS} eingeteilt.
+        Speziell im Kontext der Angriffserkennung wird, wie in~\autoref{sec:Datenerfassung} beschrieben die Anomalieerkennung in \ac{NIDS} und \ac{HIDS} eingeteilt.
         Da es wie in der Anomalieerkennung in diesen Bereichen eine große Anzahl an Arbeiten und auch Übersichtsarbeiten gibt~\cite{ANOMALYSURVEY, ANOMALYSURVEY2, ANOMALYSURVEY3}, soll im Folgenden nur auf bestehende Arbeiten im Bereich der \ac{HIDS} eingegangen werden, welche speziell System Calls verwenden.
 
     \section{Anomaliebasierte \NoCaseChange{\acfp{HIDS}} mit System Calls}
     \sectionmark{Anomaliebasierte HIDSs mit System Calls}
 
-        Zunächst soll im Folgenden \ac{HIDS} betrachtet werden die explizit nur die Sequenzen der System Call Namen betrachten und alle weiteren Informationen nicht beachten.
+        Zunächst sollen im Folgenden \acp{HIDS} betrachtet werden, die explizit nur die Sequenzen der System Call Namen betrachten und alle weiteren Informationen nicht beachten.
 
         \paragraph{Ohne Betrachtung der System Call Argumente}\label{sec:related_no_arg}
                 Bereits 1996 stellten Stephanie Forrest et al.~\cite{FORREST} die erste Arbeit vor, in welcher sie mit ihrem \ac{TIDE} Algorithmus Anomalien in System Call Daten ermitteln.
@@ -48,7 +48,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
                 % Auch in moderneren Arbeiten werden die Abfolge von System Calls beziehungsweise speziell nur die Funktionsnamen verwendet.
                 Auch aktuellere Arbeiten befassen sich mit der Anomalieerkennung mit System Calls und verwenden dabei speziell nur die Namen von System Calls, ohne die Einbindung der System Call Argumente.
             
-                2005 betrachten Kang et al.~\cite{FREQUENCY2} nicht die Sequenzen sondern die Frequenzen der auftretenden System Calls.
+                2005 betrachten Kang et al.~\cite{FREQUENCY2} nicht die Sequenzen, sondern die Frequenzen der auftretenden System Calls.
                 Dabei zählen sie das Vorkommen von System Calls in einem bestimmten Zeitfenster und verwenden diese sogenannten \textit{bag of system calls}\marginpar{zu dt. Bündel von Systemaufrufen} für ihre Beschreibung des Normalverhaltens.
                 Ähnlich zu~\cite{FORREST} und~\cite{STIDE} bauen sie mit diesen Bündelungen eine Datenbank für das Normalverhalten auf.
 
@@ -64,18 +64,18 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
                 % (2015) Einsatz in Linux Containern~\cite{FREQUENCY1} oder (2018) in Cloud Lösungen~\cite{VM}
 
-            Doch es gibt auch mehrere Arbeiten die Schwachstellen der Angriffserkennung mittels Sequenzen von System Calls aufzeigen.
+            Doch es gibt auch mehrere Arbeiten, die Schwachstellen der Angriffserkennung mittels Sequenzen von System Calls aufzeigen.
             % Zumindest sofern nur die Sequenz der System Calls betrachtet wird.
-            In der Arbeit von Wagner et al.~\cite{Syscallseqexploit1} werden verschieden Methoden untersucht mit welchen Angriffe nicht durch das IDS von Somayaji et al.~\cite{FORREST2000}\marginpar{beruht auf \ac{STIDE}~\cite{STIDE}} erkannt wurden.
+            In der Arbeit von Wagner et al.~\cite{Syscallseqexploit1} werden verschieden Methoden untersucht, mit welchen Angriffe nicht durch das IDS von Somayaji et al.~\cite{FORREST2000}\marginpar{beruht auf \ac{STIDE}~\cite{STIDE}} erkannt wurden.
             Bei ihren theoretischen Ansätzen berufen sie sich unter anderem auf das Abändern von System Call Argumenten, ohne dabei auf die Sequenz der System Calls einfluss zu nehmen.
             UndTan et al.~\cite{Syscallseqexploit3} untersuchen speziell die von Forrest et al.~\cite{FORREST} ins Spiel gebrachte Fensterlänge von $6$ für den \ac{STIDE} Algorithmus.
-            Dabei umgehen sie die Angriffserkennung in dem sie die Angriffssequenzen auseinanderziehen und mit Normalsequenzen auffüllen.
+            Dabei umgehen sie die Angriffserkennung, indem sie die Angriffssequenzen auseinanderziehen und mit Normalsequenzen auffüllen.
 
 
         \paragraph{Mit Betrachtung der System Call Argumente}\label{sec:related_sys_arg}
             Dies zeigt, dass es sinnvoll sein kann auch noch weitere Informationen aus den System Calls einzubinden.
             Seien es Metadaten wie die Thread Information der System Calls, oder auch die eigentlichen Argumente der Aufrufe.
-            Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurde soll nun behandelt werden.
+            Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurden soll nun behandelt werden.
 
             2003 wählen Kruegel et al.~\cite{ARGUMENTS} einen zu den bisherigen Arbeiten konträren Weg.
             Sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.
@@ -85,31 +85,31 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
             \textit{String Length}: Die Annahme dieses Features besteht darin, dass sich bei einem Angriff die String-Länge der Argumente signifikant ändert.
             Dafür wird in der Trainingsphase versucht die Verteilung der String-Längen zu approximieren.
-            In der Testphase wird dann die Wahrscheinlichkeit dafür, dass die aktuelle String-Länge aus der Verteilung stammt mit der \textit{Tschebyscheffschen Ungleichheit} berechnet.
+            In der Testphase wird dann die Wahrscheinlichkeit dafür, dass die aktuelle String-Länge aus der Verteilung stammt, mit der \textit{Tschebyscheffschen Ungleichheit} berechnet.
             
             \textit{String Character Distribution}: Hier wird angenommen, dass es unter legitimen System Calls Ähnlichkeiten unter den Frequenzen der auftretenden Zeichen eines Strings gibt.
             In der Trainingsphase wird für jedes gesehene Argument die Zeichenverteilung hinterlegt.
-            Ähnlich zu der String-Länge zuvor wird in der Testphase nun überprüft mit welcher Wahrscheinlichkeit die aktuelle Zeichenverteilung aus der gespeicherten Verteilung gezogen werden kann.
+            Ähnlich zu der String-Länge zuvor wird in der Testphase nun überprüft, mit welcher Wahrscheinlichkeit die aktuelle Zeichenverteilung aus der gespeicherten Verteilung gezogen werden kann.
 
             \textit{Structural Inference:} Da Angriffe laut Kruegel et al.~\cite{ARGUMENTS} aber auch besonders lange oder auffällige Verteilungen von Argumenten umgehen können, wird versucht auch die Struktur der Argumente zu untersuchen.
             Um diese Struktur zu erlernen, vereinfachen sie die Argumente zunächst wie auch von Maggi et al.~\cite{ARGUMENTS2} beschrieben.
             Beispielhaft wird aus dem Pfad \path{/usr/lib/libc.so} $\longrightarrow$ \path{/a/a/a.a}.
             Für das Erlernen verwenden sie ein Markov Modell.
-            In der Testphase wird dann untersucht ob die aktuelle Struktur des System Call Arguments durch das Markov Modell erstellt werden kann oder nicht.
+            In der Testphase wird dann untersucht, ob die aktuelle Struktur des System Call Arguments durch das Markov Modell erstellt werden kann oder nicht.
 
-            \textit{Token Finder}: Es soll ermittelt werden ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
-            Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente bei welchen so eine klare Aufteilung unbrauchbar ist.
-            Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt ob ein Argument einer zufälligen Verteilung folgt.
+            \textit{Token Finder}: Es soll ermittelt werden, ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
+            Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente, bei welchen so eine klare Aufteilung unbrauchbar ist.
+            Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt, ob ein Argument einer zufälligen Verteilung folgt.
             Falls dies nicht der Fall ist, werden diese Werte in die Normaldatenbank aufgenommen.
-            Für diese Werte wird in der Testphase überprüft ob der aktuelle Wert in der Normaldatenbank vorkommt.
+            Für diese Werte wird in der Testphase überprüft, ob der aktuelle Wert in der Normaldatenbank vorkommt.
             Trifft dies zu, wird eine $1$ zurückgegeben und falls nicht eine $0$.
             Folgt das Argument einer Zufallsverteilung, wird immer eine $1$ zurückgegeben.
-            Für die erwähnten Modelle der System Call Argumente wurde von Kruegel et al.\ ein LibAnomlay Framework entworfen um die Nutzbarkeit auch für andere Arbeiten zu ermöglichen.~\cite{ARGUMENTS}
+            Für die erwähnten Modelle der System Call Argumente wurde von Kruegel et al.\ ein LibAnomlay Framework entworfen, um die Nutzbarkeit auch für andere Arbeiten zu ermöglichen.~\cite{ARGUMENTS}
             Leider scheint das Framework aktuell nicht mehr nutzbar zu sein, da es online nicht mehr abrufbar ist.
 
             Auch in~\cite{ARGUMENTS2} kommen diese Modelle der Argumente zum Einsatz.
             
-            Ebenso werden sie auch von Maggi et al.~\cite{MAGGI} verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine Alternative Verarbeitung dieser Argument-Modelle.
+            Ebenso werden sie auch von Maggi et al.~\cite{MAGGI} verwendet und mit Hilfe des LibAnomaly Framework bauten sie eine alternative Verarbeitung dieser Argument-Modelle.
             Doch bei allen zuvor erwähnten Arbeiten mit Verwendung von System Call Argumenten wird die Sequenz der System Calls nicht mehr betrachtet.
 
             Koucham et al.\ wollen nun im Gegensatz dazu sowohl die Sequenz als auch die Argumente beachten.
@@ -121,23 +121,23 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
             Luckett et al.\ versuchen in ihrer Arbeit sogenannte \textit{Rootkits} in System Call Daten zu ermitteln.
             \textit{Rootkits} sind eine Klasse von Malware, welche die Fähigkeit haben Root-Zugriff zu erhalten und dabei unentdeckt zu bleiben~\cite{OSSECBRAY2008}.
-            Sie verwenden dafür nur das Timing von System Calls um mit neuronalen Netzen die Daten in normal oder anomal zu klassifizieren.
-            Dabei beschreiben sie aber nicht genauer wie sie das Timing der System Calls verwenden.~\cite{TIMINGLUCKETT2016}
+            Sie verwenden dafür nur das Timing von System Calls, um mit neuronalen Netzen die Daten in normal oder anomal zu klassifizieren.
+            Dabei beschreiben sie aber nicht genauer, wie sie das Timing der System Calls verwenden.~\cite{TIMINGLUCKETT2016}
 
-            Einen anderen Ansatz wählen Grimmer et al.\ indem sie die vorhandenen Informationen nicht direkt kodieren, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
+            Einen anderen Ansatz wählen Grimmer et al., indem sie die vorhandenen Informationen nicht direkt kodieren, sondern die Thread ID verwenden um die Streamverarbeitung anzupassen.
             Der Ausgangspunkt ihrer Überlegungen liegt darin, dass moderne Prozesse Multi-Threaded sind.
             Das heißt die Sequenz der System Calls beschreibt die Aktionen mehrere Threads gleichzeitig.
             Um diese Vermischung der Threads in den N-Grammen zu verhindern, bilden sie sie nur aus System Calls desselben Threads.
             So konnten sie in den meisten Fällen eine Verringerung der Fehlalarme und eine Erhöhung der Erkennungsrate erreichen.\cite{IDSTHREADGRIMMER2021}
 
     \sectionmark{NLP in der Anomaliedetektion und HIDSs}
-    \section{\NoCaseChange{\acf{NLP}} in der Anomaliedetektion und \NoCaseChange{\acp{HIDS}}}\label{sec:related_nlp}
+    \section{\NoCaseChange{\acf{NLP}} in der Anomalie\-detektion und \NoCaseChange{\acp{HIDS}}}\label{sec:related_nlp}
 
         In den letzten Jahren wurden auch diverse Ansätze vorgestellt, in welchen ein \ac{HIDS} mit Hilfe von Verfahren aus der \ac{NLP} designt wurden.
         Einen Überblick der verschiedenen Transfers wurde in der Arbeit von Sworna et al.~\cite{NLPHIDSSWORNA2022} bereitgestellt.
-        Besonders hervorzuheben ist dabei unter anderem die Studie von Wunderlich et al.~\cite{W2VWUNDERLICH2019} in welcher sie Sequenzen von System Calls als Text betrachten und verschiedene aus der \ac{NLP} bekannte Verfahren in der Domäne der \ac{HIDS} auswerten.
+        Besonders hervorzuheben ist dabei unter anderem die Studie von Wunderlich et al.~\cite{W2VWUNDERLICH2019}, in welcher sie Sequenzen von System Calls als Text betrachten und verschiedene aus der \ac{NLP} bekannte Verfahren in der Domäne der \ac{HIDS} auswerten.
         Dazu gehören \ac{OHE}, \ac{W2V} sowie GloVe und fastText. 
-        Zusätzlich untersuchen sie wie sich die Darstellung der System Calls als Kernelmodule, ähnlich zu~\cite{SYSTEM_STATES}, als Sequenz der Namen oder die Kombination beider auf die Ergebnisqualität auswirkt.
+        Zusätzlich untersuchen sie, wie sich die Darstellung der System Calls als Kernelmodule, ähnlich zu~\cite{SYSTEM_STATES}, als Sequenz der Namen oder die Kombination beider auf die Ergebnisqualität auswirkt.
         In der Auswertung bevorzugen sie das \ac{OHE}, wobei in dieser Arbeit nur geringfügig auf die Vorteile der Dimensionsreduktion durch das \ac{W2V}-Verfahren eingegangen wird.
 
         Ein in der \ac{NLP} verbreitetes Konzept sind die \ac{LSTM}~\cite{LSTMNLP2016,LSTMREVIEWYU2019}.
@@ -146,19 +146,19 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         Leider haben sie damit eine geringere Aussagekraft für aktuelle Systeme, als es mit aktuelleren Datensätzen der Fall wäre.
         So zum Beispiel Kim et al.~\cite{LSTMsys}, sie beschreiben wie sie Sprachmodelle der System Calls mithilfe von \acp{LSTM} erstellen.
         Mit diesen Modellen wollen sie dann für eine Sequenz von System Calls eine Vorhersage treffen und die Ergebnisse der verschiedenen Modelle kombiniert ergeben einen Anomaliescore.
-        Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit, indem sie mehrere Sprachmodelle gleichzeitig aufzubauen und keine zusätzlichen Informationen der System Calls verwenden.
+        Neben dem verwendeten Datensatz unterscheidet sich die Arbeit von Kim et al.\ von dieser Arbeit, indem sie mehrere Sprachmodelle gleichzeitig aufbauen und keine zusätzlichen Informationen der System Calls verwenden.
 
         Park et al.\ hingegen verwenden denselben Datensatz wie diese Arbeit, greifen bei der Auswertung aber auf Metriken zurück, welche in diesem Kontext nur wenig Aussagekraft besitzen, wie in~\autoref{sec:Metriken} beschrieben wird.
         Zusätzlich ist die weitere Bewertung der Arbeiten erschwert, da sie nur auf koreanisch vorliegen.~\cite{PARK2021}
 
         2017 überwachen Dymshits et al.\ mit ihrer LSTM-Herangehensweise mehrere Hosts gleichzeitig.
         Sie erstellen aber aufgrund der großen Datenmengen normalisierte \textit{Bag of System Call}-Vektoren.
-        Zusätzlich legen sie ein fest definiertes Zeitfenster fest für welche diese Bündelungen vorgenommen werden.~\cite{LSTMDYMSHITS2017}
+        Zusätzlich legen sie ein genau definiertes Zeitfenster fest, für welches diese Bündelungen vorgenommen werden.~\cite{LSTMDYMSHITS2017}
 
         Es scheint also ein mittlerweile in der \ac{HIDS} weit verbreitet zu sein, einen Transfer von \ac{NLP}-Verfahren vorzunehmen.
         Dies gilt für Vorverarbeitungsschritte wie das \ac{W2V}-Verfahren sowie auch verarbeitende Algorithmen wie den \acp{LSTM}.
         Diese Arbeit will speziell bekannte Ansätze sinnvoll verbinden.
-        Zusätzlich soll durch das Entwickeln neuer Verfahren die Argumente der System Calls zu verwenden einen Fortschritt in \ac{FP}-Rate und \ac{DR}-Rate erzielen.
+        Zusätzlich soll durch das Entwickeln neuer Verfahren zur Verwendung der System Call Argumente Fortschritte in \ac{FP}-Rate und \ac{DR}-Rate erzielt werden.
 
 
 

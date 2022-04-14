@@ -11,8 +11,8 @@ Dies gilt auch speziell für Linux Systeme, wobei der größte Anstieg bei den B
 Dort konnte eine Verzehnfachung von neuartigen Angriffen verzeichnet werden.
 Die Zunahme der Angriffe auf Linux Systeme hängt laut IBM auch damit zusammen, dass Organisationen zunehmend auf Cloud-Umgebungen setzen, welche häufig auf Linux Systeme angewiesen sind.
 Einzigartige und damit meist unbekannte Angriffe abzuwehren stellt Unternehmen vor große Schwierigkeiten.
-Die häufig verwendeten, auf Signaturen basierenden Abwehrmechanismen reichen nicht aus diese drohende Gefahren abzuwenden.
-Im Gegensatz zu dem signaturbasierten Ansatz, müssen die Angriffe bei einem anomaliebasierten Ansatz nicht vorher bekannt sein.
+Die häufig verwendeten, auf Signaturen basierenden Abwehrmechanismen reichen nicht aus, diese drohende Gefahren abzuwenden.
+Im Gegensatz zu dem signaturbasierten Ansatz müssen die Angriffe bei einem anomaliebasierten Ansatz nicht vorher bekannt sein.
 Stattdessen wird ein Modell des zu erwartenden Normalverhalten des Systems erstellt.
 Mit dem erstellten Modell sollen dann, möglichst in Echtzeit, Abweichungen bzw. Anomalien des erwarteten Verhalten signalisiert werden.
 Die Bedeutsamkeit der Erkennung von bisher unbekannten Angriffen wird ebenfalls durch das \ac{BSI} bestätigt.
@@ -90,9 +90,9 @@ Im Folgenden wird zusammengefasst, wie auf der Grundlage der bereits durchgefüh
 \section{Zielsetzung}\label{sec:Forschungsfrage}
 
 \acfp{LSTM} sind in der \ac{NLP} aber auch in der Analyse von Zeitreihendaten ein etabliertes Verfahren.
-Sie haben den Vorteil auch Zusammenhänge mit größerer zeitlicher Verzögerung zu erkennen~\cite{HOCHREITER}.
-In dieser Arbeit soll ein Verfahren entwickelt werden, mit dem \acp{LSTM} genutzt werden um ein Sprachmodell der System Call Daten zu erstellen.
-Anhand dieses gelernten Modells, soll dann eine Einstufung in Normalverhalten und Angriffsverhalten erfolgen.
+Sie haben den Vorteil, auch Zusammenhänge mit größerer zeitlicher Verzögerung zu erkennen~\cite{HOCHREITER}.
+In dieser Arbeit soll ein Verfahren entwickelt werden, mit dem \acp{LSTM} genutzt werden, um ein Sprachmodell der System Call Daten zu erstellen.
+Anhand dieses gelernten Modells soll dann eine Einstufung in Normalverhalten und Angriffsverhalten erfolgen.
 Des Weiteren wird die Hinzunahme von Parametern, wie zum Beispiel den Rückgabewert, mit Hinblick auf die Erkennungsquote und die Anzahl der Fehlalarme des \acf{IDS} untersucht.
 
 Zusammenfassen lässt sich diese Zielsetzung mit den folgenden Forschungsfragen:
@@ -113,11 +113,11 @@ Zusammenfassen lässt sich diese Zielsetzung mit den folgenden Forschungsfragen:
 
 Um diese Forschungsfragen angemessen behandeln zu können, müssen zunächst Grundlagen aus verschiedenen Bereichen gelegt werden.
 Zum einen werden in \autoref{ch:Grundlagen} unterschiedliche Herangehensweisen zur Überwachung von Systemen betrachtet.
-Dabei wird erläutert wieso es für diese Anwendung sinnvoll ist einen Host-basierten Ansatz zu wählen.
+Dabei wird erläutert wieso es für diese Anwendung sinnvoll ist, einen Host-basierten Ansatz zu wählen.
 Speziell soll auch beschrieben werden, warum sich System Calls zur Überwachung von Computersystemen eignen.
 Des Weiteren müssen Grundlagen für die in dem Algorithmus verwendeten Techniken gelegt werden.
 Dazu gehören hauptsächlich Grundlagen zu \acfp{RNN} sowie die Erweiterungen dieser, die \acp{LSTM}.
-Der Kontext in welchem diese Arbeit steht wird in \autoref{ch:verwandte_arbeiten} vorgestellt.
+Der Kontext in welchem diese Arbeit steht, wird in \autoref{ch:verwandte_arbeiten} vorgestellt.
 Ein großer Teil der Implementierungsarbeit stellt die Vorverarbeitung der Daten dar.
 Diese soll mit der genaueren Untersuchung der Zusammensetzung der Techniken für den Algorithmus in \autoref{ch:Realisierung} dargestellt werden.
 In \autoref{ch:erg} wird dann eine Auswertung auf dem \acf{LID-DS}~\cite{LID-DS} präsentiert.
