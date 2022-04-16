@@ -13,19 +13,18 @@ Die Ergebnisse beim Einsatz von \acp{LSTM} in anomaliebasierten \acp{HIDS} zeige
 %Der aus der \ac{NLP} bekannte Ansatz kann erfolgreich in der \ac{HIDS} eingesetzt werden.
 Das \ac{LSTM} kann ein Sprachmodell der System Calls erstellen und damit erfolgreich System Calls vorhersagen.
 Dies haben auch andere Arbeiten versucht zu zeigen, doch wie zuvor in \autoref{sec:related_nlp} beschrieben, erfolgten die Auswertungen bisher auf veralteten Datensätzen mit praxisfernen Metriken und oft ohne detaillierte Beschreibung des Aufbaus.
-Aufgrund dessen kann leider kein direkter Vergleich der Architekturen der \acp{LSTM} gezogen werden.
+Aufgrund dessen kann leider kein direkter Vergleich der Architekturen der \acp{LSTM} gezogen werden.\par\medskip
 
 Die Ergebnisse der Experimente konnten für die N-Gram und Embidding Größe keinen klaren Trend abbilden.
-So können bei einer N-Gram Größe von $n=10$ und einer Embedding Größe von $e=4$ ähnlich gute Ergebnisse erzielt werden wie bei $n=2$ und $e=4$.
+Bei einer N-Gram Größe von $n=10$ und einer Embedding Größe von $e=4$ konnten ähnlich gute Ergebnisse erzielt werden wie bei $n=2$ und $e=4$.
 Allerdings ist der Berechnungsaufwand gerade bei großem $n$ sehr hoch.
 Speziell bei sehr großen Szenarien hat dies in dieser Arbeit zu Ressourcenengpässen geführt.
-So konnten, wie zuvor beschrieben, einige Konfigurationen nicht auf dem größten Szenario des \acp{LID-DS} berechnet werden.
+Es konnten, wie zuvor beschrieben, einige Konfigurationen nicht auf dem größten Szenario des \acp{LID-DS} berechnet werden.\par\medskip
 Ein weiterer Nachteil der Anomalieerkennung durch ein \ac{LSTM} besteht darin, dass ein GPU für eine effiziente Berechnung nötig ist.
 Hinzu kommt, dass mit einem \ac{LSTM} eine Parallelisierung nur geringfügigen Einfluss auf die Berechnungszeit hat.
 Grundproblem dabei ist die Rekurrenz des Netzes. 
 Die Ausgabe des letzten Zeitschrittes muss bekannt sein, um die Ausgabe des aktuellen Zeitschrittes berechnen zu können.
-So kann daraus gefolgert werden, dass der reine Einsatz von \acp{LSTM} nur auf der Sequenz der System Call Namen keine Verbesserung im Vergleich mit zum Beispiel der \ac{STIDE} Implementierung von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} erreichen kann.
-Aus den vorliegenden Ergebnissen kann der Einsatz von \acp{LSTM} in der beschriebenen Architektur, ohne die Verwendung von zusätzlichen Parametern keine Verbesserung erzielen.
+Aus den vorliegenden Ergebnissen kann der Einsatz von \acp{LSTM} in der beschriebenen Architektur, ohne die Verwendung von zusätzlichen Parametern keine Verbesserung, im Vergleich zur \ac{STIDE} Implementierung von Grimmer et al.~\cite{IDSTHREADGRIMMER2021}, erzielen.
 Daraus lässt sich schließen, dass \acp{LSTM} ohne die Verwendung zusätzlicher Parameter aufgrund des mit der Berechnung verbundenen Mehraufwands keine nennenswerten Vorteile bringen konnte.
 % Das liegt wahrscheinlich daran, dass die Muster in den Sequenzen nicht komplex genug sind, dass die Aufwendige Implementierung der \acp{LSTM} zu trage kommen.
 
@@ -38,14 +37,14 @@ So sind $9$ unter den besten $10$ Ergebnissen nach \ac{DR} und $7$ nach \ac{FP}-
 Im Vergleich zu den Ergebnissen ohne Extraparametern ist hier ein Trend zu größeren N-Grammen erkennbar.
 Es ist nur noch insgesamt eine Konfiguration unter den besten zehn Ergebnissen nach \ac{DR} und \ac{FP} mit einer N-Gram Größe von $2$.
 Im Vergleich zu insgesamt sieben \marginpar{drei nach \ac{DR}, vier nach \ac{FP}} der besten zehn bei Konfigurationen ohne Verwendung von Extraparametern.
-Daraus lässt sich schließen, dass bei komplexeren Eingaben größere N-Gramme bessere Ergebnisse liefern. 
+Woraus sich schließen lässt, dass bei komplexeren Eingaben größere N-Gramme bessere Ergebnisse liefern.\par\medskip
 Auffällig sind auch die Verteilungen der Embedding Größen.
 Dabei ist keine Abweichung der erfolgreichen Größen zwischen den Konfigurationen mit und ohne zusätzlichen Parametern zu erwarten gewesen.
 Doch so ist in \autoref{tab:LSTM_erg} zu erkennen, dass drei der Konfigurationen eine Größe $e=10$ und drei $e=6$ verwenden, während diese Größen mit zusätzlichen Parametern nicht mehr unter den besten zehn Konfigurationen vorkommen.
 Dort sind es entweder $e=4$ oder $e=8$.
 Da nach \ac{FP} in \autoref{tab:LSTM_FP} unter den besten zehn Konfigurationen wiederum für fünf Konfigurationen $e=6$ gilt, kann keine beste Größe angegeben werden.
-Es kann aber zumindest vermutet werden, dass eine größere Einbettung nicht unbedingt mehr Informationsgehalt bedeutet.
-Dies kann jedoch nur definitiv festgestellt werden, wenn auch größere \ac{LSTM}-Architekturen in die Experimente einbezogen werden, ebenso wie unterschiedliche Kontextgrößen des \ac{W2V}-Verfahrens.
+Es kann aber zumindest vermutet werden, dass ein größeres \ac{W2V}-Embedding nicht zwangsweise mehr Informationsgehalt bedeutet.
+Dies kann jedoch nur definitiv festgestellt werden, wenn auch größere \ac{LSTM}-Architekturen in die Experimente einbezogen werden, ebenso wie unterschiedliche Kontextgrößen des \ac{W2V}-Verfahrens.\par\medskip
 
 Abschließend lässt sich sagen, dass sich unter Verwendung der in dieser Arbeit entwickelten zusätzlichen Parameter die Kombinationen von $n=10$ und $e=4$ sowie $n=6$ und $e=8$ für die N-Gramm Größe und Embedding Größe, nach \ac{DR} sowie \ac{FP} als sehr erfolgreich erwiesen haben.
 Zusätzlich konnte zwar keine eindeutig beste Konfiguration für die Kombination der zusätzlichen Parametern gefunden werden, aber fast alle Kombinationen konnten eine Verbesserung der Ergebnisse erzielen.

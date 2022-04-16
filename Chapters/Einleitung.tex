@@ -11,14 +11,14 @@ Dies gilt auch speziell für Linux Systeme, wobei der größte Anstieg bei den B
 Dort konnte eine Verzehnfachung von neuartigen Angriffen verzeichnet werden.
 Die Zunahme der Angriffe auf Linux Systeme hängt laut IBM auch damit zusammen, dass Organisationen zunehmend auf Cloud-Umgebungen setzen, welche häufig auf Linux Systeme angewiesen sind.
 Einzigartige und damit meist unbekannte Angriffe abzuwehren stellt Unternehmen vor große Schwierigkeiten.
-Die häufig verwendeten, auf Signaturen basierenden Abwehrmechanismen reichen nicht aus, diese drohende Gefahren abzuwenden.
+Die häufig verwendeten, auf Signaturen basierenden Abwehrmechanismen reichen nicht aus, diese drohende Gefahren abzuwenden.\par \medskip
 Im Gegensatz zu dem signaturbasierten Ansatz müssen die Angriffe bei einem anomaliebasierten Ansatz nicht vorher bekannt sein.
 Stattdessen wird ein Modell des zu erwartenden Normalverhalten des Systems erstellt.
-Mit dem erstellten Modell sollen dann, möglichst in Echtzeit, Abweichungen bzw. Anomalien des erwarteten Verhalten signalisiert werden.
+Mit dem erstellten Modell sollen dann, möglichst in Echtzeit, Abweichungen bzw. Anomalien des erwarteten Verhalten signalisiert werden.\par \medskip
 Die Bedeutsamkeit der Erkennung von bisher unbekannten Angriffen wird ebenfalls durch das \ac{BSI} bestätigt.
 Das \ac{BSI} berichtet, dass im Berichtzeitraum\marginpar{Juni 2020 bis Mai 2021} die Schadprogramm-Varianten um rund 144 Millionen zugenommen haben, was einer Steigerung von 22\% gegenüber dem Zeitraum des vorigen Berichts bedeutet~\cite{BSI}.
 Laut eines weiteren Berichts von IBM~\cite{IBM2} konnten durch den Einsatz von Security-\ac{AI} und Automatisierung die durchschnittlichen Kosten eines erfolgreichen Angriffs von $6,71$mio USD auf $2,9$mio USD gesenkt werden.
-Dies spricht für die weitere Entwicklung von \ac{AI}-basierter Angriffserkennung und insbesondere anomaliebasierte Angriffserkennung mit Unterstützung durch \ac{AI}.
+Dies spricht für die weitere Entwicklung von \ac{AI}-basierter Angriffserkennung und insbesondere anomaliebasierte Angriffserkennung mit Unterstützung durch \ac{AI}.\par\medskip
 %Stattdessen wird versucht das Normalverhalten eines Systems zu ermitteln und jegliche Abweichung als Anomalie und damit als Angriff einzustufen.
 
 %Durch das Erkennen von Abweichungen des Normalverhaltens können auch Zero-Day Angriffe, also noch nicht bekannte Angriffe, erkannt werden.
@@ -66,12 +66,12 @@ In dieser Arbeit werden hingegen System Calls verwendet.
 Denn jegliche Nutzerprogramme lösen betriebssystemspezifische System Calls aus, welche über verschiedene Tools wie zum Beispiel Sysdig~\cite{SYSDIG} ausgelesen werden können.
 Sie bieten somit eine sehr abstrakte Beschreibung des Systems auf Betriebssystemebene.
 Zudem sind sie im Gegensatz zu den System Logs nicht durch die Einstellungen der Entwicklerinnen abhängig.
-Eine Schwierigkeit besteht jedoch mit dem Umgang der großen Datenmengen, die selbst bei kleineren Anwendungen entstehen.
+Eine Schwierigkeit besteht jedoch mit dem Umgang der großen Datenmengen, die selbst bei kleineren Anwendungen entstehen.\par\medskip
 
 Die Probleme in der Verarbeitung von sehr großen Datenmengen konnten allerdings, unter anderem durch die Verwendung selbst lernender Algorithmen, erfolgreich angegangen werden.
 Gerade in der \acf{NLP} gab es große Fortschritte in der Verarbeitung von sehr großen Datenmengen.
 System Calls haben ebenso ein begrenztes Vokabular und sie besitzen einen semantischen Zusammenhang, womit ihnen eine gewisse Ähnlichkeiten zu natürlichen Sprachen zugesprochen werden kann.
-Die Übertragung von \ac{NLP}-Methoden auf anomaliebasierte \ac{HIDS} wurde bereits in einigen Arbeiten vorgenommen und soll auch hier weiter verfolgt werden.
+Die Übertragung von \ac{NLP}-Methoden auf anomaliebasierte \ac{HIDS} wurde bereits in einigen Arbeiten vorgenommen und soll auch hier weiter verfolgt werden.\par\medskip
 
 Bereits in verschiedenen Arbeiten wurden die Abfolge von System Calls betrachtet.
 Eine der ersten Arbeiten, welche die Sequenzen von System Calls betrachtet, stammt aus dem Jahr $1996$ und wurde von Forrest et al.~\cite{FORREST} veröffentlicht.
@@ -91,8 +91,8 @@ Im Folgenden wird zusammengefasst, wie auf der Grundlage der bereits durchgefüh
 
 \acfp{LSTM} sind in der \ac{NLP} aber auch in der Analyse von Zeitreihendaten ein etabliertes Verfahren.
 Sie haben den Vorteil, auch Zusammenhänge mit größerer zeitlicher Verzögerung zu erkennen~\cite{HOCHREITER}.
-In dieser Arbeit soll ein Verfahren entwickelt werden, mit dem \acp{LSTM} genutzt werden, um ein Sprachmodell der System Call Daten zu erstellen.
-Anhand dieses gelernten Modells soll dann eine Einstufung in Normalverhalten und Angriffsverhalten erfolgen.
+In dieser Arbeit wird ein Verfahren entwickelt, mit dem \acp{LSTM} genutzt werden, um ein Sprachmodell der System Call Daten zu erstellen.
+Anhand dieses gelernten Modells wird dann eine Einstufung in Normalverhalten und Angriffsverhalten erfolgen.
 Des Weiteren wird die Hinzunahme von Parametern, wie zum Beispiel den Rückgabewert, mit Hinblick auf die Erkennungsquote und die Anzahl der Fehlalarme des \acf{IDS} untersucht.
 
 Zusammenfassen lässt sich diese Zielsetzung mit den folgenden Forschungsfragen:
@@ -114,19 +114,19 @@ Zusammenfassen lässt sich diese Zielsetzung mit den folgenden Forschungsfragen:
 Um diese Forschungsfragen angemessen behandeln zu können, müssen zunächst Grundlagen aus verschiedenen Bereichen gelegt werden.
 Zum einen werden in \autoref{ch:Grundlagen} unterschiedliche Herangehensweisen zur Überwachung von Systemen betrachtet.
 Dabei wird erläutert wieso es für diese Anwendung sinnvoll ist, einen Host-basierten Ansatz zu wählen.
-Speziell soll auch beschrieben werden, warum sich System Calls zur Überwachung von Computersystemen eignen.
+Speziell wird auch beschrieben, warum sich System Calls zur Überwachung von Computersystemen eignen.
 Des Weiteren müssen Grundlagen für die in dem Algorithmus verwendeten Techniken gelegt werden.
 Dazu gehören hauptsächlich Grundlagen zu \acfp{RNN} sowie die Erweiterungen dieser, die \acp{LSTM}.
 Der Kontext in welchem diese Arbeit steht, wird in \autoref{ch:verwandte_arbeiten} vorgestellt.
 Ein großer Teil der Implementierungsarbeit stellt die Vorverarbeitung der Daten dar.
-Diese soll mit der genaueren Untersuchung der Zusammensetzung der Techniken für den Algorithmus in \autoref{ch:Realisierung} dargestellt werden.
+Diese wird mit der genaueren Untersuchung der Zusammensetzung der Techniken für den Algorithmus in \autoref{ch:Realisierung} dargestellt werden.
 In \autoref{ch:erg} wird dann eine Auswertung auf dem \acf{LID-DS}~\cite{LID-DS} präsentiert.
-Dieser Datensatz bietet den Vorteil, dass zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID}, zur Verfügung gestellt werden.
+Dieser Datensatz bietet den Vorteil, dass zusätzlich die System Call Parameter, wie zum Beispiel die \textit{Thread ID}, zur Verfügung gestellt werden.\par\medskip
 
-In \autoref{ch:folgerungen} der Arbeit soll dann eine Schlussfolgerung aus den zuvor gewonnenen Ergebnissen gezogen werden. 
-Hauptsächlich sollen die gestellten Forschungsfragen untersucht werden.
+In \autoref{ch:folgerungen} der Arbeit wird dann eine Schlussfolgerung aus den zuvor gewonnenen Ergebnissen gezogen werden. 
+Hauptsächlich werden dabei die gestellten Forschungsfragen untersucht.
 Konnte mit einem hinzugezogenen Parameter ein Mehrwert erzielt werden?
-Bieten sich LSTM-Netzwerke auch für die Anomalieerkennung im IT-Sicherheitsbereich an?
+Bieten sich LSTM-Netzwerke auch für die Anomalieerkennung im IT-Sicherheitsbereich an?\par\medskip
 
 Abschließend werden die Vorgehensweisen und Erkenntnisse in \autoref{ch:schluss} zusammengefasst.
 Auf Grundlage dieser Erkenntnisse wird dann ein Ausblick auf mögliche Entwicklungen und identifizierte Chancen gegeben. 

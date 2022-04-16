@@ -14,14 +14,14 @@ Eine Abweichung des Normalverhaltens wird dann als Angriff gewertet und ermögli
 Um die Sicherheit von Computersystemen zu gewährleisten, werden häufig \acp{IDS} in die IT-Infrastruktur eingepflegt.
 Häufig werden \ac{NIDS} verwendet, welche Netzwerkdaten untersuchen und damit mehrere Hosts gleichzeitig überwachen.
 Um Angriffe auf einzelnen Hosts zu erkennen, reichen diese meist nicht aus.
-\acp{HIDS} können IT-Sicherheitssysteme um diese Fähigkeit erweitern.
+\acp{HIDS} können IT-Sicherheitssysteme um diese Fähigkeit erweitern.\par\medskip
 Seit mehr als 20 Jahren werden \acp{HIDS} in der Forschung behandelt, wobei sich das Untersuchen von System Call Daten als vielversprechend herausgestellt hat.
 Seit dem Beginn der Forschung wurden verschiedene Algorithmen sowie Datensätze, auf welchen diese ausgewertet werden können, präsentiert.
-Da aber viele Datensätze Unzulänglichkeiten aufweisen, leidet die Vergleichbarkeit der Ergebnisse stark.
+Da aber viele Datensätze Unzulänglichkeiten aufweisen, leidet die Vergleichbarkeit der Ergebnisse stark.\par\medskip
 Der auf modernen Systemen aufgezeichnete \ac{LID-DS} beseitigt einige dieser Unzulänglichkeiten.
 Diese Arbeit beschäftigt sich speziell mit \acp{HIDS}, welche Anomalien in Sytem Call Streams des \ac{LID-DS} erkennen. 
 In der  ersten Iteration wird die Sequenz der System Calls betrachtet, wobei dafür die Sequenz der System Call Namen verwendet wird.
-Dabei bietet es sich an, von etablierten Verfahren der Mustererkennung zu profitieren.
+Dabei bietet es sich an, von etablierten Verfahren der Mustererkennung zu profitieren.\par\medskip
 Ein Bereich der Mustererkennung, welcher großen Fortschritt erfahren hat, ist die \ac{NLP}.
 Es stellt sich also die Frage, ob bestimmte Verfahren, die in der \ac{NLP} eingesetzt werden, auch im Bereich der \ac{HIDS} erfolgreich sind.
 Speziell die \acp{LSTM} zeigten sich in der Sprachverarbeitung sowie in der Analyse von Zeitreihendaten als effektiv.
@@ -29,7 +29,7 @@ Speziell die \acp{LSTM} zeigten sich in der Sprachverarbeitung sowie in der Anal
 Sie beziehen zuvor gesehene Eingaben in die Klassifizierung der aktuellen Eingabe mit ein, kennen also den Kontext der aktuellen Eingabe.
 Es wurde in dieser Arbeit gezeigt, dass sich die Fortschritte der \ac{NLP} in Form von \acp{LSTM} auf die anomaliebasierte \ac{HIDS} übertragen lassen.
 Um die System Call Namen sinnvoll für das \ac{LSTM} darzustellen, wird auf ein ebenfalls aus der \ac{NLP} stammendes Verfahren zurückgegriffen.
-Das \ac{W2V}-Verfahren stellt nicht nur ein Lookup-Table für System Calls dar, sondern kodiert auch Kontextinformationen der System Calls.
+Das \ac{W2V}-Verfahren stellt nicht nur ein Lookup-Table für System Calls dar, sondern kodiert auch Kontextinformationen der System Calls.\par\medskip
 Um die Ergebnisse des entworfenen Algorithmus weiter zu verbessern, werden neue Verfahren zur Kodierung zusätzlicher Informationen der System Calls vorgestellt.
 Zum einen werden dafür die Rückgabewerte bestimmter lesender und schreibender System Calls verwendet. 
 Dies wird erreicht, indem für jede Kategorie, zum Beispiel lesende System Calls, das Maximum der gelesenen Bytes aus den Trainingsdaten ermittelt wird.
@@ -37,13 +37,13 @@ Mit dem ermittelten Maximum werden dann die Werte aus den Testdaten normalisiert
 Und zum anderen werden auf gleiche Weise die zeitlichen Abstände zwischen zwei System Calls innerhalb eines Threads normalisiert und dienen so als Eingabe für das \ac{LSTM}.
 In einem weiteren Feature werden die von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} präsentierten \textit{Thread aware} N-Gramme für Algorithmen mit Kontextwissen erweitert.
 Da es für \acp{RNN} von Bedeutung ist, was für eine Eingabe im letzten Zeitschritt gesehen wurde, soll dem \ac{LSTM} ein Wechsel des Threads und damit ein Wechsel des Kontextes mitgeteilt werden.
-Dieses Feature wird also nur Algorithmen einen Vorteil bringen, welche den Kontext der Eingaben miteinbeziehen.
+Dieses Feature wird also nur Algorithmen einen Vorteil bringen, welche den Kontext der Eingaben miteinbeziehen.\par\medskip
 Um zu überprüfen, ob und mit welcher Konfiguration sich die beschriebenen Verfahren als erfolgreich erweisen, werden ausführliche Experimente auf dem \ac{LID-DS} durchgeführt.
 Die Auswertung der Ergebnisse bringt zwei Probleme mit sich.
 Erstens sind einige bekannte und verbreitete Metriken zur Auswertung von neuronalen Netzen mit dem vorhandenen Datensatz nicht umzusetzen.
 Deswegen werden in der Arbeit \ac{FP}-Rate und \ac{DR} verwendet. 
 Diese werden auch in anderen Arbeiten auf diesem Datensatz angewandt und bieten zusätzlich einen größere Praxisnähe.
-Zweitens ist die Auswahl der besten Konfigurationen auf der Grundlage von zwei Kriterien ohne Gewichtung der Kriterien nicht möglich.
+Zweitens ist die Auswahl der besten Konfigurationen auf der Grundlage von zwei Kriterien ohne Gewichtung der Kriterien nicht möglich.\par\medskip
 Es werden verschiedene Eingabegrößen und Konfigurationen der Extraparameter untersucht.
 Eine klare Tendenz für optimale Eingabegrößen oder Konfiguration sind dabei nicht zu erkennen.
 Dennoch kann gezeigt werden, dass die \acp{LSTM} konkurrenzfähige, aber nicht signifikant bessere Ergebnisse liefern, insbesondere wenn die zusätzlichen Parameter hinzugefügt werden.
@@ -60,7 +60,7 @@ Dies wird aber die Berechnungszeiten noch weiter erhöhen.
 Ein Punkt gegen die weitere Untersuchung von \acp{LSTM} in dieser Domäne besteht darin, dass Transformer sich bereits bei den meisten Übersetzungs-  und Sprachgenerierungsprogrammen  gegenüber den \acp{LSTM} durchgesetzt haben. 
 Denn sie ermöglichen wie die \acp{LSTM} eine Verarbeitung der System Calls mit Einbindung des Kontexts.
 Gleichzeitig kann die Berechnung der Eingaben in Transformern besser parallelisiert werden.
-Dieser Ansatz könnte die Vorteile der \acp{LSTM} ausspielen und einen erheblichen Geschwindigkeitsvorteil bringen.
+Dieser Ansatz könnte die Vorteile der \acp{LSTM} ausspielen und einen erheblichen Geschwindigkeitsvorteil bringen.\par\medskip
 
 Die Erkenntnisse der Arbeit bezüglich des Entwurfs neuer Kodierungen für Extraparameter der System Calls könnte sich hingegen direkt auf weitere Arbeiten auswirken.
 So kann vielleicht der Einsatz der Extraparameter in Zukunft eine Verbesserung der Ergebnisse des \ac{STIDE} oder anderen Algorithmen erzielen.
