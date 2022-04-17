@@ -53,7 +53,7 @@
 \newcommand{\myOtherProf}{Martin Grimmer\xspace}
 \newcommand{\mySupervisor}{Dr. Jörn Hoffmann\xspace}
 \newcommand{\myFaculty}{Fakultät für Mathematik und Informatik\xspace}
-\newcommand{\myDepartment}{Institut für Informatik \\ Abteilung Datenbanken\xspace}
+\newcommand{\myDepartment}{Abteilung Datenbanken\xspace}
 \newcommand{\myUni}{Universität Leipzig\xspace}
 \newcommand{\myLocation}{Leipzig\xspace}
 \newcommand{\myTime}{April 2022\xspace}
@@ -110,7 +110,7 @@
 \PassOptionsToPackage{printonlyused,smaller}{acronym}
   \usepackage{acronym} % nice macros for handling all acronyms in the thesis
   %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
-  %\renewcommand*{\acsfont}[1]{\textsc{#1}}
+  \renewcommand*{\acsfont}[1]{\textsc{#1}}
   %\renewcommand*{\aclabelfont}[1]{\acsfont{#1}}
   %\def\bflabel#1{{#1\hfill}}
   \def\bflabel#1{{\acsfont{#1}\hfill}}

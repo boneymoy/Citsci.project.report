@@ -1,73 +1,99 @@
 \chapter{Zusammenfassung und Ausblick}\label{ch:schluss}
 
-IT-Sicherheit ist in der Praxis oft einen Schritt hinter den Angriffen zurück.
-Dies liegt daran, dass Verteidigungssysteme üblicherweise versuchen Angriffe anhand ihrer Signaturen zu erkennen.
-Sind die Angriffe noch nicht bekannt, so können auch noch keine Signaturen dafür existieren.
-Das sorgt dafür, dass sie auch nicht erkannt werden können.
-Gleiches gilt für die meisten Abwandlungen von bereits bekannten Angriffen.
-Um den Angriffen nicht immer hinterher zu sein, wird versucht mit anomaliebasierten Verteidigungssystemen auch unbekannte Angriffe zu erkennen.
-Statt eine Liste von Angriffen ständig up-to-date halten zu müssen, wird versucht Muster des Normalverhaltens zu erlernen.
+IT-Sicherheit ist in der Praxis einen Schritt hinter den Angreifenden zurück.
+Dies liegt daran, dass Verteidigungssysteme versuchen Angriffe anhand ihrer Signaturen zu erkennen.
+Sind die Angriffe unbekannt oder handelt es sich um Abwandlungen, existieren auch keine Signaturen dafür.
+Anomaliebasierte Verteidigungssysteme adressieren diese Probleme.
+Statt eine Liste von Signaturen up-to-date zu halten, wird versucht das Muster des Normalverhaltens zu erlernen.
 Eine Abweichung des Normalverhaltens wird dann als Angriff gewertet und ermöglicht es, zeitnahe weitere Schritte einzuleiten.
 
 \section{Zusammenfassung}
 
-Um die Sicherheit von Computersystemen zu gewährleisten, werden häufig \acp{IDS} in die IT-Infrastruktur eingepflegt.
-Häufig werden \ac{NIDS} verwendet, welche Netzwerkdaten untersuchen und damit mehrere Hosts gleichzeitig überwachen.
-Um Angriffe auf einzelnen Hosts zu erkennen, reichen diese meist nicht aus.
-\acp{HIDS} können IT-Sicherheitssysteme um diese Fähigkeit erweitern.\par\medskip
-Seit mehr als 20 Jahren werden \acp{HIDS} in der Forschung behandelt, wobei sich das Untersuchen von System Call Daten als vielversprechend herausgestellt hat.
+Um die Sicherheit von Computersystemen zu gewährleisten, werden \acfp{IDS} in die IT-Infrastruktur eingepflegt.
+Häufig werden \acf{NIDS} verwendet, welche Netzwerkdaten untersuchen und damit mehrere Hosts gleichzeitig überwachen.
+Um Angriffe auf einzelnen Hosts zu erkennen, reichen diese meist nicht aus.\par\medskip
+
+\acf{HIDS} können die IT-Infra\-struktur um diese Fähigkeit erweitern.
+Seit mehr als 20 Jahren werden \acp{HIDS} in der Forschung behandelt, wobei sich das Untersuchen von System Call Daten als vielversprechend herausgestellt hat.\par\medskip
+
 Seit dem Beginn der Forschung wurden verschiedene Algorithmen sowie Datensätze, auf welchen diese ausgewertet werden können, präsentiert.
-Da aber viele Datensätze Unzulänglichkeiten aufweisen, leidet die Vergleichbarkeit der Ergebnisse stark.\par\medskip
-Der auf modernen Systemen aufgezeichnete \ac{LID-DS} beseitigt einige dieser Unzulänglichkeiten.
-Diese Arbeit beschäftigt sich speziell mit \acp{HIDS}, welche Anomalien in Sytem Call Streams des \ac{LID-DS} erkennen. 
-In der  ersten Iteration wird die Sequenz der System Calls betrachtet, wobei dafür die Sequenz der System Call Namen verwendet wird.
-Dabei bietet es sich an, von etablierten Verfahren der Mustererkennung zu profitieren.\par\medskip
-Ein Bereich der Mustererkennung, welcher großen Fortschritt erfahren hat, ist die \ac{NLP}.
-Es stellt sich also die Frage, ob bestimmte Verfahren, die in der \ac{NLP} eingesetzt werden, auch im Bereich der \ac{HIDS} erfolgreich sind.
-Speziell die \acp{LSTM} zeigten sich in der Sprachverarbeitung sowie in der Analyse von Zeitreihendaten als effektiv.
+Da einige Datensätze Unzulänglichkeiten aufweisen, wird die Vergleichbarkeit der Ergebnisse geschmälert.\par\medskip
+
+Der auf modernen Systemen aufgezeichnete \afc{LID-DS} beseitigt einige dieser Unzulänglichkeiten.
+Diese Arbeit beschäftigt sich speziell mit \acp{HIDS}, welche Anomalien in Sytem Call Streams des \ac{LID-DS} erkennen. Es kann dafür von etablierten Verfahren der Mustererkennung profitiert werden.\par\medskip
+
+%Ein Bereich der Mustererkennung, welcher großen Fortschritt erfahren hat, ist die \ac{NLP}.
+%Es stellt sich also die Frage, ob bestimmte Verfahren, die in der \acf{NLP} eingesetzt werden, auch im Bereich der \ac{HIDS} erfolgreich sind.\par\medskip
+\acfp{LSTM} zeigten sich in der Sprachverarbeitung sowie in der Analyse von Zeitreihendaten als effektiv.
 \acp{LSTM} haben gegenüber vielen anderen Algorithmen die in der Forschung bisher eingesetzt wurden einen Vorteil.
-Sie beziehen zuvor gesehene Eingaben in die Klassifizierung der aktuellen Eingabe mit ein, kennen also den Kontext der aktuellen Eingabe.
+Sie beziehen zuvor gesehene Eingaben in die Klassifizierung der aktuellen Eingabe mit ein.
 Es wurde in dieser Arbeit gezeigt, dass sich die Fortschritte der \ac{NLP} in Form von \acp{LSTM} auf die anomaliebasierte \ac{HIDS} übertragen lassen.
-Um die System Call Namen sinnvoll für das \ac{LSTM} darzustellen, wird auf ein ebenfalls aus der \ac{NLP} stammendes Verfahren zurückgegriffen.
-Das \ac{W2V}-Verfahren stellt nicht nur ein Lookup-Table für System Calls dar, sondern kodiert auch Kontextinformationen der System Calls.\par\medskip
+Um die System Call Namen für das \ac{LSTM} darzustellen, wird auf ein aus der \ac{NLP} stammendes Verfahren zurückgegriffen.\par\medskip
+
+Das \ac{W2V}-Verfahren stellt nicht nur ein Lookup-Table für System Calls dar, sondern kodiert auch Kontextinformationen.\par\medskip
+
 Um die Ergebnisse des entworfenen Algorithmus weiter zu verbessern, werden neue Verfahren zur Kodierung zusätzlicher Informationen der System Calls vorgestellt.
 Zum einen werden dafür die Rückgabewerte bestimmter lesender und schreibender System Calls verwendet. 
 Dies wird erreicht, indem für jede Kategorie, zum Beispiel lesende System Calls, das Maximum der gelesenen Bytes aus den Trainingsdaten ermittelt wird.
 Mit dem ermittelten Maximum werden dann die Werte aus den Testdaten normalisiert.
 Und zum anderen werden auf gleiche Weise die zeitlichen Abstände zwischen zwei System Calls innerhalb eines Threads normalisiert und dienen so als Eingabe für das \ac{LSTM}.
 In einem weiteren Feature werden die von Grimmer et al.~\cite{IDSTHREADGRIMMER2021} präsentierten \textit{Thread aware} N-Gramme für Algorithmen mit Kontextwissen erweitert.
-Da es für \acp{RNN} von Bedeutung ist, was für eine Eingabe im letzten Zeitschritt gesehen wurde, soll dem \ac{LSTM} ein Wechsel des Threads und damit ein Wechsel des Kontextes mitgeteilt werden.
+Da es für \acp{RNN} von Bedeutung ist was für eine Eingabe im letzten Zeitschritt gesehen wurde, wird dem \ac{LSTM} die Information über einen Wechsel des Threads und damit einen Wechsel des Kontextes mitgegeben.
 Dieses Feature wird also nur Algorithmen einen Vorteil bringen, welche den Kontext der Eingaben miteinbeziehen.\par\medskip
-Um zu überprüfen, ob und mit welcher Konfiguration sich die beschriebenen Verfahren als erfolgreich erweisen, werden ausführliche Experimente auf dem \ac{LID-DS} durchgeführt.
+
+Das \ac{LSTM} wird darauf trainiert, die Wahrscheinlichkeit für alle System Calls aus dem Trainingsdatensatz im nächsten Zeitschritt anzugeben.
+Die Wahrscheinlichkeit von Eins abgezogen liefert den Anomaliescore.
+Die Überschreitung des Schwellwertes, welcher anhand der Validierungsdaten erstellt wird, gibt einen Alarm an.
+Um zu überprüfen, ob und mit welcher Konfiguration sich die beschriebenen Verfahren als erfolgreich erweisen, werden ausführliche Experimente auf dem \ac{LID-DS} durchgeführt.\par\medskip
+
 Die Auswertung der Ergebnisse bringt zwei Probleme mit sich.
 Erstens sind einige bekannte und verbreitete Metriken zur Auswertung von neuronalen Netzen mit dem vorhandenen Datensatz nicht umzusetzen.
 Deswegen werden in der Arbeit \ac{FP}-Rate und \ac{DR} verwendet. 
 Diese werden auch in anderen Arbeiten auf diesem Datensatz angewandt und bieten zusätzlich einen größere Praxisnähe.
 Zweitens ist die Auswahl der besten Konfigurationen auf der Grundlage von zwei Kriterien ohne Gewichtung der Kriterien nicht möglich.\par\medskip
+
 Es werden verschiedene Eingabegrößen und Konfigurationen der Extraparameter untersucht.
 Eine klare Tendenz für optimale Eingabegrößen oder Konfiguration sind dabei nicht zu erkennen.
-Dennoch kann gezeigt werden, dass die \acp{LSTM} konkurrenzfähige, aber nicht signifikant bessere Ergebnisse liefern, insbesondere wenn die zusätzlichen Parameter hinzugefügt werden.
+Dennoch konnte gezeigt werden, dass die \acp{LSTM} konkurrenzfähige, aber nicht signifikant bessere Ergebnisse liefern, insbesondere wenn die zusätzlichen Parameter hinzugefügt werden.\par\medskip
+
 Der größte Nachteil des präsentierten \ac{HIDS} Verfahren besteht in der aufwendigen Berechnung der \acp{LSTM}.
-Es zeigt sich also, dass sich der Erfolg der \acp{LSTM} in der \ac{NLP} auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen lässt, dabei aber auch neue Schwierigkeiten mit sich bringt.
-Auch die Zunahme von Extraparametern der System Calls erzielt eine klare Verbesserung.
+Was auch dazu führte, dass die Auswertung auf dem Datensatz nur eingeschränkt umgesetzt werden konnte.\par\medskip
+
+Resümierend zeigt sich, dass sich der Erfolg der \acp{LSTM} in der \ac{NLP} auf die Erkennung von Anomalien in der Cyber-Sicherheit übertragen lässt, dabei aber auch neue Schwierigkeiten mit sich bringt.
+Auch die Zunahme von Extraparametern der System Calls erzielt eine klare Verbesserung.\par\medskip
+
+Die Leistungen der Arbeit werden in der folgenden Auflistung zusammengefasst:
+\begin{itemize}
+    \item Es wurde ein neues Verfahren basierend auf \acp{LSTM} in \acp{HIDS} mit System Call Sequenzen umgesetzt.
+    \item Mehrere neuartige Kodierungen von System Call Parametern wurden präsentiert. 
+    \item Die Verbindung des \ac{LSTM}-Verfahrens mit den entworfenen Kodierungen konnte die Ergebnisse der aktuell bestehenden Forschung zum Teil übertreffen.
+\end{itemize}
 %Die Arbeit liefert damit vielversprechende Ansätze für weitere Forschung in diesem Bereich.
 
 \section{Ausblick}
-Wie beschrieben kann der \ac{LSTM} Ansatz zwar keine offensichtliche Verbesserung der Ergebnisse erreichen, doch zeigt er, dass eventuell auch weitere Lösungsansätze aus der \ac{NLP} auf die Anomalieerkennung übertragen werden können.
+Wie beschrieben kann der \ac{LSTM} Ansatz zwar keine offensichtliche Verbesserung der Ergebnisse erreichen, doch zeigt er, dass eventuell auch weitere Lösungsansätze aus der \ac{NLP} auf die Anomalieerkennung übertragen werden können.\par\medskip
+
 Eine Möglichkeit diese Ergebnisse zu verbessern, könnten in Konfigurationen bestehen, die noch nicht getesteten wurden.
 So könnten die Auswirkungen von größeren \ac{LSTM}-Architekturen auf die Ergebnisse untersucht werden.
-Dies wird aber die Berechnungszeiten noch weiter erhöhen.
+Dies wird aber die Berechnungszeiten noch weiter erhöhen.\par\medskip
+
 Ein Punkt gegen die weitere Untersuchung von \acp{LSTM} in dieser Domäne besteht darin, dass Transformer sich bereits bei den meisten Übersetzungs-  und Sprachgenerierungsprogrammen  gegenüber den \acp{LSTM} durchgesetzt haben. 
-Denn sie ermöglichen wie die \acp{LSTM} eine Verarbeitung der System Calls mit Einbindung des Kontexts.
+Der Grund hierfür ist, dass sie wie die \acp{LSTM} eine Verarbeitung der System Calls mit Einbindung des Kontexts ermöglichen.
 Gleichzeitig kann die Berechnung der Eingaben in Transformern besser parallelisiert werden.
 Dieser Ansatz könnte die Vorteile der \acp{LSTM} ausspielen und einen erheblichen Geschwindigkeitsvorteil bringen.\par\medskip
 
-Die Erkenntnisse der Arbeit bezüglich des Entwurfs neuer Kodierungen für Extraparameter der System Calls könnte sich hingegen direkt auf weitere Arbeiten auswirken.
-So kann vielleicht der Einsatz der Extraparameter in Zukunft eine Verbesserung der Ergebnisse des \ac{STIDE} oder anderen Algorithmen erzielen.
+Die Erkenntnisse der Arbeit bezüglich des Entwurfs neuer Kodierungen für Extraparameter der System Calls wirkt sich hingegen direkt auf weitere Arbeiten aus.
+So kann der Einsatz der Extraparameter in Zukunft eine Verbesserung der Ergebnisse des \ac{STIDE} oder anderen Algorithmen erzielen.
 Insbesondere können weitere kontextsensitive Algorithmen durch die Erweiterung der \textit{Thread Aware} N-Gramme profitieren. 
-Aber die präsentierten zusätzlichen Parameter sind ebenfalls noch erweiterbar.
+Zudem sind die präsentierten zusätzlichen Parameter sind ebenfalls noch erweiterbar.
 So können noch weitere Normalisierungen von System Call Rückgabewerten erfolgen.
 Zum Beispiel wurde der System Call \textit{send} bisher noch nicht mit einbezogen.
 Auch weitere Gruppierungen von System Calls oder eventuell das Auflösen von Gruppierungen sollte in weiteren Arbeiten untersucht werden.
+Damit ist es möglich eine genauere Kodierung für jeden einzelnen System Call zu erzielen.
 Es kann zwar davon ausgegangen werden, dass sich die Erfolge der Extraparameter im Zusammenhang mit den \ac{LSTM} Ansatz nicht eins zu eins auf Ansätze wie den \ac{STIDE} Algorithmus übertragen lassen, dennoch wurden in dieser Arbeit neue Kodierungsansätze präsentiert, die zur breiteren Nutzung von zusätzlichen Parametern beitragen.
+\par\medskip
 
+Der Einsatz des beschriebenen Verfahrens in Echtzeit wird nur eingeschränkt möglich sein.
+In Systemen bei welchen eine Große Menge an System Call Daten anfällt wird die Berechnung der Anomaliewerte sehr aufwendig.
+Eine Skalierung der Rechenleistung wird dabei nur einen geringen Einfluss haben, wesentlicher wäre eine Parallelisierung der Eingabedaten, welche bei \acp{LSTM} nicht möglich ist.
+Aufgrund des Rechenaufwandes kommt ein Einsatz in Infrastrukturen infrage, welche entweder direkt auf dem Host viel Rechenleistung zur Verfügung stellen, oder die eine ausgelagerte Berechnung ermöglichen.

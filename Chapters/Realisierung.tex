@@ -275,7 +275,7 @@
                     \caption[Erstellung Thread Aware N-Gramme]{Analog zu \autoref{fig:ngram_thread} werden N-Gramme erzeugt.
                              Diese werden nun mit der \ac{TCF} angereichert.
                              Initial ist die \ac{TCF} $0$.
-                             Ist das zuvor ausgegeben n-gram aus demselben Thread, ist die \ac{TCF} ebenfalls $0$.
+                             Ist das zuvor ausgegeben N-Gram aus demselben Thread, ist die \ac{TCF} ebenfalls $0$.
                              Findet ein Wechsel des Threads statt, wird dieser Kontextwechsel durch das Setzen der \ac{TCF} auf $1$ signalisiert.}\label{fig:ngram_tcf}
                 \end{figure}
 
@@ -313,7 +313,7 @@
                         \hline
                     \end{tabular}
                     \caption[Häufigkeit eines Kontextwechsels]{Vorkommen von eines Kontextwechsels angezeigt durch die \ac{TCF}.
-                    Bei einer n-gram Länge von $6$.}
+                    Bei einer N-Gram Länge von $6$.}
                     \label{tab:tcf}
                 \end{table}
 
@@ -364,6 +364,7 @@
 
         Ausgaben des \acp{LSTM} sind durch die Verwendung der PyTorch Cross-Entropy Loss-Funktion sogenannte \textit{Logits}.
         Auf diese kann mithilfe der \textit{Softmax}-Funktion eine Liste an Wahrscheinlichkeiten für jeden System Call sowie den Platzhalter erstellt werden.
+        \newpage
 
     \section{Algorithmus}\label{sec:Algorithmus}
         Im vorigen Kapitel wurden alle verwendeten Vorverarbeitungsschritte vorgestellt.
@@ -378,17 +379,18 @@
             Mit dem \ac{LSTM} wird in der Trainingsphase ein Sprachmodell der System Calls erstellt.
             Dieses Sprachmodell sagt mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$ den folgenden System Call $sc_{x_{n+1}}$ vorher. 
             Dabei bestehen die Trainingsdaten nur aus Normalverhalten, enthalten also keine Angriffe.\par\medskip
+
             Anhand dieses gelernten Modells wird dann in der Testphase eine Vorhersage über den nächsten System Call gemacht.
             Diese Vorhersage besteht aus den Wahrscheinlichkeiten für alle aus dem Training gesehenen System Calls, plus einem Platzhalter für noch unbekannte System Calls.
-            Die Wahrscheinlichkeit des tatsächlich auftretenden System Calls von eins abgezogen, stellt dann den Anomaliescore dar.\par\medskip
-            Ob dieser Anomaliescore zu einem Alarm führt oder nicht, hängt von einem zuvor bestimmten Schwellwert ab.
-            Dieser wird bestimmt, indem nach dem Training die Anomaliescores für einen Ausschnitt des Datensatzes bestimmt werden.
-            In diesem Ausschnitt, auch Validierungsdaten genannt, darf wie in den Trainingsdaten kein Angriffsverhalten enthalten sein.
-            Eine Garantie, die in der echten Welt nie komplett gegeben werden kann.
-            In den Validierungsdaten darf folglich kein Alarm ausgelöst werden, weshalb der höchste Anomaliescore der Validierungsdaten als Schwellwert der Anomalieerkennung verwendet wird.
-            Dies ist eine Annäherung an einen optimalen Schwellwert.\par\medskip
+            Die Wahrscheinlichkeit des tatsächlich auftretenden System Calls kann dann aus der Liste der Wahrscheinlichkeiten entnommen werden.
+            Die Wahrscheinlichkeit von Eins abgezogen, stellt dann den Anomaliescore dar.
+            Eine geringe vorhergesagte Wahrscheinlichkeit für den aktuellen System Call entspricht somit einem hohen Anomaliescore.\par\medskip
+            Ein Anomaliescore führt zu einem Alarm sofern er über einem definierten Schwellwert liegt.
+            Dieser wird bestimmt, indem nach dem Training die Anomaliescores für die Validierungsdaten des Datensatzes bestimmt werden.
+            Der höchste Anomaliescore aus den Validierungsdaten stellt den Schwellwert dar.
+            In den Validierungsdaten dürfen keine Angriffe enthalten sein, da sonst der Schwellwert so gesetzt wird, dass Angriffe übersehen werden.\par\medskip
 
-            Die System Calls werden wie zuvor beschrieben durch das \ac{W2V} Verfahren in einen Vektor umgewandelt und durch die zwei zuvor beschriebenen Verfahren, die Normalisierung der Zeitabstände und der Rückgabewerte bestimmter System Calls, angereichert.
+            Die System Calls werden wie  beschrieben durch das \ac{W2V} Verfahren in einen Vektor umgewandelt und durch die zwei  beschriebenen Verfahren, die Normalisierung der Zeitabstände und der Rückgabewerte bestimmter System Calls, angereichert.
             Der Stream der System Calls wird dann mit Betrachtung der Threads in N-Gramme zusammengetragen.
             Zusätzlich wird zu jedem N-Gram die Information über einen Kontextwechsel durch die \ac{TCF} angegeben.
             % Im Folgenden wird der Trainingsablauf detaillierter bestimmt.
@@ -398,9 +400,9 @@
                 \centering
                 \includegraphics[width=0.75\textwidth]{images/Process_overview.pdf}
                 \caption[Algorithmus - Ablauf Trainingsphase]{Ablauf der Trainingsphase mit Beispieldaten.
-                        Aus Trainingsdaten wird ein n-gram aus \ac{W2V}, Rückgabewert (\textit{ret}) und Zeitabstand (\textit{time}) erstellt.
+                        Aus Trainingsdaten wird ein N-Gram aus \ac{W2V}, Rückgabewert (\textit{ret}) und Zeitabstand (\textit{time}) erstellt.
                         Diese beiden Extraparameter sind bläulich hervorgehoben.
-                        Zusätzlich wird die \ac{TCF} an das n-gram gefügt.
+                        Zusätzlich wird die \ac{TCF} an das N-Gram gefügt.
                         Der Index des höchsten Wertes (gelb) aus der Ausgabe des \ac{LSTM} wird mit dem eigentlichen Label (grün) verglichen.
                         Aufgrund dieser Information werden die Gewichte im \ac{LSTM} angepasst}\label{fig:training}
             \end{figure}
@@ -408,19 +410,20 @@
             Pro Szenario werden $200$ Aufnahmen ohne Angriffsverhalten, der insgesamt ca.\ $1100$ Aufnahmen, für das Training ausgewählt.
             Die Grund\-idee besteht wie zuvor beschrieben darin, mit einer gegebenen Sequenz $s = (sc_{x_1},\dots,sc_{x_n})$ den folgenden System Call $sc_{x_{n+1}}$ vorherzusagen. 
             Da der nächste System Call aus dem Datensatz stets bekannt ist, kann als Feedback für das Netzwerk die Information genommen werden, ob $sc_{x_{n+1}}$ korrekt vorhergesagt wurde, also dem Label entspricht.
-            Das \ac{LSTM} gibt wie in \autoref{fig:training} dargestellt diese Information an das \ac{LSTM} zurück.\par\medskip
+            Das \ac{LSTM} gibt, wie in \autoref{fig:training} dargestellt, diese Information an das \ac{LSTM} zurück.\par\medskip
 
             Seien die System Calls aus den Trainingsdaten aus der Menge $SC = \{sc_1,sc_2,\dots,sc_k\}$.
             Womit $k$ die Anzahl der in den Trainingsdaten vorkommenden System Call Namen angibt.
             Die Trainingsdaten werden durchlaufen und N-Gramme $ngram_i$ erstellt.
             Der auf das $ngram_i$ folgenden System Call dient als Label $l_i$.
-            Nach dieser Idee ist das erste n-gram $ngram_0$ mit Label $l_0$.
+            Nach dieser Idee ist das erste N-Gram $ngram_0$ mit Label $l_0$.
             Dabei werden die System Call Namen für die Label durch Integerwerte ersetzt. 
-            Das \ac{LSTM} Netzwerk bekommt $ngram_0$ und gibt einen Vektor der Länge $k+1$ zurück.
+            Das \ac{LSTM} bekommt $ngram_0$ und gibt einen Vektor der Länge $k+1$ zurück.
             Dieser Vektor gibt für jeden der $k$ möglichen System Calls aus den Trainingsdaten eine Auftrittswahrscheinlichkeit an.
             Zusätzlich wird $1$ addiert, da in den Testdaten unbekannte System Calls auftreten können.
-            Diese bekommen den \ac{W2V}-Vektor $(0)^e$, wobei $e$ die Länge des \ac{W2V}-Vektoren ist oder für das Label einen Integerwert von $0$. 
-            Die Ausgabe des \acp{LSTM} sind \textit{PyTorch Logits}, diese werden mithilfe der \textit{Softmax}-Funktion in die gewünschten Wahrscheinlichkeiten umgewandelt.
+            Diese bekommen den \ac{W2V}-Vektor $(0)^e$, wobei $e$ die Länge des \ac{W2V}-Vektors ist..\par\medskip
+
+            Die Ausgabe des \acp{LSTM} sind \textit{PyTorch Logits}, welche mithilfe der \textit{Softmax}-Funktion in die gewünschten Wahrscheinlichkeiten umgewandelt werden.
             Der Index der Liste der so berechneten Wahrscheinlichkeiten wird mit dem aus den Trainingsdaten gezogenen Label verglichen.
             Dieser Vergleich dient dann als Feedback für das \ac{LSTM}.
             Mit den gegebenen Trainingsdaten kann nun das \ac{LSTM} mittels des \textit{back-propagation through time}  trainiert werden.
@@ -432,7 +435,7 @@
                 \caption[Algorithmus - Ablauf Validierungsphase]{Ähnlich zu \autoref{fig:training} wird hier der Validierungsablauf beschrieben.
                          Dabei wird wie zuvor ein Datenauszug dargestellt sowie die Auftrittswahrscheinlichkeiten für den folgenden System Call.
                          In der Test-, wie in der Validierungsphase dient die Wahrscheinlichkeit des Integerwerts des tatsächlich als nächstes auftretende System Call als Berechnungsgrundlage für den Anomaliescore.
-                        Wie unten in der Abbildung dargestellt, wird das Maximum der $ascore$s der gesamten Validierungsdaten als Schwellwert festgelegt.}
+                        Das Maximum der $ascore$s der gesamten Validierungsdaten wird als Schwellwert festgelegt.}
                 \label{fig:validierung}
             \end{figure}
             Es kann also bei Auftreten des System Calls $sc_i$ überprüft werden mit welcher Wahrscheinlichkeit $p_i$ dieser vorhergesagt wurde.
@@ -443,14 +446,14 @@
             Übertrifft dieser Wert einen zuvor bestimmten Schwellwert $\theta$, so wird $sc_i$ als Anomalie und damit als Angriff gewertet.
 
             \paragraph{Schwellwertbestimmung}\label{sec:Schwellung}
-                Für die Berechnung des Schwellwertes $\theta$ wird für alle System Calls der Validierungsdaten $ascore$ berechnet.
-                Die Validierungsdaten bestehen aus $50$ Aufnahmen und enthalten ebenfalls wie die Trainingsdaten nur das Normalverhalten.
-                Da in den Validierungsdaten kein Angriffsverhalten integriert ist, darf keiner der $ascore$s einen Alarm auslösen.
-                Weshalb der höchste Wert der $ascore$s der Validierungsdaten als Schwellwert $\theta$ genutzt wird.
-                Der Ablauf der Schwellwertfindung wird zusätzlich in \autoref{fig:validierung} dargestellt.
-                Dabei ist ähnlich zu \autoref{fig:training} dargestellt, wie ein System Call n-gram kodiert wird und als Eingabe in das \ac{LSTM} dient.
-                Zusätzlich wird die Berechnung des $ascores$ dargestellt, indem das Label als Index für die Softmax  Ausgabe des \acp{LSTM} dient.
-                Das Maximum der $ascores$ wird, wie beschrieben, dann als Schwellwert $\theta$ genutzt.
+                Für die Berechnung des Schwellwertes $\theta$, wird für alle System Calls der Validierungsdaten $ascore$ berechnet.
+                Der höchste Wert der $ascore$s der Validierungsdaten wird als Schwellwert $\theta$ genutzt.
+                Befindet sich in den Validierungsdaten Angriffsverhalten, sorgt dies für einen Schwellwert, durch welchen weiteres Angriffsverhalten in den Testdaten übersehen wird.
+                Deshalb dürfen in den Validierungsdaten kein Angriffsverhalten enthalten sein.
+                Eine Garantie, die in der echten Welt nie komplett gegeben werden kann.
+                Der Maximalwert der $ascore$s dient somit als Annäherung an einen optimalen Schwellwert, da kein $ascore$ der Validierungsdaten zu einem Fehlalarm führt.
+                Die Validierungsdaten bestehen aus $50$ Aufnahmen. 
+                
 
         \subsection{Parameterwahl}\label{sec:parameterwahl}
             Das Aufsetzen des beschriebenen Algorithmus bedarf der Festlegung einiger Parameter.
@@ -458,15 +461,17 @@
             Da nicht alle Parameter experimentell untersucht werden können, werden sie im Folgenden in festgelegte und zu ermittelnde Parameter unterteilt.
             \paragraph{Festgelegte Parameter}
                 Entscheidende Parameter der \acp{LSTM} sind die Anzahl der Neuronen pro Layer sowie die Anzahl der \ac{LSTM}-Layer in dem Netzwerk.
-                Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht tragbaren Laufzeiten führt, muss dies bei der Findung vieler Parameter bedacht werden.
-                Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \textit{Accuracy} führen.\cite{LSTMHYPERAUFA2020}
-                Die Anzahl der Neuronen dieser Layer wird wie bereits in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
-                Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ festgelegt.
+                Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht zweckdienlichen Laufzeiten führt, muss dies bei der Findung vieler Parameter berücksichtigt werden.
+                Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \textit{Accuracy} führen~\cite{LSTMHYPERAUFA2020}.
+                Alle weiteren Parameter wurden anhand einzelner Szenarien methodisch Approximiert.\par\medskip
+
+                Die Anzahl der Neuronen dieser Layer wird wie in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
+                Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ gesetzt.
                 Außerdem wird der für \acp{LSTM} häufig eingesetzte Adam-Optimizer verwendet.
                 Diese Einstellungen wurden auch in der Arbeit von Dymshits et al.~\cite{LSTMDYMSHITS2017} eingesetzt.
                 Als Loss Funktion wird für das $k+1$ Klassen Klassifizierungsproblem die \textit{Cross-Entropy} gewählt.
                 Wie auch in \autoref{fig:learning_rate} erkennbar ist, stagniert der Fehler bei verschiedenen Szenarien nach nur wenigen Epochen, weshalb für die Epochenanzahl ein Maximum von $20$ festgelegt wird.
-                Der Einfluss der Batch size auf die Ergebnisqualität wird unter anderem in~\cite{LSTMBENCHBREUEL2015} als gering eingestuft und wird auf $1024$ festgelegt.
+                Der Einfluss der Batch size auf die Ergebnisqualität wird unter anderem in~\cite{LSTMBENCHBREUEL2015} als gering eingestuft und wird auf $1024$ angesetzt.
                  
                 
                 \begin{figure}
@@ -481,8 +486,8 @@
 
             \paragraph{Zu ermittelnde Parameter}
             Ziel ist es eine Konfiguration der Parameter zu finden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
-            Dafür gilt es speziell verschiedene \textbf{n-gram} Größen in Kombination mit verschiedenen Größen für das \textbf{\ac{W2V}-Embedding} zu finden.
-            Für die n-gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
+            Dafür gilt es speziell Größen für \textbf{N-Gramme} und \textbf{\ac{W2V}-Embeddings} zu finden.
+            Für die N-Gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
             Zusätzlich soll untersucht werden, ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
             Speziell wird getestet, ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
                 
@@ -601,7 +606,7 @@
 
 \section{Metriken}\label{sec:Metriken}
 
-    Typische Metriken für die Auswertung von neuronalen Netzen und damit auch für \acp{LSTM}, welche auch in der Anomalieerkennung eingesetzt werden, umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
+    Typische Metriken für die Auswertung von neuronalen Netzen, und damit auch für \acp{LSTM}, welche auch in der Anomalieerkennung eingesetzt werden, umfassen die \textit{Precision}, \textit{Recall} und den \textit{F1-Score}.
     \begin{figure}
         \centering
         \includegraphics[width=0.75\textwidth]{images/Illustrationen/Precision.pdf}
@@ -614,18 +619,19 @@
     Wird von einem optimalen Fall ausgegangen, dass alle dem Angriff zugehörigen System Calls einen Alarm auslösen, wird der Recall immer noch sehr niedrig sein und damit keinen realistischen Wert liefern.
     Somit ist auch der F1-Score wenig nützlich, da sich dieser aus Recall und Precision zusammensetzt.\par\medskip
 
-    Für zweckdienliche Metriken ist die Bereitstellung von einheitlichen und vom Datensatz unabhängige Messwerte essentiell.
+    Für Metriken ist die Bereitstellung von einheitlichen und vom Datensatz unabhängigen Messwerte essentiell.
     Da der \ac{LID-DS} aus vielen verschiedenen Aufnahmen besteht, kann die Berechnung der Precision und des Recalls auch auf Dateiebene stattfinden.
-    Falls mehrere Angriffe in einer Datei vorkommen, wird die Berechnung jedoch umständlicher, dies ist im \ac{LID-DS} nicht der Fall.  
+    Falls mehrere Angriffe in einer Aufnahme vorkommen, wird die Berechnung jedoch umständlicher.
+    Dies ist im \ac{LID-DS} nicht der Fall.  
     Grundgedanke der Findung einer neuen Metrik muss dabei auch sein, einen klaren Praxisbezug zu finden. 
     Dort ist vor allem interessant, wieviele Angriffe erkannt werden und nicht wieviele System Calls der Angriffe als bösartig eingestuft werden.
     Zum anderen entscheidet die Anzahl, beziehungsweise die Häufigkeit von Fehlalarmen über die Nutzbarkeit der \acp{IDS}.\par\medskip
     Die \ac{DR} steht für den zuvor beschriebenen Recall auf Dateiebene, also der Anteil der erkannten Angriffe an allen vorkommenden Angriffen.
     Werden alle Aufnahmen mit Angriffsverhalten korrekt erkannt gilt: $\ac{DR}=1$.
     Dabei wird außer Acht gelassen, dass ein Alarm nach dem Angriffszeitpunkt wie in \autoref{sec:prob_LIDDS} beschrieben, theoretisch auch ein Fehlalarm sein kann.
-    Nur ein Alarm vor dem Angriffszeitpunkt oder in einer Aufnahme ohne Angriffsverhalten wird als Fehlalarm beziehungsweise als \ac{FP} gewertet.
+    Nur ein Alarm vor dem Angriffszeitpunkt oder in einer Aufnahme ohne Angriffsverhalten wird als Fehlalarm beziehungsweise als \ac{FP} gewertet.\par\medskip
     Zusätzlich gelten alle System Calls solange zu einem Alarm, bis der $ascore$ wieder unter dem Schwellwert $\theta$ liegt.
-    Ziel ist es also, eine hohe \ac{DR} und eine möglichst geringe \ac{FP}-Rate zu erreichen.\par\medskip
+    Ziel ist es also, eine hohe \ac{DR} und eine möglichst geringe \ac{FP}-Rate zu erreichen.
     Um einschätzen zu können welche Konfiguration am besten abgeschnitten hat, ergibt sich eine neue Schwierigkeit.
     Es ist schwierig zu beurteilen, welche Konfiguration am besten funktioniert, denn wenn alle System Calls aus dem Datensatz als Angriff erkannt werden, ist $\ac{DR}=1$.
     Eine hohe \ac{DR} alleine ist also wenig aussagekräftig.
