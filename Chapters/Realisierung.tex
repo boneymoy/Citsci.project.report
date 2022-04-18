@@ -448,6 +448,7 @@
             \paragraph{Schwellwertbestimmung}\label{sec:Schwellung}
                 Für die Berechnung des Schwellwertes $\theta$, wird für alle System Calls der Validierungsdaten $ascore$ berechnet.
                 Der höchste Wert der $ascore$s der Validierungsdaten wird als Schwellwert $\theta$ genutzt.
+                Dieser Ablauf ist in \autoref{fig:validierung} mit allen Vorverarbeitungsschritten dargestellt.
                 Befindet sich in den Validierungsdaten Angriffsverhalten, sorgt dies für einen Schwellwert, durch welchen weiteres Angriffsverhalten in den Testdaten übersehen wird.
                 Deshalb dürfen in den Validierungsdaten kein Angriffsverhalten enthalten sein.
                 Eine Garantie, die in der echten Welt nie komplett gegeben werden kann.
@@ -463,7 +464,7 @@
                 Entscheidende Parameter der \acp{LSTM} sind die Anzahl der Neuronen pro Layer sowie die Anzahl der \ac{LSTM}-Layer in dem Netzwerk.
                 Da sich bei ersten Tests schnell die Problematik aufgetan hat, dass die Berechnungen sehr großer Szenarien zu nicht zweckdienlichen Laufzeiten führt, muss dies bei der Findung vieler Parameter berücksichtigt werden.
                 Deshalb wird in dieser Arbeit nur eine \ac{LSTM}-Layer verwendet, auch wenn in manchen Anwendungen der \ac{NLP} mehrere Layer zu einer verbesserten \textit{Accuracy} führen~\cite{LSTMHYPERAUFA2020}.
-                Alle weiteren Parameter wurden anhand einzelner Szenarien methodisch Approximiert.\par\medskip
+                Alle weiteren Parameter wurden anhand einzelner Szenarien methodisch approximiert.\par\medskip
 
                 Die Anzahl der Neuronen dieser Layer wird wie in \autoref{sec:aufbau_lstm} beschrieben auf $64$ festgelegt.
                 Die Lernrate wurde anhand der Ergebnisse mehreren Tests auf wenigen Szenarien auf $0.001$ gesetzt.
