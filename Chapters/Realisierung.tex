@@ -1,4 +1,4 @@
-%*****************************************
+*****************************************
 \chapter{Realisierung}\label{ch:Realisierung}
 %*****************************************
     Bei der Realisierung eines anomaliebasierten \ac{IDS} werden, wie in~\autoref{ch:Grundlagen} beschrieben, zwei Phasen durchlaufen.
@@ -73,7 +73,7 @@
             In~\cite{W2VWUNDERLICH2019} wird beschrieben, dass das \ac{OHE} laut Ergebnissen bevorzugt werden sollte, wobei auch das \ac{W2V} geeignet ist.
             In dieser Arbeit überwiegt allerdings der zeitliche Vorteil\marginpar{mehr dazu in \autoref{sec:erg_time}} durch die Dimensionsreduktion des \ac{W2V}.
             Neben den eigentlichen Namen des System Calls, enthalten tatsächliche System Calls wie in \autoref{sec:syscalls} beschrieben noch wesentlich mehr Informationen.
-            Wie zumindest Teile dieser die Embeddings der System Calls erweitern können, soll im folgenden Abschnitt untersucht werden.
+            Wie zumindest Teile dieser die Embeddings der System Calls erweitern können, wird im folgenden Abschnitt untersucht.
 
         \subsection{Darstellung weiterer Parameter}\label{sec:Meta}
                 Wie zusätzliche Informationen der System Calls genutzt werden können ist Gegenstand bestehender Forschung.
@@ -218,7 +218,8 @@
                     \end{figure}
 
         \subsection{Darstellung eines System Call Streams}\label{sec:streamdarstellung}
-            Nachdem die Kodierung eines System Calls und zwei weiterer Parameter neben dem Namen selbst besprochen wurde, soll in diesem Abschnitt die Abarbeitung mehrerer System Calls für den verarbeitenden Algorithmus behandelt werden.
+            Im letzten Unterabschnitt wurde die Kodierung eines System Calls und zwei weiterer Parameter neben dem Namen besprochen.
+            In diesem Abschnitt wird die Abarbeitung mehrerer System Calls für den verarbeitenden Algorithmus behandelt.
             Dabei werden die Abfolge der System Calls des Datensatzes als ein kontinuierlicher Stream betrachtet.
             Dies ermöglicht den Einsatz der entwickelten Vorgehensweise in der Praxis auch im Live-Betrieb, sofern die Verarbeitung entsprechend schnell stattfindet.
             Für viele Algorithmen wie zum Beispiel auch neuronale Netze ist es notwendig eine feste Eingangsgröße festzulegen.
@@ -369,7 +370,7 @@
     \section{Algorithmus}\label{sec:Algorithmus}
         Im vorigen Kapitel wurden alle verwendeten Vorverarbeitungsschritte vorgestellt.
         In den kommenden Abschnitten werden diese Schritte zu einem Ablauf zusammengeführt.
-        Zunächst soll in \autoref{sec:Allgemein} ein allgemeiner Überblick gegeben werden.
+        Zunächst wird in \autoref{sec:Allgemein} ein allgemeiner Überblick gegeben.
         Anschließend wird in \autoref{sec:Training} behandelt, was das \ac{LSTM} Netzwerk lernt.
         Schließlich wird in \autoref{sec:Anomalieerkennung} erklärt, wie aus dem Gelernten die Klassifizierung in normales oder Angriffsverhalten erfolgt.
 
@@ -489,7 +490,7 @@
             Ziel ist es eine Konfiguration der Parameter zu finden, mit der alle Szenarien aus dem \ac{LID-DS} mit hoher \ac{DR} und niedriger \ac{FP}-Rate ausgewertet werden können.
             Dafür gilt es speziell Größen für \textbf{N-Gramme} und \textbf{\ac{W2V}-Embeddings} zu finden.
             Für die N-Gram Größen wurden $[2,6,10]$ und für das \ac{W2V}-Embedding $[4,6,8,10]$ zur Auswahl gestellt.
-            Zusätzlich soll untersucht werden, ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
+            Zusätzlich wird untersucht, ob sich durch die Hinzunahme weiterer System Call Parametern neue erfolgreiche Konfigurationen ergeben.
             Speziell wird getestet, ob sich \textbf{\ac{TCF}}, \textbf{Rückgabewerte}, \textbf{zeitliche Abstände} oder jegliche \textbf{Kombinationen} dieser positiv auf die Ergebnisse auswirken.
                 
 \iffalse

@@ -3,10 +3,10 @@
 %*****************************************
 
 Die Forschungsfrage mit der sich diese Arbeit beschäftigt, kann wie in~\autoref{sec:Forschungsfrage} beschrieben, weiter unterteilt werden.
-Zum einen soll untersucht werden, inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen können.
+Zum einen wird untersucht, inwiefern \acp{LSTM} in der Domäne der anomaliebasierten \ac{HIDS} Vorteile bringen.
 Und zum anderen, wie die Sequenzen von System Calls angereichert werden können, um die \acf{FP}-Rate sowie die \acf{DR} zu verbessern.
 Um den Überblick über die verwandten Arbeiten zu bewahren, sind diese im Folgenden untergliedert.
-Zunächst sollen Grundlagen der Anomalieerkennung und erste Ansätze der Anomalieerkennung mit System Calls aufgeführt werden, auf welchen diese Arbeit indirekt fußt.
+Zunächst werden die Grundlagen der Anomalieerkennung und erste Ansätze der Anomalieerkennung mit System Calls angeführt, auf welchen diese Arbeit indirekt fußt.
 Im nächsten Schritt werden Arbeiten betrachtet, welche sich auf die Argumente der System Calls konzentrieren.
 Abschließend werden Arbeiten untersucht, welche sich speziell mit der Übertragung von \ac{NLP} Verfahren in die \ac{HIDS} auseinandersetzen.
 Dazu zählen auch Ansätze mit \acp{LSTM}.
@@ -15,16 +15,16 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
 
         % Die Anomaliedetektion findet nicht nur in der IT-Sicherheit ihren Einsatz und kann .
         % Dazu gehören die Erkennung von Betrug, unter anderem bei Kreditkarten~\cite{CREDITBOLTON2001}, das Aufdecken von Unregelmäßigkeiten in medizinischen und Gesundheitsdaten~\cite{MEDIZINHORN2001} oder Schadenserkennung in der Industrie~\cite{INDUSTRIEBASU2007}.
-        Die Anfänge der Anomalieerkennug werden von Huang et al.~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden sollen.
+        Die Anfänge der Anomalieerkennug werden von Huang et al.~\cite{ANOMALYBOOKKISHAN2017} auf die Arbeit von Grubbs~\cite{ANOMALYDEFINITION1969} zurückgeführt, in welcher sogenannte Ausreißer in Sample-Daten gefunden und entfernt werden.
         Hingegen berufen sich Chandola et al.~\cite{ANOMALYSURVEY} bei den Anfängen der Anomalieerkennung auf eine Arbeit aus dem~\textit{Dublin Philosophical Magazine of Journal and Science} von 1887~\cite{ANOMALYDEFINITION1887}.
         Dort werden \textit{discordant observations}\marginpar{zu dt.\ nicht stimmige Beobachtung} anhand einer abweichenden gesetzmäßigen Frequenz isoliert. 
         Speziell im Kontext der Angriffserkennung wird, wie in~\autoref{sec:Datenerfassung} beschrieben die Anomalieerkennung in \ac{NIDS} und \ac{HIDS} eingeteilt.
-        Da es wie in der Anomalieerkennung in diesen Bereichen eine große Anzahl an Arbeiten und auch Übersichtsarbeiten gibt~\cite{ANOMALYSURVEY, ANOMALYSURVEY2, ANOMALYSURVEY3}, soll im Folgenden nur auf bestehende Arbeiten im Bereich der \ac{HIDS} eingegangen werden, welche speziell System Calls verwenden.
+        Da es wie in der Anomalieerkennung in diesen Bereichen eine große Anzahl an Arbeiten und auch Übersichtsarbeiten gibt~\cite{ANOMALYSURVEY, ANOMALYSURVEY2, ANOMALYSURVEY3}, wird im Folgenden nur auf bestehende Arbeiten im Bereich der \ac{HIDS} eingegangen, welche speziell System Calls verwenden.
 
     \section{Anomaliebasierte \NoCaseChange{\acfp{HIDS}} mit System Calls}
     \sectionmark{Anomaliebasierte HIDSs mit System Calls}
 
-        Zunächst sollen im Folgenden \acp{HIDS} betrachtet werden, die explizit nur die Sequenzen der System Call Namen betrachten und alle weiteren Informationen nicht beachten.
+        Zunächst wird im Folgenden \acp{HIDS} betrachtet, die explizit nur die Sequenzen der System Call Namen betrachten und alle weiteren Informationen nicht beachten.
 
         \paragraph{Ohne Betrachtung der System Call Argumente}\label{sec:related_no_arg}
                 Bereits 1996 stellten Stephanie Forrest et al.~\cite{FORREST} die erste Arbeit vor, in welcher sie mit ihrem \ac{TIDE} Algorithmus Anomalien in System Call Daten ermitteln.
@@ -75,7 +75,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
         \paragraph{Mit Betrachtung der System Call Argumente}\label{sec:related_sys_arg}
             Die beschriebene Umgehung der Angriffserkennung zeigt, dass es sinnvoll sein kann auch noch weitere Informationen aus den System Calls einzubinden.
             Seien es Metadaten, wie die Thread Information der System Calls, oder auch die eigentlichen Argumente der Aufrufe.
-            Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurden soll nun behandelt werden.\par\medskip
+            Inwiefern diese zusätzlichen Informationen bereits in der Literatur verwendet wurden wird nun behandelt.\par\medskip
 
             2003 wählen Kruegel et al.~\cite{ARGUMENTS} einen zu den bisherigen Arbeiten konträren Weg.
             Sie missachten die Sequenz und betrachten nur die Rückgabewerte und Argumente der System Calls.
@@ -98,7 +98,7 @@ Dazu zählen auch Ansätze mit \acp{LSTM}.
                 Für das Erlernen verwenden sie ein Markov Modell.
                 In der Testphase wird dann untersucht, ob die aktuelle Struktur des System Call Arguments durch das Markov Modell erstellt werden kann oder nicht.
 
-                \item \textit{Token Finder}: Es soll ermittelt werden, ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
+                \item \textit{Token Finder}: Es wird ermittelt, ob die Werte eines bestimmten System Call Arguments aus einer endlichen Menge von Werten stammt.
                 Laut Kruegel et al.~\cite{ARGUMENTS} werden häufig System Calls mit zum Beispiel den selben Flags aufgerufen, allerdings gibt es auch Argumente, bei welchen so eine klare Aufteilung unbrauchbar ist.
                 Mit einer statistischen Analyse wird deswegen in der Trainingsphase ermittelt, ob ein Argument einer zufälligen Verteilung folgt.
                 Falls dies nicht der Fall ist, werden diese Werte in die Normaldatenbank aufgenommen.

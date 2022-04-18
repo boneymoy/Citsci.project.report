@@ -39,7 +39,7 @@
             \paragraph{Anomaliebasiert}
                 Der wesentliche Vorteil gegenüber den \ac{SIDS} besteht darin, dass auch bisher unbekannte Angriffe erkannt werden können.
                 Denn anstatt sich auf bekannte Angriffe zu berufen, werten anomaliebasierte \acp{IDS} lediglich eine Abweichung eines wohldefinierten Normalverhaltens als Angriff.
-                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand soll möglichst akkurat das zu erwartende und damit gewollte Systemverhalten beschreiben~\cite{ANOMALYBOOKKISHAN2017}.
+                Das Normalverhalten oder anders formuliert das Modell eines Systems im Normalzustand beschreibt möglichst akkurat das zu erwartende und damit gewollte Systemverhalten~\cite{ANOMALYBOOKKISHAN2017}.
                 Anomalien oder auch \textit{\glqq outlier\grqq\ }\marginpar{zu dt. Ausreißer} wurden unter anderem schon 1969 definiert.\par\medskip
 
                 \blockquote{An outlying observation, or outlier, is one that appears to deviate markedly from other members of the sample in which it occurs.}~\cite{ANOMALYDEFINITION1969}\par\medskip
@@ -57,7 +57,7 @@
                 Im ersten Schritt wird ein Modell des Normalverhaltens erstellt.
                 Dieser Schritt wird in \ac{ML}-basierte, Statistik-basierte~\cite{IDSPIETRO2008} oder~\cite{IDSsurvey} in \textit{Knowledge}-basierten \marginpar{zu dt. Wissens-basierte} Algorithmen untergliedert.
                 In der zweiten Phase muss dieses Modell dann überprüft werden.
-                Speziell soll dabei mit noch nicht betrachteten Daten getestet werden, ob Normalverhalten und Anomalien auch als solche eingestuft werden.
+                Speziell wird mit noch nicht betrachteten Daten getestet, ob Normalverhalten und Anomalien auch als solche eingestuft werden.
                 Dabei liefert der Algorithmus für jede Eingabe entweder einen Anomaliescore oder direkt ein Label.
                 Das Label gibt an ob es sich um eine tatsächliche Intrusion handelt.
                 Liegt der Score über einem festgelegten Schwellwert, gilt die Eingabe als anormal ansonsten als normal.~\cite{IDSPIETRO2008}\par\medskip
@@ -395,7 +395,7 @@
                     \begin{figure}[ht]
                         \centering
                         \includegraphics[width=0.8\textwidth]{images/q_problem.eps}
-                        \caption[Quadrantenproblem]{Illustration des Quadrantenproblems .
+                        \caption[Quadrantenproblem]{Illustration des Quadrantenproblems.
                         Es beschreibt die Problematik, dass Alle System Calls nach $t_{Angriff}$ als bösartig eingestuft werden müssen, obwohl auch Normalverhalten stattfindet. (Abwandlung von~\cite{IDSTHREADGRIMMER2021})}
                         \label{fig:quadrant}
                     \end{figure}
@@ -431,9 +431,9 @@
         Algorithmen, in welchen neuronale Netze zum Einsatz kommen, bestehen generell aus zwei Phasen. 
         In der ersten Phase, der Trainingsphase, werden vordefinierte Trainingsdaten in das Netz gegeben.
         Dieses versucht Merkmale in den Daten zu ermitteln, mit welchen dann in der Testphase Voraussagen gemacht werden können.
-        Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \ac{CNN} für die Bilderkennung. 
-        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \ac{RNN}.
-        Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, soll im Folgenden nur auf die \ac{RNN} und eine besondere Abwandlungen dieser eingegangen werden.
+        Dabei haben sich spezialisierte Herangehensweisen entwickelt, wie zum Beispiel die \acp{CNN} für die Bilderkennung. 
+        Für sequentielle Daten wie Audio, Text und Video, bei welchen eine zeitliche Komponente entscheidend ist, eignen sich vor allem die \acp{RNN}.
+        Da in dieser Arbeit sequentielle Daten betrachtet werden, die sequentielle Abfolge von System Calls, wird im Folgenden nur auf die \acp{RNN} und eine besondere Abwandlungen dieser eingegangen.
         % überarbeiten
         %unterteilung verschiedener Netze und einordnung von rnns und lstmnn
         %Neuronale Netze bestehen aus verschiedenen Ebenen von Knoten (auch Neuronen genannt), die miteinander verbunden sind.
@@ -482,7 +482,7 @@
             Dies hat den Effekt, dass n dieser kleinen Zahlen multipliziert werden, um die Gradienten der \glqq vorderen\grqq \ Schichten in einem n-Schichten-Netzwerk zu berechnen, was bedeutet, dass der Gradient (Fehlersignal) exponentiell mit n abnimmt und die vorderen Schichten sehr langsam trainieren.
             Die von Sepp Hochreiter erstmals erwähnte  \ac{LSTM} Zellen ermöglichen durch verbesserte Fehlerkorrektur stabilere Lernergebnisse sowie auch das Lernen von Mustern mit noch größeren zeitlichen Abständen.~\cite{HOCHREITER1998}\par\medskip
 
-            Diese Sonderform der \acp{RNN}, die auch in dieser Arbeit verwendet werden, sollen deshalb genauer untersucht werden.
+            Diese Sonderform der \acp{RNN}, die auch in dieser Arbeit verwendet werden, werden deshalb genauer untersucht.
             %% TODO Batch Normalisation \cite{LSTMbatchnorm}
    	
         \subsection{\NoCaseChange{\acfp{LSTM}}}\label{sec:LSTM}
@@ -499,7 +499,7 @@
             Und um zu erlernen, welche früheren Ausgaben für die Ermittlung nächster Datenpunkte entscheidend sind,
             wird an jedem Knoten eine mit $A$ in der~\autoref{fig:LSTM} gekennzeichnete \textit{Memory Cell} \marginpar{zu dt. Gedächtniszelle} angebracht.
             Sie ist mit sich selbst verbunden, hat also Zugriff auf die vorherigen Ausgaben und den Zellstatus.
-            Mit Hilfe dieser Information soll eine Abhängigkeit auch über einen längeren Zeitraum gefunden werden.
+            Mit Hilfe dieser Information wird eine Abhängigkeit auch über einen längeren Zeitraum gefunden.
             Der Zellstatus $C_{t-1}$ zum Zeitpunkt $t-1$ hat im nächsten Zeitschritt $t$ einen Einfluss auf den Zellstatus $C_{t}$ und somit auch auf die Ausgabe $y_t$.
             Die Weitergabe des Status wird in~\autoref{fig:LSTM_Status} dargestellt.\par\medskip
 
@@ -511,7 +511,7 @@
                 \end{figure}
                 
                 Einfluss auf den Zellstatus haben zwei verschiedene \textit{Gates}.\marginpar{zu dt. Gatter/Tore}
-            Im ersten Schritt wird entschieden, welche Information aus dem vorherigen Zeitschritt keinen Einfluss mehr auf den Zellstatus haben sollen.
+            Im ersten Schritt wird entschieden, welche Information aus dem vorherigen Zeitschritt keinen Einfluss mehr auf den Zellstatus haben werden.
             Dies wird mit dem \textit{Forget Gate} umgesetzt und ist in~\autoref{fig:LSTM_Forget} zu sehen und kann analog zur \ac{RNN} Zelle folgendermaßen hergeleitet werden.
 
             \begin{equation}
@@ -520,7 +520,7 @@
 
             $W_{fh}$ und $W_{fx}$ beschreiben die Gewichte und $b_f$ den Bias des \textit{Forget Gate}.
             Es wird also die vorherige Eingabe $h_{t-1}$ sowie die aktuelle Eingabe $x_t$ gewichtet und mit Bias an die Aktivierungsfunktion $\sigma$ übergeben.
-            Damit sollen Informationen aus dem Speicher, die keinen Einfluss mehr haben sollen, entfernt werden.
+            Damit werden Informationen aus dem Speicher, die keinen Einfluss mehr haben sollen, entfernt.
             In dem Sprachbeispiel ist vorstellbar, dass das Genus (\textit{grammatikalisches Geschlecht}) gespeichert wird, um so eine grammatikalisch korrekte Vorhersage zu machen.
             Kommt nun allerdings ein neues Pronomen in der Eingabe $x_t$, sollte das bisher gespeicherte Genus keinen Einfluss mehr haben.
             
@@ -531,8 +531,8 @@
                     \label{fig:LSTM_Forget}
                 \end{figure}
                 
-            Das \textit{Input Gate} soll im nächsten Schritt angeben, welche neuen Informationen in den Zellstatus $C_t$ aufgenommen werden.
-            Dies erfolgt in zwei Schritten, zunächst wird mit $i_t$ ermittelt, welche Information geupdated werden soll.
+            Das \textit{Input Gate} gibt im nächsten Schritt an, welche neuen Informationen in den Zellstatus $C_t$ aufgenommen werden.
+            Dies erfolgt in zwei Schritten, zunächst wird mit $i_t$ ermittelt, welche Information geupdated wird.
 
             \begin{equation}
                 \begin{split}
@@ -541,7 +541,7 @@
                 \end{split}
             \end{equation}
 
-            Im Vektor $\tilde{C}$ sind mögliche Kandidaten enthalten (wie z.B. das Genus), welcher den zuvor vergessenen Wert ersetzen soll (vgl.~\autoref{fig:LSTM_Input}).
+            Im Vektor $\tilde{C}$ sind mögliche Kandidaten enthalten (wie z.B. das Genus), welcher den zuvor vergessenen Wert ersetzt (vgl.~\autoref{fig:LSTM_Input}).
             Der gesamte Zellstatus $C_t$ wird dann zusammen mit Werten aus dem \textit{Forget Get} verrechnet.
 
             \begin{equation}
@@ -564,7 +564,7 @@
                     h_t &= o_ttanh\left(c_t\right)
                 \end{split}
             \end{equation}
-            Dies soll in unserem Sprachbeispiel entscheiden, ob die Information des Genus für die Vorhersage des nächsten Wortes eine Rolle spielt. \cite{GERS2000, OLAH2015}
+            Dies entscheidet in unserem Sprachbeispiel, ob die Information des Genus für die Vorhersage des nächsten Wortes eine Rolle spielt. \cite{GERS2000, OLAH2015}
 
                 \begin{figure}[ht]
                     \centering
@@ -573,7 +573,7 @@
                     \label{fig:LSTM_Output}
                 \end{figure}
             
-                Die verschiedenen Gates können so als ein weiteres kleines NN in jedem Knoten der \ac{LSTM} Netze betrachtet werden, welche einen zeitlichen Zusammenhang besser erkennen sollen.
+                Die verschiedenen Gates können so als ein weiteres kleines NN in jedem Knoten der \acp{LSTM} betrachtet werden, welche einen zeitlichen Zusammenhang besser erkennen.
             Gesamt lässt sich eine \ac{LSTM} Zelle mit den folgenden Formeln beschreiben:
             \begin{equation}
                 \begin{split}
