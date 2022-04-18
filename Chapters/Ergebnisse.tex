@@ -84,7 +84,7 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
     So hat die beste Konfiguration mit einer N-Gram Größe von $10$ und einer Embedding Größe von $4$ also $10 \cdot 4=40$ Eingangsneuronen.
     Hingegen hat die Konfiguration aus Zeile $4$ nur $2 \cdot 4 = 8$ Eingangsneuronen.
     Beide Konfigurationen erzielen dabei sehr ähnliche Ergebnisse mit einer durchschnittlichen \ac{DR} von $0.71$ und $14.56$ \acp{FP} beziehungsweise $0.68$ und $12.89$.
-    Dies weist darauf hin, dass mit unterschiedlichen Konfigurationen unterschiedliche Zusammenhänge zwischen den System Call Sequenzen gelernt werden.
+    Dies weist darauf hin, dass mit unterschiedlichen Konfigurationen unterschiedliche Zusammenhänge zwischen den System Call Sequenzen gelernt werden können.
 
     \begin{table}[ht]
         \centering
@@ -208,6 +208,7 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
     Problematisch sind dabei speziell das $ZipSlip$ Szenario sowie das $Bruteforce\_CWE-307$ Szenario, da sie zusätzlich zu einer geringen \ac{DR} auch zu vielen \acp{FP} führen.
     \begin{table}[H]
         \centering
+        \small
         \begin{tabular}{lrr}
             \hline
             \rowcolor{GruvGray!36}
@@ -252,7 +253,7 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
             $10$ & 	$4$ & 	$1$ & 	$1$ & 	$0$ & 	$14.00$ & 	$0.76$ \\
             \rowcolor{GruvGray!16}
             $10$ & 	$8$ & 	$0$ & 	$1$ & 	$1$ & 	$18.56$ & 	$0.76$ \\
-            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5$ & 	    $0.74$ \\
+            $10$ & 	$4$ & 	$0$ & 	$1$ & 	$0$ & 	$5.00$ & 	    $0.74$ \\
             \rowcolor{GruvGray!16}
             $10$ & 	$4$ & 	$1$ & 	$0$ & 	$0$ & 	$13.78$ & 	$0.74$ \\
             $10$ & 	$4$ & 	$1$ & 	$1$ & 	$1$ & 	$22.33$ & 	$0.74$ \\
@@ -326,13 +327,15 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
 
     Wie in \autoref{sec:erg_struk} beschrieben kann die Betrachtung des Mittelwertes auch für nicht repräsentative Ergebnisse sorgen.
     Dadurch können gute Konfigurationen übersehen werden.
-    Denn wie in \autoref{tab:LSTM_pro_szenario_allg_param} dargestellt, werden die Ergebnisse mit Hinzunahme im Schnitt nicht deutlich besser.
+    In \autoref{tab:LSTM_pro_szenario_allg_param} ist keine deutliche Verbesserung der Ergebnisse mit Hinzunahme der Extraparameter zu erkennen.
     Dies kann zu einem frühzeitigen Ausschluss bestimmter Konfigurationen führen.
     Die Verbesserungen zu \autoref{tab:LSTM_pro_szenario_allg} werden mit blau und die Verschlechterungen mit rot dargestellt.
     Diese Ergebnisse werden für jedes Szenario in \autoref{fig:erg_vgl_extra} visualisiert.
     In Blau werden die Ergebnisse mit Verwendung der Extraparameter dargestellt und in Rot ohne Extraparameter.
-
-    Eine deutliche Verbesserungen ist dabei nicht zu erkennen.\par\medskip
+    Die Höhe der Kreise gibt die \ac{DR} an und die Größe die Anzahl der \acp{FP}.
+    Eine Abweichung der Mittelwerte ist in Szenario $CVE-2014-0160$ sowie in Szenario $CVE-2017-7529$ zu erkennen.
+    Werden die besten Konfigurationen betrachtet, stellt sich ein anderes Bild dar.
+    \par\medskip
 
     \begin{table}[ht]
         \centering
@@ -369,17 +372,20 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
     \begin{figure}[H]
         \centering
         \includegraphics[width=1\textwidth]{images/Erg_balls.pdf}
-        \caption[Visualisierung der Mittelwerte pro Szenario]{}\label{erg_vgl_extra}
+        \caption[Mittelwerte pro Szenario mit/ohne Extraparametern]{Mittelwerte der \ac{DR} und \acp{FP} pro Szenario für Konfigurationen ohne Extraparametern (rot) und mit Extraparametern (blau).
+                                                                    Anzahl der \acp{FP} gibt Größe der Kreise wieder.}\label{fig:erg_vgl_extra}
     \end{figure}
 
-
+    \newpage
     In  \autoref{tab:LSTM_vs_alternative} und \autoref{tab:LSTM_vs} werden die zwei Gewinnerkonfigurationen mit Extraparametern mit jeweils den Gewinnerkonfigurationen ohne Extraparametern gegenübergestellt.
     Dabei werden die Ergebnisse jedes Szenarios angegeben. 
+    Im Gegensatz zu den Mittelwerten zuvor ist eine klare Verbesserung zu erkennen.
+    Dies spiegelt sich auch in der Visualisierung der beiden Tabellen in \autoref{fig:erg_vgl_dr} und \autoref{fig:erg_vgl_fp} wieder.
     Auffällig dabei ist die unterschiedliche Verteilung welche Szenarien vergleichsweise gut gelöst werden.
-    In \autoref{tab:LSTM_vs} ist zu erkennen, dass ohne Extraparameter das $CVE-2014-0160$ Szenario gut gelöst wird.
+    Ohne Extraparameter wird das $CVE-2014-0160$ Szenario mit einer hohen \ac{DR} und geringer \acp{FP} gelöst.
     Diese ist wie in \autoref{tab:LSTM_pro_szenario_allg} beschrieben im Schnitt eines der am schlechtesten gelösten Szenarien.
     Hingegen werden die vermeintlich einfachen Szenarien wie das $CVE-2018-5418$ nicht gut gelöst.
-    Im Vergleich werden mit Extraparametern das Bruteforce, $CVE-2012-2122$ und das $CVE-2014-0160$ Szenario nicht gut gelöst und alle anderen haben eine sehr hohe \ac{DR} bei einer geringen Anzahl an Fehlalarmen.
+    Im Vergleich werden mit Extraparametern das Bruteforce, $CVE-2012-2122$ und das $CVE-2014-0160$ Szenario bezüglich \ac{DR} schlecht gelöst und alle anderen haben eine sehr hohe \ac{DR} bei einer geringen Anzahl an Fehlalarmen.
 
     \begin{table}[H]
         \centering
@@ -433,9 +439,9 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
             CVE-2019-5418 	      & $12$  & $1.00$ & x & {\color{CTblue}$3$} &{\color{CTred}$0.99$} \\
             \rowcolor{GruvGray!16}
             EPS CWE-434 	      & $9$ & $1.00$ & x & {\color{CTblue}$9$} &{\color{CTblue}$1.00$} \\
-            SQL Injection CWE-89 &	$1$ & $1.00$ & x & {\color{CTblue}$1$} &{\color{CTblue}$1.00$} \\
-            \rowcolor{GruvGray!16}
             PHP CWE-434 	      & $1$ & $0.00$ & x & {\color{CTblue}$1$} &{\color{CTblue}$1.00$} \\
+            \rowcolor{GruvGray!16}
+            SQL Injection CWE-89 &	$1$ & $1.00$ & x & {\color{CTblue}$1$} &{\color{CTblue}$1.00$} \\
             ZIP Slip              & xxx  & xxx        & x & xxx  & xxx \\
             \hline
         \end{tabular}
@@ -445,6 +451,16 @@ Zusätzlich werden in \autoref{sec:erg_vgl} Ergebnisse weiterer Arbeiten mit die
                 Eine Verschlechterung wird mit Rot hervorgehoben, ansonsten Blau.}
         \label{tab:LSTM_vs}
     \end{table}
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=1\textwidth]{images/Erg_balls_fp.pdf}
+        \caption[Vergleich \ac{DR} ohne Extraparameter vs.\ mit Extraparameter]{Vergleich bester Ergebnisse bezüglich \ac{DR} mit (blau) und ohne (rot) Extraparameter.}\label{fig:erg_vgl_dr}
+    \end{figure}
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=1\textwidth]{images/Erg_balls_dr.pdf}
+        \caption[Vergleich \ac{FP} ohne Extraparameter vs.\ mit Extraparameter]{Vergleich bester Ergebnisse bezüglich \acp{FP} mit (blau) und ohne (rot) Extraparameter.}\label{fig:erg_vgl_fp}
+    \end{figure}
 \iffalse
     In \autoref{tab:LSTM_para_vgl} wird jeweils der Mittelwert der besten fünf Konfigurationen, ausgewählt nach der besten \ac{DR}, für die verschiedenen Kombinationen der Extraparametern.
     Einmal aufgestellt nach der höchsten \ac{DR} und einmal nach der niedrigsten \ac{FP}-Rate.
